@@ -1,4 +1,6 @@
-# AdaptEngine: Adaptive Learning, Diagnostic Assessment and Personalized Path-Planning Engine
+# AdaptEngine
+
+**Adaptive Learning, Diagnostic Assessment and Personalized Path-Planning Engine**
 
 **Course:** CS5903 Distributed AI Training, IIT Hyderabad  
 **Group:** 15  
