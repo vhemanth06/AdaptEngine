@@ -1,6 +1,7 @@
 import pytest
-from adaptengine.learner.mastery import guess, slip, bayes_update, learn, update_mastery, entropy
+from adaptengine.learner.mastery import guess, slip, learn, update_mastery, entropy
 from adaptengine.core.errors import ValidationError
+
 
 def test_guess_slip_table():
     # d, g(d), s(d)
@@ -17,6 +18,7 @@ def test_guess_slip_table():
         assert guess(d) == pytest.approx(ex_g, abs=1e-4)
         assert slip(d) == pytest.approx(ex_s, abs=1e-4)
 
+
 # TC4.1: A learner gives an incorrect response on a low-mastery concept. The mastery estimate updates downward according to the response model.
 def test_update_values():
     # p, d, correct, T, expected p
@@ -29,10 +31,12 @@ def test_update_values():
     ]
     for p, d, correct, T, exp in table:
         assert update_mastery(p, d, correct, T) == pytest.approx(exp, abs=1e-4)
-        
+
+
 def test_lesson_transition():
     # 0.20 -> lesson -> 0.36
     assert learn(0.20, 0.20) == pytest.approx(0.3600, abs=1e-4)
+
 
 def test_entropy_values():
     assert entropy(0.5) == pytest.approx(1.0, abs=1e-4)
@@ -42,6 +46,7 @@ def test_entropy_values():
     assert entropy(0) == 0.0
     assert entropy(1) == 0.0
 
+
 def test_uncertainty_can_increase():
     h_before = entropy(0.9)
     p_after = update_mastery(0.9, 0.5, False, 0)
@@ -49,6 +54,7 @@ def test_uncertainty_can_increase():
     assert h_before == pytest.approx(0.4690, abs=1e-4)
     assert h_after == pytest.approx(0.9345, abs=1e-4)
     assert h_after > h_before
+
 
 def test_bounds_validation():
     with pytest.raises(ValidationError):
@@ -59,6 +65,7 @@ def test_bounds_validation():
         entropy(-0.1)
     with pytest.raises(ValidationError):
         entropy(1.1)
+
 
 def test_smoke_sequence():
     p = 0.20
@@ -76,6 +83,7 @@ def test_smoke_sequence():
         h = entropy(p)
         assert p == pytest.approx(exp_p, abs=1e-3)
         assert h == pytest.approx(exp_h, abs=1e-3)
+
 
 def test_correct_hard_raises_more():
     p = 0.5
