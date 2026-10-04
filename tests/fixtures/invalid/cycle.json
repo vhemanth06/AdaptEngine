@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "concepts": [
+    {
+      "concept_id": "C1",
+      "description": "",
+      "prerequisites": [
+        "C2"
+      ]
+    },
+    {
+      "concept_id": "C2",
+      "description": "",
+      "prerequisites": [
+        "C1"
+      ]
+    }
+  ]
+}

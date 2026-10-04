@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "activities": [
+    {
+      "activity_id": "L-C1",
+      "type": "LESSON",
+      "target_concept": "C1",
+      "duration": 4,
+      "text": "",
+      "_note": "durations are synthetic placeholders"
+    },
+    {
+      "activity_id": "E-C1-0.2",
+      "type": "EXERCISE",
+      "target_concept": "C1",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "",
+      "_note": "durations are synthetic placeholders"
+    },
+    {
+      "activity_id": "E-C1-0.4",
+      "type": "EXERCISE",
+      "target_concept": "C1",
+      "duration": 1,
+      "difficulty": 0.4,
+      "text": "",
+      "_note": "durations are synthetic placeholders"
+    },
+    {
+      "activity_id": "E-C1-0.6",
+      "type": "EXERCISE",
+      "target_concept": "C1",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "",
+      "_note": "durations are synthetic placeholders"
+    },
+    {
+      "activity_id": "E-C1-0.8",
+      "type": "EXERCISE",
+      "target_concept": "C1",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "",
+      "_note": "durations are synthetic placeholders"
+    },
+    {
+      "activity_id": "L-C2",
+      "type": "LESSON",
+      "target_concept": "C2",
+      "duration": 4,
+      "text": "",
+      "_note": "durations are synthetic placeholders"
+    },
+    {
+      "activity_id": "E-C2-0.2",
+      "type": "EXERCISE",
+      "target_concept": "C2",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "",
+      "_note": "durations are synthetic placeholders"
+    },
+    {
+      "activity_id": "E-C2-0.4",
+      "type": "EXERCISE",
+      "target_concept": "C2",
+      "duration": 1,
+      "difficulty": 0.4,
+      "text": "",
+      "_note": "durations are synthetic placeholders"
+    },
+    {
+      "activity_id": "E-C2-0.6",
+      "type": "EXERCISE",
+      "target_concept": "C2",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "",
+      "_note": "durations are synthetic placeholders"
+    },
+    {
+      "activity_id": "E-C2-0.8",
+      "type": "EXERCISE",
+      "target_concept": "C2",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "",
+      "_note": "durations are synthetic placeholders"
+    },
+    {
+      "activity_id": "L-C3",
+      "type": "LESSON",
+      "target_concept": "C3",
+      "duration": 5,
+      "text": "",
+      "_note": "durations are synthetic placeholders"
+    },
+    {
+      "activity_id": "E-C3-0.2",
+      "type": "EXERCISE",
+      "target_concept": "C3",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "",
+      "_note": "durations are synthetic placeholders"
+    },
+    {
+      "activity_id": "E-C3-0.4",
+      "type": "EXERCISE",
+      "target_concept": "C3",
+      "duration": 1,
+      "difficulty": 0.4,
+      "text": "",
+      "_note": "durations are synthetic placeholders"
+    },
+    {
+      "activity_id": "E-C3-0.6",
+      "type": "EXERCISE",
+      "target_concept": "C3",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "",
+      "_note": "durations are synthetic placeholders"
+    },
+    {
+      "activity_id": "E-C3-0.8",
+      "type": "EXERCISE",
+      "target_concept": "C3",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "",
+      "_note": "durations are synthetic placeholders"
+    },
+    {
+      "activity_id": "L-C4",
+      "type": "LESSON",
+      "target_concept": "C4",
+      "duration": 5,
+      "text": "",
+      "_note": "durations are synthetic placeholders"
+    },
+    {
+      "activity_id": "E-C4-0.2",
+      "type": "EXERCISE",
+      "target_concept": "C4",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "",
+      "_note": "durations are synthetic placeholders"
+    },
+    {
+      "activity_id": "E-C4-0.4",
+      "type": "EXERCISE",
+      "target_concept": "C4",
+      "duration": 1,
+      "difficulty": 0.4,
+      "text": "",
+      "_note": "durations are synthetic placeholders"
+    },
+    {
+      "activity_id": "E-C4-0.6",
+      "type": "EXERCISE",
+      "target_concept": "C4",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "",
+      "_note": "durations are synthetic placeholders"
+    },
+    {
+      "activity_id": "E-C4-0.8",
+      "type": "EXERCISE",
+      "target_concept": "C4",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "",
+      "_note": "durations are synthetic placeholders"
+    }
+  ]
+}

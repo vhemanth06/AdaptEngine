@@ -1,0 +1,15 @@
+{
+  "data/curriculum/curriculum_4node.json": {
+    "reviewer": "AI",
+    "date": "2026-10-04T05:52:13.503080+00:00",
+    "sha256": "acbd0439e533418a1f43da4171a21bc95e5e643b02441a961794d8e685b529be",
+    "source": "hand-written",
+    "edges_reviewed": true
+  },
+  "data/curriculum/activities_4node.json": {
+    "reviewer": "AI",
+    "date": "2026-10-04T05:52:13.543513+00:00",
+    "sha256": "694f45668fe40d5af436d420739e89a22af169874d99769ecdc69d84319723d3",
+    "source": "hand-written"
+  }
+}

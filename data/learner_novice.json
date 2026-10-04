@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "concepts": {
+    "C1": {
+      "mastery": 0.2,
+      "uncertainty": 0.7219,
+      "assessed": false,
+      "last_practice_day": null,
+      "n_reviews": 0,
+      "half_life_days": null
+    },
+    "C2": {
+      "mastery": 0.2,
+      "uncertainty": 0.7219,
+      "assessed": false,
+      "last_practice_day": null,
+      "n_reviews": 0,
+      "half_life_days": null
+    },
+    "C3": {
+      "mastery": 0.2,
+      "uncertainty": 0.7219,
+      "assessed": false,
+      "last_practice_day": null,
+      "n_reviews": 0,
+      "half_life_days": null
+    },
+    "C4": {
+      "mastery": 0.2,
+      "uncertainty": 0.7219,
+      "assessed": false,
+      "last_practice_day": null,
+      "n_reviews": 0,
+      "half_life_days": null
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "activities": [
+    {
+      "activity_id": "A1",
+      "type": "LESSON",
+      "target_concept": "CX",
+      "duration": 5
+    }
+  ]
+}

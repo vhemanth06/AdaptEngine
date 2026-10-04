@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "concepts": [
+    {
+      "concept_id": "C1",
+      "description": "",
+      "prerequisites": [
+        "CX"
+      ]
+    }
+  ]
+}
