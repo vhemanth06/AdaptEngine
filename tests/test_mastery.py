@@ -17,6 +17,7 @@ def test_guess_slip_table():
         assert guess(d) == pytest.approx(ex_g, abs=1e-4)
         assert slip(d) == pytest.approx(ex_s, abs=1e-4)
 
+# TC4.1: A learner gives an incorrect response on a low-mastery concept. The mastery estimate updates downward according to the response model.
 def test_update_values():
     # p, d, correct, T, expected p
     table = [

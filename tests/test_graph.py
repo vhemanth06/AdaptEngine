@@ -34,6 +34,7 @@ def test_valid_dag():
         
     assert g.prerequisites("C3") == ("C1", "C2")
 
+# TC1.1: Load the prerequisite graph and inject a cycle. A valid graph is confirmed acyclic; a cycle is rejected at load time
 def test_cycle_rejected():
     concepts = (
         Concept("C1", ("C2",)),

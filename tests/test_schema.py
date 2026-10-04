@@ -70,6 +70,7 @@ def test_event_validation():
 
 # --- Unit tests for Loader and Fixtures ---
 
+# TC1.2: Load valid and invalid curriculum and learner-state schema fixtures.
 def test_valid_fixtures_load():
     concepts = load_curriculum("data/curriculum/curriculum_4node.json", allow_unreviewed=True)
     assert len(concepts) == 4
@@ -93,6 +94,7 @@ def test_valid_fixtures_load():
     ("bad_schema_version", ValidationError),
     ("malformed", ValidationError),
 ])
+# TC1.2: Invalid types, ranges, unknown references, and missing required fields raise the appropriate typed validation errors.
 def test_invalid_curriculum_fixtures(fixture, exc_type):
     path = f"tests/fixtures/invalid/{fixture}.json"
     with pytest.raises(exc_type) as exc_info:

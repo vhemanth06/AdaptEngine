@@ -11,6 +11,7 @@ def test_live_fixtures_with_manifest():
     activities = load_activities("data/curriculum/activities_4node.json", concepts)
     assert len(activities) == 20
 
+# TC-X6.1: A live curriculum file has no matching review-manifest entry... The loader raises UnreviewedContentError
 def test_manifest_missing(tmp_path):
     with open(tmp_path / "curriculum.json", "w") as f:
         json.dump({"schema_version": 1, "concepts": [{"concept_id": "C1"}]}, f)

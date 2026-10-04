@@ -18,6 +18,7 @@ def get_imports(filepath):
                     imports.add(node.module.split('.')[0])
     return imports
 
+# TC-X2.2: An LLM SDK or agents/ module is imported outside the allowed boundary... The architecture boundary tests fail
 def test_architecture_rules():
     src_dir = "src/adaptengine"
     
