@@ -1,4 +1,5 @@
 import subprocess
+import sys
 from adaptengine.cli import main
 
 
@@ -64,7 +65,7 @@ def test_cli_show(capsys):
 def test_cli_subprocess():
     result = subprocess.run(
         [
-            "python3",
+            sys.executable,
             "-m",
             "adaptengine",
             "validate",

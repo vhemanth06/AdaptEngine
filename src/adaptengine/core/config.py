@@ -1,7 +1,9 @@
 import json
 import hashlib
+import math
 from dataclasses import dataclass, asdict
 from . import constants
+from .errors import ValidationError
 
 
 @dataclass(frozen=True)
@@ -16,6 +18,48 @@ class EngineConfig:
     slip_coef: float = constants.SLIP_COEF
     d_min: float = constants.D_MIN
     d_max: float = constants.D_MAX
+    # M2 Diagnostic settings
+    n_max: int = 8
+    concept_cap: int = 3
+    h_stop: float = 0.50
+    k_responses: int = 2
+    skip_threshold: float = 0.40
+
+    def __post_init__(self):
+        if not (0.0 < self.d_min < self.d_max < 1.0):
+            raise ValidationError(
+                f"Invalid difficulty bounds: 0 < d_min < d_max < 1 required, got {self.d_min}, {self.d_max}"
+            )
+        if not (0.0 <= self.p0 <= 1.0) or not math.isfinite(self.p0):
+            raise ValidationError(f"Invalid p0: {self.p0}")
+        if not (0.0 < self.theta <= 1.0) or not math.isfinite(self.theta):
+            raise ValidationError(f"Invalid theta: {self.theta}")
+        for name, t in [
+            ("t_diag", self.t_diag),
+            ("t_exercise", self.t_exercise),
+            ("t_lesson", self.t_lesson),
+        ]:
+            if not (0.0 <= t <= 1.0) or not math.isfinite(t):
+                raise ValidationError(f"Invalid {name}: {t}")
+
+        for d in (self.d_min, self.d_max):
+            g = self.guess_coef * (1.0 - d)
+            s = self.slip_base + self.slip_coef * d
+            if not (0.0 < g < 1.0):
+                raise ValidationError(f"guess({d}) = {g} not in (0, 1)")
+            if not (0.0 < s < 1.0):
+                raise ValidationError(f"slip({d}) = {s} not in (0, 1)")
+
+        if self.n_max < 1:
+            raise ValidationError(f"n_max must be >= 1, got {self.n_max}")
+        if self.concept_cap < 1:
+            raise ValidationError(f"concept_cap must be >= 1, got {self.concept_cap}")
+        if not (0.0 <= self.h_stop <= 1.0) or not math.isfinite(self.h_stop):
+            raise ValidationError(f"h_stop must be in [0, 1], got {self.h_stop}")
+        if self.k_responses < 1:
+            raise ValidationError(f"k_responses must be >= 1, got {self.k_responses}")
+        if not (0.0 <= self.skip_threshold <= 1.0) or not math.isfinite(self.skip_threshold):
+            raise ValidationError(f"skip_threshold must be in [0, 1], got {self.skip_threshold}")
 
 
 DEFAULT_CONFIG = EngineConfig()

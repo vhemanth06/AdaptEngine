@@ -1,54 +1,79 @@
 # AdaptEngine
 
-**An adaptive learning, diagnostic assessment, and personalized path-planning engine.**
+**A deterministic adaptive learning, diagnostic assessment, and personalized path-planning engine.**
 
 ## Context & Problem
 
-Learners differ in prior knowledge, roles, target skills, deadlines, and daily time budgets. A static course order cannot simultaneously serve a beginner with 10 minutes a day and an experienced learner seeking only a short refresher. 
+Learners differ in prior knowledge, target competencies, deadlines, and daily time budgets. A static course sequence cannot simultaneously serve a beginner with 10 minutes a day and an experienced learner needing a quick refresher.
 
-**AdaptEngine** solves this by estimating initial and evolving skill mastery, representing curriculum prerequisites as strict graphs, and generating time-budgeted learning plans. It adapts difficulty, schedules remediation and spaced review, and dynamically replans when the learner misses work or changes constraints—all while exposing exactly *why* a lesson was chosen without requiring private learner telemetry.
+**AdaptEngine** addresses this challenge by:
+1. Estimating per-concept mastery with a Bayesian Knowledge Tracing (BKT) model.
+2. Holding curriculum prerequisites strictly as a Directed Acyclic Graph (DAG).
+3. Planning day-by-day study schedules within strict time budgets (5, 10, 15, or 30 minutes).
+4. Explaining every pedagogical decision without requiring invasive learner telemetry.
+
+> **Notice on Heuristic Parameters:** Mathematical parameters ($p_0 = 0.20, \theta = 0.85, T_*$, guess/slip coefficients, and activity difficulties) are **synthetic heuristics** for prototype verification and algorithm testing, not empirically fitted parameters.
+
+---
 
 ## Project Milestones
 
-*   **[M1] Curriculum and Learner-State Model:** Concepts, lessons, exercises, durations, prerequisites, and mastery estimates are represented in a strictly validated, queryable DAG model with mathematical uncertainty tracking (BKT & Shannon Entropy).
-*   **[M4] Online Mastery Update and Difficulty Adaptation (Partial):** Quiz/exercise evidence updates per-skill mastery transactionally using Bayesian Knowledge Tracing.
-*   **[M2] Short Adaptive Diagnostic:** A bounded diagnostic providing calibrated initial skill estimates compared against fixed baselines. *(Planned)*
-*   **[M3] Time-Budgeted Path Generation:** Generating prerequisite-valid day-by-day plans based on goals, deadlines, and daily budgets (e.g., 5/10/15 mins). *(Planned)*
-*   **[M5] Spaced Review and Remediation:** Scheduling previously learned concepts for review according to forgetting risk and prerequisite importance. *(Planned)*
-*   **[M6] Dynamic Replanning:** Valid revised plans triggered by missed days, failed assessments, or changed constraints. *(Planned)*
-*   **[M7] Explainability and Constraints:** Tracing inclusions, omissions, and reviews to observable learner states and policy scores. *(Planned)*
-*   **[M8] Comparative Evaluation:** Benchmarking diagnostic accuracy, path feasibility, and runtime against static/greedy baselines. *(Planned)*
+*   **[M1] Curriculum & Learner-State Foundation:** Strictly validated DAG representation with NetworkX, cycle detection, review gates, immutable state, and Shannon entropy uncertainty tracking. *(Implemented & Hardened in W3)*
+*   **[M2] Short Adaptive Diagnostic:** Bounded adaptive diagnostic selecting exercises via Expected Information Gain (EIG), subject to per-concept and global caps, entropy stopping, and descendant pruning. *(Implemented in W3)*
+*   **[M4] Online Mastery Update & Adapter:** Discrete Bayesian Knowledge Tracing updates with pinned pyBKT adapter and custom oracle reference. *(Implemented in W3)*
+*   **[M3] Time-Budgeted Path Planning:** Prerequisite-valid day-by-day schedules with feasibility bounds and exact oracle. *(Planned, W4)*
+*   **[M5] Spaced Review & Remediation:** Priority scheduling balancing forgetting decay risk against new content under a shared budget. *(Planned, W5)*
+*   **[M6] Dynamic Replanning:** Horizon replanning triggered by missed days or constraint adjustments while preserving completed attempts. *(Planned, W5)*
+*   **[M7] Explainability & Constraint Traces:** Machine-readable reasons attributing every inclusion and omission to state and policy scores. *(Planned, W6)*
+*   **[M8] Comparative Evaluation:** Benchmarking diagnostic accuracy and planning feasibility against frozen baselines on paired simulation workloads. *(Planned, W6)*
 
-## Installation
+---
 
-Requires Python 3.10+.
+## Architecture & Documentation
+
+All technical specifications are documented under `docs/`:
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — System architecture, layering rules, and data models.
+- [`docs/MASTERY_MODEL.md`](docs/MASTERY_MODEL.md) — Equations, reference constants, and evidence semantics.
+- [`docs/DIAGNOSTIC.md`](docs/DIAGNOSTIC.md) — M2 adaptive diagnostic specification.
+- [`docs/IMPLEMENTATION_PLAN.md`](docs/IMPLEMENTATION_PLAN.md) — Roadmap, risks, and fallbacks.
+- [`docs/EVALUATION_PROTOCOL.md`](docs/EVALUATION_PROTOCOL.md) — Planned M8 comparative evaluation protocol.
+- [`docs/TECHNICAL_FEASIBILITY.md`](docs/TECHNICAL_FEASIBILITY.md) — Feasibility argument and constraints.
+- [`docs/reuse_inventory.md`](docs/reuse_inventory.md) — Third-party library inventory.
+
+---
+
+## Installation & Setup
+
+Requires Python 3.10+ (tested on Python 3.11).
 
 ```bash
-# Clone the repository
+# Clone repository
 git clone https://github.com/vhemanth06/AdaptEngine.git
 cd AdaptEngine
 
 # Set up virtual environment
-python3 -m venv venv
-source venv/bin/activate
+python3 -m venv .venv
+source .venv/bin/activate
 
-# Install dependencies and the package
-pip install -r requirements.txt
+# Install dependencies and local package in editable mode
+pip install -r requirements.txt -r requirements-dev.txt
 pip install -e .
 ```
 
+---
+
 ## Quick Start (CLI)
 
-The primary interface is the `adaptengine` CLI.
+The primary command-line interface is `adaptengine`:
 
 ```bash
-# 1. Validate a curriculum and its activities (DAG validation & SHA-256 Review Gates)
+# 1. Validate curriculum and activities (DAG acyclicity & SHA-256 review gate)
 python -m adaptengine validate --curriculum data/curriculum/curriculum_4node.json --activities data/curriculum/activities_4node.json
 
-# 2. Initialize a new Learner Profile
+# 2. Initialize a new learner profile
 python -m adaptengine init-learner --curriculum data/curriculum/curriculum_4node.json --out my_learner.json
 
-# 3. Record a student's interaction and update their mastery using Bayes Theorem
+# 3. Record an interaction and update mastery (Atomic snapshot protocol)
 python -m adaptengine update \
     --curriculum data/curriculum/curriculum_4node.json \
     --activities data/curriculum/activities_4node.json \
@@ -60,11 +85,18 @@ python -m adaptengine update \
     --save
 ```
 
-## Testing
+---
 
-The project maintains a strict >80% test coverage requirement. To run the suite:
+## Verification & Week 3 Validation Runner
+
+To run the complete verification suite, test coverage, layering checks, smoke assertions, and diagnostic demo:
 
 ```bash
-pip install -r requirements-dev.txt
-pytest -q --cov=adaptengine --cov-fail-under=80
+make w3
+```
+
+Or execute directly via the Python runner:
+
+```bash
+python scripts/run_w3.py
 ```

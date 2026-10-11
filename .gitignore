@@ -5,6 +5,7 @@ __pycache__/
 
 # Environments
 venv/
+.venv/
 .env
 env/
 
@@ -25,6 +26,7 @@ build/
 src/*.egg-info/
 
 # Temporary / Run files
+runs/
 data/my_learner.json
 data/my_log.json
 dummy_activities.json

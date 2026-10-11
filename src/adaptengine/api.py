@@ -27,44 +27,88 @@ class Engine:
             curriculum_path, manifest_path, allow_unreviewed=allow_unreviewed
         )
         activities = load_activities(
-            activities_path, concepts, manifest_path, allow_unreviewed=allow_unreviewed
+            activities_path, concepts, manifest_path, allow_unreviewed=allow_unreviewed, cfg=config
         )
         return cls(concepts, activities, config)
 
     def init_learner(self) -> LearnerState:
         return initial_state(self.graph.concepts(), self.config)
 
+    def diagnose(
+        self,
+        state: LearnerState,
+        response_provider,
+        goal_concepts=None,
+        model=None,
+    ):
+        from .diagnostic import AdaptiveDiagnostic
+
+        diagnostic = AdaptiveDiagnostic(self.graph, self.activities, self.config)
+        return diagnostic.run(state, response_provider, goal_concepts, model)
+
     def record(
         self, state: LearnerState, log: ExecutionLog, event: Event
     ) -> tuple[LearnerState, ExecutionLog]:
-        new_log = log.append(event)
+        if not isinstance(event, Event):
+            raise ValidationError(f"event must be an Event instance, got {type(event).__name__}")
+
+        # Deterministic attempt_id if not provided
+        attempt_id = event.attempt_id
+        if attempt_id is None:
+            attempt_id = (
+                f"{event.activity_id or event.kind.value}-d{event.day}-{len(log.events) + 1}"
+            )
+            event = Event(
+                day=event.day,
+                kind=event.kind,
+                activity_id=event.activity_id,
+                minutes_elapsed=event.minutes_elapsed,
+                correct=event.correct,
+                attempt_id=attempt_id,
+            )
 
         if event.kind == EventType.MISSED:
-            return state, new_log
+            return state, log.append(event)
 
         if event.kind in (
             EventType.FAILED_ASSESSMENT,
             EventType.DEADLINE_CHANGED,
             EventType.BUDGET_CHANGED,
         ):
-            raise ValidationError("not supported until Week 5")
+            raise ValidationError(f"{event.kind.value} is not supported until Week 5")
 
         if event.kind == EventType.COMPLETED:
             if event.activity_id not in self.activities:
                 raise UnknownConceptError(f"Unknown activity {event.activity_id}")
             activity = self.activities[event.activity_id]
+            target = activity.target_concept
+
+            # Idempotency check: if this attempt was already recorded on the concept, no-op
+            if target in state.concepts and attempt_id in state.concepts[target].seen_attempt_ids:
+                return state, log
 
             if activity.type == ActivityType.EXERCISE:
                 if event.correct is None:
                     raise ValidationError("COMPLETED EXERCISE requires correct field")
                 new_state, _ = apply_response(
-                    state, activity, event.correct, self.config, day=event.day
+                    state,
+                    activity,
+                    event.correct,
+                    self.config,
+                    day=event.day,
+                    attempt_id=attempt_id,
                 )
-                return new_state, new_log
+                return new_state, log.append(event)
             elif activity.type == ActivityType.LESSON:
                 if event.correct is not None:
                     raise ValidationError("COMPLETED LESSON must not have correct field")
-                new_state, _ = apply_lesson(state, activity, self.config, day=event.day)
-                return new_state, new_log
+                new_state, _ = apply_lesson(
+                    state,
+                    activity,
+                    self.config,
+                    day=event.day,
+                    attempt_id=attempt_id,
+                )
+                return new_state, log.append(event)
 
-        return state, new_log
+        return state, log.append(event)

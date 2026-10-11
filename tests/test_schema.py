@@ -109,6 +109,7 @@ def test_valid_fixtures_load():
         ("duplicate_concept", DuplicateIdError),
         ("bad_schema_version", ValidationError),
         ("malformed", ValidationError),
+        ("unknown_prereq", UnknownConceptError),
     ],
 )
 # TC1.2: Invalid types, ranges, unknown references, and missing required fields raise the appropriate typed validation errors.

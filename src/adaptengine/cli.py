@@ -1,7 +1,7 @@
 import sys
 import argparse
 from .api import Engine
-from .session import load_learner, save_learner, load_log, save_log
+from .session import load_learner, save_learner, load_log, save_log, save_snapshot
 from .core.errors import AdaptEngineError
 from .core.schema import Event, EventType
 
@@ -17,16 +17,23 @@ def main(argv=None):
     val_parser = subparsers.add_parser("validate")
     val_parser.add_argument("--curriculum", required=True)
     val_parser.add_argument("--activities", required=True)
+    val_parser.add_argument("--manifest")
     val_parser.add_argument("--allow-unreviewed", action="store_true")
 
     # show
     show_parser = subparsers.add_parser("show")
     show_parser.add_argument("--curriculum", required=True)
+    show_parser.add_argument("--activities", default="data/curriculum/activities_4node.json")
+    show_parser.add_argument("--manifest")
+    show_parser.add_argument("--allow-unreviewed", action="store_true")
 
     # init-learner
     init_parser = subparsers.add_parser("init-learner")
     init_parser.add_argument("--curriculum", required=True)
+    init_parser.add_argument("--activities", default="data/curriculum/activities_4node.json")
     init_parser.add_argument("--out", required=True)
+    init_parser.add_argument("--manifest")
+    init_parser.add_argument("--allow-unreviewed", action="store_true")
 
     # update
     upd_parser = subparsers.add_parser("update")
@@ -37,16 +44,24 @@ def main(argv=None):
     upd_parser.add_argument("--activity", required=True)
     upd_parser.add_argument("--response", choices=["correct", "incorrect"])
     upd_parser.add_argument("--day", type=int, required=True)
+    upd_parser.add_argument("--attempt-id")
+    upd_parser.add_argument("--manifest")
+    upd_parser.add_argument("--allow-unreviewed", action="store_true")
     upd_parser.add_argument("--save", action="store_true")
+    upd_parser.add_argument("--snapshot")
 
     args = parser.parse_args(argv)
 
+    if args.allow_unreviewed:
+        print("WARNING: authoring-only mode: allowing unreviewed content", file=sys.stderr)
+
     try:
         if args.command == "validate":
-            if args.allow_unreviewed:
-                print("Warning: allowing unreviewed content", file=sys.stderr)
             engine = Engine.from_files(
-                args.curriculum, args.activities, allow_unreviewed=args.allow_unreviewed
+                args.curriculum,
+                args.activities,
+                manifest_path=args.manifest,
+                allow_unreviewed=args.allow_unreviewed,
             )
             print(
                 f"OK: {len(engine.graph.concepts())} concepts, {len(engine.activities)} activities (reviewed)"
@@ -54,7 +69,10 @@ def main(argv=None):
 
         elif args.command == "show":
             engine = Engine.from_files(
-                args.curriculum, "data/curriculum/activities_4node.json", allow_unreviewed=True
+                args.curriculum,
+                args.activities,
+                manifest_path=args.manifest,
+                allow_unreviewed=args.allow_unreviewed,
             )
             print("Concepts:", engine.graph.concepts())
             print(
@@ -66,14 +84,22 @@ def main(argv=None):
 
         elif args.command == "init-learner":
             engine = Engine.from_files(
-                args.curriculum, "data/curriculum/activities_4node.json", allow_unreviewed=True
+                args.curriculum,
+                args.activities,
+                manifest_path=args.manifest,
+                allow_unreviewed=args.allow_unreviewed,
             )
             state = engine.init_learner()
             save_learner(state, args.out)
             print(f"Created learner file {args.out}")
 
         elif args.command == "update":
-            engine = Engine.from_files(args.curriculum, args.activities, allow_unreviewed=True)
+            engine = Engine.from_files(
+                args.curriculum,
+                args.activities,
+                manifest_path=args.manifest,
+                allow_unreviewed=args.allow_unreviewed,
+            )
             state = load_learner(args.learner, engine.graph.concepts())
             log = load_log(args.log)
 
@@ -93,6 +119,7 @@ def main(argv=None):
                 activity_id=args.activity,
                 minutes_elapsed=activity.duration,
                 correct=correct,
+                attempt_id=args.attempt_id,
             )
             target = activity.target_concept
             p_before = state.concepts[target].mastery
@@ -107,6 +134,8 @@ def main(argv=None):
             if args.save:
                 save_learner(new_state, args.learner)
                 save_log(new_log, args.log)
+            if args.snapshot:
+                save_snapshot(new_state, new_log, args.snapshot)
     except AdaptEngineError as e:
         print(f"error: {e}", file=sys.stderr)
         return 2
