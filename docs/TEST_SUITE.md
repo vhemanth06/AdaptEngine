@@ -8,8 +8,8 @@ This document provides a comprehensive inventory and explanation of all unit, re
 
 | Metric | Week 1–2 Baseline | Week 3 | Week 4 | Week 5 Current |
 |---|---|---|---|---|
-| **Total Test Count** | 47 tests | 80 tests | 106 tests | **122 tests** |
-| **Statement Coverage** | 84.95% | 86.04% | 87.67% | **88.30%** (required $\ge 84\%$) |
+| **Total Test Count** | 47 tests | 80 tests | 106 tests | **123 tests** |
+| **Statement Coverage** | 84.95% | 86.04% | 87.67% | **88.02%** (required $\ge 84\%$) |
 | **Execution Time** | ~1.1s | ~1.8s | ~2.2s | **~1.5s** |
 | **Test Suites** | 7 files | 10 files | 11 files | **14 files** |
 | **Milestones Covered** | M1 (Foundation, Graph, Schema) | M1 + M2 (Adaptive Diagnostic) | M1 + M2 + M3 + M4 | **M1–M6 + M7 (Traces)** |
@@ -288,12 +288,13 @@ Validates spaced review under shared budget, automatic remediation, pure replann
 | 110 | `test_tc6_4_budget_change_replan` | W5 (TC6.4) | Budget change replan | Increased daily budget ($B=30$) packs entire remaining workload into 1 day within budget. |
 | 111 | `test_tc7_1_comprehensive_traceability_and_serialization` | W5 (TC7.1) | Traceability & JSON serialization | Every decision has machine-readable reason, state, constraint, score; pure `serialize_plan` includes `config_hash`. |
 | 112 | `test_cli_replan_subcommand` | W5 | CLI replan | Subcommand `adaptengine replan` executes from snapshot, supports text and `--json` outputs. |
+| 113 | `test_working_ahead_replan` | W5 | Working ahead replan | Learner completes more than necessary on Day 1; replan advances to Day 2 and reschedules remaining work in topological order without duplication. |
 
 ---
 
 ## 4. Verification Command & Reproducibility
 
-All 122 tests can be executed at once:
+All 123 tests can be executed at once:
 
 ```bash
 make test
@@ -301,7 +302,7 @@ make test
 
 Expected output:
 ```text
-122 passed in 1.50s
-Required test coverage of 84% reached. Total coverage: 88.30%
+123 passed in 1.50s
+Required test coverage of 84% reached. Total coverage: 88.02%
 ```
 

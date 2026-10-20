@@ -433,13 +433,36 @@ def main():
         "snapshot_path": snap_path,
         "json_output_status": cli_data["status"],
     }
-    print(" -> CLI Replan Subcommand: PASS")
+    # Working Ahead Scenario (User completes more than necessary on Day 1)
+    st_ahead = engine.init_learner()
+    log_ahead = ExecutionLog()
+    ctx_ahead = PlanContext(goal="C4", deadline_day=10, budget=10, current_day=1)
+    ahead_ids = ["L-C1", "E-C1-0.2", "E-C1-0.4", "L-C2", "E-C2-0.2"]
+    for aid in ahead_ids:
+        act = engine.activities[aid]
+        dur = act.duration
+        corr = True if act.type == ActivityType.EXERCISE else None
+        ev = Event(
+            day=1, kind=EventType.COMPLETED, activity_id=aid, minutes_elapsed=dur, correct=corr
+        )
+        st_ahead, log_ahead = engine.record(st_ahead, log_ahead, ev)
+    rev_ahead = engine.replan(st_ahead, log_ahead, ctx_ahead)
+    assert rev_ahead.status == PlanStatus.FEASIBLE
+    assert rev_ahead.days[0].day == 2
+    assert len(rev_ahead.days) == 2
+    w5_results["Working_ahead_replan"] = {
+        "status": "PASS",
+        "completed_on_day_1": ahead_ids,
+        "revised_start_day": rev_ahead.days[0].day,
+        "revised_days_count": len(rev_ahead.days),
+    }
+    print(" -> Working Ahead Replan (Exceeding Day 1 Budget): PASS")
 
     summary_table.append(
         (
             "W5 Acceptance Scenarios",
             "PASS",
-            "TC5.1–TC5.3, TC6.1–TC6.4, TC7.1, and CLI replan validated",
+            "TC5.1–TC5.3, TC6.1–TC6.4, TC7.1, working ahead, and CLI replan validated",
         )
     )
 
