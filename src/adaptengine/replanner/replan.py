@@ -25,6 +25,7 @@ def compute_effective_context(
     budget = initial_ctx.budget
     current_day = initial_ctx.current_day
 
+    minutes_per_day: dict[int, int] = {}
     for e in log.events:
         if e.kind == EventType.DEADLINE_CHANGED and e.value is not None:
             deadline = e.value
@@ -34,8 +35,12 @@ def compute_effective_context(
             # D30: replan from next day; missed day contributes zero minutes
             current_day = max(current_day, e.day + 1)
         elif e.kind in (EventType.COMPLETED, EventType.FAILED_ASSESSMENT):
-            # Advance start day if event took place on or after current_day
-            current_day = max(current_day, e.day)
+            minutes_per_day[e.day] = minutes_per_day.get(e.day, 0) + e.minutes_elapsed
+            if minutes_per_day[e.day] >= budget:
+                # Daily budget reached or exceeded for this day; advance start day to next day
+                current_day = max(current_day, e.day + 1)
+            else:
+                current_day = max(current_day, e.day)
 
     if current_day > deadline:
         return None, current_day, deadline

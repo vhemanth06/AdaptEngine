@@ -457,3 +457,58 @@ def test_cli_replan_subcommand(capsys, tmp_path):
     assert data["status"] == "FEASIBLE"
     assert "config_hash" in data
     assert len(data["trace"]) > 0
+
+
+# =====================================================================
+# Working Ahead Scenario: User completes more than necessary today
+# =====================================================================
+def test_working_ahead_replan():
+    """Verify that when a learner works ahead and exceeds/exhausts today's budget,
+
+    the replanner advances execution to the next day and schedules remaining
+    material in proper topological prerequisite order without duplication.
+    """
+    engine = Engine.from_files(
+        "data/curriculum/curriculum_4node.json", "data/curriculum/activities_4node.json"
+    )
+    state = engine.init_learner()
+    log = ExecutionLog()
+    ctx = PlanContext(goal="C4", deadline_day=10, budget=10, current_day=1)
+
+    # Initial plan for novice is 3 days (Day 1: 10m, Day 2: 9m, Day 3: 7m)
+    p_initial = engine.plan(state, ctx)
+    assert len(p_initial.days) == 3
+
+    # On Day 1, user completes all Day 1 activities (6 min) AND works ahead
+    # into Day 2 activities (L-C2 4 min, E-C2-0.2 1 min) -> total 11 min on Day 1 (exceeds B=10)
+    worked_ahead_ids = ["L-C1", "E-C1-0.2", "E-C1-0.4", "L-C2", "E-C2-0.2"]
+    for aid in worked_ahead_ids:
+        act = engine.activities[aid]
+        dur = act.duration
+        corr = True if act.type == ActivityType.EXERCISE else None
+        ev = Event(
+            day=1, kind=EventType.COMPLETED, activity_id=aid, minutes_elapsed=dur, correct=corr
+        )
+        state, log = engine.record(state, log, ev)
+
+    # Replan after working ahead
+    revised = engine.replan(state, log, ctx)
+    assert revised.status == PlanStatus.FEASIBLE
+
+    # 1. Day 1 is full, so revised plan begins on Day 2
+    assert revised.days[0].day == 2
+
+    # 2. Total remaining days needed to reach C4 drops from 3 to 2
+    assert len(revised.days) == 2
+
+    # 3. None of the 5 already-completed activities appear in the new schedule
+    revised_acts = [aid for d in revised.days for aid in d.activities]
+    for done_id in worked_ahead_ids:
+        assert done_id not in revised_acts
+
+    # 4. Remaining activities are in valid prerequisite order
+    # Day 2 starts with remaining C2 exercise (E-C2-0.4) before C3 lesson/exercises
+    assert revised.days[0].activities[0] == "E-C2-0.4"
+    assert "L-C3" in revised.days[0].activities
+    # Day 3 schedules C4
+    assert revised.days[1].activities[0] == "L-C4"
