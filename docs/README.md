@@ -9,7 +9,10 @@ This directory contains the finalized architectural and technical specifications
 - [EVALUATION_PROTOCOL.md](EVALUATION_PROTOCOL.md): Planned Milestone M8 evaluation protocol specifying simulator design, frozen baselines, paired workloads, and metrics.
 - [TECHNICAL_FEASIBILITY.md](TECHNICAL_FEASIBILITY.md): Feasibility analysis, toolchain, assumptions, and system limitations.
 - [reuse_inventory.md](reuse_inventory.md): Third-party library inventory documenting versions, licenses, architectural roles, and isolation rules for NetworkX and pyBKT.
-- [TEST_SUITE.md](TEST_SUITE.md): Complete catalog and explanation of all 80 unit, regression, and integration tests across Week 1–2 and Week 3.
+- [TEST_SUITE.md](TEST_SUITE.md): Complete catalog and explanation of all 106 unit, regression, and integration tests across Weeks 1–4.
 - [API_REFERENCE.md](API_REFERENCE.md): Exhaustive function-by-function reference, signatures, parameters, formulas, and invariants for every component in `src/adaptengine/`.
+- [DECISIONS.md](DECISIONS.md): Architectural and algorithmic decision records (D1–D19).
+- [TRACEABILITY.md](TRACEABILITY.md): Authoritative 23-ID verification scenario matrix (TC1.1–TC8.2).
+- [verification_guide.md](verification_guide.md): Practical commands guide for CLI subcommands, verification scripts, and test suite execution.
 
 

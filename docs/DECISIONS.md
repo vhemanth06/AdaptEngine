@@ -32,3 +32,20 @@ The following decisions were flagged for human sign-off; defaults were applied t
 | **D8** | Descendant pruning in diagnostic | **Prune descendants if ancestor ends with $p < 0.40$** | Skips downstream skills when prerequisite fundamentals are unmastered, saving item budget. |
 | **D9** | Reviewer identity in manifest | **Named non-"AI" reviewer required for live loading** | `ai_assisted: true` recorded; human sign-off left to repository owner (`vhemanth06`). Live loads reject `"AI"` reviewer. |
 | **D10** | Selection tie-breaking rule | **Smaller $|d - 0.50|$, then lexicographic `activity_id`** | Prioritizes informative median-difficulty items deterministically. |
+
+---
+
+## 3. Planning & Difficulty Policy Decisions (D11 – D19) — Finalized for W4
+
+| # | Decision Topic | Decision Choice | Rationale & Verification |
+|---|---|---|---|
+| **D11** | Multi-day eligibility | **Project workload assuming correct answers** | Project each concept's required instructional and assessment workload assuming correct responses; a concept counts as completed for downstream eligibility once its projected work is scheduled. |
+| **D12** | Same-day unlock | **Allowed; within-day order respects prerequisites** | If a prerequisite finishes with time remaining in the day, dependent activities may start on the same day following prerequisite order. |
+| **D13** | Unlock count | **Transitive descendant count (`descendant_count`)** | Rewards unlocking bottlenecks and deep downstream dependency subtrees over immediate child counts. |
+| **D14** | Difficulty-fit score for lessons | **0.0** | Lessons do not carry difficulty or failure probability, so difficulty fit is neutral (0.0). |
+| **D15** | Packing rule | **Skip non-fitting items, continue packing** | When the highest-ranked candidate exceeds remaining minutes, skip it and fill remaining budget with lower-ranked fitting candidates. |
+| **D16** | Within-concept order | **Lessons before exercises, enforced by queue** | Instructional lessons precede practice exercises within a concept, enforced by queue sequencing rather than heuristic score. |
+| **D17** | Oracle limit | **Node count integer (`oracle_node_limit`)** | Because `time`, `datetime`, and wall-clock modules are strictly prohibited in the deterministic core, search limits are bounded by branch-and-bound node expansions. |
+| **D18** | Day numbering | **Absolute integers from `current_day` to `deadline_day`** | Eliminates relative offset ambiguity; plan starts at `current_day` and terminates at or before absolute `deadline_day`. |
+| **D19** | Diagnostic comparison harness | **Moved to W6 (M8 evaluation)** | Report places comparative harness in Milestone M8; deferred from W4 to W6 alongside synthetic evaluation workloads. |
+

@@ -3,6 +3,8 @@
 ## Current Datasets
 - 4-Node Synthetic Curriculum (`data/curriculum/curriculum_4node.json`)
 - 4-Node Synthetic Activities (`data/curriculum/activities_4node.json`)
+- 8-Node Synthetic Curriculum (`data/curriculum/curriculum_8node.json`)
+- 8-Node Synthetic Activities (`data/curriculum/activities_8node.json`)
 - Novice Learner Profile (`data/learner_novice.json`)
 
 Other datasets (e.g., ASSISTments, CS1) are TBD.

@@ -55,6 +55,7 @@ def test_layering_and_dependency_rules():
         "curriculum": 1,
         "learner": 2,
         "diagnostic": 3,
+        "planner": 3,
         "session": 4,
         "api": 4,
         "cli": 5,

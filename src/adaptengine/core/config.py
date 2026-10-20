@@ -24,6 +24,13 @@ class EngineConfig:
     h_stop: float = 0.50
     k_responses: int = 2
     skip_threshold: float = 0.40
+    # M3/M4 Planner settings
+    target_success: float = 0.75
+    w_review: float = 1.0
+    w_unlock: float = 1.0
+    w_fit: float = 1.0
+    allowed_budgets: tuple[int, ...] = (5, 10, 15, 30)
+    oracle_node_limit: int = 1000
 
     def __post_init__(self):
         if not (0.0 < self.d_min < self.d_max < 1.0):
@@ -60,6 +67,38 @@ class EngineConfig:
             raise ValidationError(f"k_responses must be >= 1, got {self.k_responses}")
         if not (0.0 <= self.skip_threshold <= 1.0) or not math.isfinite(self.skip_threshold):
             raise ValidationError(f"skip_threshold must be in [0, 1], got {self.skip_threshold}")
+
+        if not (0.0 < self.target_success < 1.0) or not math.isfinite(self.target_success):
+            raise ValidationError(f"target_success must be in (0, 1), got {self.target_success}")
+        for w_name, w_val in [
+            ("w_review", self.w_review),
+            ("w_unlock", self.w_unlock),
+            ("w_fit", self.w_fit),
+        ]:
+            if (
+                not isinstance(w_val, (int, float))
+                or isinstance(w_val, bool)
+                or not math.isfinite(w_val)
+                or w_val < 0.0
+            ):
+                raise ValidationError(f"{w_name} must be finite non-negative float, got {w_val}")
+
+        if not isinstance(self.allowed_budgets, (tuple, list)) or not self.allowed_budgets:
+            raise ValidationError(
+                f"allowed_budgets must be a non-empty sequence, got {self.allowed_budgets}"
+            )
+        for b in self.allowed_budgets:
+            if not isinstance(b, int) or isinstance(b, bool) or b <= 0:
+                raise ValidationError(f"allowed_budgets must contain positive integers, got {b}")
+
+        if (
+            not isinstance(self.oracle_node_limit, int)
+            or isinstance(self.oracle_node_limit, bool)
+            or self.oracle_node_limit < 1
+        ):
+            raise ValidationError(
+                f"oracle_node_limit must be integer >= 1, got {self.oracle_node_limit}"
+            )
 
 
 DEFAULT_CONFIG = EngineConfig()

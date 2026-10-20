@@ -123,7 +123,12 @@ class LearnerConcept:
     @property
     def evidence_mastered(self) -> bool:
         """evidence_mastered := p >= theta and responses >= k (D4: k=2, theta=0.85)."""
-        return self.p >= 0.85 and self.responses >= 2
+        return is_evidence_mastered(self, DEFAULT_CONFIG)
+
+
+def is_evidence_mastered(concept: LearnerConcept, cfg: EngineConfig = DEFAULT_CONFIG) -> bool:
+    """evidence_mastered := p >= theta and responses >= k_responses (D4: k=2, theta=0.85)."""
+    return concept.p >= cfg.theta and concept.responses >= cfg.k_responses
 
 
 @dataclass(frozen=True)

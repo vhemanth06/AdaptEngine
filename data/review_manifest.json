@@ -13,5 +13,18 @@
     "date": "2026-10-04T05:52:13.543513+00:00",
     "sha256": "694f45668fe40d5af436d420739e89a22af169874d99769ecdc69d84319723d3",
     "source": "hand-written"
+  },
+  "data/curriculum/curriculum_8node.json": {
+    "reviewer": "vhemanth06",
+    "date": "2026-10-20T07:03:31.323218+00:00",
+    "sha256": "f057fe5b41f737d4c660bcabc012780269898c65aa4d0b263d57541ba38adfd7",
+    "source": "hand-written",
+    "edges_reviewed": true
+  },
+  "data/curriculum/activities_8node.json": {
+    "reviewer": "vhemanth06",
+    "date": "2026-10-20T07:03:58.658154+00:00",
+    "sha256": "5e85f159c97b17f074a7c770c46ea63aac2dbbc5306212768f5b76ea270f590d",
+    "source": "hand-written"
   }
 }

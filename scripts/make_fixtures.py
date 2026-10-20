@@ -9,18 +9,41 @@ CURRICULUM_CONCEPTS = [
 ]
 
 
-def make_activities():
+CURRICULUM_CONCEPTS_8NODE = [
+    {"concept_id": "C1", "description": "Basic Data Types", "prerequisites": []},
+    {"concept_id": "C2", "description": "For & While Loops", "prerequisites": []},
+    {"concept_id": "C3", "description": "Lists & Arrays", "prerequisites": ["C1", "C2"]},
+    {"concept_id": "C4", "description": "List Comprehensions", "prerequisites": ["C3"]},
+    {"concept_id": "C5", "description": "Functions & Scope", "prerequisites": ["C3"]},
+    {"concept_id": "C6", "description": "Dictionaries & Sets", "prerequisites": ["C1"]},
+    {"concept_id": "C7", "description": "Classes & OOP", "prerequisites": ["C5", "C6"]},
+    {"concept_id": "C8", "description": "Inheritance & Polymorphism", "prerequisites": ["C7"]},
+]
+
+
+def make_activities(concepts=None):
+    if concepts is None:
+        concepts = ["C1", "C2", "C3", "C4"]
     activities = []
-    lesson_durations = {"C1": 4, "C2": 4, "C3": 5, "C4": 5}
+    lesson_durations = {
+        "C1": 4,
+        "C2": 4,
+        "C3": 5,
+        "C4": 5,
+        "C5": 5,
+        "C6": 4,
+        "C7": 5,
+        "C8": 5,
+    }
     exercise_durations = {0.2: 1, 0.4: 1, 0.6: 2, 0.8: 2}
 
-    for c in ["C1", "C2", "C3", "C4"]:
+    for c in concepts:
         activities.append(
             {
                 "activity_id": f"L-{c}",
                 "type": "LESSON",
                 "target_concept": c,
-                "duration": lesson_durations[c],
+                "duration": lesson_durations.get(c, 5),
                 "text": "",
                 "_note": "durations are synthetic placeholders",
             }
@@ -49,6 +72,15 @@ def main():
 
     with open("data/curriculum/activities_4node.json", "w", encoding="utf-8") as f:
         json.dump({"schema_version": 1, "activities": make_activities()}, f, indent=2)
+        f.write("\n")
+
+    with open("data/curriculum/curriculum_8node.json", "w", encoding="utf-8") as f:
+        json.dump({"schema_version": 1, "concepts": CURRICULUM_CONCEPTS_8NODE}, f, indent=2)
+        f.write("\n")
+
+    c8_concepts = [c["concept_id"] for c in CURRICULUM_CONCEPTS_8NODE]
+    with open("data/curriculum/activities_8node.json", "w", encoding="utf-8") as f:
+        json.dump({"schema_version": 1, "activities": make_activities(c8_concepts)}, f, indent=2)
         f.write("\n")
 
     learner_concepts = {

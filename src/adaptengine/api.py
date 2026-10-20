@@ -1,6 +1,6 @@
 from typing import Mapping
 from .core.config import EngineConfig, DEFAULT_CONFIG
-from .core.schema import Event, EventType, ActivityType, Activity
+from .core.schema import Event, EventType, ActivityType, Activity, Plan, PlanContext
 from .curriculum.loader import load_curriculum, load_activities
 from .curriculum.graph import CurriculumGraph
 from .learner.state import LearnerState, ExecutionLog, initial_state
@@ -45,6 +45,31 @@ class Engine:
 
         diagnostic = AdaptiveDiagnostic(self.graph, self.activities, self.config)
         return diagnostic.run(state, response_provider, goal_concepts, model)
+
+    def plan(
+        self,
+        state: LearnerState,
+        ctx: PlanContext,
+        *,
+        done_ids=None,
+        review_urgency=None,
+        model=None,
+    ) -> Plan:
+        from .planner import plan as run_plan
+
+        if done_ids is None:
+            done_ids = ()
+
+        return run_plan(
+            self.graph,
+            self.activities,
+            state,
+            ctx,
+            done_ids=done_ids,
+            review_urgency=review_urgency,
+            model=model,
+            cfg=self.config,
+        )
 
     def record(
         self, state: LearnerState, log: ExecutionLog, event: Event

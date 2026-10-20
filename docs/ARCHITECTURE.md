@@ -5,12 +5,10 @@
 - `curriculum/`: Loader, graph (DAG), review gate.
 - `learner/`: State, mastery update, mastery-model adapter.
 - `diagnostic/`: Adaptive diagnostic (selection, stopping, results).
+- `planner/`: Deterministic path planner, difficulty policy, feasibility bounds, exact bin-packing oracle.
 
 ## Planned Modules
 The following modules are planned but not yet implemented (no files created):
-- planner
-- oracle
-- feasibility
 - review model
 - replanner
 - options/orchestration
@@ -25,13 +23,13 @@ The following modules are planned but not yet implemented (no files created):
 The architecture enforces strict unidirectional dependency flow verified by automated AST tests (`tests/test_architecture.py`):
 
 ```
-core  <--  curriculum  <--  learner  <--  diagnostic  <--  session / api  <--  cli
-                                                              scripts/ (may import anything; nothing imports scripts/)
+core  <--  curriculum  <--  learner  <--  diagnostic / planner  <--  session / api  <--  cli
+                                                                     scripts/ (may import anything; nothing imports scripts/)
 ```
 
 - A package may import only from packages to its left. No upward or sideways imports.
 - `core/` imports nothing from the project. It holds schemas, config, validators and typed errors only, with no learning or planning logic.
-- `diagnostic/` depends on `learner/` through the `MasteryModel` protocol, never on external libraries directly.
+- `diagnostic/` and `planner/` depend on `learner/` through the `MasteryModel` protocol, never on external libraries directly.
 - `cli.py` contains no business logic. It parses inputs, invokes `api.py`, and prints results or errors.
 - Third-party libraries are isolated to their specific domain: NetworkX only in `curriculum/graph.py`; pyBKT only in `learner/adapter.py`.
 - No non-deterministic modules (`random`, `time`, `datetime`) or LLM SDKs are permitted in the deterministic core.
@@ -42,10 +40,11 @@ core  <--  curriculum  <--  learner  <--  diagnostic  <--  session / api  <--  c
 |---|---|
 | Core | `core/` |
 | Domain | `curriculum/`, `learner/` |
-| Decision | `diagnostic/` (W3), later planner, oracle, feasibility, review model, replanner |
-| Orchestration | `session.py`, `api.py` (`Engine.record`) |
+| Decision | `diagnostic/` (W3), `planner/` (W4), later review model, replanner |
+| Orchestration | `session.py`, `api.py` (`Engine.record`, `Engine.plan`) |
 | Interfaces | `cli.py` |
 | Optional Agentic | `agents/` (planned, no files created) |
+
 
 ---
 
@@ -90,7 +89,7 @@ AdaptEngine acts as an embedded, deterministic learning path and diagnostic engi
 ### End-to-End Workflow
 1. **Load and validate:** Schema validation, reject unknown prerequisites and cycles, enforce review manifest. Any failure halts before state mutation with typed errors.
 2. **Diagnose (M2):** Bounded adaptive diagnostic queries expected information gain (EIG) to produce an initial mastery vector with uncertainty and `UNASSESSED` flags.
-3. **Plan (Planned, M3):** Filter eligible activities by unlocked prerequisites, rank, pack days within budget (5, 10, 15, 30 min), returning a feasibility verdict.
+3. **Plan (M3):** Filter eligible activities by unlocked prerequisites, rank, pack days within budget (5, 10, 15, 30 min), returning a feasibility verdict.
 4. **Execute and update:** Learner interaction outcomes are dispatched as typed `Event`s to `Engine.record`, updating mastery and log atomically.
 5. **Replan (Planned, M6):** Missed days or constraint changes trigger replanning over the remaining horizon, preserving completed attempts.
 6. **Evaluate (Planned, M8):** Run paired simulation workloads against frozen baselines with fixed seeds.
@@ -110,9 +109,9 @@ AdaptEngine acts as an embedded, deterministic learning path and diagnostic engi
 | pyBKT Adapter | `learner/adapter.py` | Implemented (W3) | Discrete difficulty class mapping (D6) with parity test against custom oracle |
 | Learner State & Persistence | `learner/state.py`, `session.py` | Hardened (W3) | Immutable state, evidence semantics, attempt idempotency, atomic snapshot persistence |
 | Adaptive Diagnostic | `diagnostic/` | Implemented (W3) | M2 EIG-based selection, per-concept/global caps, descendant skipping, cold start |
-| Engine Facade | `api.py` | Hardened (W3) | Single mutation boundary `Engine.record`, `Engine.diagnose` |
+| Engine Facade | `api.py` | Hardened (W3) | Single mutation boundary `Engine.record`, `Engine.diagnose`, `Engine.plan` |
 | CLI Interface | `cli.py` | Hardened (W3) | Thin command-line interface with default review gate and caller-supplied paths |
-| Planner & Feasibility Oracle | Planned | Planned (M3) | Day-by-day packing, feasibility bounds, exact oracle |
+| Planner & Feasibility Oracle | `planner/` | Implemented (W4) | Day-by-day packing, difficulty policy, feasibility bounds, exact oracle |
 | Review & Remediation | Planned | Planned (M5) | Half-life decay baseline and priority scoring |
 | Replanner | Planned | Planned (M6) | Horizon replanning on missed/failed events |
 | Explainer | Planned | Planned (M7) | Machine-readable decision traces |

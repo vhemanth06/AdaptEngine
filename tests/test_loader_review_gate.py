@@ -150,6 +150,11 @@ def test_ci_scan_all_data():
         if filename.endswith(".json"):
             path = os.path.join("data/curriculum", filename)
             if "activities" in filename:
-                load_activities(path, [Concept("C1"), Concept("C2"), Concept("C3"), Concept("C4")])
+                curr_file = path.replace("activities", "curriculum")
+                if os.path.exists(curr_file):
+                    concepts = load_curriculum(curr_file)
+                else:
+                    concepts = [Concept("C1"), Concept("C2"), Concept("C3"), Concept("C4")]
+                load_activities(path, concepts)
             else:
                 load_curriculum(path)

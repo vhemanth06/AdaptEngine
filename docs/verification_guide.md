@@ -52,14 +52,27 @@ The primary way to interact with the AdaptEngine is through the CLI (`python -m 
 *   **What it does:** Simulates a student completing an activity. It takes the learner's current state, applies the Bayesian Knowledge Tracing (BKT) math based on the activity's difficulty and whether the student was correct/incorrect, updates the execution log, and saves the new immutable state.
 *   **Command to check:** `python -m adaptengine update --curriculum data/curriculum/curriculum_4node.json --activities data/curriculum/activities_4node.json --learner data/my_learner.json --log data/my_log.json --activity E-C1-0.6 --response incorrect --day 1 --save`
 
+### `plan`
+*   **What it does:** Generates a deterministic, time-budgeted day-by-day learning plan toward a target goal concept within a configured daily minute budget and deadline. Reports `FEASIBLE`, `INFEASIBLE` with calculated shortfall and corrective options, or `UNKNOWN` if the oracle node limit is reached.
+*   **Command to check:** `python -m adaptengine plan --curriculum data/curriculum/curriculum_4node.json --activities data/curriculum/activities_4node.json --learner data/my_learner.json --goal C4 --deadline 10 --budget 10`
+*   **With machine-readable traces:** Add `--json` to view detailed `SELECTED` and `DEFERRED` decision logs.
+
 ---
 
 ## 2. Utility & Verification Scripts
 
+### `scripts/run_w4.py` (or `make w4`)
+*   **What it does:** Standalone Week 4 verification runner executing all M3 planner and M4 difficulty policy acceptance scenarios (TC2.3, TC3.1–TC3.6, TC4.2), verifying AST layering rules, and producing an auditable evidence bundle in `runs/w4/<timestamp>/`.
+*   **Command to check:** `python scripts/run_w4.py` (or `make w4`)
+
+### `scripts/run_w3.py` (or `make w3`)
+*   **What it does:** Standalone Week 3 verification runner executing diagnostic persona demos and W3 audit gates.
+*   **Command to check:** `python scripts/run_w3.py` (or `make w3`)
+
 ### `experiments/run_smoke.py`
 *   **What it does:** Runs a deterministic, hardcoded 6-step transactional trace of a student interacting with the engine.
 *   **Command to check:** `python experiments/run_smoke.py`
-*   **Pass/Fail:** It will pass and output a JSON stream of state changes. It will fail if the math in `mastery.py` has been tampered with or if the random seed causes non-determinism (which we designed the engine to avoid).
+*   **Pass/Fail:** It will pass and output a JSON stream of state changes. It will fail if the math in `mastery.py` has been tampered with or if non-determinism is introduced.
 
 ### `scripts/verify_clean_checkout.sh`
 *   **What it does:** Proves the system works from scratch. It clones the git repo to `/tmp`, sets up a fresh virtual environment, installs dependencies, and runs all tests.
@@ -75,14 +88,14 @@ The primary way to interact with the AdaptEngine is through the CLI (`python -m 
 ## 3. The Test Suite (`tests/`)
 
 You can run the entire test suite and view coverage using:
-`pytest -q --cov=adaptengine --cov-fail-under=80 --cov-report=term-missing`
+`pytest -q --cov=adaptengine --cov-fail-under=84 --cov-report=term-missing`
 
 Here is a breakdown of every test file, when it passes, and when it fails:
 
 ### `test_schema.py`
-*   **What it tests:** Validates the strict Python dataclasses (`Concept`, `Activity`, `Event`).
-*   **Passes when:** Probabilities and difficulties are clamped between `0.0` and `1.0`.
-*   **Fails when:** A JSON file has a negative duration, missing IDs, or a difficulty of `1.5`.
+*   **What it tests:** Validates the strict Python dataclasses (`Concept`, `Activity`, `Event`, `PlanContext`, `PlanDay`, `Plan`).
+*   **Passes when:** Probabilities, difficulties, and durations conform to type and range invariants.
+*   **Fails when:** A file has negative duration, missing IDs, or an invalid budget.
 
 ### `test_loader_review_gate.py`
 *   **What it tests:** The strict security hash checking of the Review Gate (ADR-016).
@@ -99,17 +112,29 @@ Here is a breakdown of every test file, when it passes, and when it fails:
 *   **Passes when:** The probability updates (`guess`, `slip`, `bayes_update`) exactly match the precomputed mathematical ground truths.
 *   **Fails when:** The math is tampered with, or if probabilities exceed boundary limits (`< 0` or `> 1`).
 
+### `test_adapter.py`
+*   **What it tests:** Parity between the `MasteryModel` protocol, discrete difficulty mapping, and analytical custom BKT oracle.
+*   **Passes when:** Updates match analytical reference constants and parity tolerance $\le 10^{-9}$.
+
+### `test_diagnostic.py`
+*   **What it tests:** Milestone M2 adaptive diagnostic, Expected Information Gain (EIG) item selection, entropy stopping rule, and descendant pruning.
+*   **Passes when:** Total items $\le N_{\max}=8$, entropy stops probing, and ancestor failure skips descendants.
+
+### `test_planner.py`
+*   **What it tests:** Milestone M3 time-budgeted planner, M4 difficulty policy, analytical feasibility bounds, exact bin-packing oracle, and prerequisite safety.
+*   **Passes when:** Prerequisites are strictly preserved, daily budget is never exceeded across 5/10/15/30 min, and exact oracle solves abstract bin-packing.
+
 ### `test_state_session.py`
 *   **What it tests:** State immutability and JSON persistence.
 *   **Passes when:** `LearnerState` is successfully saved to disk and loaded back with identical values.
 *   **Fails when:** Code attempts to mutate an existing state in-place (throws `TypeError`), ensuring states are strictly transactional.
 
 ### `test_api.py` & `test_cli.py`
-*   **What it tests:** End-to-end integration of the CLI parsing and the API boundary (`Engine.record`).
+*   **What it tests:** End-to-end integration of the CLI parsing and the API boundary (`Engine.record`, `Engine.diagnose`, `Engine.plan`).
 *   **Passes when:** CLI commands exit with code `0` and print the expected output.
 *   **Fails when:** Files are missing, arguments are malformed, or the curriculum throws validation errors. Exits with code `2`.
 
 ### `test_architecture.py`
 *   **What it tests:** Enforces architectural rules by scanning the Abstract Syntax Tree (AST) of the `.py` source code.
-*   **Passes when:** Core modules only use allowed libraries and isolate File I/O.
-*   **Fails when:** A developer accidentally imports `time`, `random`, or `openai` into the core engine, or uses `open()` in an unapproved file.
+*   **Passes when:** Core modules only use allowed libraries, isolate File I/O, and preserve the unidirectional dependency graph.
+*   **Fails when:** A developer accidentally imports `time`, `random`, or `openai` into the core engine, or imports NetworkX outside `curriculum/graph.py`.

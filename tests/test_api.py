@@ -51,3 +51,30 @@ def test_config_hash():
     c3 = EngineConfig(p0=0.3)
     assert config_hash(c1) == config_hash(c2)
     assert config_hash(c1) != config_hash(c3)
+
+    # Hash changes when any planner field changes
+    assert config_hash(c1) != config_hash(EngineConfig(target_success=0.80))
+    assert config_hash(c1) != config_hash(EngineConfig(w_review=0.5))
+    assert config_hash(c1) != config_hash(EngineConfig(w_unlock=2.0))
+    assert config_hash(c1) != config_hash(EngineConfig(w_fit=0.5))
+    assert config_hash(c1) != config_hash(EngineConfig(allowed_budgets=(5, 10)))
+    assert config_hash(c1) != config_hash(EngineConfig(oracle_node_limit=500))
+
+
+def test_config_planner_validation():
+    with pytest.raises(ValidationError):
+        EngineConfig(target_success=0.0)
+    with pytest.raises(ValidationError):
+        EngineConfig(target_success=1.0)
+    with pytest.raises(ValidationError):
+        EngineConfig(w_review=-0.1)
+    with pytest.raises(ValidationError):
+        EngineConfig(w_unlock=-1.0)
+    with pytest.raises(ValidationError):
+        EngineConfig(w_fit=-0.5)
+    with pytest.raises(ValidationError):
+        EngineConfig(allowed_budgets=())
+    with pytest.raises(ValidationError):
+        EngineConfig(allowed_budgets=(-5, 10))
+    with pytest.raises(ValidationError):
+        EngineConfig(oracle_node_limit=0)

@@ -6,14 +6,14 @@ This document provides a comprehensive inventory and explanation of all unit, re
 
 ## 1. Executive Summary & Test Evolution
 
-| Metric | Week 1–2 Baseline | Week 3 Current |
-|---|---|---|
-| **Total Test Count** | 47 tests | **80 tests** |
-| **Statement Coverage** | 84.95% | **86.04%** (all new modules $\ge 90\%$) |
-| **Execution Time** | ~1.1s | **~1.8s** |
-| **Test Suites** | 7 files | **10 files** |
-| **Milestones Covered** | M1 (Foundation, Graph, Schema) | **M1 (Hardened) + M2 (Adaptive Diagnostic)** |
-| **Defect Coverage** | None (defects present) | **100% reproduction & regression proof for D-A..D-H** |
+| Metric | Week 1–2 Baseline | Week 3 | Week 4 Current |
+|---|---|---|---|
+| **Total Test Count** | 47 tests | 80 tests | **106 tests** |
+| **Statement Coverage** | 84.95% | 86.04% | **87.67%** (required $\ge 84\%$) |
+| **Execution Time** | ~1.1s | ~1.8s | **~2.2s** |
+| **Test Suites** | 7 files | 10 files | **11 files** |
+| **Milestones Covered** | M1 (Foundation, Graph, Schema) | M1 + M2 (Adaptive Diagnostic) | **M1 + M2 + M3 (Planner & Oracle) + M4 (Policy)** |
+| **Defect Coverage** | None (defects present) | 100% regression proof D-A..D-H | **100% regression proof + W4 invariants** |
 
 ### Running the Test Suite
 
@@ -21,11 +21,14 @@ This document provides a comprehensive inventory and explanation of all unit, re
 # Using Makefile (auto-detects local .venv)
 make test
 
-# Full W3 acceptance runner (lint, test, smoke, layering, diagnostic demo)
-make w3
+# Linting, formatting, and coverage verification
+make check
 
-# Using uv directly
-uv run pytest -q --cov=adaptengine --cov-report=term-missing
+# Full W4 acceptance runner (M3 planner, M4 policy, evidence package)
+make w4
+
+# Full W3 acceptance runner (diagnostic demo & W3 audit)
+make w3
 ```
 
 ---
@@ -223,9 +226,38 @@ Validates CLI command line handling and the `Engine` orchestration boundary.
 
 ---
 
+### Suite 11: Milestone M3 Planner & M4 Difficulty Policy (`tests/test_planner.py`)
+*Added in Week 4 · 26 Tests · Planner Coverage: 84%–100% across submodules*
+
+Validates next-exercise difficulty selection, workload projection, greedy day-packing, analytical feasibility bounds, the exact branch-and-bound bin-packing oracle, and the `adaptengine plan` CLI.
+
+| # | Test Function | Origin | Target Invariant | Scenario & Details |
+|---|---|---|---|---|
+| 81 | `test_difficulty_policy_tc42` | W4 (TC4.2) | Target success & D10 tie-break | Exercises closest to $P_c(p, d) \approx 0.75$ chosen; handles unreachable target ($p=0.36 \to d=0.2$); breaks ties by $\|d - 0.5\|$ then ID. |
+| 82 | `test_cold_start_workload_numbers` | W4 | Workload numbers | Reproduces cold-start workload: C1=6m, C2=6m, C3=7m, C4=7m (26m total across lessons and required exercises). |
+| 83 | `test_prerequisite_safety_tc31` | W4 (TC3.1) | Prerequisite locking | For all budgets (5, 10, 15, 30), no activity of a concept is scheduled before its prerequisites complete. |
+| 84 | `test_daily_budget_adherence_tc32` | W4 (TC3.2) | Daily budget ceiling | For all budgets (5, 10, 15, 30), verifies $\text{minutes\_used} \le B$ across every scheduled day. |
+| 85 | `test_pacing_variation_by_budget_tc33` | W4 (TC3.3) | Pacing disparity | Confirms $B=5$ produces 7 days while $B=30$ finishes in 1 day on the 4-node curriculum. |
+| 86 | `test_infeasible_short_deadline_tc34` | W4 (TC3.4) | Feasibility bounds | Goal C4 with deadline 1 day and $B=5$ returns `INFEASIBLE` with calculated shortfall and actionable budget/deadline options. |
+| 87 | `test_exact_oracle_tc35` | W4 (TC3.5) | Exact bin packing | Abstract 8+8+4 duration set at $B=10$: analytical bounds pass, but exact oracle proves 2 days `INFEASIBLE` and 3 days `FEASIBLE`. |
+| 88 | `test_exact_oracle_node_limit_tc36` | W4 (TC3.6) | Honest node limit | Branch-and-bound search capped at `node_limit=1` returns `UNKNOWN`, never a false infeasible. |
+| 89 | `test_two_learners_different_valid_plans_tc23` | W4 (TC2.3) | State sensitivity | Novice learner (0 mastered) vs learner with C1 and C2 mastered receive distinct, individually valid plans toward goal C4. |
+| 90 | `test_plan_determinism` | W4 (Q2) | Determinism | Identical inputs produce bitwise identical plan schedules and step-by-step decision traces. |
+| 91 | `test_cli_plan_text_output` | W4 | CLI human output | Tests `adaptengine plan` text formatting for feasible and infeasible schedules. |
+| 92 | `test_cli_plan_json_output` | W4 | CLI machine traces | Tests `adaptengine plan --json` emitting valid JSON with `SELECTED` and `DEFERRED` decision logs. |
+| 93 | `test_planner_8node_fixture` | W4 | Scalability | Generates valid 4-day plan toward C8 on the 8-concept curriculum at $B=15$. |
+| 94 | `test_plan_goal_already_mastered` | W4 | Edge case | Planning toward an already evidence-mastered goal returns 0 days with `GOAL_ALREADY_MASTERED`. |
+| 95 | `test_plan_oracle_scenarios` | W4 | Oracle integration | End-to-end integration: tight deadline triggers exact oracle assignment fallback. |
+| 96 | `test_plan_content_insufficient` | W4 | Error safety | Concepts without enough exercises to reach evidence mastery raise typed `ContentInsufficientError`. |
+| 97 | `test_plan_validation_errors` | W4 | Validation | Missing goals, negative deadlines, and unallowed budgets raise `ValidationError`. |
+| 98 | `test_schema_validations` | W4 | Schema typing | Enforces invariants on `PlanContext`, `PlanDay`, and `Plan`. |
+| 99 | `test_is_evidence_mastered_custom` | W4 | Evidence threshold | Verifies `is_evidence_mastered` against custom thresholds ($p \ge \theta$ and $\text{responses} \ge k_{\text{responses}}$). |
+
+---
+
 ## 4. Verification Command & Reproducibility
 
-All 80 tests can be executed at once:
+All 106 tests can be executed at once:
 
 ```bash
 make test
@@ -233,6 +265,6 @@ make test
 
 Expected output:
 ```text
-80 passed in 1.84s
-Required test coverage of 84% reached. Total coverage: 86.04%
+106 passed in 2.20s
+Required test coverage of 84% reached. Total coverage: 87.67%
 ```

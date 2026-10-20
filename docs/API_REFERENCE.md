@@ -20,6 +20,13 @@ This document provides a comprehensive reference and technical description for *
 13. [`api.py` — Engine Facade & Public Mutation Boundary](#13-apipy--engine-facade--public-mutation-boundary)
 14. [`cli.py` — Command Line Interface](#14-clipy--command-line-interface)
 15. [`scripts/run_w3.py` — Week 3 Standalone Acceptance Runner](#15-scriptsrun_w3py--week-3-standalone-acceptance-runner)
+16. [`planner/difficulty.py` — Next-Exercise Difficulty Policy](#16-plannerdifficultypy--next-exercise-difficulty-policy)
+17. [`planner/workload.py` — Required Concepts & Workload Projection](#17-plannerworkloadpy--required-concepts--workload-projection)
+18. [`planner/feasibility.py` — Analytical Feasibility Bounds](#18-plannerfeasibilitypy--analytical-feasibility-bounds)
+19. [`planner/schedule.py` — Greedy Schedule & Day Packing](#19-plannerschedulepy--greedy-schedule--day-packing)
+20. [`planner/oracle.py` — Exact Bin-Packing Feasibility Oracle](#20-planneroraclepy--exact-bin-packing-feasibility-oracle)
+21. [`planner/plan.py` — Master Planning Orchestrator](#21-plannerplanpy--master-planning-orchestrator)
+22. [`scripts/run_w4.py` — Week 4 Standalone Acceptance Runner](#22-scriptsrun_w4py--week-4-standalone-acceptance-runner)
 
 ---
 
@@ -93,8 +100,14 @@ Immutable dataclass holding engine runtime parameters, bounds, and thresholds.
   - `concept_cap: int = 3` — Per-concept diagnostic item cap.
   - `h_stop: float = 0.50` — Entropy stopping threshold ($H_{\text{stop}}$).
   - `skip_threshold: float = 0.40` — Ancestor mastery threshold below which descendants are skipped.
-  - `k_evidence: int = 2` — Minimum observed responses required for evidence mastery.
-- **`__post_init__(self)`:** Validates all parameters: $0 < d_{\min} < d_{\max} < 1$, $0 \le p_0 \le 1$, $0 < \theta \le 1$, $T \in [0, 1]$, positive caps, and valid thresholds. Raises `ValidationError` on bad config.
+  - `k_responses: int = 2` — Minimum observed responses required for evidence mastery.
+  - `target_success: float = 0.75` — Target prior success probability ($P_c$) for exercise selection.
+  - `w_review: float = 1.0` — Review urgency priority weight.
+  - `w_unlock: float = 1.0` — Transitive concept unlock weight.
+  - `w_fit: float = 1.0` — Difficulty-to-target fit weight.
+  - `allowed_budgets: tuple[int, ...] = (5, 10, 15, 30)` — Validated daily time budgets in minutes.
+  - `oracle_node_limit: int = 1000` — Search node limit for the exact bin-packing feasibility oracle.
+- **`__post_init__(self)`:** Validates all parameters: $0 < d_{\min} < d_{\max} < 1$, $0 \le p_0 \le 1$, $0 < \theta \le 1$, $T \in [0, 1]$, positive caps, $k_{\text{responses}} \ge 1$, target success $\in (0, 1)$, non-empty allowed budgets, and positive oracle node limit. Raises `ValidationError` on bad config.
 
 ### `config_hash(cfg: EngineConfig) -> str`
 - **Parameters:** `cfg` (`EngineConfig`).
@@ -109,7 +122,10 @@ Immutable dataclass holding engine runtime parameters, bounds, and thresholds.
 `LESSON = "LESSON"`, `EXERCISE = "EXERCISE"`.
 
 ### Enum `EventType`
-`COMPLETED = "COMPLETED"`, `MISSED = "MISSED"`.
+`COMPLETED = "COMPLETED"`, `MISSED = "MISSED"`, `FAILED_ASSESSMENT = "FAILED_ASSESSMENT"`, `DEADLINE_CHANGED = "DEADLINE_CHANGED"`, `BUDGET_CHANGED = "BUDGET_CHANGED"`.
+
+### Enum `PlanStatus`
+`FEASIBLE = "FEASIBLE"`, `INFEASIBLE = "INFEASIBLE"`, `UNKNOWN = "UNKNOWN"`.
 
 ### Class `Concept`
 Dataclass representing a curriculum learning node.
@@ -127,6 +143,23 @@ Dataclass representing an execution log entry.
 - **`__post_init__(self)`:** Validates event invariants:
   - `MISSED` events must have `minutes_elapsed == 0` and `activity_id is None`.
   - `COMPLETED` events must have positive `minutes_elapsed`, a non-empty `activity_id`, and strict boolean `correct`.
+
+### Class `PlanContext`
+Dataclass representing the planning parameters and constraints.
+- **Fields:** `goal: str`, `deadline_day: int`, `budget: int`, `current_day: int = 1`.
+- **`__post_init__(self)`:** Enforces valid IDs, positive deadline day $\ge \text{current\_day}$, and budget membership in `cfg.allowed_budgets`.
+
+### Class `PlanDay`
+Dataclass representing a scheduled day in a plan.
+- **Fields:** `day: int`, `activity_ids: tuple[str, ...]`, `minutes_used: int`.
+- **`__post_init__(self)`:** Enforces non-negative day, tuple of valid activity IDs, and non-negative minutes used.
+
+### Class `Plan`
+Dataclass representing the complete generated study plan.
+- **Fields:** `status: PlanStatus`, `days: tuple[PlanDay, ...]`, `shortfall_days: int = 0`, `options: tuple[str, ...] = ()`, `trace: tuple[dict, ...] = ()`, `reason: str = ""`.
+- **Properties:**
+  - `total_activities -> int`: Sum of activity counts across all scheduled days.
+  - `total_minutes -> int`: Sum of minutes used across all scheduled days.
 
 ---
 
@@ -251,7 +284,12 @@ Immutable dataclass representing mastery and evidence state for a single concept
   - `mastery -> float`: Alias for belief probability $p$.
   - `uncertainty -> float`: Shannon entropy $H(p)$.
   - `assessed -> bool`: Returns `status == ConceptStatus.ASSESSED`.
-  - `evidence_mastered -> bool`: Returns `True` iff $p \ge \theta$ **and** `responses >= k_evidence`.
+  - `evidence_mastered -> bool`: Returns `True` iff $p \ge \theta$ **and** `responses >= k_responses` (delegates to `is_evidence_mastered(self, DEFAULT_CONFIG)`).
+
+### `is_evidence_mastered(concept: LearnerConcept, cfg: EngineConfig = DEFAULT_CONFIG) -> bool`
+- **Parameters:** `concept` (`LearnerConcept`), `cfg` (`EngineConfig`).
+- **Returns:** Boolean `True` iff `concept.p >= cfg.theta` and `concept.responses >= cfg.k_responses`.
+- **Description:** Verifies whether a concept has met both mastery probability and minimum response count thresholds under the specified configuration.
 
 ### Class `ExecutionLog`
 Immutable event history holding a tuple of `Event` objects.
@@ -335,6 +373,7 @@ The central facade for AdaptEngine, acting as the single mutation boundary.
 - **`init_learner(self) -> LearnerState`:** Generates cold-start learner state for all concepts in the curriculum DAG.
 - **`diagnose(self, state: LearnerState, response_provider: Callable[[Activity], bool], goal_concepts: Sequence[str] | None = None, model: MasteryModel | None = None) -> DiagnosticResult`:** Executes an adaptive diagnostic session.
 - **`record(self, state: LearnerState, log: ExecutionLog, event: Event) -> tuple[LearnerState, ExecutionLog]`:** Single mutation boundary: records an event, evaluates Bayesian mastery updates, and returns the updated immutable state and log tuple.
+- **`plan(self, state: LearnerState, ctx: PlanContext, *, done_ids: set[str] | None = None, review_urgency: dict[str, float] | None = None, model: MasteryModel | None = None) -> Plan`:** Generates a deterministic, time-budgeted study plan toward `ctx.goal` within `ctx.budget` minutes per day by `ctx.deadline_day`.
 
 ---
 
@@ -347,6 +386,7 @@ The central facade for AdaptEngine, acting as the single mutation boundary.
   - `show`: Prints topological order and DAG structure.
   - `init-learner`: Generates initial learner JSON.
   - `update`: Records an activity completion event and persists updated state.
+  - `plan`: Computes a deterministic study plan toward a target goal concept within a daily budget and deadline. Supports `--json` flag to emit full machine-readable decision traces.
 
 ---
 
@@ -364,3 +404,115 @@ Executes all 5 verification gates:
 5. AST layering check enforcing unidirectional imports and third-party isolation.
 6. Diagnostic demo across 4 scripted learner personas (*All Correct*, *All Wrong*, *Alternating*, *Difficulty Sensitive*).
 Outputs an auditable evidence package in `runs/w3/<timestamp>/`.
+
+---
+
+## 16. `planner/difficulty.py` — Next-Exercise Difficulty Policy
+
+### `select_exercise(exercises: Iterable[Activity], p: float, target_success: float = 0.75, model: MasteryModel | None = None, cfg: EngineConfig = DEFAULT_CONFIG) -> Activity`
+- **Parameters:** `exercises` (collection of candidate exercise activities), `p` (current mastery belief), `target_success` (target success probability, default $0.75$), `model` (optional `MasteryModel`, defaults to `CustomBKT`), `cfg` (`EngineConfig`).
+- **Returns:** The optimal exercise `Activity`.
+- **Description:** Selects the exercise whose predicted probability of success $P_c(p, d)$ is nearest to `target_success`. Breaks ties using Decision D10: smaller $|d - 0.50|$, then lexicographically by `activity_id`.
+- **Raises:** `ValidationError` if `exercises` contains non-exercise items or is empty.
+
+---
+
+## 17. `planner/workload.py` — Required Concepts & Workload Projection
+
+### Class `ConceptWorkload`
+Dataclass representing projected workload for a single concept:
+- **Fields:** `concept_id: str`, `activities: list[Activity]`, `total_minutes: int`, `p_final: float`, `responses_final: int`.
+
+### Class `WorkloadProjection`
+Dataclass aggregating projected workload across all required concepts:
+- **Fields:** `concept_workloads: dict[str, ConceptWorkload]`, `required_concepts: set[str]`, `total_minutes: int`.
+- **Properties:** `all_activities -> list[Activity]`.
+
+### `compute_workload(graph: CurriculumGraph, activities: Iterable[Activity], state: LearnerState, goal: str, done_ids: set[str] | None = None, model: MasteryModel | None = None, cfg: EngineConfig = DEFAULT_CONFIG) -> WorkloadProjection`
+- **Parameters:** `graph` (`CurriculumGraph`), `activities` (all available activities), `state` (`LearnerState`), `goal` (target concept ID), `done_ids` (already completed activity IDs), `model` (`MasteryModel`), `cfg` (`EngineConfig`).
+- **Returns:** `WorkloadProjection`.
+- **Description:** Identifies required concepts ($\{goal\} \cup \text{ancestors}(goal) \setminus \text{evidence\_mastered}$). For each concept, queues unfinished lessons then exercises picked by the difficulty policy, updating belief $p$ assuming correct responses ($T_{\text{exercise}}$), until $p \ge \theta$ and $\text{responses} \ge k_{\text{responses}}$.
+- **Raises:** `UnknownConceptError` if `goal` is not in `graph`, `ContentInsufficientError` if available exercises run out before reaching evidence mastery.
+
+---
+
+## 18. `planner/feasibility.py` — Analytical Feasibility Bounds
+
+### Class `FeasibilityCheckResult`
+Dataclass holding bounds check outcomes:
+- **Fields:** `feasible: bool`, `shortfall_days: int`, `options: tuple[str, ...]`, `reason: str`.
+
+### `check_feasibility_bounds(workload: WorkloadProjection, graph: CurriculumGraph, ctx: PlanContext, cfg: EngineConfig = DEFAULT_CONFIG) -> FeasibilityCheckResult`
+- **Parameters:** `workload` (`WorkloadProjection`), `graph` (`CurriculumGraph`), `ctx` (`PlanContext`), `cfg` (`EngineConfig`).
+- **Returns:** `FeasibilityCheckResult`.
+- **Description:** Checks necessary mathematical feasibility conditions in $O(V + E)$:
+  1. **Oversized Item:** Verifies that no required activity has $\text{duration} > B$.
+  2. **Total Minutes Bound:** Checks if $\lceil \text{total\_minutes} / B \rceil > \text{days\_left}$.
+  3. **Critical Path Bound:** Computes longest duration directed path $CP$ in topological order via dynamic programming and checks if $\lceil CP / B \rceil > \text{days\_left}$.
+  If infeasible, calculates `shortfall_days` and provides corrective options (increasing budget or extending deadline).
+
+---
+
+## 19. `planner/schedule.py` — Greedy Schedule & Day Packing
+
+### Class `ScheduleResult`
+Dataclass holding the greedy schedule output:
+- **Fields:** `days: list[PlanDay]`, `trace: list[dict]`, `completed_concepts: set[str]`, `unfinished_workload: dict[str, list[Activity]]`.
+
+### `run_greedy_schedule(workload: WorkloadProjection, graph: CurriculumGraph, ctx: PlanContext, review_urgency: dict[str, float] | None = None, cfg: EngineConfig = DEFAULT_CONFIG) -> ScheduleResult`
+- **Parameters:** `workload` (`WorkloadProjection`), `graph` (`CurriculumGraph`), `ctx` (`PlanContext`), `review_urgency` (optional review scores), `cfg` (`EngineConfig`).
+- **Returns:** `ScheduleResult`.
+- **Description:** Simulates greedy day-by-day packing obeying:
+  - **Prerequisites (D11, D12):** A concept is eligible when all its direct prerequisites have completed their projected activities; same-day unlocks are allowed in topological order.
+  - **Queue Discipline (D16):** Lessons strictly precede exercises within each concept.
+  - **Skip-and-Continue Packing (D15):** If a top-ranked item exceeds remaining daily minutes, lower-ranked eligible items may pack.
+  - **Scoring (D13, D14):** Score $= w_{\text{review}} \cdot R + w_{\text{unlock}} \cdot U + w_{\text{fit}} \cdot F$, where $U = \text{descendant\_count}(c)$ and $F = 0.0$ for lessons.
+  Emits structured `SELECTED` and `DEFERRED` trace events for every scheduling decision.
+
+---
+
+## 20. `planner/oracle.py` — Exact Bin-Packing Feasibility Oracle
+
+### `solve_oracle(workload: WorkloadProjection, graph: CurriculumGraph, ctx: PlanContext, cfg: EngineConfig = DEFAULT_CONFIG) -> tuple[PlanStatus, list[PlanDay], str]`
+- **Parameters:** `workload` (`WorkloadProjection`), `graph` (`CurriculumGraph`), `ctx` (`PlanContext`), `cfg` (`EngineConfig`).
+- **Returns:** Tuple of `(PlanStatus, list[PlanDay], reason)`.
+- **Description:** Exact branch-and-bound bin-packing algorithm with precedence constraints and pruning by remaining capacity. Explores state transitions up to `cfg.oracle_node_limit`. Returns `FEASIBLE` if an exact schedule exists within `deadline_day`, `INFEASIBLE` if the search space is exhaustively disproven, or `UNKNOWN` if search limit is reached (ensuring zero false-infeasible assertions).
+
+---
+
+## 21. `planner/plan.py` — Master Planning Orchestrator
+
+### `plan(graph: CurriculumGraph, activities: Iterable[Activity], state: LearnerState, ctx: PlanContext, *, done_ids: set[str] | None = None, review_urgency: dict[str, float] | None = None, model: MasteryModel | None = None, cfg: EngineConfig = DEFAULT_CONFIG) -> Plan`
+- **Parameters:** `graph` (`CurriculumGraph`), `activities` (all activities), `state` (`LearnerState`), `ctx` (`PlanContext`), `done_ids` (completed activity IDs), `review_urgency` (review priority map), `model` (`MasteryModel`), `cfg` (`EngineConfig`).
+- **Returns:** Complete validated `Plan`.
+- **Description:** Orchestrates the planning pipeline:
+  1. Computes required concepts and projected workload.
+  2. Runs $O(V + E)$ analytical bounds checks; immediately returns `INFEASIBLE` with options if violated.
+  3. Runs greedy scheduler. If schedule completes within `deadline_day`, returns `FEASIBLE`.
+  4. If greedy scheduler exceeds deadline, invokes exact `solve_oracle`. If oracle finds a schedule, returns `FEASIBLE`; if oracle disproves, returns `INFEASIBLE`; if node limit is reached, returns `UNKNOWN`.
+
+---
+
+## 22. `scripts/run_w4.py` — Week 4 Standalone Acceptance Runner
+
+### `run_cmd(cmd: list[str]) -> tuple[int, str]`
+Helper executing shell commands via `subprocess.run`, capturing returncode and output.
+
+### `main() -> None`
+Executes complete Week 4 verification pipeline:
+1. Environment and code identity recording (`code_sha.txt`, `config_hash.txt`, `environment.txt`).
+2. Ruff linting and formatting validation.
+3. Architecture and layering test suite (`tests/test_architecture.py`).
+4. Pytest test suite with statement coverage threshold ($\ge 84.0\%$).
+5. Verification of all W4 scenarios:
+   - TC4.2 Difficulty policy nearest-to-target selection and D10 tie-breaking.
+   - Workload projection numbers (6, 6, 7, 7 min = 26 min total).
+   - TC3.1 Prerequisite locking.
+   - TC3.2 Budget preservation across 5, 10, 15, and 30 minute limits.
+   - TC3.3 Pacing disparity between 5-min (7 days) and 30-min (1 day) budgets.
+   - TC3.4 Infeasible goal shortfall calculation and corrective options.
+   - TC3.5 Abstract 8+8+4 bin-packing oracle infeasibility.
+   - TC3.6 Oracle search node limit returning `UNKNOWN`.
+   - TC2.3 Two learners with identical goal/budget receiving different valid plans.
+   - 8-node curriculum planning verification.
+6. Outputs auditable evidence package in `runs/w4/<timestamp>/`.

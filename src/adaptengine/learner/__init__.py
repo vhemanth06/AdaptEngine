@@ -2,7 +2,14 @@
 
 from .adapter import MasteryModel, CustomBKT, PyBKTAdapter, get_difficulty_class
 from .mastery import update_mastery, guess, slip, learn, entropy, bayes_update
-from .state import LearnerState, LearnerConcept, ExecutionLog, ConceptStatus, initial_state
+from .state import (
+    LearnerState,
+    LearnerConcept,
+    ExecutionLog,
+    ConceptStatus,
+    initial_state,
+    is_evidence_mastered,
+)
 
 __all__ = [
     "MasteryModel",
@@ -20,4 +27,5 @@ __all__ = [
     "ExecutionLog",
     "ConceptStatus",
     "initial_state",
+    "is_evidence_mastered",
 ]

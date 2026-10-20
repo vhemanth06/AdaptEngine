@@ -1,9 +1,10 @@
 import sys
+import json
 import argparse
 from .api import Engine
 from .session import load_learner, save_learner, load_log, save_log, save_snapshot
 from .core.errors import AdaptEngineError
-from .core.schema import Event, EventType
+from .core.schema import Event, EventType, PlanContext
 
 
 def main(argv=None):
@@ -49,6 +50,20 @@ def main(argv=None):
     upd_parser.add_argument("--allow-unreviewed", action="store_true")
     upd_parser.add_argument("--save", action="store_true")
     upd_parser.add_argument("--snapshot")
+
+    # plan
+    plan_parser = subparsers.add_parser("plan")
+    plan_parser.add_argument("--curriculum", required=True)
+    plan_parser.add_argument("--activities", required=True)
+    plan_parser.add_argument("--learner", required=True)
+    plan_parser.add_argument("--log")
+    plan_parser.add_argument("--goal", required=True)
+    plan_parser.add_argument("--deadline", type=int, required=True)
+    plan_parser.add_argument("--budget", type=int, required=True)
+    plan_parser.add_argument("--current-day", type=int, default=1)
+    plan_parser.add_argument("--manifest")
+    plan_parser.add_argument("--allow-unreviewed", action="store_true")
+    plan_parser.add_argument("--json", action="store_true")
 
     args = parser.parse_args(argv)
 
@@ -136,6 +151,67 @@ def main(argv=None):
                 save_log(new_log, args.log)
             if args.snapshot:
                 save_snapshot(new_state, new_log, args.snapshot)
+
+        elif args.command == "plan":
+            engine = Engine.from_files(
+                args.curriculum,
+                args.activities,
+                manifest_path=args.manifest,
+                allow_unreviewed=args.allow_unreviewed,
+            )
+            state = load_learner(args.learner, engine.graph.concepts())
+            done_ids = ()
+            if args.log:
+                try:
+                    log = load_log(args.log)
+                    done_ids = log.completed_ids()
+                except Exception:
+                    done_ids = ()
+
+            ctx = PlanContext(
+                goal=args.goal,
+                deadline_day=args.deadline,
+                budget=args.budget,
+                current_day=args.current_day,
+            )
+            plan_res = engine.plan(state, ctx, done_ids=done_ids)
+
+            if args.json:
+                data = {
+                    "status": plan_res.status.value,
+                    "reason": plan_res.reason,
+                    "shortfall_days": plan_res.shortfall_days,
+                    "options": list(plan_res.options),
+                    "days": [
+                        {
+                            "day": d.day,
+                            "activities": list(d.activities),
+                            "duration": d.duration,
+                        }
+                        for d in plan_res.days
+                    ],
+                    "trace": list(plan_res.trace),
+                }
+                print(json.dumps(data, indent=2))
+            else:
+                print(f"Status: {plan_res.status.value}")
+                if plan_res.reason:
+                    print(f"Reason: {plan_res.reason}")
+                if plan_res.days:
+                    print(f"Schedule ({len(plan_res.days)} days):")
+                    for d in plan_res.days:
+                        print(f"  Day {d.day} ({d.duration} min):")
+                        for aid in d.activities:
+                            act = engine.activities.get(aid)
+                            dur = act.duration if act else "?"
+                            print(f"    - {aid} ({dur} min)")
+                if plan_res.shortfall_days > 0:
+                    print(f"Shortfall: {plan_res.shortfall_days} days")
+                if plan_res.options:
+                    print("Options:")
+                    for opt in plan_res.options:
+                        print(f"  - {opt}")
+
     except AdaptEngineError as e:
         print(f"error: {e}", file=sys.stderr)
         return 2
