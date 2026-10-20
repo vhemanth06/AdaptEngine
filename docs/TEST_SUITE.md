@@ -6,14 +6,14 @@ This document provides a comprehensive inventory and explanation of all unit, re
 
 ## 1. Executive Summary & Test Evolution
 
-| Metric | Week 1–2 Baseline | Week 3 | Week 4 Current |
-|---|---|---|---|
-| **Total Test Count** | 47 tests | 80 tests | **106 tests** |
-| **Statement Coverage** | 84.95% | 86.04% | **87.67%** (required $\ge 84\%$) |
-| **Execution Time** | ~1.1s | ~1.8s | **~2.2s** |
-| **Test Suites** | 7 files | 10 files | **11 files** |
-| **Milestones Covered** | M1 (Foundation, Graph, Schema) | M1 + M2 (Adaptive Diagnostic) | **M1 + M2 + M3 (Planner & Oracle) + M4 (Policy)** |
-| **Defect Coverage** | None (defects present) | 100% regression proof D-A..D-H | **100% regression proof + W4 invariants** |
+| Metric | Week 1–2 Baseline | Week 3 | Week 4 | Week 5 Current |
+|---|---|---|---|---|
+| **Total Test Count** | 47 tests | 80 tests | 106 tests | **122 tests** |
+| **Statement Coverage** | 84.95% | 86.04% | 87.67% | **88.30%** (required $\ge 84\%$) |
+| **Execution Time** | ~1.1s | ~1.8s | ~2.2s | **~1.5s** |
+| **Test Suites** | 7 files | 10 files | 11 files | **14 files** |
+| **Milestones Covered** | M1 (Foundation, Graph, Schema) | M1 + M2 (Adaptive Diagnostic) | M1 + M2 + M3 + M4 | **M1–M6 + M7 (Traces)** |
+| **Defect Coverage** | None (defects present) | 100% regression proof D-A..D-H | 100% regression proof + W4 | **100% regression proof + W4 + W5** |
 
 ### Running the Test Suite
 
@@ -23,6 +23,9 @@ make test
 
 # Linting, formatting, and coverage verification
 make check
+
+# Full W5 acceptance runner (M5 review/remediation, M6 replanner, M7 traces)
+make w5
 
 # Full W4 acceptance runner (M3 planner, M4 policy, evidence package)
 make w4
@@ -255,9 +258,42 @@ Validates next-exercise difficulty selection, workload projection, greedy day-pa
 
 ---
 
+### Suite 12: Spaced Review & Forgetting Model (`tests/test_review.py`)
+*Added in Week 5 · 4 Tests · Module Coverage: 97%*
+
+Validates the half-life exponential forgetting model $r(t) = 2^{-\Delta t / h}$, review due checks, and curriculum-topology-weighted review urgency scoring.
+
+| # | Test Function | Origin | Target Invariant | Scenario & Details |
+|---|---|---|---|---|
+| 100 | `test_recall_exponential_decay` | W5 (D23) | Analytical recall formula | Proves $r=1.0$ at $\Delta t = 0$, $r=0.5$ at $\Delta t = h$, $r=0.25$ at $\Delta t = 2h$, and $r=1.0$ for non-practiced concepts. |
+| 101 | `test_is_review_due` | W5 (D24) | Recall threshold check | Confirms review is due only when $r < 0.80$ and concept was previously practiced. |
+| 102 | `test_review_urgency_calculation` | W5 (D25) | Urgency weighting | Validates urgency $U = (1 - r) \cdot (1 + \text{descendants})$. Leaf concepts have multiplier $1$; root concepts with descendants have higher urgency. |
+| 103 | `test_compute_review_urgencies_mapping` | W5 | Batch calculation | Computes urgencies across full curriculum DAG on a given day, filtering concepts where review is not due. |
+
+---
+
+### Suite 13: Milestone M5/M6/M7 Week 5 Acceptance Suite (`tests/test_w5.py`)
+*Added in Week 5 · 9 Tests · Complete M5/M6/M7 verification*
+
+Validates spaced review under shared budget, automatic remediation, pure replanning from execution logs, trace contracts, and CLI replan.
+
+| # | Test Function | Origin | Target Invariant | Scenario & Details |
+|---|---|---|---|---|
+| 104 | `test_tc5_1_mastered_concept_omitted_from_new_learning` | W5 (TC5.1) | Evidence-mastered omission | Evidence-mastered concepts ($p \ge 0.85, \text{responses} \ge 2$) omitted from new learning; trace cites evidence and $p$. |
+| 105 | `test_tc5_2_failed_exercise_remediation_flag_and_lesson` | W5 (TC5.2) | Remediation trigger | Failed exercise leaving $p < 0.40$ sets `needs_remediation`; plan queues repeat lesson first; completing lesson clears flag. |
+| 106 | `test_tc5_3_high_urgency_review_scheduled_before_new_content` | W5 (TC5.3) | Priority tier scheduling | Urgent review due to memory decay scheduled before new unmastered content in day's budget. |
+| 107 | `test_tc6_1_missed_day_replan_no_loss_or_duplication` | W5 (TC6.1) | Missed day replanning | Missed day replans from day after; completed work appears once in log and never again in new schedule. |
+| 108 | `test_tc6_2_failed_assessment_replan_with_remediation` | W5 (TC6.2) | Assessment failure replan | Failed assessment recorded as failed response; triggers remediation flag and revised plan with remediation lesson. |
+| 109 | `test_tc6_3_deadline_change_replan` | W5 (TC6.3) | Deadline change replan | Tightened deadline returns `INFEASIBLE` with shortfall; extended deadline returns valid `FEASIBLE` plan. |
+| 110 | `test_tc6_4_budget_change_replan` | W5 (TC6.4) | Budget change replan | Increased daily budget ($B=30$) packs entire remaining workload into 1 day within budget. |
+| 111 | `test_tc7_1_comprehensive_traceability_and_serialization` | W5 (TC7.1) | Traceability & JSON serialization | Every decision has machine-readable reason, state, constraint, score; pure `serialize_plan` includes `config_hash`. |
+| 112 | `test_cli_replan_subcommand` | W5 | CLI replan | Subcommand `adaptengine replan` executes from snapshot, supports text and `--json` outputs. |
+
+---
+
 ## 4. Verification Command & Reproducibility
 
-All 106 tests can be executed at once:
+All 122 tests can be executed at once:
 
 ```bash
 make test
@@ -265,6 +301,7 @@ make test
 
 Expected output:
 ```text
-106 passed in 2.20s
-Required test coverage of 84% reached. Total coverage: 87.67%
+122 passed in 1.50s
+Required test coverage of 84% reached. Total coverage: 88.30%
 ```
+

@@ -22,9 +22,9 @@ Learners differ in prior knowledge, target competencies, deadlines, and daily ti
 *   **[M2] Short Adaptive Diagnostic:** Bounded adaptive diagnostic selecting exercises via Expected Information Gain (EIG), subject to per-concept and global caps, entropy stopping, and descendant pruning. *(Implemented in W3)*
 *   **[M4] Online Mastery Update & Difficulty Policy:** Discrete Bayesian Knowledge Tracing updates with pinned pyBKT adapter and next-exercise difficulty policy targeting $P_c \approx 0.75$ with D10 tie-breaking. *(Implemented in W3, Policy in W4)*
 *   **[M3] Time-Budgeted Path Planning:** Prerequisite-valid day-by-day schedules with feasibility bounds and exact bin-packing oracle. *(Implemented in W4)*
-*   **[M5] Spaced Review & Remediation:** Priority scheduling balancing forgetting decay risk against new content under a shared budget. *(Planned, W5)*
-*   **[M6] Dynamic Replanning:** Horizon replanning triggered by missed days or constraint adjustments while preserving completed attempts. *(Planned, W5)*
-*   **[M7] Explainability & Constraint Traces:** Machine-readable reasons attributing every inclusion and omission to state and policy scores. *(Planned, W6)*
+*   **[M5] Spaced Review & Remediation:** Priority scheduling balancing forgetting decay risk against new content under a shared budget, automatic remediation repeat lessons. *(Implemented in W5)*
+*   **[M6] Dynamic Replanning:** Pure replanning on missed days, failed assessments, deadline changes, and budget changes without losing or duplicating work. *(Implemented in W5)*
+*   **[M7] Explainability & Constraint Traces:** Machine-readable reasons attributing every inclusion and omission to state and policy scores, pure JSON plan serialization with config hash. *(Implemented in W5)*
 *   **[M8] Comparative Evaluation:** Benchmarking diagnostic accuracy and planning feasibility against frozen baselines on paired simulation workloads. *(Planned, W6)*
 
 ---
@@ -34,7 +34,7 @@ Learners differ in prior knowledge, target competencies, deadlines, and daily ti
 All technical specifications are documented under `docs/`:
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — System architecture, layering rules, and data models.
 - [`docs/API_REFERENCE.md`](docs/API_REFERENCE.md) — Complete API and function reference.
-- [`docs/DECISIONS.md`](docs/DECISIONS.md) — Architectural and pedagogical decision records (D1–D19).
+- [`docs/DECISIONS.md`](docs/DECISIONS.md) — Architectural and pedagogical decision records (D1–D30).
 - [`docs/TRACEABILITY.md`](docs/TRACEABILITY.md) — Authoritative verification matrix (TC1.1–TC8.2).
 - [`docs/MASTERY_MODEL.md`](docs/MASTERY_MODEL.md) — Equations, reference constants, and evidence semantics.
 - [`docs/DIAGNOSTIC.md`](docs/DIAGNOSTIC.md) — M2 adaptive diagnostic specification.
@@ -95,6 +95,12 @@ python -m adaptengine plan \
     --goal C4 \
     --deadline 5 \
     --budget 10
+
+# 5. Dynamic replanning after missed days or constraint updates
+python -m adaptengine replan \
+    --curriculum data/curriculum/curriculum_4node.json \
+    --activities data/curriculum/activities_4node.json \
+    --snapshot my_snapshot.json
 ```
 
 ---
@@ -105,6 +111,14 @@ To run unit and integration tests, lint checks, formatting, and coverage checks:
 
 ```bash
 make check
+```
+
+To run the Week 5 standalone acceptance runner (spaced review, remediation, replanning, trace contracts, evidence bundle):
+
+```bash
+make w5
+# Or execute directly:
+python scripts/run_w5.py
 ```
 
 To run the Week 4 standalone acceptance runner (all W4 test cases, determinism, oracle, and evidence bundle generation):

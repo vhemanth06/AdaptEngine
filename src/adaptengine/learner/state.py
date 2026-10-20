@@ -33,6 +33,7 @@ class LearnerConcept:
     half_life_days: float
     last_practice_day: Optional[int]
     n_reviews: int
+    needs_remediation: bool = False
 
     def __init__(
         self,
@@ -49,6 +50,7 @@ class LearnerConcept:
         mastery: Optional[float] = None,
         uncertainty: Optional[float] = None,
         assessed: Optional[bool] = None,
+        needs_remediation: bool = False,
     ):
         if p is None and mastery is not None:
             p = mastery
@@ -96,6 +98,7 @@ class LearnerConcept:
             check_non_negative_int(last_practice_day, "last_practice_day")
 
         check_non_negative_int(n_reviews, "n_reviews")
+        check_bool(needs_remediation, "needs_remediation")
 
         object.__setattr__(self, "concept_id", concept_id)
         object.__setattr__(self, "p", p_val)
@@ -107,6 +110,7 @@ class LearnerConcept:
         object.__setattr__(self, "half_life_days", float(half_life_days))
         object.__setattr__(self, "last_practice_day", last_practice_day)
         object.__setattr__(self, "n_reviews", n_reviews)
+        object.__setattr__(self, "needs_remediation", bool(needs_remediation))
 
     @property
     def mastery(self) -> float:

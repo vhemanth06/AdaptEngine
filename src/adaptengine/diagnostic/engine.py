@@ -1,11 +1,11 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from enum import Enum
 from typing import Callable, Mapping, Optional, Sequence, Any
 from ..core.schema import Activity, ActivityType
 from ..core.config import EngineConfig, DEFAULT_CONFIG
 from ..core.validators import check_bool
 from ..curriculum.graph import CurriculumGraph
-from ..learner.state import LearnerState, LearnerConcept, ConceptStatus
+from ..learner.state import LearnerState, ConceptStatus
 from ..learner.mastery import update_mastery
 from .scoring import compute_eig, candidate_sort_key
 
@@ -153,17 +153,13 @@ class AdaptiveDiagnostic:
                         p_before, best_act.difficulty, raw_resp, self.config.t_diag, self.config
                     )
 
-                new_c = LearnerConcept(
-                    concept_id=concept_id,
+                new_c = replace(
+                    current_c,
                     p=p_after,
-                    lessons_done=current_c.lessons_done,
                     responses=current_c.responses + 1,
                     correct_responses=current_c.correct_responses + (1 if raw_resp else 0),
                     status=ConceptStatus.ASSESSED,
                     seen_attempt_ids=current_c.seen_attempt_ids | {attempt_id},
-                    half_life_days=current_c.half_life_days,
-                    last_practice_day=current_c.last_practice_day,
-                    n_reviews=current_c.n_reviews,
                 )
                 updated_concepts[concept_id] = new_c
                 current_c = new_c

@@ -88,7 +88,15 @@ def plan(
 
     # 3. Run greedy day packing
     greedy_days, greedy_trace = run_greedy_schedule(
-        graph, workload, initial_projected_p, ctx, model=model, cfg=cfg
+        graph,
+        workload,
+        initial_projected_p,
+        ctx,
+        model=model,
+        cfg=cfg,
+        state=state,
+        activities=activities,
+        review_urgency_override=review_urgency,
     )
     full_trace = list(init_trace) + list(greedy_trace)
 
@@ -198,3 +206,25 @@ def plan(
         options=feas_opts,
         trace=tuple(full_trace),
     )
+
+
+def serialize_plan(plan: Plan, cfg: EngineConfig = DEFAULT_CONFIG) -> dict:
+    """Serialize a Plan into pure primitives including the configuration hash (T7)."""
+    from ..core.config import config_hash
+
+    return {
+        "config_hash": config_hash(cfg),
+        "status": plan.status.value,
+        "reason": plan.reason,
+        "shortfall_days": plan.shortfall_days,
+        "options": list(plan.options),
+        "days": [
+            {
+                "day": d.day,
+                "activities": list(d.activities),
+                "duration": d.duration,
+            }
+            for d in plan.days
+        ],
+        "trace": list(plan.trace),
+    }

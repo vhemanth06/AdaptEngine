@@ -34,15 +34,70 @@ def test_api_missed():
     assert len(new_log.events) == 1
 
 
-def test_api_unsupported():
+def test_api_failed_assessment():
     engine = Engine.from_files(
         "data/curriculum/curriculum_4node.json", "data/curriculum/activities_4node.json"
     )
     state = engine.init_learner()
     log = ExecutionLog()
-    event = Event(day=1, kind=EventType.FAILED_ASSESSMENT)
+
+    # Valid failed assessment
+    event = Event(day=1, kind=EventType.FAILED_ASSESSMENT, activity_id="E-C1-0.2")
+    new_state, new_log = engine.record(state, log, event)
+    assert len(new_log.events) == 1
+    assert new_log.events[0].correct is False
+    assert new_state.concepts["C1"].p < state.concepts["C1"].p
+    assert new_state.concepts["C1"].needs_remediation is True
+
+    # Reject correct=True
     with pytest.raises(ValidationError):
-        engine.record(state, log, event)
+        Event(day=1, kind=EventType.FAILED_ASSESSMENT, activity_id="E-C1-0.2", correct=True)
+
+
+def test_api_deadline_and_budget_changed():
+    engine = Engine.from_files(
+        "data/curriculum/curriculum_4node.json", "data/curriculum/activities_4node.json"
+    )
+    state = engine.init_learner()
+    log = ExecutionLog()
+
+    # Valid deadline change
+    ev_dl = Event(day=2, kind=EventType.DEADLINE_CHANGED, value=5)
+    s1, l1 = engine.record(state, log, ev_dl)
+    assert s1 is state
+    assert len(l1.events) == 1
+    assert l1.events[0].value == 5
+
+    # Reject deadline < day
+    with pytest.raises(ValidationError):
+        Event(day=5, kind=EventType.DEADLINE_CHANGED, value=4)
+
+    # Valid budget change
+    ev_b = Event(day=2, kind=EventType.BUDGET_CHANGED, value=15)
+    s2, l2 = engine.record(state, l1, ev_b)
+    assert s2 is state
+    assert len(l2.events) == 2
+    assert l2.events[1].value == 15
+
+    # Reject invalid budget
+    with pytest.raises(ValidationError):
+        Event(day=2, kind=EventType.BUDGET_CHANGED, value=25)
+
+
+def test_api_duplicate_missed_deduplicated():
+    engine = Engine.from_files(
+        "data/curriculum/curriculum_4node.json", "data/curriculum/activities_4node.json"
+    )
+    state = engine.init_learner()
+    log = ExecutionLog()
+
+    ev1 = Event(day=1, kind=EventType.MISSED, attempt_id="missed-day-1")
+    s1, l1 = engine.record(state, log, ev1)
+    assert len(l1.events) == 1
+
+    # Sending same attempt_id again is a no-op
+    s2, l2 = engine.record(s1, l1, ev1)
+    assert len(l2.events) == 1
 
 
 def test_config_hash():

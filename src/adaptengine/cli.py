@@ -2,9 +2,18 @@ import sys
 import json
 import argparse
 from .api import Engine
-from .session import load_learner, save_learner, load_log, save_log, save_snapshot
+from .session import (
+    load_learner,
+    save_learner,
+    load_log,
+    save_log,
+    save_snapshot,
+    load_snapshot,
+)
+from .planner import serialize_plan
 from .core.errors import AdaptEngineError
 from .core.schema import Event, EventType, PlanContext
+from .learner.state import ExecutionLog
 
 
 def main(argv=None):
@@ -64,6 +73,21 @@ def main(argv=None):
     plan_parser.add_argument("--manifest")
     plan_parser.add_argument("--allow-unreviewed", action="store_true")
     plan_parser.add_argument("--json", action="store_true")
+
+    # replan
+    replan_parser = subparsers.add_parser("replan")
+    replan_parser.add_argument("--curriculum", required=True)
+    replan_parser.add_argument("--activities", required=True)
+    replan_parser.add_argument("--learner")
+    replan_parser.add_argument("--log")
+    replan_parser.add_argument("--snapshot")
+    replan_parser.add_argument("--goal")
+    replan_parser.add_argument("--deadline", type=int)
+    replan_parser.add_argument("--budget", type=int)
+    replan_parser.add_argument("--current-day", type=int, default=1)
+    replan_parser.add_argument("--manifest")
+    replan_parser.add_argument("--allow-unreviewed", action="store_true")
+    replan_parser.add_argument("--json", action="store_true")
 
     args = parser.parse_args(argv)
 
@@ -177,22 +201,77 @@ def main(argv=None):
             plan_res = engine.plan(state, ctx, done_ids=done_ids)
 
             if args.json:
-                data = {
-                    "status": plan_res.status.value,
-                    "reason": plan_res.reason,
-                    "shortfall_days": plan_res.shortfall_days,
-                    "options": list(plan_res.options),
-                    "days": [
-                        {
-                            "day": d.day,
-                            "activities": list(d.activities),
-                            "duration": d.duration,
-                        }
-                        for d in plan_res.days
-                    ],
-                    "trace": list(plan_res.trace),
-                }
-                print(json.dumps(data, indent=2))
+                print(json.dumps(serialize_plan(plan_res, engine.config), indent=2))
+            else:
+                print(f"Status: {plan_res.status.value}")
+                if plan_res.reason:
+                    print(f"Reason: {plan_res.reason}")
+                if plan_res.days:
+                    print(f"Schedule ({len(plan_res.days)} days):")
+                    for d in plan_res.days:
+                        print(f"  Day {d.day} ({d.duration} min):")
+                        for aid in d.activities:
+                            act = engine.activities.get(aid)
+                            dur = act.duration if act else "?"
+                            print(f"    - {aid} ({dur} min)")
+                if plan_res.shortfall_days > 0:
+                    print(f"Shortfall: {plan_res.shortfall_days} days")
+                if plan_res.options:
+                    print("Options:")
+                    for opt in plan_res.options:
+                        print(f"  - {opt}")
+
+        elif args.command == "replan":
+            engine = Engine.from_files(
+                args.curriculum,
+                args.activities,
+                manifest_path=args.manifest,
+                allow_unreviewed=args.allow_unreviewed,
+            )
+            state = None
+            log = None
+            snap_ctx = None
+            if args.snapshot:
+                state, log, snap_ctx = load_snapshot(
+                    args.snapshot, engine.graph.concepts(), include_context=True
+                )
+            if state is None and args.learner:
+                state = load_learner(args.learner, engine.graph.concepts())
+            if log is None and args.log:
+                log = load_log(args.log)
+            if log is None:
+                log = ExecutionLog()
+
+            goal = args.goal or (snap_ctx.goal if snap_ctx else None)
+            deadline = (
+                args.deadline
+                if args.deadline is not None
+                else (snap_ctx.deadline_day if snap_ctx else None)
+            )
+            budget = (
+                args.budget if args.budget is not None else (snap_ctx.budget if snap_ctx else None)
+            )
+            current_day = (
+                args.current_day
+                if args.current_day is not None
+                else (snap_ctx.current_day if snap_ctx else 1)
+            )
+
+            if not goal or deadline is None or budget is None:
+                raise AdaptEngineError(
+                    "replan requires goal, deadline, and budget (either via args or snapshot)"
+                )
+
+            ctx = PlanContext(
+                goal=goal,
+                deadline_day=deadline,
+                budget=budget,
+                current_day=current_day,
+            )
+            plan_res = engine.replan(state, log, ctx)
+
+            if args.json:
+                print(json.dumps(serialize_plan(plan_res, engine.config), indent=2))
             else:
                 print(f"Status: {plan_res.status.value}")
                 if plan_res.reason:

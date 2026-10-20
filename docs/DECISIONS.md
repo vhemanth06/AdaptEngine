@@ -47,5 +47,22 @@ The following decisions were flagged for human sign-off; defaults were applied t
 | **D16** | Within-concept order | **Lessons before exercises, enforced by queue** | Instructional lessons precede practice exercises within a concept, enforced by queue sequencing rather than heuristic score. |
 | **D17** | Oracle limit | **Node count integer (`oracle_node_limit`)** | Because `time`, `datetime`, and wall-clock modules are strictly prohibited in the deterministic core, search limits are bounded by branch-and-bound node expansions. |
 | **D18** | Day numbering | **Absolute integers from `current_day` to `deadline_day`** | Eliminates relative offset ambiguity; plan starts at `current_day` and terminates at or before absolute `deadline_day`. |
-| **D19** | Diagnostic comparison harness | **Moved to W6 (M8 evaluation)** | Report places comparative harness in Milestone M8; deferred from W4 to W6 alongside synthetic evaluation workloads. |
+
+---
+
+## 4. Spaced Review, Remediation & Replanning Decisions (D20 – D30) — Finalized for W5
+
+| # | Decision Topic | Decision Choice | Rationale & Verification |
+|---|---|---|---|
+| **D20** | Remediation trigger | **Event-driven: a response with `correct = False` leaves $p < \text{remediation\_threshold}$ ($0.40$)** | Replaces contradictory "two wrong answers" text; clean single-model trigger where a failed assessment or response drops mastery below remediation threshold (default $0.40$). |
+| **D21** | Remediation content | **Re-issue the concept's lesson before further exercises; clear flag when lesson completes** | Queues the concept's instructional lesson (repeat attempt) to restore prior belief before subsequent exercises; completing this lesson clears `needs_remediation`. |
+| **D22** | Concepts with `last_practice_day = None` | **Not review candidates; reviews begin after initial practice/lesson** | Spaced recall requires an anchor day; diagnostic probes do not set practice day, so review starts only once instructional or practice activity occurs. |
+| **D23** | Half-life decay baseline | **Fixed per-concept baseline ($h$); `half_life_growth = 1.0` ablation knob** | Retains deterministic baseline $r(t) = 2^{-\Delta t / h}$; half-life growth multiplier default 1.0 provides documented ablation knob. |
+| **D24** | Recall threshold | **`recall_threshold = 0.80` in config** | Spaced review item is triggered whenever projected recall $r(t) < 0.80$. |
+| **D25** | Review urgency | **$\text{urgency} = (1 - r) \cdot (1 + \text{descendant\_count})$** | Scales with forgetting depth and downstream bottleneck importance; $+1$ ensures leaf concepts maintain positive urgency. |
+| **D26** | Priority tier order | **Remediation $\to$ Reviews ($r < \text{threshold}$ by urgency) $\to$ New Lessons/Exercises** | Critical prerequisite remediation precedes retention reviews, which precede new curriculum advancement under the shared daily budget. |
+| **D27** | Review content | **Exercise chosen by difficulty policy; repeats allowed via attempt ID** | Exercises selected nearest target success $P_c \approx 0.75$; re-practicing previously completed exercises is permitted via unique attempt IDs. |
+| **D28** | `FAILED_ASSESSMENT` event | **Requires exercise `activity_id` and `correct = False` (or None); triggers state update & remediation check** | Fails with `ValidationError` if `correct = True`; updates posterior belief as a failed exercise attempt and triggers remediation check. |
+| **D29** | Deadline & budget derivation | **Derived pure function: initial context folded over log events; optional snapshot context** | Effective context is computed purely by folding `DEADLINE_CHANGED` and `BUDGET_CHANGED` events over initial `PlanContext`; snapshot stores optional `"context"` key. |
+| **D30** | Replanning after missed day | **Replan from next day; missed day contributes zero minutes** | A missed day records zero elapsed minutes; revised plan begins at $\text{missed\_day} + 1$, preserving all completed work without duplication. |
 

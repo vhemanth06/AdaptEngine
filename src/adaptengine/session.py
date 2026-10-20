@@ -1,9 +1,9 @@
 import json
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Optional
 from .core.errors import ValidationError, UnknownConceptError
-from .core.schema import Activity, ActivityType, Event, EventType
+from .core.schema import Activity, ActivityType, Event, EventType, PlanContext
 from .learner.state import LearnerState, LearnerConcept, ExecutionLog, ConceptStatus
 from .learner.mastery import update_mastery, learn, entropy
 from .core.config import DEFAULT_CONFIG, EngineConfig
@@ -59,15 +59,13 @@ def apply_response(
     else:
         new_day = old_c.last_practice_day
 
-    new_c = LearnerConcept(
-        concept_id=target,
+    new_c = replace(
+        old_c,
         p=new_p,
-        lessons_done=old_c.lessons_done,
         responses=new_responses,
         correct_responses=new_correct,
         status=ConceptStatus.ASSESSED,
         seen_attempt_ids=new_seen,
-        half_life_days=old_c.half_life_days,
         last_practice_day=new_day,
         n_reviews=old_c.n_reviews + 1,
     )
@@ -111,18 +109,15 @@ def apply_lesson(
     else:
         new_day = old_c.last_practice_day
 
-    # Lessons NEVER set status to ASSESSED
-    new_c = LearnerConcept(
-        concept_id=target,
+    # Lessons NEVER set status to ASSESSED; completing a lesson clears needs_remediation (D21)
+    new_c = replace(
+        old_c,
         p=new_p,
         lessons_done=new_lessons,
-        responses=old_c.responses,
-        correct_responses=old_c.correct_responses,
-        status=old_c.status,
         seen_attempt_ids=new_seen,
-        half_life_days=old_c.half_life_days,
         last_practice_day=new_day,
         n_reviews=old_c.n_reviews + 1,
+        needs_remediation=False,
     )
 
     new_concepts = dict(state.concepts)
@@ -169,6 +164,7 @@ def serialize_learner(state: LearnerState) -> dict:
                 "last_practice_day": c.last_practice_day,
                 "n_reviews": c.n_reviews,
                 "half_life_days": c.half_life_days,
+                "needs_remediation": c.needs_remediation,
             }
             for cid, c in state.concepts.items()
         },
@@ -198,6 +194,8 @@ def deserialize_learner(data: dict, concept_ids: tuple[str, ...]) -> LearnerStat
             raise ValidationError(f"Concept {cid} data must be an object")
 
         raw_p = cdata.get("p", cdata.get("mastery"))
+        if raw_p is None:
+            raw_p = DEFAULT_CONFIG.p0
         p_val = check_probability(raw_p, f"concept {cid} p")
 
         raw_status = cdata.get("status")
@@ -224,6 +222,7 @@ def deserialize_learner(data: dict, concept_ids: tuple[str, ...]) -> LearnerStat
             half_life_days=cdata.get("half_life_days") or 30.0,
             last_practice_day=cdata.get("last_practice_day"),
             n_reviews=cdata.get("n_reviews", 0),
+            needs_remediation=cdata.get("needs_remediation", False),
         )
 
     return LearnerState(concepts=concepts)
@@ -240,6 +239,7 @@ def serialize_log(log: ExecutionLog) -> dict:
                 "minutes_elapsed": e.minutes_elapsed,
                 "correct": e.correct,
                 "attempt_id": e.attempt_id,
+                "value": e.value,
             }
             for e in log.events
         ],
@@ -271,6 +271,7 @@ def deserialize_log(data: dict) -> ExecutionLog:
                 minutes_elapsed=edata.get("minutes_elapsed", 0),
                 correct=edata.get("correct"),
                 attempt_id=edata.get("attempt_id"),
+                value=edata.get("value"),
             )
         )
     return ExecutionLog(tuple(events))
@@ -299,22 +300,74 @@ def load_log(path: str) -> ExecutionLog:
     return deserialize_log(data)
 
 
-def save_snapshot(state: LearnerState, log: ExecutionLog, path: str):
-    """Write an atomic snapshot containing both learner state and execution log."""
+def save_snapshot(
+    state: LearnerState,
+    log: ExecutionLog,
+    path: str,
+    context: Optional[PlanContext] = None,
+):
+    """Write an atomic snapshot containing learner state, execution log, and optional context."""
     data = {
         "schema_version": 1,
         "state": serialize_learner(state),
         "log": serialize_log(log),
     }
+    if context is not None:
+        data["context"] = {
+            "goal": context.goal,
+            "deadline_day": context.deadline_day,
+            "budget": context.budget,
+            "current_day": context.current_day,
+        }
     _atomic_write_json(data, path)
 
 
-def load_snapshot(path: str, concept_ids: tuple[str, ...]) -> tuple[LearnerState, ExecutionLog]:
-    """Load an atomic snapshot containing both learner state and execution log."""
+def load_snapshot(
+    path: str, concept_ids: tuple[str, ...], include_context: bool = False
+) -> tuple[LearnerState, ExecutionLog] | tuple[LearnerState, ExecutionLog, Optional[PlanContext]]:
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
     if not isinstance(data, dict) or data.get("schema_version") != 1:
         raise ValidationError(f"Invalid snapshot format in {path}")
-    state = deserialize_learner(data["state"], concept_ids)
-    log = deserialize_log(data["log"])
+    state_data = data.get("state") or data.get("learner")
+    if state_data is None or not isinstance(state_data, dict):
+        raise ValidationError(f"Invalid snapshot format in {path}: missing 'state' or 'learner'")
+    if "schema_version" not in state_data:
+        state_data = dict(state_data)
+        state_data["schema_version"] = data["schema_version"]
+    state = deserialize_learner(state_data, concept_ids)
+
+    log_data = data.get("log")
+    if log_data is None or not isinstance(log_data, dict):
+        raise ValidationError(f"Invalid snapshot format in {path}: missing 'log'")
+    if "schema_version" not in log_data:
+        log_data = dict(log_data)
+        log_data["schema_version"] = data["schema_version"]
+    log = deserialize_log(log_data)
+    ctx = None
+    if "context" in data and isinstance(data["context"], dict):
+        cdata = data["context"]
+        ctx = PlanContext(
+            goal=cdata["goal"],
+            deadline_day=cdata["deadline_day"],
+            budget=cdata["budget"],
+            current_day=cdata.get("current_day", 1),
+        )
+    if include_context:
+        return state, log, ctx
     return state, log
+
+
+def load_snapshot_context(path: str) -> Optional[PlanContext]:
+    """Load optional plan context from an atomic snapshot file."""
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    if not isinstance(data, dict) or "context" not in data or not isinstance(data["context"], dict):
+        return None
+    cdata = data["context"]
+    return PlanContext(
+        goal=cdata["goal"],
+        deadline_day=cdata["deadline_day"],
+        budget=cdata["budget"],
+        current_day=cdata.get("current_day", 1),
+    )

@@ -27,6 +27,9 @@ This document provides a comprehensive reference and technical description for *
 20. [`planner/oracle.py` — Exact Bin-Packing Feasibility Oracle](#20-planneroraclepy--exact-bin-packing-feasibility-oracle)
 21. [`planner/plan.py` — Master Planning Orchestrator](#21-plannerplanpy--master-planning-orchestrator)
 22. [`scripts/run_w4.py` — Week 4 Standalone Acceptance Runner](#22-scriptsrun_w4py--week-4-standalone-acceptance-runner)
+23. [`review/forgetting.py` — Spaced Review & Memory Decay Model](#23-reviewforgettingpy--spaced-review--memory-decay-model)
+24. [`replanner/replan.py` — Dynamic Horizon Replanning](#24-replannerreplanpy--dynamic-horizon-replanning)
+25. [`scripts/run_w5.py` — Week 5 Standalone Acceptance Runner](#25-scriptsrun_w5py--week-5-standalone-acceptance-runner)
 
 ---
 
@@ -105,9 +108,12 @@ Immutable dataclass holding engine runtime parameters, bounds, and thresholds.
   - `w_review: float = 1.0` — Review urgency priority weight.
   - `w_unlock: float = 1.0` — Transitive concept unlock weight.
   - `w_fit: float = 1.0` — Difficulty-to-target fit weight.
+  - `recall_threshold: float = 0.80` — Forgetting recall threshold ($r < 0.80$ triggers review).
+  - `remediation_threshold: float = 0.40` — Post-failure mastery threshold ($p < 0.40$ triggers remediation flag and lesson).
+  - `half_life_growth: float = 1.0` — Multiplicative factor for memory half-life expansion on successful practice.
   - `allowed_budgets: tuple[int, ...] = (5, 10, 15, 30)` — Validated daily time budgets in minutes.
   - `oracle_node_limit: int = 1000` — Search node limit for the exact bin-packing feasibility oracle.
-- **`__post_init__(self)`:** Validates all parameters: $0 < d_{\min} < d_{\max} < 1$, $0 \le p_0 \le 1$, $0 < \theta \le 1$, $T \in [0, 1]$, positive caps, $k_{\text{responses}} \ge 1$, target success $\in (0, 1)$, non-empty allowed budgets, and positive oracle node limit. Raises `ValidationError` on bad config.
+- **`__post_init__(self)`:** Validates all parameters: $0 < d_{\min} < d_{\max} < 1$, $0 \le p_0 \le 1$, $0 < \theta \le 1$, $T \in [0, 1]$, positive caps, $k_{\text{responses}} \ge 1$, target success $\in (0, 1)$, thresholds in $(0, 1)$, positive half-life growth, non-empty allowed budgets, and positive oracle node limit. Raises `ValidationError` on bad config.
 
 ### `config_hash(cfg: EngineConfig) -> str`
 - **Parameters:** `cfg` (`EngineConfig`).
@@ -139,10 +145,13 @@ Dataclass representing a curriculum learning item.
 
 ### Class `Event`
 Dataclass representing an execution log entry.
-- **Fields:** `day: int`, `kind: EventType`, `activity_id: str | None = None`, `minutes_elapsed: int = 0`, `correct: bool | None = None`, `attempt_id: str | None = None`.
-- **`__post_init__(self)`:** Validates event invariants:
-  - `MISSED` events must have `minutes_elapsed == 0` and `activity_id is None`.
-  - `COMPLETED` events must have positive `minutes_elapsed`, a non-empty `activity_id`, and strict boolean `correct`.
+- **Fields:** `day: int`, `kind: EventType`, `activity_id: str | None = None`, `minutes_elapsed: int = 0`, `correct: bool | None = None`, `attempt_id: str | None = None`, `value: int | None = None`.
+- **`__post_init__(self)`:** Validates event invariants per kind:
+  - `MISSED`: `minutes_elapsed == 0`, `activity_id is None`, `correct is None`.
+  - `COMPLETED`: positive `minutes_elapsed`, non-empty `activity_id`, strict boolean `correct`.
+  - `FAILED_ASSESSMENT`: non-empty `activity_id`, `correct` is `False` or `None`.
+  - `DEADLINE_CHANGED`: `activity_id is None`, non-negative integer `value` representing new deadline day.
+  - `BUDGET_CHANGED`: `activity_id is None`, positive integer `value` in `allowed_budgets` (5, 10, 15, 30).
 
 ### Class `PlanContext`
 Dataclass representing the planning parameters and constraints.
@@ -279,7 +288,7 @@ Wrapper around the third-party `pyBKT` library (imported only here).
 
 ### Class `LearnerConcept`
 Immutable dataclass representing mastery and evidence state for a single concept.
-- **Fields:** `concept_id: str`, `p: float`, `lessons_done: int`, `responses: int`, `correct_responses: int`, `status: ConceptStatus`, `seen_attempt_ids: frozenset[str]`, `half_life_days: float`, `last_practice_day: int`.
+- **Fields:** `concept_id: str`, `p: float`, `lessons_done: int`, `responses: int`, `correct_responses: int`, `status: ConceptStatus`, `seen_attempt_ids: frozenset[str]`, `half_life_days: float`, `last_practice_day: int`, `needs_remediation: bool = False`.
 - **Properties:**
   - `mastery -> float`: Alias for belief probability $p$.
   - `uncertainty -> float`: Shannon entropy $H(p)$.
@@ -355,12 +364,12 @@ Record returned from session actions: `(concept_id, p_before, p_after, uncertain
 
 ### Atomic Persistence Functions
 - **`_atomic_write_json(data: dict | list, path: str) -> None`:** Writes JSON to `<path>.<pid>.tmp`, calls `flush()` and `os.fsync()`, then atomically renames via `os.replace()`.
-- **`save_snapshot(state: LearnerState, log: ExecutionLog, path: str) -> None`:** Saves a combined `{schema_version, learner, log}` document atomically.
-- **`load_snapshot(path: str, concept_ids: Iterable[str]) -> tuple[LearnerState, ExecutionLog]`:** Deserializes a combined snapshot document.
+- **`save_snapshot(state: LearnerState, log: ExecutionLog, path: str, context: Optional[PlanContext] = None) -> None`:** Saves a combined `{schema_version, learner, log, context}` document atomically.
+- **`load_snapshot(path: str, concept_ids: Iterable[str]) -> tuple[LearnerState, ExecutionLog, Optional[PlanContext]]`:** Deserializes a combined snapshot document.
 - **`save_learner` / `load_learner`:** Saves/loads standalone learner state.
 - **`save_log` / `load_log`:** Saves/loads standalone event log.
-- **`serialize_learner` / `deserialize_learner`:** Pure dictionary serialization/deserialization for learner state.
-- **`serialize_log` / `deserialize_log`:** Pure dictionary serialization/deserialization for execution log.
+- **`serialize_learner` / `deserialize_learner`:** Pure dictionary serialization/deserialization for learner state (including `needs_remediation`).
+- **`serialize_log` / `deserialize_log`:** Pure dictionary serialization/deserialization for execution log (including `value`).
 
 ---
 
@@ -372,8 +381,9 @@ The central facade for AdaptEngine, acting as the single mutation boundary.
 - **`from_files(cls, curriculum_path: str, activities_path: str, manifest_path: str | None = None, config: EngineConfig = DEFAULT_CONFIG, allow_unreviewed: bool = False) -> Engine`:** Factory constructing a validated engine instance from JSON files with review gate validation.
 - **`init_learner(self) -> LearnerState`:** Generates cold-start learner state for all concepts in the curriculum DAG.
 - **`diagnose(self, state: LearnerState, response_provider: Callable[[Activity], bool], goal_concepts: Sequence[str] | None = None, model: MasteryModel | None = None) -> DiagnosticResult`:** Executes an adaptive diagnostic session.
-- **`record(self, state: LearnerState, log: ExecutionLog, event: Event) -> tuple[LearnerState, ExecutionLog]`:** Single mutation boundary: records an event, evaluates Bayesian mastery updates, and returns the updated immutable state and log tuple.
+- **`record(self, state: LearnerState, log: ExecutionLog, event: Event) -> tuple[LearnerState, ExecutionLog]`:** Single mutation boundary: records an event, evaluates Bayesian mastery updates, sets/clears remediation flags, deduplicates attempts by `attempt_id`, and returns the updated immutable state and log tuple. Supports all 5 event types (`COMPLETED`, `MISSED`, `FAILED_ASSESSMENT`, `DEADLINE_CHANGED`, `BUDGET_CHANGED`).
 - **`plan(self, state: LearnerState, ctx: PlanContext, *, done_ids: set[str] | None = None, review_urgency: dict[str, float] | None = None, model: MasteryModel | None = None) -> Plan`:** Generates a deterministic, time-budgeted study plan toward `ctx.goal` within `ctx.budget` minutes per day by `ctx.deadline_day`.
+- **`replan(self, state: LearnerState, log: ExecutionLog, initial_ctx: PlanContext, model: MasteryModel | None = None) -> Plan`:** Pure replanning from event log and snapshot: computes effective context folding `DEADLINE_CHANGED` and `BUDGET_CHANGED`, starts from next available day, excludes completed activities, and returns the revised plan or infeasible proof.
 
 ---
 
@@ -387,6 +397,7 @@ The central facade for AdaptEngine, acting as the single mutation boundary.
   - `init-learner`: Generates initial learner JSON.
   - `update`: Records an activity completion event and persists updated state.
   - `plan`: Computes a deterministic study plan toward a target goal concept within a daily budget and deadline. Supports `--json` flag to emit full machine-readable decision traces.
+  - `replan`: Dynamic horizon replanning after deviations or constraint updates. Loads state and log from snapshot or individual files, derives effective context, and generates revised plan. Supports `--json` flag.
 
 ---
 
@@ -491,6 +502,11 @@ Dataclass holding the greedy schedule output:
   3. Runs greedy scheduler. If schedule completes within `deadline_day`, returns `FEASIBLE`.
   4. If greedy scheduler exceeds deadline, invokes exact `solve_oracle`. If oracle finds a schedule, returns `FEASIBLE`; if oracle disproves, returns `INFEASIBLE`; if node limit is reached, returns `UNKNOWN`.
 
+### `serialize_plan(plan: Plan, cfg: EngineConfig = DEFAULT_CONFIG) -> dict[str, Any]`
+- **Parameters:** `plan` (`Plan`), `cfg` (`EngineConfig`).
+- **Returns:** JSON-serializable dictionary with primitives only.
+- **Description:** Serializes a generated `Plan` to primitive types for JSON export (`--json`), embedding the active configuration's SHA-256 hash (`config_hash`), status, shortfall days, options, schedule days, and full decision traces.
+
 ---
 
 ## 22. `scripts/run_w4.py` — Week 4 Standalone Acceptance Runner
@@ -516,3 +532,69 @@ Executes complete Week 4 verification pipeline:
    - TC2.3 Two learners with identical goal/budget receiving different valid plans.
    - 8-node curriculum planning verification.
 6. Outputs auditable evidence package in `runs/w4/<timestamp>/`.
+
+---
+
+## 23. `review/forgetting.py` — Spaced Review & Memory Decay Model
+
+### `recall(concept: LearnerConcept, current_day: int) -> float`
+- **Parameters:** `concept` (`LearnerConcept`), `current_day` (integer target evaluation day).
+- **Returns:** Predicted recall probability float $r \in [0.0, 1.0]$.
+- **Description:** Evaluates exponential memory retention curve $r = 2^{-\Delta t / h}$, where $\Delta t = \max(0, \text{current\_day} - \text{last\_practice\_day})$ and $h$ is `concept.half_life_days`. If `last_practice_day` is `None` (unpracticed), returns $1.0$ (not a review candidate).
+
+### `is_review_due(concept: LearnerConcept, current_day: int, cfg: EngineConfig = DEFAULT_CONFIG) -> bool`
+- **Parameters:** `concept` (`LearnerConcept`), `current_day` (integer day), `cfg` (`EngineConfig`).
+- **Returns:** Boolean `True` if `recall(concept, current_day) < cfg.recall_threshold` and `last_practice_day is not None`.
+
+### `review_urgency(concept: LearnerConcept, current_day: int, descendant_count: int, cfg: EngineConfig = DEFAULT_CONFIG) -> float`
+- **Parameters:** `concept` (`LearnerConcept`), `current_day` (integer day), `descendant_count` (number of transitive dependent concepts in DAG), `cfg` (`EngineConfig`).
+- **Returns:** Continuous urgency score float $\ge 0.0$.
+- **Description:** Computes review priority $U = (1.0 - r) \cdot (1.0 + \text{descendant\_count})$. The $+1.0$ ensures leaf concepts have positive urgency when decaying, while concepts unlocking downstream prerequisites receive higher priority. Returns $0.0$ if review is not due.
+
+### `compute_review_urgencies(state: LearnerState, graph: CurriculumGraph, current_day: int, cfg: EngineConfig = DEFAULT_CONFIG) -> dict[str, float]`
+- **Parameters:** `state` (`LearnerState`), `graph` (`CurriculumGraph`), `current_day` (integer day), `cfg` (`EngineConfig`).
+- **Returns:** Dictionary mapping `concept_id -> urgency` for concepts where review is due.
+
+---
+
+## 24. `replanner/replan.py` — Dynamic Horizon Replanning
+
+### `compute_effective_context(log: ExecutionLog, initial_ctx: PlanContext) -> tuple[PlanContext, int]`
+- **Parameters:** `log` (`ExecutionLog`), `initial_ctx` (`PlanContext`).
+- **Returns:** Tuple of `(effective_context, next_day)`.
+- **Description:** Pure function folding initial plan context over execution log events:
+  - Updates deadline on `DEADLINE_CHANGED` events.
+  - Updates daily budget on `BUDGET_CHANGED` events.
+  - Advances starting day to $\max(\text{initial\_day}, \text{latest\_event\_day} + 1)$ if any events occurred.
+
+### `replan(graph: CurriculumGraph, activities: Iterable[Activity], state: LearnerState, log: ExecutionLog, initial_ctx: PlanContext, model: MasteryModel | None = None, cfg: EngineConfig = DEFAULT_CONFIG) -> Plan`
+- **Parameters:** `graph` (`CurriculumGraph`), `activities` (curriculum activities), `state` (`LearnerState`), `log` (`ExecutionLog`), `initial_ctx` (`PlanContext`), `model` (optional `MasteryModel`), `cfg` (`EngineConfig`).
+- **Returns:** Revised `Plan` (or `INFEASIBLE` proof).
+- **Description:** Orchestrates pure horizon replanning:
+  1. Computes effective context from event log (folding deadline and budget changes).
+  2. Sets `done_ids = log.completed_ids()` ensuring already-completed activities are not repeated.
+  3. Appends `REPLAN_PRESERVED_COMPLETED` trace records for completed items.
+  4. Calls `plan(...)` over the remaining horizon.
+
+---
+
+## 25. `scripts/run_w5.py` — Week 5 Standalone Acceptance Runner
+
+### `main() -> None`
+Executes complete Week 5 verification pipeline:
+1. Environment and code identity recording (`code_sha.txt`, `config_hash.txt`, `environment.txt`).
+2. Ruff linting and formatting validation.
+3. Architecture and layering test suite (`tests/test_architecture.py`).
+4. Pytest test suite with statement coverage threshold ($\ge 84.0\%$).
+5. Verification of all W5 scenarios:
+   - TC5.1 Mastered concept omitted from new learning; trace cites evidence and $p$.
+   - TC5.2 Failed exercise drops $p < 0.40$; `needs_remediation` set; repeat lesson scheduled first; cleared on completion.
+   - TC5.3 Spaced review due to memory decay scheduled before new unmastered content under daily budget.
+   - TC6.1 Missed day replan starts day after; completed activities preserved without loss or duplication.
+   - TC6.2 Failed assessment recorded as failed response; triggers remediation flag and revised plan with repeat lesson.
+   - TC6.3 Deadline changes: tightened deadline returns `INFEASIBLE` proof with shortfall; extended deadline returns valid `FEASIBLE` plan.
+   - TC6.4 Budget change: increased budget ($B=30$) completes remaining workload in 1 day within budget limit.
+   - TC7.1 Full traceability: every decision has machine-readable reason, state, and score components; pure `serialize_plan` validated.
+   - CLI replan: command-line `adaptengine replan` executed from snapshot with text and `--json` outputs.
+6. Outputs auditable evidence package in `runs/w5/<timestamp>/`.
+

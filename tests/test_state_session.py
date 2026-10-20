@@ -1,6 +1,12 @@
 import pytest
 from unittest.mock import patch
-from adaptengine.learner.state import initial_state, ExecutionLog, ConceptStatus
+from adaptengine.learner.state import (
+    initial_state,
+    ExecutionLog,
+    ConceptStatus,
+    LearnerConcept,
+    LearnerState,
+)
 from adaptengine.session import (
     apply_response,
     apply_lesson,
@@ -11,7 +17,7 @@ from adaptengine.session import (
     save_snapshot,
     load_snapshot,
 )
-from adaptengine.core.schema import Activity, ActivityType, Event, EventType
+from adaptengine.core.schema import Activity, ActivityType, Event, EventType, Concept
 from adaptengine.core.errors import ValidationError
 
 
@@ -117,3 +123,64 @@ def test_snapshot_roundtrip_and_atomic_failure(tmp_path):
     assert open(snap_path, "r", encoding="utf-8").read() == original_content
     # Verify no .tmp file left behind
     assert not (tmp_path / "snapshot.json.tmp").exists()
+
+
+def test_field_survival(tmp_path):
+    from adaptengine.core.schema import Activity, ActivityType, PlanContext
+    from adaptengine.session import apply_response, apply_lesson, load_snapshot_context
+    from adaptengine.diagnostic import AdaptiveDiagnostic
+    from adaptengine.curriculum.graph import CurriculumGraph
+
+    # Start with custom field values
+    c1 = LearnerConcept(
+        concept_id="C1",
+        p=0.35,
+        half_life_days=14.0,
+        last_practice_day=3,
+        needs_remediation=True,
+    )
+    state = LearnerState(concepts={"C1": c1})
+
+    act_ex = Activity(
+        activity_id="E-C1",
+        type=ActivityType.EXERCISE,
+        target_concept="C1",
+        duration=2,
+        difficulty=0.5,
+    )
+    act_les = Activity(
+        activity_id="L-C1", type=ActivityType.LESSON, target_concept="C1", duration=4
+    )
+
+    # 1. apply_response preserves needs_remediation and half_life_days
+    s_resp, _ = apply_response(state, act_ex, True)
+    assert s_resp.concepts["C1"].half_life_days == 14.0
+    assert s_resp.concepts["C1"].needs_remediation is True
+
+    # 2. apply_lesson clears needs_remediation (D21) and preserves half_life_days
+    s_les, _ = apply_lesson(state, act_les)
+    assert s_les.concepts["C1"].half_life_days == 14.0
+    assert s_les.concepts["C1"].needs_remediation is False
+
+    # 3. Diagnostic preserves needs_remediation and half_life_days
+    graph = CurriculumGraph.from_concepts((Concept("C1"),))
+    diag = AdaptiveDiagnostic(graph, {"E-C1": act_ex})
+    diag_res = diag.run(state, response_provider=lambda a: True)
+    assert diag_res.state.concepts["C1"].half_life_days == 14.0
+    assert diag_res.state.concepts["C1"].needs_remediation is True
+
+    # 4. Snapshot with context roundtrip
+    ctx = PlanContext(goal="C1", deadline_day=10, budget=15, current_day=2)
+    snap_p = str(tmp_path / "snap_ctx.json")
+    save_snapshot(state, ExecutionLog(), snap_p, context=ctx)
+
+    s_back, l_back, ctx_back = load_snapshot(snap_p, ("C1",), include_context=True)
+    assert ctx_back == ctx
+    assert load_snapshot_context(snap_p) == ctx
+
+    # Old snapshot without context loads fine (context=None)
+    snap_old = str(tmp_path / "snap_old.json")
+    save_snapshot(state, ExecutionLog(), snap_old)
+    s_old, l_old, ctx_old = load_snapshot(snap_old, ("C1",), include_context=True)
+    assert ctx_old is None
+    assert load_snapshot_context(snap_old) is None

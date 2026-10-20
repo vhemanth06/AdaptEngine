@@ -3,13 +3,16 @@ PYTHON = $(if $(wildcard $(VENV)/bin/python),$(VENV)/bin/python,python3)
 PYTEST = $(if $(wildcard $(VENV)/bin/pytest),$(VENV)/bin/pytest,pytest)
 RUFF = $(if $(wildcard $(VENV)/bin/ruff),$(VENV)/bin/ruff,ruff)
 
-.PHONY: w3 w4 test lint format check
+.PHONY: w3 w4 w5 test lint format check
 
 w3:
 	$(PYTHON) scripts/run_w3.py
 
 w4:
 	$(PYTHON) scripts/run_w4.py
+
+w5:
+	$(PYTHON) scripts/run_w5.py
 
 
 test:

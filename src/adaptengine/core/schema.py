@@ -91,6 +91,7 @@ class Event:
     minutes_elapsed: int = 0
     correct: Optional[bool] = None
     attempt_id: Optional[str] = None
+    value: Optional[int] = None
 
     def __post_init__(self):
         check_non_negative_int(self.day, "day")
@@ -112,13 +113,68 @@ class Event:
         if self.activity_id is not None:
             check_valid_id(self.activity_id, "activity_id")
 
-        if self.kind == EventType.MISSED:
-            if self.minutes_elapsed != 0 or self.activity_id is not None:
-                raise ValidationError("MISSED event must have minutes_elapsed=0 and no activity_id")
+        if self.value is not None:
+            if not isinstance(self.value, int) or isinstance(self.value, bool):
+                raise ValidationError(f"value must be an integer, got {type(self.value).__name__}")
 
-        if self.kind == EventType.COMPLETED:
+        if self.kind == EventType.MISSED:
+            if (
+                self.minutes_elapsed != 0
+                or self.activity_id is not None
+                or self.correct is not None
+                or self.value is not None
+            ):
+                raise ValidationError(
+                    "MISSED event must have minutes_elapsed=0, no activity_id, no correct, and no value"
+                )
+
+        elif self.kind == EventType.COMPLETED:
             if self.activity_id is None:
                 raise ValidationError("COMPLETED event must have activity_id")
+            if self.value is not None:
+                raise ValidationError("COMPLETED event must not have value")
+
+        elif self.kind == EventType.FAILED_ASSESSMENT:
+            if self.activity_id is None:
+                raise ValidationError("FAILED_ASSESSMENT event must have activity_id")
+            if self.correct is True:
+                raise ValidationError("FAILED_ASSESSMENT event cannot have correct=True")
+            if self.value is not None:
+                raise ValidationError("FAILED_ASSESSMENT event must not have value")
+
+        elif self.kind == EventType.DEADLINE_CHANGED:
+            if self.value is None:
+                raise ValidationError("DEADLINE_CHANGED event requires value")
+            check_non_negative_int(self.value, "deadline value")
+            if self.value < self.day:
+                raise ValidationError(
+                    f"DEADLINE_CHANGED deadline ({self.value}) cannot be before event day ({self.day})"
+                )
+            if (
+                self.activity_id is not None
+                or self.correct is not None
+                or self.minutes_elapsed != 0
+            ):
+                raise ValidationError(
+                    "DEADLINE_CHANGED event must not have activity_id, correct, or minutes_elapsed != 0"
+                )
+
+        elif self.kind == EventType.BUDGET_CHANGED:
+            if self.value is None:
+                raise ValidationError("BUDGET_CHANGED event requires value")
+            check_positive_int(self.value, "budget value")
+            if self.value not in (5, 10, 15, 30):
+                raise ValidationError(
+                    f"BUDGET_CHANGED value must be one of (5, 10, 15, 30), got {self.value}"
+                )
+            if (
+                self.activity_id is not None
+                or self.correct is not None
+                or self.minutes_elapsed != 0
+            ):
+                raise ValidationError(
+                    "BUDGET_CHANGED event must not have activity_id, correct, or minutes_elapsed != 0"
+                )
 
 
 class PlanStatus(str, Enum):

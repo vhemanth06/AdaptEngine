@@ -56,9 +56,11 @@ def test_layering_and_dependency_rules():
         "learner": 2,
         "diagnostic": 3,
         "planner": 3,
-        "session": 4,
-        "api": 4,
-        "cli": 5,
+        "review": 3,
+        "replanner": 4,
+        "session": 5,
+        "api": 5,
+        "cli": 6,
     }
 
     for root, _, files in os.walk(src_dir):

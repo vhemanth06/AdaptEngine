@@ -17,13 +17,13 @@ This document tracks all 23 verification scenarios (TC1.1 through TC8.2) across 
 | **TC3.6** | M3 | Search node limit returns `UNKNOWN`, never a false infeasible | **W4** | `tests/test_planner.py::test_tc3_6_oracle_node_limit_returns_unknown` | **Verified** |
 | **TC4.1** | M4 | Wrong answer at low mastery: `0.1707` posterior / `0.2122` after $T=0.05$; adapter matches oracle | W2–**W3** | `tests/test_mastery.py::test_update_values`, `tests/test_adapter.py::test_custom_bkt_reference_parity`, `tests/test_adapter.py::test_adapter_oracle_parity_at_representative_difficulties` | **Verified** |
 | **TC4.2** | M4 | Next exercise nearest target success probability ($P_c \approx 0.75$) with D10 tie-break | W3–**W4** | `tests/test_diagnostic.py::test_tie_breaking_d10`, `tests/test_planner.py::test_tc4_2_difficulty_policy_target_success_and_tie_breaking`, `tests/test_planner.py::test_tc4_2_difficulty_policy_unreachable_target` | **Verified** |
-| **TC5.1** | M5 | Mastered concept omitted from new learning, trace cites evidence | W5 | *Deferred (Milestone M5 - Target Week 5)* | Deferred |
-| **TC5.2** | M5 | Concept with $p < 0.40$ triggers remediation insertion | W5 | `tests/test_diagnostic.py::test_descendant_skipping_on_low_mastery` (diagnostic skip implemented; planner remediation target W5) | **Partial (Diag W3 / Plan W5)** |
-| **TC5.3** | M5 | High-urgency review beats lower-urgency new content under shared budget | W5 | *Deferred (Milestone M5 - Target Week 5)* | Deferred |
-| **TC6.1** | M6 | Missed day triggers valid replan without lost or duplicated work | W5 | *Deferred (Milestone M6 - Target Week 5)* | Deferred |
-| **TC6.2** | M6 | Failed assessment updates state and triggers valid replan | W5 | *Deferred (Milestone M6 - Target Week 5)* | Deferred |
-| **TC6.3** | M6 | Deadline change triggers valid replan or `INFEASIBLE` | W5 | *Deferred (Milestone M6 - Target Week 5)* | Deferred |
-| **TC6.4** | M6 | Daily budget change triggers valid replan | W5 | *Deferred (Milestone M6 - Target Week 5)* | Deferred |
-| **TC7.1** | M7 | Every decision traceable to state, applied constraints, and score components | W5–W6 | *Deferred (Milestone M7 - Target Week 6)* | Deferred |
+| **TC5.1** | M5 | Mastered concept omitted from new learning, trace cites evidence | **W5** | `tests/test_w5.py::test_tc5_1_mastered_concept_omitted_from_new_learning` | **Verified** |
+| **TC5.2** | M5 | Concept with $p < 0.40$ triggers remediation insertion | **W5** | `tests/test_w5.py::test_tc5_2_failed_exercise_remediation_flag_and_lesson`, `tests/test_diagnostic.py::test_descendant_skipping_on_low_mastery` | **Verified** |
+| **TC5.3** | M5 | High-urgency review beats lower-urgency new content under shared budget | **W5** | `tests/test_w5.py::test_tc5_3_high_urgency_review_scheduled_before_new_content`, `tests/test_review.py` | **Verified** |
+| **TC6.1** | M6 | Missed day triggers valid replan without lost or duplicated work | **W5** | `tests/test_w5.py::test_tc6_1_missed_day_replan_no_loss_or_duplication` | **Verified** |
+| **TC6.2** | M6 | Failed assessment updates state and triggers valid replan | **W5** | `tests/test_w5.py::test_tc6_2_failed_assessment_replan_with_remediation` | **Verified** |
+| **TC6.3** | M6 | Deadline change triggers valid replan or `INFEASIBLE` | **W5** | `tests/test_w5.py::test_tc6_3_deadline_change_replan` | **Verified** |
+| **TC6.4** | M6 | Daily budget change triggers valid replan | **W5** | `tests/test_w5.py::test_tc6_4_budget_change_replan` | **Verified** |
+| **TC7.1** | M7 | Every decision traceable to state, applied constraints, and score components | **W5** | `tests/test_w5.py::test_tc7_1_comprehensive_traceability_and_serialization` | **Verified** |
 | **TC8.1** | M8 | Identical random seeds and configuration produce bitwise identical raw results | W6 | `tests/test_diagnostic.py::test_deterministic_identical_runs` (deterministic diagnostic verified; simulator target W6) | **Partial (Diag W3 / Sim W6)** |
 | **TC8.2** | M8 | Frontier vs full replanning produces identical decisions with runtime latency measured | W6–W7 | *Deferred (Milestone M8 - Target Week 6)* | Deferred |

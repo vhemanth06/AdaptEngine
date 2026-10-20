@@ -31,6 +31,10 @@ class EngineConfig:
     w_fit: float = 1.0
     allowed_budgets: tuple[int, ...] = (5, 10, 15, 30)
     oracle_node_limit: int = 1000
+    # M5/M6 Review & Remediation settings
+    recall_threshold: float = 0.80
+    remediation_threshold: float = 0.40
+    half_life_growth: float = 1.0
 
     def __post_init__(self):
         if not (0.0 < self.d_min < self.d_max < 1.0):
@@ -98,6 +102,21 @@ class EngineConfig:
         ):
             raise ValidationError(
                 f"oracle_node_limit must be integer >= 1, got {self.oracle_node_limit}"
+            )
+
+        if not (0.0 < self.recall_threshold <= 1.0) or not math.isfinite(self.recall_threshold):
+            raise ValidationError(
+                f"recall_threshold must be in (0, 1], got {self.recall_threshold}"
+            )
+        if not (0.0 < self.remediation_threshold <= 1.0) or not math.isfinite(
+            self.remediation_threshold
+        ):
+            raise ValidationError(
+                f"remediation_threshold must be in (0, 1], got {self.remediation_threshold}"
+            )
+        if not (0.0 < self.half_life_growth <= 10.0) or not math.isfinite(self.half_life_growth):
+            raise ValidationError(
+                f"half_life_growth must be finite in (0, 10], got {self.half_life_growth}"
             )
 
 

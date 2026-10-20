@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "context": {
+    "goal": "C4",
+    "deadline_day": 15,
+    "budget": 10,
+    "current_day": 1
+  },
+  "learner": {
+    "concepts": {
+      "C1": { "concept_id": "C1", "p": 0.85, "lessons_done": 1, "responses": 2, "correct_responses": 2, "status": "ASSESSED", "last_practice_day": 1 },
+      "C2": { "concept_id": "C2" },
+      "C3": { "concept_id": "C3" },
+      "C4": { "concept_id": "C4" }
+    }
+  },
+  "log": {
+    "events": [
+      { "day": 1, "kind": "COMPLETED", "activity_id": "L-C1", "minutes_elapsed": 4, "correct": true },
+      { "day": 1, "kind": "COMPLETED", "activity_id": "E-C1-0.2", "minutes_elapsed": 1, "correct": true },
+      { "day": 2, "kind": "MISSED", "minutes_elapsed": 0 }
+    ]
+  }
+}

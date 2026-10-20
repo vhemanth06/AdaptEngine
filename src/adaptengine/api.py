@@ -1,4 +1,5 @@
 from typing import Mapping
+from dataclasses import replace
 from .core.config import EngineConfig, DEFAULT_CONFIG
 from .core.schema import Event, EventType, ActivityType, Activity, Plan, PlanContext
 from .curriculum.loader import load_curriculum, load_activities
@@ -71,6 +72,28 @@ class Engine:
             cfg=self.config,
         )
 
+    def replan(
+        self,
+        state: LearnerState,
+        log: ExecutionLog,
+        ctx: PlanContext,
+        *,
+        review_urgency=None,
+        model=None,
+    ) -> Plan:
+        from .replanner import replan as run_replan
+
+        return run_replan(
+            self.graph,
+            self.activities,
+            state,
+            log,
+            ctx,
+            review_urgency=review_urgency,
+            model=model,
+            cfg=self.config,
+        )
+
     def record(
         self, state: LearnerState, log: ExecutionLog, event: Event
     ) -> tuple[LearnerState, ExecutionLog]:
@@ -90,17 +113,64 @@ class Engine:
                 minutes_elapsed=event.minutes_elapsed,
                 correct=event.correct,
                 attempt_id=attempt_id,
+                value=event.value,
             )
+
+        # Log-level duplicate attempt_id check (Finding 7)
+        if any(e.attempt_id == attempt_id for e in log.events):
+            return state, log
 
         if event.kind == EventType.MISSED:
             return state, log.append(event)
 
-        if event.kind in (
-            EventType.FAILED_ASSESSMENT,
-            EventType.DEADLINE_CHANGED,
-            EventType.BUDGET_CHANGED,
-        ):
-            raise ValidationError(f"{event.kind.value} is not supported until Week 5")
+        if event.kind == EventType.DEADLINE_CHANGED:
+            return state, log.append(event)
+
+        if event.kind == EventType.BUDGET_CHANGED:
+            if event.value not in self.config.allowed_budgets:
+                raise ValidationError(
+                    f"BUDGET_CHANGED value {event.value} not in allowed_budgets {self.config.allowed_budgets}"
+                )
+            return state, log.append(event)
+
+        if event.kind == EventType.FAILED_ASSESSMENT:
+            if event.activity_id not in self.activities:
+                raise UnknownConceptError(f"Unknown activity {event.activity_id}")
+            activity = self.activities[event.activity_id]
+            if activity.type != ActivityType.EXERCISE:
+                raise ValidationError("FAILED_ASSESSMENT requires an EXERCISE activity")
+            target = activity.target_concept
+
+            if target in state.concepts and attempt_id in state.concepts[target].seen_attempt_ids:
+                return state, log
+
+            # Applied as a failed response (D28)
+            new_state, _ = apply_response(
+                state,
+                activity,
+                False,
+                self.config,
+                day=event.day,
+                attempt_id=attempt_id,
+            )
+            # Forced remediation check (D20, D28)
+            target_c = new_state.concepts[target]
+            if target_c.p < self.config.remediation_threshold:
+                new_c = replace(target_c, needs_remediation=True)
+                new_state = LearnerState(concepts={**new_state.concepts, target: new_c})
+
+            # Ensure event in log has correct=False
+            if event.correct is None:
+                event = Event(
+                    day=event.day,
+                    kind=event.kind,
+                    activity_id=event.activity_id,
+                    minutes_elapsed=event.minutes_elapsed,
+                    correct=False,
+                    attempt_id=attempt_id,
+                    value=event.value,
+                )
+            return new_state, log.append(event)
 
         if event.kind == EventType.COMPLETED:
             if event.activity_id not in self.activities:
@@ -123,6 +193,13 @@ class Engine:
                     day=event.day,
                     attempt_id=attempt_id,
                 )
+                # Remediation check if incorrect response leaves p < remediation_threshold (D20)
+                if event.correct is False:
+                    target_c = new_state.concepts[target]
+                    if target_c.p < self.config.remediation_threshold:
+                        new_c = replace(target_c, needs_remediation=True)
+                        new_state = LearnerState(concepts={**new_state.concepts, target: new_c})
+
                 return new_state, log.append(event)
             elif activity.type == ActivityType.LESSON:
                 if event.correct is not None:

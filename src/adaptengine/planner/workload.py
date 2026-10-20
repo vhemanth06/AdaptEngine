@@ -53,7 +53,7 @@ def compute_workload(
                 {
                     "decision": "OMITTED",
                     "concept_id": c,
-                    "reason": "EVIDENCE_MASTERED",
+                    "reason": "ALREADY_EVIDENCE_MASTERED",
                     "p": c_state.p,
                     "responses": c_state.responses,
                 }
@@ -70,7 +70,6 @@ def compute_workload(
         responses = c_state.responses
         concept_workload: list[Activity] = []
 
-        # 1. Unfinished lessons in deterministic order
         c_lessons = sorted(
             [
                 a
@@ -79,8 +78,25 @@ def compute_workload(
             ],
             key=lambda a: a.activity_id,
         )
+
+        # 0. Remediation repeat lesson if flagged (D20, D21, T4)
+        if c_state.needs_remediation and c_lessons:
+            rem_lesson = c_lessons[0]
+            concept_workload.append(rem_lesson)
+            p = learn(p, cfg.t_lesson)
+            trace.append(
+                {
+                    "decision": "INSERTED",
+                    "concept_id": c,
+                    "activity_id": rem_lesson.activity_id,
+                    "reason": "REMEDIATION_INSERTED",
+                    "p": c_state.p,
+                }
+            )
+
+        # 1. Unfinished lessons in deterministic order
         for lesson in c_lessons:
-            if lesson.activity_id not in done_set:
+            if lesson.activity_id not in done_set and lesson not in concept_workload:
                 concept_workload.append(lesson)
                 p = learn(p, cfg.t_lesson)
 

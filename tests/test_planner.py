@@ -294,13 +294,13 @@ def test_two_learners_different_valid_plans_tc23(engine):
     omitted_c1 = any(
         t.get("decision") == "OMITTED"
         and t.get("concept_id") == "C1"
-        and t.get("reason") == "EVIDENCE_MASTERED"
+        and t.get("reason") in ("ALREADY_EVIDENCE_MASTERED", "EVIDENCE_MASTERED")
         for t in plan_b.trace
     )
     omitted_c2 = any(
         t.get("decision") == "OMITTED"
         and t.get("concept_id") == "C2"
-        and t.get("reason") == "EVIDENCE_MASTERED"
+        and t.get("reason") in ("ALREADY_EVIDENCE_MASTERED", "EVIDENCE_MASTERED")
         for t in plan_b.trace
     )
     assert omitted_c1
