@@ -160,8 +160,10 @@ Dataclass representing the planning parameters and constraints.
 
 ### Class `PlanDay`
 Dataclass representing a scheduled day in a plan.
-- **Fields:** `day: int`, `activity_ids: tuple[str, ...]`, `minutes_used: int`.
-- **`__post_init__(self)`:** Enforces non-negative day, tuple of valid activity IDs, and non-negative minutes used.
+- **Fields:** `day: int`, `activities: tuple[str, ...] = ()`, `duration: int = 0`.
+- **`__post_init__(self)`:** Enforces positive day, tuple of valid activity IDs, and non-negative duration minutes.
+- **Properties:**
+  - `activity_ids -> tuple[str, ...]`: Alias for `activities`.
 
 ### Class `Plan`
 Dataclass representing the complete generated study plan.
@@ -394,10 +396,20 @@ The central facade for AdaptEngine, acting as the single mutation boundary.
 - **Description:** Entry point for the CLI. Parses arguments and executes subcommands:
   - `validate`: Checks curriculum and activities against schema and review manifest.
   - `show`: Prints topological order and DAG structure.
-  - `init-learner`: Generates initial learner JSON.
-  - `update`: Records an activity completion event and persists updated state.
-  - `plan`: Computes a deterministic study plan toward a target goal concept within a daily budget and deadline. Supports `--json` flag to emit full machine-readable decision traces.
-  - `replan`: Dynamic horizon replanning after deviations or constraint updates. Loads state and log from snapshot or individual files, derives effective context, and generates revised plan. Supports `--json` flag.
+  - `validate`: Checks curriculum and activities against schema and review manifest.
+  - `show`: Prints topological order and DAG structure.
+  - `init-learner`: Generates initial learner profile and commits canonical snapshot (`--snapshot`).
+  - `update`: Records a completed activity (exercise or lesson) and commits through atomic snapshot.
+  - `missed-day` / `record-missed-day`: Records a missed study day (zero elapsed minutes) into snapshot.
+  - `failed-assessment`: Records a failed assessment exercise attempt, updating belief and checking remediation.
+  - `change-deadline`: Updates the target completion deadline day in the snapshot context.
+  - `change-budget`: Updates the daily study time budget (in allowed budgets: 5, 10, 15, 30) in snapshot context.
+  - `plan`: Read-only study plan generation toward target goal concept within daily budget and deadline. Supports `--json`.
+  - `replan`: Dynamic horizon replanning after recorded events or constraint updates. Pure read-only computation from canonical snapshot. Supports `--json`.
+  - `import-legacy`: Explicitly imports separate legacy learner and log files into a canonical snapshot.
+  - `export-legacy`: Explicitly exports canonical snapshot into separate legacy learner and log files.
+  - Subcommands `plan`, `replan`, `update`, `failed-assessment`, and `missed-day` support `--model {custombkt,pybkt}` (defaults to `custombkt` continuous oracle, or select genuine `pybkt` adapter wrapper).
+
 
 ---
 

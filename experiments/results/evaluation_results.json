@@ -1,0 +1,208 @@
+{
+  "metadata": {
+    "num_seeds": 5,
+    "seed_start": 100,
+    "curriculum": "data/curriculum/curriculum_4node.json",
+    "limitation": "Synthetic gains support synthetic claims only."
+  },
+  "diagnostic_summary": {
+    "adaptive_eig": {
+      "mean_mae": 0.4066,
+      "mean_items": 2.4
+    },
+    "fixed": {
+      "mean_mae": 0.2493,
+      "mean_items": 8.0
+    },
+    "random": {
+      "mean_mae": 0.3081,
+      "mean_items": 8.0
+    }
+  },
+  "planner_summary": {
+    "adaptengine": {
+      "feasibility_rate": 1.0,
+      "mean_final_mastery": 0.7252
+    },
+    "static": {
+      "feasibility_rate": 1.0,
+      "mean_final_mastery": 0.6287
+    }
+  },
+  "per_seed_runs": {
+    "diagnostic": [
+      {
+        "seed": 100,
+        "adaptive_eig": {
+          "mae": 0.3842,
+          "items": 2
+        },
+        "fixed": {
+          "mae": 0.1946,
+          "items": 8
+        },
+        "random": {
+          "mae": 0.3004,
+          "items": 8
+        }
+      },
+      {
+        "seed": 101,
+        "adaptive_eig": {
+          "mae": 0.4653,
+          "items": 3
+        },
+        "fixed": {
+          "mae": 0.2676,
+          "items": 8
+        },
+        "random": {
+          "mae": 0.2147,
+          "items": 8
+        }
+      },
+      {
+        "seed": 102,
+        "adaptive_eig": {
+          "mae": 0.2981,
+          "items": 2
+        },
+        "fixed": {
+          "mae": 0.2586,
+          "items": 8
+        },
+        "random": {
+          "mae": 0.2359,
+          "items": 8
+        }
+      },
+      {
+        "seed": 103,
+        "adaptive_eig": {
+          "mae": 0.5466,
+          "items": 2
+        },
+        "fixed": {
+          "mae": 0.1717,
+          "items": 8
+        },
+        "random": {
+          "mae": 0.3668,
+          "items": 8
+        }
+      },
+      {
+        "seed": 104,
+        "adaptive_eig": {
+          "mae": 0.339,
+          "items": 3
+        },
+        "fixed": {
+          "mae": 0.3539,
+          "items": 8
+        },
+        "random": {
+          "mae": 0.4226,
+          "items": 8
+        }
+      }
+    ],
+    "planner": [
+      {
+        "seed": 100,
+        "adaptengine": {
+          "feasible": true,
+          "days": 2,
+          "budget_violations": 0,
+          "prerequisite_violations": 0,
+          "final_hidden_mastery": 0.7516,
+          "replanned_feasible": true
+        },
+        "static": {
+          "feasible": true,
+          "days": 2,
+          "budget_violations": 0,
+          "prerequisite_violations": 0,
+          "final_hidden_mastery": 0.6644,
+          "replanned_feasible": false
+        }
+      },
+      {
+        "seed": 101,
+        "adaptengine": {
+          "feasible": true,
+          "days": 2,
+          "budget_violations": 0,
+          "prerequisite_violations": 0,
+          "final_hidden_mastery": 0.881,
+          "replanned_feasible": true
+        },
+        "static": {
+          "feasible": true,
+          "days": 2,
+          "budget_violations": 0,
+          "prerequisite_violations": 0,
+          "final_hidden_mastery": 0.8392,
+          "replanned_feasible": false
+        }
+      },
+      {
+        "seed": 102,
+        "adaptengine": {
+          "feasible": true,
+          "days": 2,
+          "budget_violations": 0,
+          "prerequisite_violations": 0,
+          "final_hidden_mastery": 0.7558,
+          "replanned_feasible": true
+        },
+        "static": {
+          "feasible": true,
+          "days": 2,
+          "budget_violations": 0,
+          "prerequisite_violations": 0,
+          "final_hidden_mastery": 0.67,
+          "replanned_feasible": false
+        }
+      },
+      {
+        "seed": 103,
+        "adaptengine": {
+          "feasible": true,
+          "days": 2,
+          "budget_violations": 0,
+          "prerequisite_violations": 0,
+          "final_hidden_mastery": 0.769,
+          "replanned_feasible": true
+        },
+        "static": {
+          "feasible": true,
+          "days": 2,
+          "budget_violations": 0,
+          "prerequisite_violations": 0,
+          "final_hidden_mastery": 0.6879,
+          "replanned_feasible": false
+        }
+      },
+      {
+        "seed": 104,
+        "adaptengine": {
+          "feasible": true,
+          "days": 2,
+          "budget_violations": 0,
+          "prerequisite_violations": 0,
+          "final_hidden_mastery": 0.4687,
+          "replanned_feasible": true
+        },
+        "static": {
+          "feasible": true,
+          "days": 2,
+          "budget_violations": 0,
+          "prerequisite_violations": 0,
+          "final_hidden_mastery": 0.2821,
+          "replanned_feasible": false
+        }
+      }
+    ]
+  }
+}

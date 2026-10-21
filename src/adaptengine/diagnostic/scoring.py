@@ -1,29 +1,29 @@
+from typing import Optional
 from ..core.schema import Activity
 from ..core.config import EngineConfig, DEFAULT_CONFIG
-from ..learner.mastery import guess, slip, entropy
+from ..learner.mastery import entropy
+from ..learner.adapter import MasteryModel, CustomBKT
 
 
-def compute_eig(p: float, activity: Activity, cfg: EngineConfig = DEFAULT_CONFIG) -> float:
-    """Compute Expected Information Gain (EIG) without the learning transition.
+def compute_eig(
+    p: float,
+    activity: Activity,
+    cfg: EngineConfig = DEFAULT_CONFIG,
+    model: Optional[MasteryModel] = None,
+) -> float:
+    """Compute Expected Information Gain (EIG) entirely through the MasteryModel protocol.
 
-    P_c    = p*(1 - s) + (1 - p)*g
+    P_c    = model.predict_correct(p, d)
     EIG(a) = H(p) - [ P_c * H(p'_correct) + (1 - P_c) * H(p'_wrong) ]
+    where p'_correct = model.update(p, d, True, 0.0) and p'_wrong = model.update(p, d, False, 0.0).
     """
+    if model is None:
+        model = CustomBKT(cfg)
+
     d = activity.difficulty
-    g = guess(d, cfg)
-    s = slip(d, cfg)
-
-    p_c = p * (1.0 - s) + (1.0 - p) * g
-
-    if p_c > 0.0:
-        p_correct = (p * (1.0 - s)) / p_c
-    else:
-        p_correct = 0.0
-
-    if p_c < 1.0:
-        p_wrong = (p * s) / (1.0 - p_c)
-    else:
-        p_wrong = 0.0
+    p_c = model.predict_correct(p, d)
+    p_correct = model.update(p, d, True, 0.0)
+    p_wrong = model.update(p, d, False, 0.0)
 
     h_prior = entropy(p)
     h_expected_posterior = p_c * entropy(p_correct) + (1.0 - p_c) * entropy(p_wrong)

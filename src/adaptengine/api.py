@@ -1,19 +1,27 @@
-from typing import Mapping
+from typing import Mapping, Optional
 from dataclasses import replace
 from .core.config import EngineConfig, DEFAULT_CONFIG
 from .core.schema import Event, EventType, ActivityType, Activity, Plan, PlanContext
 from .curriculum.loader import load_curriculum, load_activities
 from .curriculum.graph import CurriculumGraph
 from .learner.state import LearnerState, ExecutionLog, initial_state
+from .learner.adapter import MasteryModel, CustomBKT
 from .session import apply_response, apply_lesson
 from .core.errors import ValidationError, UnknownConceptError
 
 
 class Engine:
-    def __init__(self, curriculum: tuple, activities: tuple, config: EngineConfig = DEFAULT_CONFIG):
+    def __init__(
+        self,
+        curriculum: tuple,
+        activities: tuple,
+        config: EngineConfig = DEFAULT_CONFIG,
+        model: Optional[MasteryModel] = None,
+    ):
         self.graph = CurriculumGraph.from_concepts(curriculum)
         self.activities: Mapping[str, Activity] = {a.activity_id: a for a in activities}
         self.config = config
+        self.model = model if model is not None else CustomBKT(config)
 
     @classmethod
     def from_files(
@@ -23,6 +31,7 @@ class Engine:
         manifest_path: str = None,
         config: EngineConfig = DEFAULT_CONFIG,
         allow_unreviewed: bool = False,
+        model: Optional[MasteryModel] = None,
     ) -> "Engine":
         concepts = load_curriculum(
             curriculum_path, manifest_path, allow_unreviewed=allow_unreviewed
@@ -30,7 +39,7 @@ class Engine:
         activities = load_activities(
             activities_path, concepts, manifest_path, allow_unreviewed=allow_unreviewed, cfg=config
         )
-        return cls(concepts, activities, config)
+        return cls(concepts, activities, config, model=model)
 
     def init_learner(self) -> LearnerState:
         return initial_state(self.graph.concepts(), self.config)
@@ -41,11 +50,21 @@ class Engine:
         response_provider,
         goal_concepts=None,
         model=None,
+        session_id=None,
     ):
         from .diagnostic import AdaptiveDiagnostic
 
-        diagnostic = AdaptiveDiagnostic(self.graph, self.activities, self.config)
-        return diagnostic.run(state, response_provider, goal_concepts, model)
+        active_model = model if model is not None else self.model
+        diagnostic = AdaptiveDiagnostic(
+            self.graph, self.activities, self.config, model=active_model
+        )
+        return diagnostic.run(
+            state,
+            response_provider,
+            goal_concepts=goal_concepts,
+            model=active_model,
+            session_id=session_id,
+        )
 
     def plan(
         self,
@@ -61,6 +80,7 @@ class Engine:
         if done_ids is None:
             done_ids = ()
 
+        active_model = model if model is not None else self.model
         return run_plan(
             self.graph,
             self.activities,
@@ -68,7 +88,7 @@ class Engine:
             ctx,
             done_ids=done_ids,
             review_urgency=review_urgency,
-            model=model,
+            model=active_model,
             cfg=self.config,
         )
 
@@ -83,6 +103,7 @@ class Engine:
     ) -> Plan:
         from .replanner import replan as run_replan
 
+        active_model = model if model is not None else self.model
         return run_replan(
             self.graph,
             self.activities,
@@ -90,7 +111,7 @@ class Engine:
             log,
             ctx,
             review_urgency=review_urgency,
-            model=model,
+            model=active_model,
             cfg=self.config,
         )
 
@@ -152,6 +173,7 @@ class Engine:
                 self.config,
                 day=event.day,
                 attempt_id=attempt_id,
+                model=self.model,
             )
             # Forced remediation check (D20, D28)
             target_c = new_state.concepts[target]
@@ -192,6 +214,7 @@ class Engine:
                     self.config,
                     day=event.day,
                     attempt_id=attempt_id,
+                    model=self.model,
                 )
                 # Remediation check if incorrect response leaves p < remediation_threshold (D20)
                 if event.correct is False:

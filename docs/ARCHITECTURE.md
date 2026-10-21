@@ -8,12 +8,12 @@
 - `planner/`: Deterministic path planner, difficulty policy, feasibility bounds, exact bin-packing oracle.
 - `review/`: Spaced review forgetting model (half-life decay) and review urgency scoring.
 - `replanner/`: Dynamic horizon replanning on events (missed day, failed assessment, deadline changed, budget changed).
+- `experiments/`: Paired synthetic baseline evaluation harness with IRT simulated learners (`run_evaluation.py`).
 
-## Planned Modules
-The following modules are planned but not yet implemented (no files created):
-- simulator
-- evaluation harness
-- agents
+## Deferred Modules
+The following modules are deferred per the W3 review scope:
+- Learned recommendation bandit policy (Vowpal Wabbit)
+- Authoring agent (A0)
 
 ---
 

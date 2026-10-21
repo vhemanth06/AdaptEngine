@@ -79,3 +79,65 @@ def test_cli_subprocess():
     )
     assert result.returncode == 0
     assert "OK:" in result.stdout
+
+
+def test_cli_model_flag_selection(capsys, tmp_path):
+    snap_path = str(tmp_path / "snap.json")
+    ret_init = main(
+        [
+            "init-learner",
+            "--curriculum",
+            "data/curriculum/curriculum_4node.json",
+            "--activities",
+            "data/curriculum/activities_4node.json",
+            "--snapshot",
+            snap_path,
+            "--goal",
+            "C4",
+            "--deadline",
+            "10",
+            "--budget",
+            "15",
+        ]
+    )
+    assert ret_init is None
+
+    ret_upd = main(
+        [
+            "update",
+            "--curriculum",
+            "data/curriculum/curriculum_4node.json",
+            "--activities",
+            "data/curriculum/activities_4node.json",
+            "--snapshot",
+            snap_path,
+            "--activity",
+            "E-C1-0.2",
+            "--response",
+            "correct",
+            "--day",
+            "1",
+            "--model",
+            "pybkt",
+        ]
+    )
+    assert ret_upd is None
+    out, _ = capsys.readouterr()
+    assert "C1: p" in out
+
+    ret_replan = main(
+        [
+            "replan",
+            "--curriculum",
+            "data/curriculum/curriculum_4node.json",
+            "--activities",
+            "data/curriculum/activities_4node.json",
+            "--snapshot",
+            snap_path,
+            "--model",
+            "pybkt",
+        ]
+    )
+    assert ret_replan is None
+    out, _ = capsys.readouterr()
+    assert "Status: FEASIBLE" in out

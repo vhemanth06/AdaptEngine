@@ -1,3 +1,4 @@
+import os
 import pytest
 from unittest.mock import patch
 from adaptengine.learner.state import (
@@ -121,8 +122,9 @@ def test_snapshot_roundtrip_and_atomic_failure(tmp_path):
 
     # Verify original file untouched
     assert open(snap_path, "r", encoding="utf-8").read() == original_content
-    # Verify no .tmp file left behind
-    assert not (tmp_path / "snapshot.json.tmp").exists()
+    # Verify no .tmp file left behind (using PID tmp naming)
+    assert not (tmp_path / f"snapshot.json.{os.getpid()}.tmp").exists()
+    assert len(list(tmp_path.glob("*.tmp"))) == 0
 
 
 def test_field_survival(tmp_path):

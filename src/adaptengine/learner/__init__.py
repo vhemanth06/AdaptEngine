@@ -10,6 +10,7 @@ from .state import (
     initial_state,
     is_evidence_mastered,
 )
+from .evidence import update_concept_evidence
 
 __all__ = [
     "MasteryModel",
@@ -28,4 +29,5 @@ __all__ = [
     "ConceptStatus",
     "initial_state",
     "is_evidence_mastered",
+    "update_concept_evidence",
 ]

@@ -2,15 +2,15 @@
 
 | Workstream | Owner/agent | Status (todo/doing/blocked/done) | Branch | Evidence (tests / run path) | Notes |
 |---|---|---|---|---|---|
-| Phase 0 Audit | AI Pair Programmer | done | main | `records/W3_AUDIT.md`, `tests/test_defects_repro.py` | 100% defects D-A..D-H reproduced with failing tests. Baseline 47 tests pass. |
-| WS1 Strict Validation | AI Pair Programmer | done | main | `tests/test_schema.py`, `tests/test_defects_repro.py` | D-B, D-C, D-E resolved. Validated bounds, types, and config hash. |
-| WS2 Review Gate | AI Pair Programmer | done | main | `tests/test_loader_review_gate.py` | D-A, D-F, D-I resolved. Default-on review gate, literal edges_reviewed, named human reviewer. |
-| WS3 Persistence | AI Pair Programmer | done | main | `tests/test_state_session.py` | D-G resolved. Atomic snapshot write via .tmp + fsync + os.replace, failure injection tested. |
-| WS4 Evidence State | AI Pair Programmer | done | main | `tests/test_mastery.py`, `tests/test_state_session.py` | D-D resolved. Exposure vs evidence separated, attempt idempotency, monotone last_practice_day. |
-| WS5 pyBKT Adapter | AI Pair Programmer | done | main | `tests/test_adapter.py` | D6 resolved. MasteryModel protocol, CustomBKT oracle, PyBKTAdapter with parity tests (1e-9). |
-| WS6 Diagnostic M2 | AI Pair Programmer | done | main | `tests/test_diagnostic.py` | TC2.1, TC2.2 pass. EIG item selection, cold start UNASSESSED, caps & entropy stopping, descendant skipping. |
-| WS7 Docs & Records | AI Pair Programmer | done | main | `docs/*`, `records/*` | Full Appendix A transcribed into docs, 23-ID traceability register, decisions synchronized. |
-| WS8 Run Command | AI Pair Programmer | done | main | `scripts/run_w3.py`, `Makefile`, `runs/w3/` | `make w3` passes all 5 gates and writes full auditable evidence directory. |
+| Phase 0 Audit | Hemanth (`vhemanth06`) | done | main | `docs/W3_AUDIT.md`, `tests/test_defects_repro.py` | 100% defects D-A..D-H reproduced with failing tests. Baseline 47 tests pass. |
+| WS1 Strict Validation | Hemanth (`vhemanth06`) | done | main | `tests/test_schema.py`, `tests/test_defects_repro.py` | D-B, D-C, D-E resolved. Validated bounds, types, and config hash. |
+| WS2 Review Gate | Hemanth (`vhemanth06`) | done | main | `tests/test_loader_review_gate.py` | D-A, D-F, D-I resolved. Default-on review gate, literal edges_reviewed, named human reviewer. |
+| WS3 Persistence | Hemanth (`vhemanth06`) | done | main | `tests/test_state_session.py` | D-G resolved. Atomic snapshot write via .tmp + fsync + os.replace, failure injection tested. |
+| WS4 Evidence State | Hemanth (`vhemanth06`) | done | main | `tests/test_mastery.py`, `tests/test_state_session.py` | D-D resolved. Exposure vs evidence separated, attempt idempotency, monotone last_practice_day. |
+| WS5 pyBKT Adapter | Hemanth (`vhemanth06`) | done | main | `tests/test_adapter.py` | D6 resolved. MasteryModel protocol, CustomBKT oracle, PyBKTAdapter with parity tests (1e-9). |
+| WS6 Diagnostic M2 | Hemanth (`vhemanth06`) | done | main | `tests/test_diagnostic.py` | TC2.1, TC2.2 pass. EIG item selection, cold start UNASSESSED, caps & entropy stopping, descendant skipping. |
+| WS7 Docs & Records | Hemanth (`vhemanth06`) | done | main | `docs/*` | Full Appendix A transcribed into docs, 23-ID traceability register, decisions synchronized. |
+| WS8 Run Command | Hemanth (`vhemanth06`) | done | main | `scripts/run_w3.py`, `Makefile`, `runs/w3/` | `make w3` passes all 5 gates and writes full auditable evidence directory. |
 
 ## Open Decisions Needing Human Input (Section 4) - Defaults Applied
 

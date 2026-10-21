@@ -7,6 +7,7 @@ from ..core.schema import (
     PlanStatus,
     EventType,
 )
+from ..core.errors import UnknownConceptError
 from ..curriculum.graph import CurriculumGraph
 from ..learner.state import LearnerState, ExecutionLog
 from ..learner.adapter import MasteryModel
@@ -76,6 +77,9 @@ def replan(
     - If deadline tightened past start day, return INFEASIBLE proof with options.
     - If revised plan feasible, return new valid schedule without duplication.
     """
+    if ctx.goal not in graph.concepts():
+        raise UnknownConceptError(f"Goal concept '{ctx.goal}' not in graph")
+
     eff_ctx, start_day, deadline = compute_effective_context(ctx, log)
     done_ids = log.completed_ids()
 

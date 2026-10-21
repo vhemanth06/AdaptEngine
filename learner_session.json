@@ -1,0 +1,320 @@
+{
+  "schema_version": 1,
+  "state": {
+    "schema_version": 1,
+    "concepts": {
+      "C1": {
+        "p": 0.3333633248481187,
+        "uncertainty": 0.9183258226495137,
+        "status": "ASSESSED",
+        "responses": 4,
+        "correct_responses": 2,
+        "lessons_done": 1,
+        "seen_attempt_ids": [
+          "E-C1-0.2-d1-2",
+          "E-C1-0.2-d17-21",
+          "E-C1-0.4-d1-3",
+          "E-C1-0.8-d17-20",
+          "L-C1-d1-1"
+        ],
+        "half_life_days": 30.0,
+        "last_practice_day": 17,
+        "n_reviews": 5,
+        "needs_remediation": true
+      },
+      "C2": {
+        "p": 0.36000000000000004,
+        "uncertainty": 0.9426831892554923,
+        "status": "UNASSESSED",
+        "responses": 0,
+        "correct_responses": 0,
+        "lessons_done": 1,
+        "seen_attempt_ids": [
+          "L-C2-d1-4"
+        ],
+        "half_life_days": 30.0,
+        "last_practice_day": 1,
+        "n_reviews": 1,
+        "needs_remediation": false
+      },
+      "C3": {
+        "p": 0.2,
+        "uncertainty": 0.7219280948873623,
+        "status": "UNASSESSED",
+        "responses": 0,
+        "correct_responses": 0,
+        "lessons_done": 0,
+        "seen_attempt_ids": [],
+        "half_life_days": 30.0,
+        "last_practice_day": null,
+        "n_reviews": 0,
+        "needs_remediation": false
+      },
+      "C4": {
+        "p": 0.2,
+        "uncertainty": 0.7219280948873623,
+        "status": "UNASSESSED",
+        "responses": 0,
+        "correct_responses": 0,
+        "lessons_done": 0,
+        "seen_attempt_ids": [],
+        "half_life_days": 30.0,
+        "last_practice_day": null,
+        "n_reviews": 0,
+        "needs_remediation": false
+      },
+      "C5": {
+        "p": 0.2,
+        "uncertainty": 0.7219280948873623,
+        "status": "UNASSESSED",
+        "responses": 0,
+        "correct_responses": 0,
+        "lessons_done": 0,
+        "seen_attempt_ids": [],
+        "half_life_days": 30.0,
+        "last_practice_day": null,
+        "n_reviews": 0,
+        "needs_remediation": false
+      },
+      "C6": {
+        "p": 0.2,
+        "uncertainty": 0.7219280948873623,
+        "status": "UNASSESSED",
+        "responses": 0,
+        "correct_responses": 0,
+        "lessons_done": 0,
+        "seen_attempt_ids": [],
+        "half_life_days": 30.0,
+        "last_practice_day": null,
+        "n_reviews": 0,
+        "needs_remediation": false
+      },
+      "C7": {
+        "p": 0.2,
+        "uncertainty": 0.7219280948873623,
+        "status": "UNASSESSED",
+        "responses": 0,
+        "correct_responses": 0,
+        "lessons_done": 0,
+        "seen_attempt_ids": [],
+        "half_life_days": 30.0,
+        "last_practice_day": null,
+        "n_reviews": 0,
+        "needs_remediation": false
+      },
+      "C8": {
+        "p": 0.2,
+        "uncertainty": 0.7219280948873623,
+        "status": "UNASSESSED",
+        "responses": 0,
+        "correct_responses": 0,
+        "lessons_done": 0,
+        "seen_attempt_ids": [],
+        "half_life_days": 30.0,
+        "last_practice_day": null,
+        "n_reviews": 0,
+        "needs_remediation": false
+      }
+    }
+  },
+  "log": {
+    "schema_version": 1,
+    "events": [
+      {
+        "day": 1,
+        "kind": "COMPLETED",
+        "activity_id": "L-C1",
+        "minutes_elapsed": 4,
+        "correct": null,
+        "attempt_id": "L-C1-d1-1",
+        "value": null
+      },
+      {
+        "day": 1,
+        "kind": "COMPLETED",
+        "activity_id": "E-C1-0.2",
+        "minutes_elapsed": 1,
+        "correct": true,
+        "attempt_id": "E-C1-0.2-d1-2",
+        "value": null
+      },
+      {
+        "day": 1,
+        "kind": "COMPLETED",
+        "activity_id": "E-C1-0.4",
+        "minutes_elapsed": 1,
+        "correct": true,
+        "attempt_id": "E-C1-0.4-d1-3",
+        "value": null
+      },
+      {
+        "day": 1,
+        "kind": "COMPLETED",
+        "activity_id": "L-C2",
+        "minutes_elapsed": 4,
+        "correct": null,
+        "attempt_id": "L-C2-d1-4",
+        "value": null
+      },
+      {
+        "day": 2,
+        "kind": "MISSED",
+        "activity_id": null,
+        "minutes_elapsed": 0,
+        "correct": null,
+        "attempt_id": "MISSED-d2-5",
+        "value": null
+      },
+      {
+        "day": 3,
+        "kind": "MISSED",
+        "activity_id": null,
+        "minutes_elapsed": 0,
+        "correct": null,
+        "attempt_id": "MISSED-d3-6",
+        "value": null
+      },
+      {
+        "day": 4,
+        "kind": "MISSED",
+        "activity_id": null,
+        "minutes_elapsed": 0,
+        "correct": null,
+        "attempt_id": "MISSED-d4-7",
+        "value": null
+      },
+      {
+        "day": 5,
+        "kind": "MISSED",
+        "activity_id": null,
+        "minutes_elapsed": 0,
+        "correct": null,
+        "attempt_id": "MISSED-d5-8",
+        "value": null
+      },
+      {
+        "day": 6,
+        "kind": "MISSED",
+        "activity_id": null,
+        "minutes_elapsed": 0,
+        "correct": null,
+        "attempt_id": "MISSED-d6-9",
+        "value": null
+      },
+      {
+        "day": 7,
+        "kind": "MISSED",
+        "activity_id": null,
+        "minutes_elapsed": 0,
+        "correct": null,
+        "attempt_id": "MISSED-d7-10",
+        "value": null
+      },
+      {
+        "day": 8,
+        "kind": "MISSED",
+        "activity_id": null,
+        "minutes_elapsed": 0,
+        "correct": null,
+        "attempt_id": "MISSED-d8-11",
+        "value": null
+      },
+      {
+        "day": 9,
+        "kind": "MISSED",
+        "activity_id": null,
+        "minutes_elapsed": 0,
+        "correct": null,
+        "attempt_id": "MISSED-d9-12",
+        "value": null
+      },
+      {
+        "day": 10,
+        "kind": "MISSED",
+        "activity_id": null,
+        "minutes_elapsed": 0,
+        "correct": null,
+        "attempt_id": "MISSED-d10-13",
+        "value": null
+      },
+      {
+        "day": 11,
+        "kind": "MISSED",
+        "activity_id": null,
+        "minutes_elapsed": 0,
+        "correct": null,
+        "attempt_id": "MISSED-d11-14",
+        "value": null
+      },
+      {
+        "day": 12,
+        "kind": "MISSED",
+        "activity_id": null,
+        "minutes_elapsed": 0,
+        "correct": null,
+        "attempt_id": "MISSED-d12-15",
+        "value": null
+      },
+      {
+        "day": 13,
+        "kind": "MISSED",
+        "activity_id": null,
+        "minutes_elapsed": 0,
+        "correct": null,
+        "attempt_id": "MISSED-d13-16",
+        "value": null
+      },
+      {
+        "day": 14,
+        "kind": "MISSED",
+        "activity_id": null,
+        "minutes_elapsed": 0,
+        "correct": null,
+        "attempt_id": "MISSED-d14-17",
+        "value": null
+      },
+      {
+        "day": 15,
+        "kind": "MISSED",
+        "activity_id": null,
+        "minutes_elapsed": 0,
+        "correct": null,
+        "attempt_id": "MISSED-d15-18",
+        "value": null
+      },
+      {
+        "day": 16,
+        "kind": "MISSED",
+        "activity_id": null,
+        "minutes_elapsed": 0,
+        "correct": null,
+        "attempt_id": "MISSED-d16-19",
+        "value": null
+      },
+      {
+        "day": 17,
+        "kind": "FAILED_ASSESSMENT",
+        "activity_id": "E-C1-0.8",
+        "minutes_elapsed": 2,
+        "correct": false,
+        "attempt_id": "E-C1-0.8-d17-20",
+        "value": null
+      },
+      {
+        "day": 17,
+        "kind": "COMPLETED",
+        "activity_id": "E-C1-0.2",
+        "minutes_elapsed": 1,
+        "correct": false,
+        "attempt_id": "E-C1-0.2-d17-21",
+        "value": null
+      }
+    ]
+  },
+  "context": {
+    "goal": "C8",
+    "deadline_day": 30,
+    "budget": 10,
+    "current_day": 1
+  }
+}

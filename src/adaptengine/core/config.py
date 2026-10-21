@@ -4,6 +4,7 @@ import math
 from dataclasses import dataclass, asdict
 from . import constants
 from .errors import ValidationError
+from .validators import check_positive_int
 
 
 @dataclass(frozen=True)
@@ -61,14 +62,11 @@ class EngineConfig:
             if not (0.0 < s < 1.0):
                 raise ValidationError(f"slip({d}) = {s} not in (0, 1)")
 
-        if self.n_max < 1:
-            raise ValidationError(f"n_max must be >= 1, got {self.n_max}")
-        if self.concept_cap < 1:
-            raise ValidationError(f"concept_cap must be >= 1, got {self.concept_cap}")
+        check_positive_int(self.n_max, "n_max")
+        check_positive_int(self.concept_cap, "concept_cap")
         if not (0.0 <= self.h_stop <= 1.0) or not math.isfinite(self.h_stop):
             raise ValidationError(f"h_stop must be in [0, 1], got {self.h_stop}")
-        if self.k_responses < 1:
-            raise ValidationError(f"k_responses must be >= 1, got {self.k_responses}")
+        check_positive_int(self.k_responses, "k_responses")
         if not (0.0 <= self.skip_threshold <= 1.0) or not math.isfinite(self.skip_threshold):
             raise ValidationError(f"skip_threshold must be in [0, 1], got {self.skip_threshold}")
 
@@ -92,17 +90,9 @@ class EngineConfig:
                 f"allowed_budgets must be a non-empty sequence, got {self.allowed_budgets}"
             )
         for b in self.allowed_budgets:
-            if not isinstance(b, int) or isinstance(b, bool) or b <= 0:
-                raise ValidationError(f"allowed_budgets must contain positive integers, got {b}")
+            check_positive_int(b, "allowed_budgets element")
 
-        if (
-            not isinstance(self.oracle_node_limit, int)
-            or isinstance(self.oracle_node_limit, bool)
-            or self.oracle_node_limit < 1
-        ):
-            raise ValidationError(
-                f"oracle_node_limit must be integer >= 1, got {self.oracle_node_limit}"
-            )
+        check_positive_int(self.oracle_node_limit, "oracle_node_limit")
 
         if not (0.0 < self.recall_threshold <= 1.0) or not math.isfinite(self.recall_threshold):
             raise ValidationError(

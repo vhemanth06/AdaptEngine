@@ -66,3 +66,14 @@ The following decisions were flagged for human sign-off; defaults were applied t
 | **D29** | Deadline & budget derivation | **Derived pure function: initial context folded over log events; optional snapshot context** | Effective context is computed purely by folding `DEADLINE_CHANGED` and `BUDGET_CHANGED` events over initial `PlanContext`; snapshot stores optional `"context"` key. |
 | **D30** | Replanning after missed day | **Replan from next day; missed day contributes zero minutes** | A missed day records zero elapsed minutes; revised plan begins at $\text{missed\_day} + 1$, preserving all completed work without duplication. |
 
+---
+
+## 5. Feedback Fix & Policy Hardening Decisions (D31 – D34) — Finalized October 2026
+
+| # | Decision Topic | Decision Choice | Rationale & Verification |
+|---|---|---|---|
+| **D31** | Lessons vs Evidence Contract | **Option 1: $p \ge \theta \text{ and } \text{responses} \ge k$** | Lessons raise belief via $T_{\text{lesson}} = 0.20$ without incrementing `responses`. Unlocking evidence-mastery requires at least $k$ exercise attempts and $p \ge \theta$. Documented as intentional contract behavior; planner always schedules exercises after lessons. |
+| **D32** | Atomic CLI Store (FB006) | **Single canonical snapshot store via `<path>.<pid>.tmp`** | Eliminates dual-write desynchronization. State, log, and context commit in a single atomic `os.replace`. `save_learner` and `save_log` are deprecated to explicit legacy import/export commands. |
+| **D33** | Single Observation Model | **MasteryModel protocol used for EIG and state updates** | `compute_eig` delegates to `model.predict_correct` and `model.update(..., 0.0)`. `Engine` holds a single `MasteryModel` instance shared across diagnostic, evidence, difficulty, and planning. |
+| **D34** | Diagnostic Attempt ID Scope | **`diag-<session_id>-<concept_id>-<n>`** | Session scoping prevents attempt ID collisions across distinct diagnostic runs, while making exact replay of the same session and items idempotent. |
+

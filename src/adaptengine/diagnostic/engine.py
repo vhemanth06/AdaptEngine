@@ -1,12 +1,14 @@
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 from enum import Enum
-from typing import Callable, Mapping, Optional, Sequence, Any
+from typing import Callable, Mapping, Optional, Sequence
+from ..core.errors import UnknownConceptError
 from ..core.schema import Activity, ActivityType
 from ..core.config import EngineConfig, DEFAULT_CONFIG
 from ..core.validators import check_bool
 from ..curriculum.graph import CurriculumGraph
 from ..learner.state import LearnerState, ConceptStatus
-from ..learner.mastery import update_mastery
+from ..learner.adapter import MasteryModel, CustomBKT
+from ..learner.evidence import update_concept_evidence
 from .scoring import compute_eig, candidate_sort_key
 
 
@@ -54,23 +56,32 @@ class AdaptiveDiagnostic:
         graph: CurriculumGraph,
         activities: Mapping[str, Activity],
         config: EngineConfig = DEFAULT_CONFIG,
+        model: Optional[MasteryModel] = None,
     ):
         self.graph = graph
         self.activities = activities
         self.config = config
+        self.model = model if model is not None else CustomBKT(config)
 
     def run(
         self,
         state: LearnerState,
         response_provider: Callable[[Activity], bool],
         goal_concepts: Optional[Sequence[str]] = None,
-        model: Optional[Any] = None,
+        model: Optional[MasteryModel] = None,
+        session_id: Optional[str] = None,
     ) -> DiagnosticResult:
         """Run the adaptive diagnostic M2."""
         if goal_concepts is None:
             goal_set = set(self.graph.concepts())
         else:
+            for g in goal_concepts:
+                if g not in self.graph.concepts():
+                    raise UnknownConceptError(f"Goal concept '{g}' not in graph")
             goal_set = set(goal_concepts)
+
+        active_model = model if model is not None else self.model
+        sid = session_id if session_id is not None else "1"
 
         # Stable topological order (ties by concept_id lexicographically)
         ordered_concepts = [c for c in self.graph.topological_order() if c in goal_set]
@@ -126,10 +137,10 @@ class AdaptiveDiagnostic:
                     c_stop_reason = StopReason.NO_ITEMS
                     break
 
-                # Score candidates by EIG and sort deterministically (D10)
+                # Score candidates by EIG using active model and sort deterministically (D10)
                 scored = []
                 for act in unasked:
-                    eig = compute_eig(current_c.p, act, self.config)
+                    eig = compute_eig(current_c.p, act, self.config, model=active_model)
                     key = candidate_sort_key(eig, act.difficulty, act.activity_id)
                     scored.append((key, eig, act))
 
@@ -142,25 +153,19 @@ class AdaptiveDiagnostic:
                 asked_activities.add(best_act.activity_id)
 
                 p_before = current_c.p
-                attempt_id = f"diag-{concept_id}-{n_concept_items + 1}"
+                attempt_id = f"diag-{sid}-{concept_id}-{n_concept_items + 1}"
 
-                if model is not None:
-                    p_after = model.update(
-                        p_before, best_act.difficulty, raw_resp, self.config.t_diag
-                    )
-                else:
-                    p_after = update_mastery(
-                        p_before, best_act.difficulty, raw_resp, self.config.t_diag, self.config
-                    )
-
-                new_c = replace(
+                new_c, changed = update_concept_evidence(
                     current_c,
-                    p=p_after,
-                    responses=current_c.responses + 1,
-                    correct_responses=current_c.correct_responses + (1 if raw_resp else 0),
-                    status=ConceptStatus.ASSESSED,
-                    seen_attempt_ids=current_c.seen_attempt_ids | {attempt_id},
+                    best_act.difficulty,
+                    raw_resp,
+                    transition=self.config.t_diag,
+                    model=active_model,
+                    cfg=self.config,
+                    day=None,
+                    attempt_id=attempt_id,
                 )
+                p_after = new_c.p
                 updated_concepts[concept_id] = new_c
                 current_c = new_c
                 n_concept_items += 1
