@@ -524,7 +524,9 @@ def test_pybkt_adapter_genuine_parity():
     adapter = PyBKTAdapter()
     if not adapter.is_library_available:
         if os.environ.get("REQUIRE_PYBKT") == "1":
-            pytest.fail("pyBKT is not available but REQUIRE_PYBKT=1 is set")
+            pytest.fail(
+                f"pyBKT is not available but REQUIRE_PYBKT=1 is set (error: {adapter.init_error})"
+            )
         pytest.skip("pyBKT not available in current environment")
 
     import pandas as pd

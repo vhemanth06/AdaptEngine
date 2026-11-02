@@ -132,14 +132,19 @@ class PyBKTAdapter:
             _PYBKT_MODEL_CACHE[cache_key] = m
             self._pybkt_instance = m
             self._pybkt_available = True
-        except (ImportError, Exception):
+        except (ImportError, Exception) as exc:
             _PYBKT_MODEL_CACHE[cache_key] = None
             self._pybkt_instance = None
             self._pybkt_available = False
+            self._init_error = exc
 
     @property
     def is_library_available(self) -> bool:
         return self._pybkt_available
+
+    @property
+    def init_error(self) -> Optional[BaseException]:
+        return getattr(self, "_init_error", None)
 
     @property
     def pybkt_model(self):
