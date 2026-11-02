@@ -25,5 +25,5 @@ This document tracks all 23 verification scenarios (TC1.1 through TC8.2) across 
 | **TC6.3** | M6 | Deadline change triggers valid replan or `INFEASIBLE` | **W5** | `tests/test_w5.py::test_tc6_3_deadline_change_replan` | **Verified** |
 | **TC6.4** | M6 | Daily budget change triggers valid replan | **W5** | `tests/test_w5.py::test_tc6_4_budget_change_replan` | **Verified** |
 | **TC7.1** | M7 | Every decision traceable to state, applied constraints, and score components | **W5** | `tests/test_w5.py::test_tc7_1_comprehensive_traceability_and_serialization` | **Verified** |
-| **TC8.1** | M8 | Identical random seeds and configuration produce bitwise identical raw results | **W5/W6** | `tests/test_evaluation.py::test_evaluation_reproducibility_tc8_1`, `experiments/run_evaluation.py` | **Verified** |
-| **TC8.2** | M8 | Frontier vs full replanning produces identical decisions with runtime latency measured | W6–W7 | *Deferred per Review Scope (core acceptance prioritized)* | Deferred |
+| **TC8.1** | M8 | Identical random seeds and configuration produce bitwise identical raw results | **W6** | `tests/test_evaluation.py::test_evaluation_reproducibility_tc8_1`, `experiments/run_evaluation.py` | **Verified** |
+| **TC8.2** | M8 | Frontier vs full replanning produces identical decisions with runtime latency measured | **W6** | `tests/test_replan_frontier.py`, `experiments/run_replan_latency.py`, `experiments/results/replan_latency.json` | **Verified** |

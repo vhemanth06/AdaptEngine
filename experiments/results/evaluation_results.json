@@ -1,208 +1,1929 @@
 {
-  "metadata": {
-    "num_seeds": 5,
-    "seed_start": 100,
-    "curriculum": "data/curriculum/curriculum_4node.json",
-    "limitation": "Synthetic gains support synthetic claims only."
-  },
-  "diagnostic_summary": {
-    "adaptive_eig": {
-      "mean_mae": 0.4066,
-      "mean_items": 2.4
+  "diagnostic": {
+    "adaptive": {
+      "items_used": 3.0,
+      "mae_all": 0.3903,
+      "mae_all_95ci": [
+        0.3523,
+        0.4283
+      ],
+      "mae_assessed": 0.4327,
+      "mae_assessed_95ci": [
+        0.361,
+        0.5044
+      ],
+      "unassessed_fraction": 0.5
     },
     "fixed": {
-      "mean_mae": 0.2493,
-      "mean_items": 8.0
+      "4_items": {
+        "items_used": 4.0,
+        "mae_all": 0.2797,
+        "mae_all_95ci": [
+          0.18,
+          0.3793
+        ],
+        "mae_assessed": 0.2797,
+        "mae_assessed_95ci": [
+          0.18,
+          0.3793
+        ],
+        "unassessed_fraction": 0.0
+      },
+      "8_items": {
+        "items_used": 8.0,
+        "mae_all": 0.2675,
+        "mae_all_95ci": [
+          0.2447,
+          0.2902
+        ],
+        "mae_assessed": 0.2675,
+        "mae_assessed_95ci": [
+          0.2447,
+          0.2902
+        ],
+        "unassessed_fraction": 0.0
+      },
+      "n_adaptive": {
+        "items_used": 3.0,
+        "mae_all": 0.2942,
+        "mae_all_95ci": [
+          0.18,
+          0.4083
+        ],
+        "mae_assessed": 0.2505,
+        "mae_assessed_95ci": [
+          0.18,
+          0.321
+        ],
+        "unassessed_fraction": 0.25
+      }
     },
     "random": {
-      "mean_mae": 0.3081,
-      "mean_items": 8.0
+      "4_items": {
+        "items_used": 4.0,
+        "mae_all": 0.3171,
+        "mae_all_95ci": [
+          0.31,
+          0.3243
+        ],
+        "mae_assessed": 0.3711,
+        "mae_assessed_95ci": [
+          0.3455,
+          0.3967
+        ],
+        "unassessed_fraction": 0.375
+      },
+      "8_items": {
+        "items_used": 8.0,
+        "mae_all": 0.3663,
+        "mae_all_95ci": [
+          0.351,
+          0.3817
+        ],
+        "mae_assessed": 0.3663,
+        "mae_assessed_95ci": [
+          0.351,
+          0.3817
+        ],
+        "unassessed_fraction": 0.0
+      },
+      "n_adaptive": {
+        "items_used": 3.0,
+        "mae_all": 0.3202,
+        "mae_all_95ci": [
+          0.3161,
+          0.3243
+        ],
+        "mae_assessed": 0.3772,
+        "mae_assessed_95ci": [
+          0.3455,
+          0.4089
+        ],
+        "unassessed_fraction": 0.375
+      }
+    },
+    "tuning": {
+      "grid_results": [
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 1,
+          "h_stop": 0.2,
+          "n_max": 4
+        },
+        {
+          "avg_items": 4.0,
+          "avg_mae": 0.3344,
+          "concept_cap": 2,
+          "h_stop": 0.2,
+          "n_max": 4
+        },
+        {
+          "avg_items": 4.0,
+          "avg_mae": 0.3498,
+          "concept_cap": 3,
+          "h_stop": 0.2,
+          "n_max": 4
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 1,
+          "h_stop": 0.3,
+          "n_max": 4
+        },
+        {
+          "avg_items": 4.0,
+          "avg_mae": 0.3344,
+          "concept_cap": 2,
+          "h_stop": 0.3,
+          "n_max": 4
+        },
+        {
+          "avg_items": 4.0,
+          "avg_mae": 0.3498,
+          "concept_cap": 3,
+          "h_stop": 0.3,
+          "n_max": 4
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 1,
+          "h_stop": 0.4,
+          "n_max": 4
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 2,
+          "h_stop": 0.4,
+          "n_max": 4
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 3,
+          "h_stop": 0.4,
+          "n_max": 4
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 1,
+          "h_stop": 0.5,
+          "n_max": 4
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 2,
+          "h_stop": 0.5,
+          "n_max": 4
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 3,
+          "h_stop": 0.5,
+          "n_max": 4
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 1,
+          "h_stop": 0.2,
+          "n_max": 6
+        },
+        {
+          "avg_items": 4.0,
+          "avg_mae": 0.3344,
+          "concept_cap": 2,
+          "h_stop": 0.2,
+          "n_max": 6
+        },
+        {
+          "avg_items": 4.667,
+          "avg_mae": 0.3846,
+          "concept_cap": 3,
+          "h_stop": 0.2,
+          "n_max": 6
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 1,
+          "h_stop": 0.3,
+          "n_max": 6
+        },
+        {
+          "avg_items": 4.0,
+          "avg_mae": 0.3344,
+          "concept_cap": 2,
+          "h_stop": 0.3,
+          "n_max": 6
+        },
+        {
+          "avg_items": 4.667,
+          "avg_mae": 0.3846,
+          "concept_cap": 3,
+          "h_stop": 0.3,
+          "n_max": 6
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 1,
+          "h_stop": 0.4,
+          "n_max": 6
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 2,
+          "h_stop": 0.4,
+          "n_max": 6
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 3,
+          "h_stop": 0.4,
+          "n_max": 6
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 1,
+          "h_stop": 0.5,
+          "n_max": 6
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 2,
+          "h_stop": 0.5,
+          "n_max": 6
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 3,
+          "h_stop": 0.5,
+          "n_max": 6
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 1,
+          "h_stop": 0.2,
+          "n_max": 8
+        },
+        {
+          "avg_items": 4.0,
+          "avg_mae": 0.3344,
+          "concept_cap": 2,
+          "h_stop": 0.2,
+          "n_max": 8
+        },
+        {
+          "avg_items": 4.667,
+          "avg_mae": 0.3846,
+          "concept_cap": 3,
+          "h_stop": 0.2,
+          "n_max": 8
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 1,
+          "h_stop": 0.3,
+          "n_max": 8
+        },
+        {
+          "avg_items": 4.0,
+          "avg_mae": 0.3344,
+          "concept_cap": 2,
+          "h_stop": 0.3,
+          "n_max": 8
+        },
+        {
+          "avg_items": 4.667,
+          "avg_mae": 0.3846,
+          "concept_cap": 3,
+          "h_stop": 0.3,
+          "n_max": 8
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 1,
+          "h_stop": 0.4,
+          "n_max": 8
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 2,
+          "h_stop": 0.4,
+          "n_max": 8
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 3,
+          "h_stop": 0.4,
+          "n_max": 8
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 1,
+          "h_stop": 0.5,
+          "n_max": 8
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 2,
+          "h_stop": 0.5,
+          "n_max": 8
+        },
+        {
+          "avg_items": 2.0,
+          "avg_mae": 0.3516,
+          "concept_cap": 3,
+          "h_stop": 0.5,
+          "n_max": 8
+        }
+      ],
+      "heldout_comparison": {
+        "default_heldout_items": 3.0,
+        "default_heldout_mae": 0.3903,
+        "winner_heldout_items": 4.0,
+        "winner_heldout_mae": 0.2983
+      },
+      "winner": {
+        "avg_items": 4.0,
+        "avg_mae": 0.3344,
+        "concept_cap": 2,
+        "h_stop": 0.2,
+        "n_max": 4
+      }
     }
   },
-  "planner_summary": {
-    "adaptengine": {
-      "feasibility_rate": 1.0,
-      "mean_final_mastery": 0.7252
-    },
-    "static": {
-      "feasibility_rate": 1.0,
-      "mean_final_mastery": 0.6287
-    }
+  "metadata": {
+    "config_hash": "a26889cc67a002b1d206275e8337349d5563b5845e75fb42dccb6a19221f41e5",
+    "curricula": [
+      "4-node"
+    ],
+    "cutoff": 0.7,
+    "git_sha": "26b59d454dd4647b71af8c2449c15afd8d46fb8c",
+    "limitation": "Synthetic IRT-generated learner responses evaluated against BKT belief updates on synthetic curriculum fixtures. Real-world dynamics require empirical deployment.",
+    "num_seeds": 5,
+    "profiles": [
+      "nominal",
+      "high_slip",
+      "fast_forgetter",
+      "rapid_learner"
+    ],
+    "split_rule": "even seeds (tuning) vs odd seeds (held-out)"
   },
   "per_seed_runs": {
-    "diagnostic": [
-      {
-        "seed": 100,
-        "adaptive_eig": {
-          "mae": 0.3842,
-          "items": 2
-        },
-        "fixed": {
-          "mae": 0.1946,
-          "items": 8
-        },
-        "random": {
-          "mae": 0.3004,
-          "items": 8
-        }
-      },
-      {
-        "seed": 101,
-        "adaptive_eig": {
-          "mae": 0.4653,
-          "items": 3
-        },
-        "fixed": {
-          "mae": 0.2676,
-          "items": 8
-        },
-        "random": {
-          "mae": 0.2147,
-          "items": 8
-        }
-      },
-      {
-        "seed": 102,
-        "adaptive_eig": {
-          "mae": 0.2981,
-          "items": 2
-        },
-        "fixed": {
-          "mae": 0.2586,
-          "items": 8
-        },
-        "random": {
-          "mae": 0.2359,
-          "items": 8
-        }
-      },
-      {
-        "seed": 103,
-        "adaptive_eig": {
-          "mae": 0.5466,
-          "items": 2
-        },
-        "fixed": {
-          "mae": 0.1717,
-          "items": 8
-        },
-        "random": {
-          "mae": 0.3668,
-          "items": 8
-        }
-      },
-      {
-        "seed": 104,
-        "adaptive_eig": {
-          "mae": 0.339,
-          "items": 3
-        },
-        "fixed": {
-          "mae": 0.3539,
-          "items": 8
-        },
-        "random": {
-          "mae": 0.4226,
-          "items": 8
-        }
-      }
-    ],
     "planner": [
       {
+        "adapt": {
+          "arm": "adapt",
+          "attempts": [
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4776,
+              false
+            ],
+            [
+              0.2574,
+              false
+            ],
+            [
+              0.2953,
+              true
+            ],
+            [
+              0.5522,
+              false
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4776,
+              false
+            ],
+            [
+              0.2574,
+              false
+            ]
+          ],
+          "budget_violations": 0,
+          "days_used": 3,
+          "executed_minutes_per_day": {
+            "1": 12,
+            "3": 15,
+            "4": 7
+          },
+          "goal_mastered": false,
+          "goal_true_mastery": 0.4123,
+          "mean_true_mastery_goal_and_ancestors": 0.6095,
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0,
+          "retention": 1.0,
+          "scenario": "missed_day",
+          "seed": 100,
+          "total_activities_completed": 15
+        },
+        "no_replan": {
+          "arm": "no_replan",
+          "attempts": [
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4776,
+              false
+            ],
+            [
+              0.2574,
+              false
+            ]
+          ],
+          "budget_violations": 0,
+          "days_used": 1,
+          "executed_minutes_per_day": {
+            "1": 12
+          },
+          "goal_mastered": false,
+          "goal_true_mastery": 0.2058,
+          "mean_true_mastery_goal_and_ancestors": 0.5007,
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0,
+          "retention": 1.0,
+          "scenario": "missed_day",
+          "seed": 100,
+          "total_activities_completed": 6
+        },
+        "no_review": {
+          "arm": "no_review",
+          "attempts": [
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4776,
+              false
+            ],
+            [
+              0.2574,
+              false
+            ],
+            [
+              0.2953,
+              true
+            ],
+            [
+              0.5522,
+              false
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4776,
+              false
+            ],
+            [
+              0.2574,
+              false
+            ]
+          ],
+          "budget_violations": 0,
+          "days_used": 3,
+          "executed_minutes_per_day": {
+            "1": 12,
+            "3": 15,
+            "4": 7
+          },
+          "goal_mastered": false,
+          "goal_true_mastery": 0.4123,
+          "mean_true_mastery_goal_and_ancestors": 0.6095,
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0,
+          "retention": 1.0,
+          "scenario": "missed_day",
+          "seed": 100,
+          "total_activities_completed": 15
+        },
         "seed": 100,
-        "adaptengine": {
-          "feasible": true,
-          "days": 2,
-          "budget_violations": 0,
-          "prerequisite_violations": 0,
-          "final_hidden_mastery": 0.7516,
-          "replanned_feasible": true
-        },
         "static": {
-          "feasible": true,
-          "days": 2,
+          "arm": "static",
+          "attempts": [
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.7449,
+              true
+            ],
+            [
+              0.7415,
+              true
+            ],
+            [
+              0.4776,
+              false
+            ],
+            [
+              0.198,
+              true
+            ],
+            [
+              0.4776,
+              false
+            ],
+            [
+              0.2574,
+              false
+            ],
+            [
+              0.1691,
+              true
+            ],
+            [
+              0.3183,
+              false
+            ]
+          ],
           "budget_violations": 0,
-          "prerequisite_violations": 0,
-          "final_hidden_mastery": 0.6644,
-          "replanned_feasible": false
+          "days_used": 2,
+          "executed_minutes_per_day": {
+            "1": 15,
+            "3": 13
+          },
+          "goal_mastered": false,
+          "goal_true_mastery": 0.4696,
+          "mean_true_mastery_goal_and_ancestors": 0.5714,
+          "plan_trace_coverage": 0.0,
+          "prerequisite_violations": 6,
+          "retention": 1.0,
+          "scenario": "missed_day",
+          "seed": 100,
+          "total_activities_completed": 13
         }
       },
       {
+        "adapt": {
+          "arm": "adapt",
+          "attempts": [
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4776,
+              false
+            ],
+            [
+              0.2574,
+              true
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4803,
+              false
+            ]
+          ],
+          "budget_violations": 0,
+          "days_used": 3,
+          "executed_minutes_per_day": {
+            "1": 12,
+            "3": 14,
+            "4": 7
+          },
+          "goal_mastered": true,
+          "goal_true_mastery": 0.8067,
+          "mean_true_mastery_goal_and_ancestors": 0.6882,
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0,
+          "retention": 1.0,
+          "scenario": "missed_day",
+          "seed": 101,
+          "total_activities_completed": 14
+        },
+        "no_replan": {
+          "arm": "no_replan",
+          "attempts": [
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ]
+          ],
+          "budget_violations": 0,
+          "days_used": 1,
+          "executed_minutes_per_day": {
+            "1": 12
+          },
+          "goal_mastered": true,
+          "goal_true_mastery": 0.7388,
+          "mean_true_mastery_goal_and_ancestors": 0.6344,
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0,
+          "retention": 1.0,
+          "scenario": "missed_day",
+          "seed": 101,
+          "total_activities_completed": 6
+        },
+        "no_review": {
+          "arm": "no_review",
+          "attempts": [
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4776,
+              false
+            ],
+            [
+              0.2574,
+              true
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4803,
+              false
+            ]
+          ],
+          "budget_violations": 0,
+          "days_used": 3,
+          "executed_minutes_per_day": {
+            "1": 12,
+            "3": 14,
+            "4": 7
+          },
+          "goal_mastered": true,
+          "goal_true_mastery": 0.8067,
+          "mean_true_mastery_goal_and_ancestors": 0.6882,
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0,
+          "retention": 1.0,
+          "scenario": "missed_day",
+          "seed": 101,
+          "total_activities_completed": 14
+        },
         "seed": 101,
-        "adaptengine": {
-          "feasible": true,
-          "days": 2,
-          "budget_violations": 0,
-          "prerequisite_violations": 0,
-          "final_hidden_mastery": 0.881,
-          "replanned_feasible": true
-        },
         "static": {
-          "feasible": true,
-          "days": 2,
+          "arm": "static",
+          "attempts": [
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.7449,
+              true
+            ],
+            [
+              0.7415,
+              false
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.198,
+              false
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.7449,
+              true
+            ],
+            [
+              0.7415,
+              false
+            ]
+          ],
           "budget_violations": 0,
-          "prerequisite_violations": 0,
-          "final_hidden_mastery": 0.8392,
-          "replanned_feasible": false
+          "days_used": 2,
+          "executed_minutes_per_day": {
+            "1": 15,
+            "3": 13
+          },
+          "goal_mastered": true,
+          "goal_true_mastery": 0.8255,
+          "mean_true_mastery_goal_and_ancestors": 0.6679,
+          "plan_trace_coverage": 0.0,
+          "prerequisite_violations": 6,
+          "retention": 1.0,
+          "scenario": "missed_day",
+          "seed": 101,
+          "total_activities_completed": 13
         }
       },
       {
+        "adapt": {
+          "arm": "adapt",
+          "attempts": [
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              false
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.435,
+              false
+            ]
+          ],
+          "budget_violations": 0,
+          "days_used": 3,
+          "executed_minutes_per_day": {
+            "1": 12,
+            "3": 14,
+            "4": 7
+          },
+          "goal_mastered": false,
+          "goal_true_mastery": 0.6121,
+          "mean_true_mastery_goal_and_ancestors": 0.66,
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0,
+          "retention": 1.0,
+          "scenario": "missed_day",
+          "seed": 102,
+          "total_activities_completed": 14
+        },
+        "no_replan": {
+          "arm": "no_replan",
+          "attempts": [
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ]
+          ],
+          "budget_violations": 0,
+          "days_used": 1,
+          "executed_minutes_per_day": {
+            "1": 12
+          },
+          "goal_mastered": false,
+          "goal_true_mastery": 0.4759,
+          "mean_true_mastery_goal_and_ancestors": 0.5312,
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0,
+          "retention": 1.0,
+          "scenario": "missed_day",
+          "seed": 102,
+          "total_activities_completed": 6
+        },
+        "no_review": {
+          "arm": "no_review",
+          "attempts": [
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              false
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.435,
+              false
+            ]
+          ],
+          "budget_violations": 0,
+          "days_used": 3,
+          "executed_minutes_per_day": {
+            "1": 12,
+            "3": 14,
+            "4": 7
+          },
+          "goal_mastered": false,
+          "goal_true_mastery": 0.6121,
+          "mean_true_mastery_goal_and_ancestors": 0.66,
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0,
+          "retention": 1.0,
+          "scenario": "missed_day",
+          "seed": 102,
+          "total_activities_completed": 14
+        },
         "seed": 102,
-        "adaptengine": {
-          "feasible": true,
-          "days": 2,
-          "budget_violations": 0,
-          "prerequisite_violations": 0,
-          "final_hidden_mastery": 0.7558,
-          "replanned_feasible": true
-        },
         "static": {
-          "feasible": true,
-          "days": 2,
+          "arm": "static",
+          "attempts": [
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.7449,
+              true
+            ],
+            [
+              0.7415,
+              false
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.198,
+              false
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.7449,
+              true
+            ],
+            [
+              0.7415,
+              false
+            ]
+          ],
           "budget_violations": 0,
-          "prerequisite_violations": 0,
-          "final_hidden_mastery": 0.67,
-          "replanned_feasible": false
+          "days_used": 2,
+          "executed_minutes_per_day": {
+            "1": 15,
+            "3": 13
+          },
+          "goal_mastered": false,
+          "goal_true_mastery": 0.65,
+          "mean_true_mastery_goal_and_ancestors": 0.5848,
+          "plan_trace_coverage": 0.0,
+          "prerequisite_violations": 6,
+          "retention": 1.0,
+          "scenario": "missed_day",
+          "seed": 102,
+          "total_activities_completed": 13
         }
       },
       {
+        "adapt": {
+          "arm": "adapt",
+          "attempts": [
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              false
+            ],
+            [
+              0.435,
+              true
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ]
+          ],
+          "budget_violations": 0,
+          "days_used": 3,
+          "executed_minutes_per_day": {
+            "1": 12,
+            "3": 13,
+            "4": 7
+          },
+          "goal_mastered": false,
+          "goal_true_mastery": 0.5113,
+          "mean_true_mastery_goal_and_ancestors": 0.6178,
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0,
+          "retention": 1.0,
+          "scenario": "missed_day",
+          "seed": 103,
+          "total_activities_completed": 14
+        },
+        "no_replan": {
+          "arm": "no_replan",
+          "attempts": [
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              false
+            ]
+          ],
+          "budget_violations": 0,
+          "days_used": 1,
+          "executed_minutes_per_day": {
+            "1": 12
+          },
+          "goal_mastered": false,
+          "goal_true_mastery": 0.3397,
+          "mean_true_mastery_goal_and_ancestors": 0.5278,
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0,
+          "retention": 1.0,
+          "scenario": "missed_day",
+          "seed": 103,
+          "total_activities_completed": 6
+        },
+        "no_review": {
+          "arm": "no_review",
+          "attempts": [
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              false
+            ],
+            [
+              0.435,
+              true
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ]
+          ],
+          "budget_violations": 0,
+          "days_used": 3,
+          "executed_minutes_per_day": {
+            "1": 12,
+            "3": 13,
+            "4": 7
+          },
+          "goal_mastered": false,
+          "goal_true_mastery": 0.5113,
+          "mean_true_mastery_goal_and_ancestors": 0.6178,
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0,
+          "retention": 1.0,
+          "scenario": "missed_day",
+          "seed": 103,
+          "total_activities_completed": 14
+        },
         "seed": 103,
-        "adaptengine": {
-          "feasible": true,
-          "days": 2,
-          "budget_violations": 0,
-          "prerequisite_violations": 0,
-          "final_hidden_mastery": 0.769,
-          "replanned_feasible": true
-        },
         "static": {
-          "feasible": true,
-          "days": 2,
+          "arm": "static",
+          "attempts": [
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.7449,
+              true
+            ],
+            [
+              0.7415,
+              true
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.198,
+              false
+            ],
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              true
+            ],
+            [
+              0.7449,
+              false
+            ],
+            [
+              0.5669,
+              true
+            ]
+          ],
           "budget_violations": 0,
-          "prerequisite_violations": 0,
-          "final_hidden_mastery": 0.6879,
-          "replanned_feasible": false
+          "days_used": 2,
+          "executed_minutes_per_day": {
+            "1": 15,
+            "3": 13
+          },
+          "goal_mastered": false,
+          "goal_true_mastery": 0.559,
+          "mean_true_mastery_goal_and_ancestors": 0.5979,
+          "plan_trace_coverage": 0.0,
+          "prerequisite_violations": 6,
+          "retention": 1.0,
+          "scenario": "missed_day",
+          "seed": 103,
+          "total_activities_completed": 13
         }
       },
       {
-        "seed": 104,
-        "adaptengine": {
-          "feasible": true,
-          "days": 2,
+        "adapt": {
+          "arm": "adapt",
+          "attempts": [
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              false
+            ],
+            [
+              0.4776,
+              false
+            ],
+            [
+              0.2574,
+              true
+            ],
+            [
+              0.4803,
+              false
+            ],
+            [
+              0.435,
+              false
+            ]
+          ],
           "budget_violations": 0,
+          "days_used": 2,
+          "executed_minutes_per_day": {
+            "1": 12,
+            "3": 12
+          },
+          "goal_mastered": true,
+          "goal_true_mastery": 0.7239,
+          "mean_true_mastery_goal_and_ancestors": 0.6198,
+          "plan_trace_coverage": 1.0,
           "prerequisite_violations": 0,
-          "final_hidden_mastery": 0.4687,
-          "replanned_feasible": true
+          "retention": 1.0,
+          "scenario": "missed_day",
+          "seed": 104,
+          "total_activities_completed": 10
         },
-        "static": {
-          "feasible": true,
-          "days": 2,
+        "no_replan": {
+          "arm": "no_replan",
+          "attempts": [
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              false
+            ],
+            [
+              0.4776,
+              false
+            ],
+            [
+              0.2574,
+              true
+            ]
+          ],
           "budget_violations": 0,
+          "days_used": 1,
+          "executed_minutes_per_day": {
+            "1": 12
+          },
+          "goal_mastered": true,
+          "goal_true_mastery": 0.7239,
+          "mean_true_mastery_goal_and_ancestors": 0.568,
+          "plan_trace_coverage": 1.0,
           "prerequisite_violations": 0,
-          "final_hidden_mastery": 0.2821,
-          "replanned_feasible": false
+          "retention": 1.0,
+          "scenario": "missed_day",
+          "seed": 104,
+          "total_activities_completed": 6
+        },
+        "no_review": {
+          "arm": "no_review",
+          "attempts": [
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              false
+            ],
+            [
+              0.4776,
+              false
+            ],
+            [
+              0.2574,
+              true
+            ],
+            [
+              0.4803,
+              false
+            ],
+            [
+              0.435,
+              false
+            ]
+          ],
+          "budget_violations": 0,
+          "days_used": 2,
+          "executed_minutes_per_day": {
+            "1": 12,
+            "3": 12
+          },
+          "goal_mastered": true,
+          "goal_true_mastery": 0.7239,
+          "mean_true_mastery_goal_and_ancestors": 0.6198,
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0,
+          "retention": 1.0,
+          "scenario": "missed_day",
+          "seed": 104,
+          "total_activities_completed": 10
+        },
+        "seed": 104,
+        "static": {
+          "arm": "static",
+          "attempts": [
+            [
+              0.4776,
+              true
+            ],
+            [
+              0.6453,
+              false
+            ],
+            [
+              0.3437,
+              false
+            ],
+            [
+              0.1602,
+              true
+            ],
+            [
+              0.4776,
+              false
+            ],
+            [
+              0.198,
+              false
+            ],
+            [
+              0.4776,
+              false
+            ],
+            [
+              0.2574,
+              false
+            ],
+            [
+              0.1691,
+              false
+            ],
+            [
+              0.1059,
+              false
+            ]
+          ],
+          "budget_violations": 0,
+          "days_used": 2,
+          "executed_minutes_per_day": {
+            "1": 15,
+            "3": 13
+          },
+          "goal_mastered": true,
+          "goal_true_mastery": 0.8156,
+          "mean_true_mastery_goal_and_ancestors": 0.6047,
+          "plan_trace_coverage": 0.0,
+          "prerequisite_violations": 6,
+          "retention": 1.0,
+          "scenario": "missed_day",
+          "seed": 104,
+          "total_activities_completed": 13
         }
       }
     ]
+  },
+  "planner": {
+    "eight_node_curriculum": null,
+    "main_table": {
+      "budget_drop": {
+        "adapt": {
+          "auc": 0.3974,
+          "brier": 0.2508,
+          "budget_violations": 0,
+          "goal_mastery_rate": 0.4,
+          "mean_days_used": 3.2,
+          "mean_retention": 1.0,
+          "mean_true_goal_mastery": 0.5724,
+          "paired_diff_vs_adapt": {
+            "days_used_diff": 0.0,
+            "days_used_diff_95ci": [
+              0.0,
+              0.0
+            ],
+            "goal_true_mastery_diff": 0.0,
+            "goal_true_mastery_diff_95ci": [
+              0.0,
+              0.0
+            ],
+            "retention_diff": 0.0,
+            "retention_diff_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0
+        },
+        "no_replan": {
+          "auc": 0.4464,
+          "brier": 0.2413,
+          "budget_violations": 5,
+          "goal_mastery_rate": 0.4,
+          "mean_days_used": 2.0,
+          "mean_retention": 1.0,
+          "mean_true_goal_mastery": 0.6276,
+          "paired_diff_vs_adapt": {
+            "days_used_diff": -1.2,
+            "days_used_diff_95ci": [
+              -1.8,
+              -0.6
+            ],
+            "goal_true_mastery_diff": 0.0552,
+            "goal_true_mastery_diff_95ci": [
+              0.0136,
+              0.0968
+            ],
+            "retention_diff": 0.0,
+            "retention_diff_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0
+        },
+        "no_review": {
+          "auc": 0.3974,
+          "brier": 0.2508,
+          "budget_violations": 0,
+          "goal_mastery_rate": 0.4,
+          "mean_days_used": 3.2,
+          "mean_retention": 1.0,
+          "mean_true_goal_mastery": 0.5724,
+          "paired_diff_vs_adapt": {
+            "days_used_diff": 0.0,
+            "days_used_diff_95ci": [
+              0.0,
+              0.0
+            ],
+            "goal_true_mastery_diff": 0.0,
+            "goal_true_mastery_diff_95ci": [
+              0.0,
+              0.0
+            ],
+            "retention_diff": 0.0,
+            "retention_diff_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0
+        },
+        "static": {
+          "auc": 0.4481,
+          "brier": 0.2637,
+          "budget_violations": 10,
+          "goal_mastery_rate": 0.4,
+          "mean_days_used": 3.0,
+          "mean_retention": 1.0,
+          "mean_true_goal_mastery": 0.6639,
+          "paired_diff_vs_adapt": {
+            "days_used_diff": -0.2,
+            "days_used_diff_95ci": [
+              -0.8,
+              0.4
+            ],
+            "goal_true_mastery_diff": 0.0915,
+            "goal_true_mastery_diff_95ci": [
+              0.0584,
+              0.1343
+            ],
+            "retention_diff": 0.0,
+            "retention_diff_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "plan_trace_coverage": 0.0,
+          "prerequisite_violations": 0
+        }
+      },
+      "calm": {
+        "adapt": {
+          "auc": 0.5417,
+          "brier": 0.238,
+          "budget_violations": 0,
+          "goal_mastery_rate": 0.4,
+          "mean_days_used": 3.4,
+          "mean_retention": 1.0,
+          "mean_true_goal_mastery": 0.6133,
+          "paired_diff_vs_adapt": {
+            "days_used_diff": 0.0,
+            "days_used_diff_95ci": [
+              0.0,
+              0.0
+            ],
+            "goal_true_mastery_diff": 0.0,
+            "goal_true_mastery_diff_95ci": [
+              0.0,
+              0.0
+            ],
+            "retention_diff": 0.0,
+            "retention_diff_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0
+        },
+        "no_replan": {
+          "auc": 0.4464,
+          "brier": 0.2413,
+          "budget_violations": 0,
+          "goal_mastery_rate": 0.4,
+          "mean_days_used": 2.0,
+          "mean_retention": 1.0,
+          "mean_true_goal_mastery": 0.6276,
+          "paired_diff_vs_adapt": {
+            "days_used_diff": -1.4,
+            "days_used_diff_95ci": [
+              -1.8,
+              -1.0
+            ],
+            "goal_true_mastery_diff": 0.0144,
+            "goal_true_mastery_diff_95ci": [
+              0.0,
+              0.0431
+            ],
+            "retention_diff": 0.0,
+            "retention_diff_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0
+        },
+        "no_review": {
+          "auc": 0.5417,
+          "brier": 0.238,
+          "budget_violations": 0,
+          "goal_mastery_rate": 0.4,
+          "mean_days_used": 3.4,
+          "mean_retention": 1.0,
+          "mean_true_goal_mastery": 0.6133,
+          "paired_diff_vs_adapt": {
+            "days_used_diff": 0.0,
+            "days_used_diff_95ci": [
+              0.0,
+              0.0
+            ],
+            "goal_true_mastery_diff": 0.0,
+            "goal_true_mastery_diff_95ci": [
+              0.0,
+              0.0
+            ],
+            "retention_diff": 0.0,
+            "retention_diff_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0
+        },
+        "static": {
+          "auc": 0.4481,
+          "brier": 0.2637,
+          "budget_violations": 0,
+          "goal_mastery_rate": 0.4,
+          "mean_days_used": 3.0,
+          "mean_retention": 1.0,
+          "mean_true_goal_mastery": 0.6639,
+          "paired_diff_vs_adapt": {
+            "days_used_diff": -0.4,
+            "days_used_diff_95ci": [
+              -0.8,
+              0.0
+            ],
+            "goal_true_mastery_diff": 0.0507,
+            "goal_true_mastery_diff_95ci": [
+              0.0322,
+              0.0721
+            ],
+            "retention_diff": 0.0,
+            "retention_diff_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "plan_trace_coverage": 0.0,
+          "prerequisite_violations": 0
+        }
+      },
+      "deadline_cut": {
+        "adapt": {
+          "auc": 0.4111,
+          "brier": 0.2451,
+          "budget_violations": 0,
+          "goal_mastery_rate": 0.4,
+          "mean_days_used": 2.8,
+          "mean_retention": 1.0,
+          "mean_true_goal_mastery": 0.6133,
+          "paired_diff_vs_adapt": {
+            "days_used_diff": 0.0,
+            "days_used_diff_95ci": [
+              0.0,
+              0.0
+            ],
+            "goal_true_mastery_diff": 0.0,
+            "goal_true_mastery_diff_95ci": [
+              0.0,
+              0.0
+            ],
+            "retention_diff": 0.0,
+            "retention_diff_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0
+        },
+        "no_replan": {
+          "auc": 0.4464,
+          "brier": 0.2413,
+          "budget_violations": 0,
+          "goal_mastery_rate": 0.4,
+          "mean_days_used": 2.0,
+          "mean_retention": 1.0,
+          "mean_true_goal_mastery": 0.6276,
+          "paired_diff_vs_adapt": {
+            "days_used_diff": -0.8,
+            "days_used_diff_95ci": [
+              -1.0,
+              -0.4
+            ],
+            "goal_true_mastery_diff": 0.0144,
+            "goal_true_mastery_diff_95ci": [
+              0.0,
+              0.0431
+            ],
+            "retention_diff": 0.0,
+            "retention_diff_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0
+        },
+        "no_review": {
+          "auc": 0.4111,
+          "brier": 0.2451,
+          "budget_violations": 0,
+          "goal_mastery_rate": 0.4,
+          "mean_days_used": 2.8,
+          "mean_retention": 1.0,
+          "mean_true_goal_mastery": 0.6133,
+          "paired_diff_vs_adapt": {
+            "days_used_diff": 0.0,
+            "days_used_diff_95ci": [
+              0.0,
+              0.0
+            ],
+            "goal_true_mastery_diff": 0.0,
+            "goal_true_mastery_diff_95ci": [
+              0.0,
+              0.0
+            ],
+            "retention_diff": 0.0,
+            "retention_diff_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0
+        },
+        "static": {
+          "auc": 0.4481,
+          "brier": 0.2637,
+          "budget_violations": 0,
+          "goal_mastery_rate": 0.4,
+          "mean_days_used": 3.0,
+          "mean_retention": 1.0,
+          "mean_true_goal_mastery": 0.6639,
+          "paired_diff_vs_adapt": {
+            "days_used_diff": 0.2,
+            "days_used_diff_95ci": [
+              0.0,
+              0.6
+            ],
+            "goal_true_mastery_diff": 0.0507,
+            "goal_true_mastery_diff_95ci": [
+              0.0322,
+              0.0721
+            ],
+            "retention_diff": 0.0,
+            "retention_diff_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "plan_trace_coverage": 0.0,
+          "prerequisite_violations": 0
+        }
+      },
+      "missed_day": {
+        "adapt": {
+          "auc": 0.4111,
+          "brier": 0.2451,
+          "budget_violations": 0,
+          "goal_mastery_rate": 0.4,
+          "mean_days_used": 2.8,
+          "mean_retention": 1.0,
+          "mean_true_goal_mastery": 0.6133,
+          "paired_diff_vs_adapt": {
+            "days_used_diff": 0.0,
+            "days_used_diff_95ci": [
+              0.0,
+              0.0
+            ],
+            "goal_true_mastery_diff": 0.0,
+            "goal_true_mastery_diff_95ci": [
+              0.0,
+              0.0
+            ],
+            "retention_diff": 0.0,
+            "retention_diff_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0
+        },
+        "no_replan": {
+          "auc": 0.2143,
+          "brier": 0.2357,
+          "budget_violations": 0,
+          "goal_mastery_rate": 0.4,
+          "mean_days_used": 1.0,
+          "mean_retention": 1.0,
+          "mean_true_goal_mastery": 0.4968,
+          "paired_diff_vs_adapt": {
+            "days_used_diff": -1.8,
+            "days_used_diff_95ci": [
+              -2.0,
+              -1.4
+            ],
+            "goal_true_mastery_diff": -0.1164,
+            "goal_true_mastery_diff_95ci": [
+              -0.1785,
+              -0.0544
+            ],
+            "retention_diff": 0.0,
+            "retention_diff_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0
+        },
+        "no_review": {
+          "auc": 0.4111,
+          "brier": 0.2451,
+          "budget_violations": 0,
+          "goal_mastery_rate": 0.4,
+          "mean_days_used": 2.8,
+          "mean_retention": 1.0,
+          "mean_true_goal_mastery": 0.6133,
+          "paired_diff_vs_adapt": {
+            "days_used_diff": 0.0,
+            "days_used_diff_95ci": [
+              0.0,
+              0.0
+            ],
+            "goal_true_mastery_diff": 0.0,
+            "goal_true_mastery_diff_95ci": [
+              0.0,
+              0.0
+            ],
+            "retention_diff": 0.0,
+            "retention_diff_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "plan_trace_coverage": 1.0,
+          "prerequisite_violations": 0
+        },
+        "static": {
+          "auc": 0.5133,
+          "brier": 0.2162,
+          "budget_violations": 0,
+          "goal_mastery_rate": 0.4,
+          "mean_days_used": 2.0,
+          "mean_retention": 1.0,
+          "mean_true_goal_mastery": 0.6639,
+          "paired_diff_vs_adapt": {
+            "days_used_diff": -0.8,
+            "days_used_diff_95ci": [
+              -1.0,
+              -0.4
+            ],
+            "goal_true_mastery_diff": 0.0507,
+            "goal_true_mastery_diff_95ci": [
+              0.0322,
+              0.0721
+            ],
+            "retention_diff": 0.0,
+            "retention_diff_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "plan_trace_coverage": 0.0,
+          "prerequisite_violations": 30
+        }
+      }
+    },
+    "robustness_table": {
+      "fast_forgetter": {
+        "10": {
+          "adapt": {
+            "goal_mastery_rate": 0.0,
+            "mean_days_used": 2.2,
+            "mean_retention": 0.7111,
+            "mean_true_goal_mastery": 0.3162
+          },
+          "no_replan": {
+            "goal_mastery_rate": 0.0,
+            "mean_days_used": 2.0,
+            "mean_retention": 0.7442,
+            "mean_true_goal_mastery": 0.4246
+          },
+          "no_review": {
+            "goal_mastery_rate": 0.0,
+            "mean_days_used": 2.2,
+            "mean_retention": 0.7111,
+            "mean_true_goal_mastery": 0.3162
+          },
+          "static": {
+            "goal_mastery_rate": 0.0,
+            "mean_days_used": 4.0,
+            "mean_retention": 0.7111,
+            "mean_true_goal_mastery": 0.506
+          }
+        }
+      }
+    }
   }
 }

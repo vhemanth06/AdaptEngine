@@ -3,393 +3,412 @@
 
 Conducts a paired synthetic evaluation comparing AdaptEngine against baselines:
 1. Diagnostic Arms:
-   - Adaptive (EIG): Active information-gain selection with stopping criteria.
-   - Fixed Order: Static round-robin item selection.
-   - Random: Uniform random exercise selection up to item cap.
-   Metric: Estimation error (MAE / RMSE) against hidden true mastery and items used.
+   - Adaptive (EIG)
+   - Fixed Order (matched at n_adaptive, 4, 8 items)
+   - Random (matched at n_adaptive, 4, 8 items)
+   Metrics: MAE (all concepts), MAE (assessed concepts), unassessed fraction, items used,
+            plus hyperparameter grid tuning on tuning cohort with held-out validation.
 
-2. Planner & Event Arms:
-   - AdaptEngine Planner: State-aware, difficulty-matched, spaced review & remediation.
-   - Static Greedy Plan: Non-adaptive topological packing with no dynamic replanning.
-   Workload Event: A missed day is applied at Day 2; AdaptEngine replans from Day 3.
-   Metrics: Prerequisite violations (must be 0), budget violations (must be 0),
-            feasibility rate, days to goal, and final hidden mastery.
+2. Planner Arms:
+   - adapt: State-aware planning and replanning with spaced review and remediation.
+   - no_review: Full replanning, but review disabled (urgency 0.0).
+   - no_replan: Initial plan only; missed days or events are not recovered.
+   - static: State-agnostic topological sequence packed next-fit into daily budgets.
+   Scenarios: calm, missed_day, budget_drop, deadline_cut.
+   Metrics: Goal true mastery rate, mean true goal mastery, retention, days used,
+            prerequisite violations, budget violations, Brier score, ROC-AUC, explanation coverage,
+            and paired bootstrap confidence intervals (95%) vs adapt.
 
-Runs across 25 seeded simulated learners. Truth is generated via an IRT 2PL model
-(a different parameter family than BKT).
-Deterministic execution: runs with identical seeds produce byte-identical results (TC8.1).
+Determinism: runs with identical seeds produce byte-identical results (TC8.1).
+No timestamps, hostnames, or machine-specific paths are embedded in output.
 """
 
 from __future__ import annotations
 
+import argparse
 import json
-import math
 import os
-import random
+import subprocess
 import sys
 from typing import Any
 
 repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-if os.path.join(repo_root, "src") not in sys.path:
-    sys.path.insert(0, os.path.join(repo_root, "src"))
+if repo_root not in sys.path:
+    sys.path.insert(0, repo_root)
 
 from adaptengine.api import Engine  # noqa: E402
-from adaptengine.core.config import DEFAULT_CONFIG  # noqa: E402
-from adaptengine.core.schema import (  # noqa: E402
-    ActivityType,
-    Event,
-    EventType,
-    PlanContext,
-    PlanStatus,
+from adaptengine.core.config import DEFAULT_CONFIG, config_hash  # noqa: E402
+from experiments.arms import get_scenario, run_episode  # noqa: E402
+from experiments.diag_eval import (  # noqa: E402
+    evaluate_diagnostic_learner,
+    run_diagnostic_tuning,
 )
-from adaptengine.learner.state import (  # noqa: E402
-    ConceptStatus,
-    ExecutionLog,
-    LearnerConcept,
-    LearnerState,
+from experiments.sim import PROFILES, TRUE_MASTERY_CUTOFF  # noqa: E402
+from experiments.stats import (  # noqa: E402
+    brier_score,
+    paired_bootstrap_ci,
+    roc_auc,
 )
 
 
-class SimulatedLearner:
-    """Simulated learner with hidden true mastery, responding via a 2PL IRT model."""
+def run_evaluation(
+    num_seeds: int = 100, seed_start: int = 100, quick: bool = False
+) -> dict[str, Any]:
+    if quick:
+        num_seeds = min(num_seeds, 10)
 
-    def __init__(self, seed: int, concepts: tuple[str, ...]):
-        self.rng = random.Random(seed)
-        # Latent continuous true mastery theta_c* in [0.05, 0.95]
-        self.true_mastery: dict[str, float] = {
-            c: round(self.rng.uniform(0.10, 0.90), 4) for c in concepts
+    seeds = list(range(seed_start, seed_start + num_seeds))
+    tuning_seeds = [s for s in seeds if s % 2 == 0]
+    heldout_seeds = [s for s in seeds if s % 2 == 1]
+
+    # Git SHA (read-only command)
+    try:
+        git_sha = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"],
+            cwd=repo_root,
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+    except Exception:
+        git_sha = "unknown"
+
+    cfg_hash = config_hash(DEFAULT_CONFIG)
+
+    curriculum_4_path = "data/curriculum/curriculum_4node.json"
+    activities_4_path = "data/curriculum/activities_4node.json"
+    curricula_used = ["4-node"]
+
+    engine_4 = Engine.from_files(curriculum_4_path, activities_4_path, config=DEFAULT_CONFIG)
+
+    # -------------------------------------------------------------------------
+    # PART 1: Diagnostic Evaluation & Tuning
+    # -------------------------------------------------------------------------
+    diag_per_seed: dict[int, Any] = {}
+    for s in seeds:
+        diag_per_seed[s] = evaluate_diagnostic_learner(engine_4, s, PROFILES["nominal"])
+
+    # Aggregate diagnostic metrics across held-out cohort
+    eval_seeds = heldout_seeds if heldout_seeds else seeds
+
+    def agg_diag_arm(extractor):
+        all_errs = [extractor(diag_per_seed[s]) for s in eval_seeds]
+        mae_all = round(sum(e["mae_all"] for e in all_errs) / len(all_errs), 4)
+        mae_assessed = round(sum(e["mae_assessed"] for e in all_errs) / len(all_errs), 4)
+        unassessed = round(sum(e["unassessed_fraction"] for e in all_errs) / len(all_errs), 4)
+        items = round(sum(e["items_used"] for e in all_errs) / len(all_errs), 3)
+
+        ci_mae_all = paired_bootstrap_ci([e["mae_all"] for e in all_errs])
+        ci_mae_assessed = paired_bootstrap_ci([e["mae_assessed"] for e in all_errs])
+
+        return {
+            "mae_all": mae_all,
+            "mae_all_95ci": list(ci_mae_all),
+            "mae_assessed": mae_assessed,
+            "mae_assessed_95ci": list(ci_mae_assessed),
+            "unassessed_fraction": unassessed,
+            "items_used": items,
         }
-        self.initial_true_mastery = dict(self.true_mastery)
 
-    def sample_response(self, concept_id: str, difficulty: float) -> bool:
-        """Sample response via 2-parameter logistic IRT:
+    diagnostic_summary: dict[str, Any] = {
+        "adaptive": agg_diag_arm(lambda r: r["adaptive"]),
+        "fixed": {
+            "n_adaptive": agg_diag_arm(lambda r: r["fixed"][str(r["adaptive"]["items_used"])]),
+            "4_items": agg_diag_arm(lambda r: r["fixed"]["4"]),
+            "8_items": agg_diag_arm(lambda r: r["fixed"]["8"]),
+        },
+        "random": {
+            "n_adaptive": agg_diag_arm(lambda r: r["random"][str(r["adaptive"]["items_used"])]),
+            "4_items": agg_diag_arm(lambda r: r["random"]["4"]),
+            "8_items": agg_diag_arm(lambda r: r["random"]["8"]),
+        },
+    }
 
-        P(correct) = 1 / (1 + exp(-a * (theta* - d))), with discrimination a=3.0.
-        """
-        theta = self.true_mastery[concept_id]
-        a = 3.0
-        logit = a * (theta - difficulty)
-        p_correct = 1.0 / (1.0 + math.exp(-max(-10.0, min(10.0, logit))))
-        u = self.rng.random()
-        return u < p_correct
-
-    def apply_learning(self, concept_id: str, act_type: ActivityType):
-        """Hidden truth transitions during learning."""
-        curr = self.true_mastery[concept_id]
-        if act_type == ActivityType.LESSON:
-            # Substantial learning from lesson
-            self.true_mastery[concept_id] = min(0.98, curr + 0.18 * (1.0 - curr))
-        elif act_type == ActivityType.EXERCISE:
-            # Incremental practice gain
-            self.true_mastery[concept_id] = min(0.98, curr + 0.05 * (1.0 - curr))
-
-
-def run_diagnostic_arms(
-    engine: Engine,
-    learner: SimulatedLearner,
-    item_cap: int = 8,
-) -> dict[str, Any]:
-    concepts = engine.graph.concepts()
-    all_exercises = [a for a in engine.activities.values() if a.type == ActivityType.EXERCISE]
-
-    # --- Arm 1: Adaptive EIG ---
-    init_state = engine.init_learner()
-    diag_res = engine.diagnose(
-        init_state,
-        goal_concepts=None,
-        response_provider=lambda act: learner.sample_response(
-            act.target_concept, act.difficulty or 0.5
-        ),
-        session_id=f"eval-diag-{learner.rng.randint(1000, 9999)}",
+    # Run tuning grid
+    tuning_res = run_diagnostic_tuning(
+        curriculum_4_path,
+        activities_4_path,
+        tuning_seeds=tuning_seeds if tuning_seeds else seeds[:2],
+        heldout_seeds=heldout_seeds if heldout_seeds else seeds[:2],
+        profile=PROFILES["nominal"],
     )
-    eig_state = diag_res.state
-    eig_items = diag_res.total_items
-    eig_mae = sum(
-        abs(eig_state.concepts[c].p - learner.initial_true_mastery[c]) for c in concepts
-    ) / len(concepts)
+    diagnostic_summary["tuning"] = tuning_res
 
-    # --- Arm 2: Fixed Order ---
-    fixed_state = engine.init_learner()
-    fixed_items = 0
-    # Fixed round-robin over concepts
-    concept_cycle = list(concepts)
-    idx = 0
-    while fixed_items < item_cap and idx < len(all_exercises):
-        cid = concept_cycle[idx % len(concept_cycle)]
-        c_exs = [a for a in all_exercises if a.target_concept == cid]
-        if c_exs:
-            act = c_exs[(idx // len(concept_cycle)) % len(c_exs)]
-            resp = learner.sample_response(cid, act.difficulty or 0.5)
-            c = fixed_state.concepts[cid]
-            p_up = engine.model.update(c.p, act.difficulty or 0.5, resp, 0.0)
-            c_new = LearnerConcept(
-                concept_id=cid,
-                p=p_up,
-                lessons_done=c.lessons_done,
-                responses=c.responses + 1,
-                correct_responses=c.correct_responses + (1 if resp else 0),
-                status=ConceptStatus.ASSESSED,
+    # -------------------------------------------------------------------------
+    # PART 2: Planner Arms Main Table (Nominal Profile, Budget 15, 4 Scenarios)
+    # -------------------------------------------------------------------------
+    main_scenarios = ["calm", "missed_day", "budget_drop", "deadline_cut"]
+    arms = ["adapt", "no_review", "no_replan", "static"]
+
+    planner_runs: dict[str, dict[str, dict[int, Any]]] = {
+        sc_name: {arm: {} for arm in arms} for sc_name in main_scenarios
+    }
+
+    per_seed_planner: list[dict[str, Any]] = []
+
+    start_state_4 = engine_4.init_learner()
+
+    for s in seeds:
+        seed_record: dict[str, Any] = {"seed": s}
+        for sc_name in main_scenarios:
+            sc = get_scenario(sc_name, engine_4, start_state_4, goal="C4", budget=15)
+            if sc is None:
+                continue
+            for arm in arms:
+                res = run_episode(
+                    engine_4, seed=s, scenario=sc, arm=arm, profile=PROFILES["nominal"]
+                )
+                planner_runs[sc_name][arm][s] = res
+                if sc_name == "missed_day":
+                    seed_record[arm] = res
+        per_seed_planner.append(seed_record)
+
+    main_table: dict[str, Any] = {}
+    for sc_name in main_scenarios:
+        main_table[sc_name] = {}
+        sc_arms_runs = planner_runs[sc_name]
+
+        for arm in arms:
+            arm_seed_results = [sc_arms_runs[arm][s] for s in seeds]
+            adapt_seed_results = [sc_arms_runs["adapt"][s] for s in seeds]
+
+            goal_mastery_rate = round(
+                sum(1.0 for r in arm_seed_results if r["goal_mastered"]) / len(arm_seed_results), 4
             )
-            fixed_state = LearnerState(concepts={**fixed_state.concepts, cid: c_new})
-            fixed_items += 1
-        idx += 1
-    fixed_mae = sum(
-        abs(fixed_state.concepts[c].p - learner.initial_true_mastery[c]) for c in concepts
-    ) / len(concepts)
+            mean_true_mastery = round(
+                sum(r["goal_true_mastery"] for r in arm_seed_results) / len(arm_seed_results), 4
+            )
+            mean_retention = round(
+                sum(r["retention"] for r in arm_seed_results) / len(arm_seed_results), 4
+            )
+            mean_days = round(
+                sum(r["days_used"] for r in arm_seed_results) / len(arm_seed_results), 3
+            )
+            total_prereq_viol = sum(r["prerequisite_violations"] for r in arm_seed_results)
+            total_budget_viol = sum(r["budget_violations"] for r in arm_seed_results)
+            trace_cov = round(
+                sum(r["plan_trace_coverage"] for r in arm_seed_results) / len(arm_seed_results), 4
+            )
 
-    # --- Arm 3: Random ---
-    rand_state = engine.init_learner()
-    rand_items = 0
-    shuffled_exs = list(all_exercises)
-    learner.rng.shuffle(shuffled_exs)
-    for act in shuffled_exs[:item_cap]:
-        cid = act.target_concept
-        resp = learner.sample_response(cid, act.difficulty or 0.5)
-        c = rand_state.concepts[cid]
-        p_up = engine.model.update(c.p, act.difficulty or 0.5, resp, 0.0)
-        c_new = LearnerConcept(
-            concept_id=cid,
-            p=p_up,
-            lessons_done=c.lessons_done,
-            responses=c.responses + 1,
-            correct_responses=c.correct_responses + (1 if resp else 0),
-            status=ConceptStatus.ASSESSED,
-        )
-        rand_state = LearnerState(concepts={**rand_state.concepts, cid: c_new})
-        rand_items += 1
-    rand_mae = sum(
-        abs(rand_state.concepts[c].p - learner.initial_true_mastery[c]) for c in concepts
-    ) / len(concepts)
+            # Held-out attempts for Brier / AUC
+            heldout_runs = [sc_arms_runs[arm][s] for s in eval_seeds]
+            all_attempts: list[tuple[float, bool]] = [
+                (pair[0], pair[1]) for r in heldout_runs for pair in r["attempts"]
+            ]
+            arm_brier = brier_score(all_attempts)
+            arm_auc = roc_auc(all_attempts)
 
-    return {
-        "adaptive_eig": {"mae": round(eig_mae, 4), "items": eig_items},
-        "fixed": {"mae": round(fixed_mae, 4), "items": fixed_items},
-        "random": {"mae": round(rand_mae, 4), "items": rand_items},
-        "post_diag_state": eig_state,
-    }
+            # Paired differences vs adapt
+            diff_mastery = [
+                r["goal_true_mastery"] - a["goal_true_mastery"]
+                for r, a in zip(arm_seed_results, adapt_seed_results)
+            ]
+            diff_days = [
+                float(r["days_used"] - a["days_used"])
+                for r, a in zip(arm_seed_results, adapt_seed_results)
+            ]
+            diff_ret = [
+                r["retention"] - a["retention"]
+                for r, a in zip(arm_seed_results, adapt_seed_results)
+            ]
 
-
-def run_planner_arms(
-    engine: Engine,
-    learner: SimulatedLearner,
-    start_state: LearnerState,
-    budget: int = 15,
-    deadline_day: int = 6,
-    goal: str = "C4",
-) -> dict[str, Any]:
-    # --- Arm 1: AdaptEngine Dynamic Planner with Event Replan ---
-    ctx1 = PlanContext(goal=goal, deadline_day=deadline_day, budget=budget, current_day=1)
-    plan_dyn = engine.plan(start_state, ctx1)
-    dyn_feasible = plan_dyn.status == PlanStatus.FEASIBLE
-    dyn_days = len(plan_dyn.days)
-
-    # Check budget violations
-    dyn_budget_violations = sum(1 for d in plan_dyn.days if d.duration > budget)
-
-    # Simulate Day 1 execution
-    log_dyn = ExecutionLog()
-    sim_state_dyn = start_state
-    if plan_dyn.days:
-        day1_acts = plan_dyn.days[0].activities
-        for aid in day1_acts:
-            act = engine.activities[aid]
-            if act.type == ActivityType.LESSON:
-                learner.apply_learning(act.target_concept, ActivityType.LESSON)
-                ev = Event(
-                    day=1,
-                    kind=EventType.COMPLETED,
-                    activity_id=aid,
-                    minutes_elapsed=act.duration,
-                    correct=None,
-                    attempt_id=f"dyn-d1-{aid}",
-                )
-            else:
-                resp = learner.sample_response(act.target_concept, act.difficulty or 0.5)
-                learner.apply_learning(act.target_concept, ActivityType.EXERCISE)
-                ev = Event(
-                    day=1,
-                    kind=EventType.COMPLETED,
-                    activity_id=aid,
-                    minutes_elapsed=act.duration,
-                    correct=resp,
-                    attempt_id=f"dyn-d1-{aid}",
-                )
-            sim_state_dyn, log_dyn = engine.record(sim_state_dyn, log_dyn, ev)
-
-    # Apply Event: Missed Day on Day 2
-    ev_missed = Event(day=2, kind=EventType.MISSED)
-    sim_state_dyn, log_dyn = engine.record(sim_state_dyn, log_dyn, ev_missed)
-
-    # AdaptEngine Replans from Day 3
-    ctx_replan = PlanContext(goal=goal, deadline_day=deadline_day, budget=budget, current_day=3)
-    plan_dyn_revised = engine.replan(sim_state_dyn, log_dyn, ctx_replan)
-
-    # Simulate remaining days for AdaptEngine
-    for day_obj in plan_dyn_revised.days:
-        for aid in day_obj.activities:
-            act = engine.activities[aid]
-            learner.apply_learning(act.target_concept, act.type)
-
-    dyn_final_hidden_mastery = round(learner.true_mastery[goal], 4)
-
-    # --- Arm 2: Static Baseline Plan ---
-    # Static plan uses static non-adaptive greedy topological packing
-    # We construct a fixed sequence of all activities topologically
-    static_learner = SimulatedLearner(12345, engine.graph.concepts())
-    static_learner.true_mastery = dict(learner.initial_true_mastery)
-
-    ctx_static = PlanContext(goal=goal, deadline_day=deadline_day, budget=budget, current_day=1)
-    plan_static = engine.plan(start_state, ctx_static)
-    static_feasible = plan_static.status == PlanStatus.FEASIBLE
-    static_days = len(plan_static.days)
-    static_budget_violations = sum(1 for d in plan_static.days if d.duration > budget)
-
-    # Static plan experiences Missed Day on Day 2 but CANNOT replan
-    # It simply drops Day 2's planned activities without rescheduling
-    for i, day_obj in enumerate(plan_static.days):
-        if day_obj.day == 2:
-            # Missed day: activities dropped
-            continue
-        for aid in day_obj.activities:
-            act = engine.activities[aid]
-            static_learner.apply_learning(act.target_concept, act.type)
-
-    static_final_hidden_mastery = round(static_learner.true_mastery[goal], 4)
-
-    return {
-        "adaptengine": {
-            "feasible": dyn_feasible,
-            "days": dyn_days,
-            "budget_violations": dyn_budget_violations,
-            "prerequisite_violations": 0,
-            "final_hidden_mastery": dyn_final_hidden_mastery,
-            "replanned_feasible": plan_dyn_revised.status == PlanStatus.FEASIBLE,
-        },
-        "static": {
-            "feasible": static_feasible,
-            "days": static_days,
-            "budget_violations": static_budget_violations,
-            "prerequisite_violations": 0,
-            "final_hidden_mastery": static_final_hidden_mastery,
-            "replanned_feasible": False,  # cannot replan
-        },
-    }
-
-
-def run_evaluation(num_seeds: int = 25, seed_start: int = 100) -> dict[str, Any]:
-    curriculum_path = os.path.join(repo_root, "data", "curriculum", "curriculum_4node.json")
-    activities_path = os.path.join(repo_root, "data", "curriculum", "activities_4node.json")
-    engine = Engine.from_files(curriculum_path, activities_path, config=DEFAULT_CONFIG)
-
-    print("=" * 76)
-    print(f" AdaptEngine — Paired Synthetic Baseline Evaluation ({num_seeds} Seeded Learners)")
-    print("=" * 76)
-
-    diag_records = []
-    planner_records = []
-
-    for idx in range(num_seeds):
-        seed = seed_start + idx
-        learner = SimulatedLearner(seed, engine.graph.concepts())
-
-        # 1. Diagnostic arms
-        d_res = run_diagnostic_arms(engine, learner, item_cap=8)
-        diag_records.append(
-            {
-                "seed": seed,
-                "adaptive_eig": d_res["adaptive_eig"],
-                "fixed": d_res["fixed"],
-                "random": d_res["random"],
+            paired_vs_adapt = {
+                "goal_true_mastery_diff": round(sum(diff_mastery) / len(diff_mastery), 4),
+                "goal_true_mastery_diff_95ci": list(paired_bootstrap_ci(diff_mastery)),
+                "days_used_diff": round(sum(diff_days) / len(diff_days), 3),
+                "days_used_diff_95ci": list(paired_bootstrap_ci(diff_days)),
+                "retention_diff": round(sum(diff_ret) / len(diff_ret), 4),
+                "retention_diff_95ci": list(paired_bootstrap_ci(diff_ret)),
             }
+
+            main_table[sc_name][arm] = {
+                "goal_mastery_rate": goal_mastery_rate,
+                "mean_true_goal_mastery": mean_true_mastery,
+                "mean_retention": mean_retention,
+                "mean_days_used": mean_days,
+                "prerequisite_violations": total_prereq_viol,
+                "budget_violations": total_budget_viol,
+                "brier": arm_brier,
+                "auc": arm_auc,
+                "plan_trace_coverage": trace_cov,
+                "paired_diff_vs_adapt": paired_vs_adapt,
+            }
+
+    # -------------------------------------------------------------------------
+    # PART 3: Robustness Table across Profiles and Budgets
+    # -------------------------------------------------------------------------
+    robustness_profiles = (
+        ["high_slip", "fast_forgetter", "rapid_learner"] if not quick else ["fast_forgetter"]
+    )
+    robustness_budgets = [5, 10, 30] if not quick else [10]
+
+    robustness_table: dict[str, Any] = {}
+
+    for prof_name in robustness_profiles:
+        robustness_table[prof_name] = {}
+        prof = PROFILES[prof_name]
+        for b in robustness_budgets:
+            sc = get_scenario("missed_day", engine_4, start_state_4, goal="C4", budget=b)
+            if sc is None:
+                continue
+            budget_res: dict[str, Any] = {}
+            for arm in arms:
+                arm_results = [
+                    run_episode(engine_4, seed=s, scenario=sc, arm=arm, profile=prof) for s in seeds
+                ]
+                budget_res[arm] = {
+                    "goal_mastery_rate": round(
+                        sum(1.0 for r in arm_results if r["goal_mastered"]) / len(arm_results), 4
+                    ),
+                    "mean_true_goal_mastery": round(
+                        sum(r["goal_true_mastery"] for r in arm_results) / len(arm_results), 4
+                    ),
+                    "mean_retention": round(
+                        sum(r["retention"] for r in arm_results) / len(arm_results), 4
+                    ),
+                    "mean_days_used": round(
+                        sum(r["days_used"] for r in arm_results) / len(arm_results), 3
+                    ),
+                }
+            robustness_table[prof_name][str(b)] = budget_res
+
+    # 8-node curriculum evaluation in full mode
+    eight_node_summary = None
+    if not quick:
+        curriculum_8_path = "data/curriculum/curriculum_8node.json"
+        activities_8_path = "data/curriculum/activities_8node.json"
+        curricula_used.append("8-node")
+        engine_8 = Engine.from_files(
+            curriculum_8_path, activities_8_path, config=DEFAULT_CONFIG, allow_unreviewed=True
         )
+        start_state_8 = engine_8.init_learner()
+        goal_8 = engine_8.graph.topological_order()[-1]
 
-        # 2. Planner arms
-        p_res = run_planner_arms(
-            engine,
-            learner,
-            start_state=d_res["post_diag_state"],
-            budget=15,
-            deadline_day=6,
-            goal="C4",
-        )
-        planner_records.append({"seed": seed, **p_res})
+        eight_node_summary = {}
+        for sc_name in ["calm", "missed_day"]:
+            sc8 = get_scenario(sc_name, engine_8, start_state_8, goal=goal_8, budget=15)
+            if sc8 is not None:
+                sc8_res = {}
+                for arm in ["adapt", "static"]:
+                    runs_8 = [
+                        run_episode(
+                            engine_8, seed=s, scenario=sc8, arm=arm, profile=PROFILES["nominal"]
+                        )
+                        for s in seeds
+                    ]
+                    sc8_res[arm] = {
+                        "goal_mastery_rate": round(
+                            sum(1.0 for r in runs_8 if r["goal_mastered"]) / len(runs_8), 4
+                        ),
+                        "mean_true_goal_mastery": round(
+                            sum(r["goal_true_mastery"] for r in runs_8) / len(runs_8), 4
+                        ),
+                        "mean_days_used": round(
+                            sum(r["days_used"] for r in runs_8) / len(runs_8), 3
+                        ),
+                    }
+                eight_node_summary[sc_name] = sc8_res
 
-    # Summary statistics
-    avg_eig_mae = sum(r["adaptive_eig"]["mae"] for r in diag_records) / num_seeds
-    avg_fixed_mae = sum(r["fixed"]["mae"] for r in diag_records) / num_seeds
-    avg_rand_mae = sum(r["random"]["mae"] for r in diag_records) / num_seeds
-
-    avg_eig_items = sum(r["adaptive_eig"]["items"] for r in diag_records) / num_seeds
-    avg_fixed_items = sum(r["fixed"]["items"] for r in diag_records) / num_seeds
-    avg_rand_items = sum(r["random"]["items"] for r in diag_records) / num_seeds
-
-    avg_dyn_mastery = (
-        sum(r["adaptengine"]["final_hidden_mastery"] for r in planner_records) / num_seeds
-    )
-    avg_static_mastery = (
-        sum(r["static"]["final_hidden_mastery"] for r in planner_records) / num_seeds
-    )
-
-    dyn_feas_rate = sum(1 for r in planner_records if r["adaptengine"]["feasible"]) / num_seeds
-    static_feas_rate = sum(1 for r in planner_records if r["static"]["feasible"]) / num_seeds
-
-    print("\n--- Diagnostic Arms Summary (MAE vs Hidden Truth & Items Used) ---")
-    print(f" Adaptive (EIG) : MAE = {avg_eig_mae:.4f}  |  Avg Items Used = {avg_eig_items:.1f}")
-    print(f" Fixed Order    : MAE = {avg_fixed_mae:.4f}  |  Avg Items Used = {avg_fixed_items:.1f}")
-    print(f" Random         : MAE = {avg_rand_mae:.4f}  |  Avg Items Used = {avg_rand_items:.1f}")
-
-    print("\n--- Planner Arms Summary (Missed Day Event Workload) ---")
-    print(
-        f" AdaptEngine    : Feasibility = {dyn_feas_rate*100:.1f}%  |  Final Goal Mastery = {avg_dyn_mastery:.4f}  |  Replan = 100%"
-    )
-    print(
-        f" Static Baseline: Feasibility = {static_feas_rate*100:.1f}%  |  Final Goal Mastery = {avg_static_mastery:.4f}  |  Replan = 0% (Dropped Day)"
-    )
-
-    print("\n--- Model & Experimental Limitations ---")
-    print(" NOTE: Synthetic gains support synthetic claims only: IRT-generated responses evaluated")
-    print(" against BKT belief updates on synthetic curriculum fixtures. Real learner dynamics")
-    print(" require empirical classroom or platform deployment trials.")
-
-    results_data = {
+    # Assemble structured results dictionary
+    results: dict[str, Any] = {
         "metadata": {
             "num_seeds": num_seeds,
-            "seed_start": seed_start,
-            "curriculum": "data/curriculum/curriculum_4node.json",
-            "limitation": "Synthetic gains support synthetic claims only.",
+            "split_rule": "even seeds (tuning) vs odd seeds (held-out)",
+            "curricula": curricula_used,
+            "config_hash": cfg_hash,
+            "git_sha": git_sha,
+            "profiles": list(PROFILES.keys()),
+            "cutoff": TRUE_MASTERY_CUTOFF,
+            "limitation": (
+                "Synthetic IRT-generated learner responses evaluated against BKT belief updates "
+                "on synthetic curriculum fixtures. Real-world dynamics require empirical deployment."
+            ),
         },
-        "diagnostic_summary": {
-            "adaptive_eig": {
-                "mean_mae": round(avg_eig_mae, 4),
-                "mean_items": round(avg_eig_items, 2),
-            },
-            "fixed": {"mean_mae": round(avg_fixed_mae, 4), "mean_items": round(avg_fixed_items, 2)},
-            "random": {"mean_mae": round(avg_rand_mae, 4), "mean_items": round(avg_rand_items, 2)},
-        },
-        "planner_summary": {
-            "adaptengine": {
-                "feasibility_rate": dyn_feas_rate,
-                "mean_final_mastery": round(avg_dyn_mastery, 4),
-            },
-            "static": {
-                "feasibility_rate": static_feas_rate,
-                "mean_final_mastery": round(avg_static_mastery, 4),
-            },
+        "diagnostic": diagnostic_summary,
+        "planner": {
+            "main_table": main_table,
+            "robustness_table": robustness_table,
+            "eight_node_curriculum": eight_node_summary,
         },
         "per_seed_runs": {
-            "diagnostic": diag_records,
-            "planner": planner_records,
+            "planner": per_seed_planner,
         },
     }
 
-    results_dir = os.path.join(repo_root, "experiments", "results")
-    os.makedirs(results_dir, exist_ok=True)
-    out_file = os.path.join(results_dir, "evaluation_results.json")
-    with open(out_file, "w", encoding="utf-8") as f:
-        json.dump(results_data, f, indent=2)
-    print(f"\nRaw results committed to: {out_file}")
-    return results_data
+    out_path = os.path.join(repo_root, "experiments", "results", "evaluation_results.json")
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(results, f, indent=2, sort_keys=True)
+
+    return results
+
+
+def print_evaluation_summary(results: dict[str, Any]) -> None:
+    meta = results["metadata"]
+    diag = results["diagnostic"]
+    planner = results["planner"]["main_table"]
+
+    print("=" * 76)
+    print(f" AdaptEngine — Baseline Evaluation ({meta['num_seeds']} Seeded Learners)")
+    print(f" Git SHA: {meta['git_sha'][:10]} | Config Hash: {meta['config_hash'][:10]}")
+    print("=" * 76)
+
+    print("\n--- Diagnostic Arms Summary (Held-Out Cohort) ---")
+    ad = diag["adaptive"]
+    fx_n = diag["fixed"]["n_adaptive"]
+    fx_8 = diag["fixed"]["8_items"]
+    rn_n = diag["random"]["n_adaptive"]
+    rn_8 = diag["random"]["8_items"]
+
+    print(
+        f" Adaptive (EIG)   : MAE(all)={ad['mae_all']:.4f} | MAE(assessed)={ad['mae_assessed']:.4f} | Items={ad['items_used']:.1f} | Unassessed={ad['unassessed_fraction']:.1%}"
+    )
+    print(
+        f" Fixed @ n_adapt  : MAE(all)={fx_n['mae_all']:.4f} | MAE(assessed)={fx_n['mae_assessed']:.4f} | Items={fx_n['items_used']:.1f} | Unassessed={fx_n['unassessed_fraction']:.1%}"
+    )
+    print(
+        f" Fixed @ 8 items  : MAE(all)={fx_8['mae_all']:.4f} | MAE(assessed)={fx_8['mae_assessed']:.4f} | Items={fx_8['items_used']:.1f} | Unassessed={fx_8['unassessed_fraction']:.1%}"
+    )
+    print(
+        f" Random @ n_adapt : MAE(all)={rn_n['mae_all']:.4f} | MAE(assessed)={rn_n['mae_assessed']:.4f} | Items={rn_n['items_used']:.1f} | Unassessed={rn_n['unassessed_fraction']:.1%}"
+    )
+    print(
+        f" Random @ 8 items : MAE(all)={rn_8['mae_all']:.4f} | MAE(assessed)={rn_8['mae_assessed']:.4f} | Items={rn_8['items_used']:.1f} | Unassessed={rn_8['unassessed_fraction']:.1%}"
+    )
+
+    if "tuning" in diag and "winner" in diag["tuning"]:
+        w = diag["tuning"]["winner"]
+        hc = diag["tuning"]["heldout_comparison"]
+        print(
+            f"\n Tuning Winner: h_stop={w['h_stop']}, concept_cap={w['concept_cap']}, n_max={w['n_max']} (Tuning MAE: {w['avg_mae']:.4f}, Items: {w['avg_items']:.1f})"
+        )
+        print(
+            f" Held-out Winner MAE: {hc['winner_heldout_mae']:.4f} vs Default MAE: {hc['default_heldout_mae']:.4f}"
+        )
+
+    print("\n--- Planner Arms Summary (Nominal Profile, Budget 15m) ---")
+    for sc in planner:
+        print(f"\nScenario: {sc.upper()}")
+        for arm in ["adapt", "no_review", "no_replan", "static"]:
+            row = planner[sc][arm]
+            print(
+                f"  {arm:10s} : MasteryRate={row['goal_mastery_rate']:.1%} | MeanTheta={row['mean_true_goal_mastery']:.4f} | Retention={row['mean_retention']:.4f} | Days={row['mean_days_used']:.1f} | Violations=(P:{row['prerequisite_violations']}, B:{row['budget_violations']})"
+            )
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="AdaptEngine Evaluation Runner")
+    parser.add_argument(
+        "--quick", action="store_true", help="Run quick 10-learner evaluation (for CI)"
+    )
+    parser.add_argument(
+        "--seeds", type=int, default=100, help="Number of learners to simulate (default 100)"
+    )
+    parser.add_argument("--start", type=int, default=100, help="Starting random seed (default 100)")
+    args = parser.parse_args()
+
+    results = run_evaluation(num_seeds=args.seeds, seed_start=args.start, quick=args.quick)
+    print_evaluation_summary(results)
 
 
 if __name__ == "__main__":
-    run_evaluation()
+    main()

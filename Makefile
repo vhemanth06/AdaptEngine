@@ -3,9 +3,9 @@ PYTHON = $(if $(wildcard $(VENV)/bin/python),$(VENV)/bin/python,python3)
 PYTEST = $(if $(wildcard $(VENV)/bin/pytest),$(VENV)/bin/pytest,pytest)
 RUFF = $(if $(wildcard $(VENV)/bin/ruff),$(VENV)/bin/ruff,ruff)
 
-.PHONY: all w3 w4 w5 poc eval test lint format check
+.PHONY: all w3 w4 w5 w6 poc eval eval-quick test lint format check
 
-all: check w3 w4 w5 poc eval
+all: check w3 w4 w5 w6 poc eval
 
 w3:
 	$(PYTHON) scripts/run_w3.py
@@ -16,11 +16,18 @@ w4:
 w5:
 	$(PYTHON) scripts/run_w5.py
 
+w6:
+	$(PYTHON) scripts/run_w6.py
+
 poc:
 	$(PYTHON) scripts/poc_demo.py
 
 eval:
 	$(PYTHON) experiments/run_evaluation.py
+
+eval-quick:
+	$(PYTHON) experiments/run_evaluation.py --quick
+
 
 
 test:

@@ -5,7 +5,7 @@ from ..core.schema import Activity, PlanContext, Plan, PlanDay, PlanStatus
 from ..curriculum.graph import CurriculumGraph
 from ..learner.state import LearnerState
 from ..learner.adapter import MasteryModel, CustomBKT
-from .workload import compute_workload, ContentInsufficientError
+from .workload import compute_workload, ContentInsufficientError, WorkloadCache
 from .feasibility import check_feasibility_bounds
 from .schedule import run_greedy_schedule
 from .oracle import solve_oracle
@@ -21,6 +21,7 @@ def plan(
     review_urgency: Optional[Mapping[str, float]] = None,
     model: Optional[MasteryModel] = None,
     cfg: EngineConfig = DEFAULT_CONFIG,
+    workload_cache: Optional[WorkloadCache] = None,
 ) -> Plan:
     """Deterministic, time-budgeted path planner with feasibility oracle (M3).
 
@@ -51,7 +52,14 @@ def plan(
     # 1. Compute workload
     try:
         workload, init_trace, initial_projected_p = compute_workload(
-            graph, activities, state, ctx.goal, done_ids=done_ids, model=model, cfg=cfg
+            graph,
+            activities,
+            state,
+            ctx.goal,
+            done_ids=done_ids,
+            model=model,
+            cfg=cfg,
+            cache=workload_cache,
         )
     except ContentInsufficientError as e:
         return Plan(
@@ -149,6 +157,18 @@ def plan(
             day_num = ctx.current_day + d_idx
             dur = sum(activities[aid].duration for aid in day_aids)
             oracle_days.append(PlanDay(day=day_num, activities=tuple(day_aids), duration=dur))
+            for aid in day_aids:
+                act = activities[aid]
+                full_trace.append(
+                    {
+                        "decision": "SELECTED",
+                        "activity_id": aid,
+                        "target_concept": act.target_concept,
+                        "day": day_num,
+                        "duration": act.duration,
+                        "reason": "ORACLE_ASSIGNED",
+                    }
+                )
 
         full_trace.append(
             {
@@ -157,6 +177,7 @@ def plan(
                 "nodes_explored": nodes_explored,
             }
         )
+
         return Plan(
             status=PlanStatus.FEASIBLE,
             days=tuple(oracle_days),

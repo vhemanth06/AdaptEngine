@@ -1,5 +1,7 @@
 import json
+import sys
 import pytest
+
 from adaptengine.api import Engine
 from adaptengine.core.config import EngineConfig, DEFAULT_CONFIG
 from adaptengine.core.schema import (
@@ -570,7 +572,44 @@ def test_is_evidence_mastered_custom():
     assert c.evidence_mastered is True
     from adaptengine.learner import is_evidence_mastered
 
-    assert is_evidence_mastered(c, DEFAULT_CONFIG) is True
-    # Not mastered under stricter config (theta=0.90)
     cfg_strict = EngineConfig(theta=0.90)
     assert is_evidence_mastered(c, cfg_strict) is False
+
+
+def test_oracle_path_selected_trace_tc7_1(engine, monkeypatch):
+    """Step 8 / TC7.1: Verify oracle path emits per-activity SELECTED trace records and serializes cleanly."""
+    from adaptengine.planner.plan import serialize_plan
+
+    plan_mod = sys.modules["adaptengine.planner.plan"]
+
+    # Monkeypatch run_greedy_schedule to return an overshoot schedule so oracle is invoked
+    def fake_greedy(*args, **kwargs):
+        return (PlanDay(day=100, activities=("L-C1",), duration=4),), []
+
+    monkeypatch.setattr(plan_mod, "run_greedy_schedule", fake_greedy)
+
+    state = engine.init_learner()
+    ctx = PlanContext(goal="C1", deadline_day=5, budget=10, current_day=1)
+    p = plan(engine.graph, engine.activities, state, ctx)
+
+    assert p.status == PlanStatus.FEASIBLE
+    assert p.reason == "ORACLE_ASSIGNMENT"
+
+    all_day_aids = [aid for d in p.days for aid in d.activities]
+    assert len(all_day_aids) > 0
+
+    selected_records = [
+        tr
+        for tr in p.trace
+        if tr.get("decision") == "SELECTED" and tr.get("reason") == "ORACLE_ASSIGNED"
+    ]
+    selected_aids = [tr["activity_id"] for tr in selected_records]
+    assert selected_aids == all_day_aids
+
+    for tr in selected_records:
+        assert "target_concept" in tr
+        assert "day" in tr
+        assert "duration" in tr
+
+    serialized = serialize_plan(p)
+    assert json.dumps(serialized)

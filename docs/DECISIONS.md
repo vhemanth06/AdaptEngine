@@ -77,3 +77,15 @@ The following decisions were flagged for human sign-off; defaults were applied t
 | **D33** | Single Observation Model | **MasteryModel protocol used for EIG and state updates** | `compute_eig` delegates to `model.predict_correct` and `model.update(..., 0.0)`. `Engine` holds a single `MasteryModel` instance shared across diagnostic, evidence, difficulty, and planning. |
 | **D34** | Diagnostic Attempt ID Scope | **`diag-<session_id>-<concept_id>-<n>`** | Session scoping prevents attempt ID collisions across distinct diagnostic runs, while making exact replay of the same session and items idempotent. |
 
+---
+
+## 6. Evaluation, Frontier Replanning & MVP Hardening Decisions (D35 – D40) — Finalized for W6
+
+| # | Decision Topic | Decision Choice | Rationale & Verification |
+|---|---|---|---|
+| **D35** | Frontier replanning memoization | **Per-concept memoization via caller-owned `WorkloadCache`** | Explicit caller-owned cache object passed to `plan` and `replan`. `Engine` has no hidden state. Replan equivalence is guaranteed by construction and verified by bitwise `Plan` equality (`==` on days, status, shortfall, trace). CLI remains full recomputation. |
+| **D36** | Closed-loop simulator determinism | **Key-seeded pseudo-random draws per interaction** | Every simulated attempt uses a deterministic key `(seed, tag, activity_id, attempt_n)` rather than consuming a shared PRNG stream. Provides paired noise isolation across arms, 4 learner profiles, power-law retention, and documented 0.70 heuristic true mastery cutoff. |
+| **D37** | Planner evaluation arms | **Four arms: `adapt`, `no_review`, `no_replan`, `static`** | Disentangles benefits of closed-loop replanning, spaced retention reviews, and learner-state adaptation against a state-ignoring topological baseline. |
+| **D38** | Oracle assignment trace parity | **Per-activity `SELECTED` trace records with `reason="ORACLE_ASSIGNED"`** | When exact branch-and-bound packs days after greedy schedule overshoots deadline, each placed activity receives an explicit `SELECTED` record. Ensures 100% explanation trace coverage and satisfies TC7.1. |
+| **D39** | Diagnostic evaluation protocol | **50/50 seed split; pre-declared selection rule evaluated once on held-out** | Even seeds form the tuning cohort; odd seeds form the held-out evaluation cohort. Selection rule chooses lowest tuning MAE among configurations consuming $\le 50\%$ items of the fixed arm before running held-out evaluation. |
+| **D40** | Scheduler review starvation bound | **Safety termination upon 15 consecutive starvation days or horizon exceeded** | In large curricula ($N \ge 40$) under tight budgets where daily review debt exceeds daily capacity, greedy scheduler terminates when queue progress stalls for 15 consecutive days or calendar horizon is exceeded, allowing exact oracle or shortfall resolution to take over cleanly. |

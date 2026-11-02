@@ -74,6 +74,7 @@ class Engine:
         done_ids=None,
         review_urgency=None,
         model=None,
+        workload_cache=None,
     ) -> Plan:
         from .planner import plan as run_plan
 
@@ -90,6 +91,7 @@ class Engine:
             review_urgency=review_urgency,
             model=active_model,
             cfg=self.config,
+            workload_cache=workload_cache,
         )
 
     def replan(
@@ -100,6 +102,7 @@ class Engine:
         *,
         review_urgency=None,
         model=None,
+        workload_cache=None,
     ) -> Plan:
         from .replanner import replan as run_replan
 
@@ -113,6 +116,7 @@ class Engine:
             review_urgency=review_urgency,
             model=active_model,
             cfg=self.config,
+            workload_cache=workload_cache,
         )
 
     def record(

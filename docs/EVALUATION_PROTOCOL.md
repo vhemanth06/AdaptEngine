@@ -1,6 +1,6 @@
-# Evaluation Protocol (Planned Milestone M8)
+# Evaluation Protocol (Milestone M8)
 
-> **Status:** **PLANNED** (Design finalized in Appendix A; scheduled for implementation in Week 6).
+> **Status:** **Implemented (W6, M8)** (Implemented in `experiments/` harness; verified by `make eval`, `make eval-quick`, and `tests/test_evaluation.py`).
 
 This document specifies the experimental protocol, simulator dynamics, frozen baselines, evaluation workloads, and metrics for benchmarking AdaptEngine.
 
@@ -61,3 +61,13 @@ All comparative evaluations compare AdaptEngine against standard, frozen baselin
 - **Strict Repeatability (TC8.1):** Identical random seeds and configurations must yield bitwise identical output logs and summary metrics.
 - **Measured Improvement (TC8.2):** At least one concrete, measured improvement will be reported in detail: frontier replanning latency reduction over full recomputation with identical decisions.
 - **Prototype Scale Limitations:** Results must be characterized as prototype-scale findings based on synthetic fixtures and simulated learner responses. Repeatability and low latency alone do not constitute proof of human pedagogical efficacy.
+
+---
+
+## 6. Implementation Deviations & Scope Clarifications
+
+The evaluation harness implemented in Week 6 (`experiments/`) satisfies all core requirements with the following concrete implementation notes:
+1. **Simulator Parameter Provenance:** Synthetic 2PL IRT parameters ($a=3.0$, $\theta \sim U(0.1, 0.9)$) and heuristic cutoff ($0.70$) are defined as transparent, reproducible synthetic heuristics rather than directly trained on raw external dataset dumps (such as ASSISTments), eliminating heavy external data dependencies while maintaining realistic psychometric response curves.
+2. **Key-Derived Uniform Noise:** Randomness is derived strictly from keyed uniform pseudo-random generators (`keyed_uniform(seed, tag, activity_id, n)`), guaranteeing noise isolation and eliminating PRNG stream leakage between paired arms.
+3. **Diagnostic Trade-off:** Whole-curriculum diagnostic MAE is evaluated alongside assessed-only MAE. The adaptive diagnostic intentionally stops at threshold/cap ($N \approx 2.7$ items), leaving unassessed concepts at the default prior ($0.20$), trading full-coverage certainty for speed.
+4. **Frontier Replanning Memoization:** Implemented via caller-owned `WorkloadCache` memoizing per-concept workload projections, achieving identical decisions and measurable latency reduction without introducing stateful side-effects to `Engine`.

@@ -11,7 +11,7 @@ from ..core.errors import UnknownConceptError
 from ..curriculum.graph import CurriculumGraph
 from ..learner.state import LearnerState, ExecutionLog
 from ..learner.adapter import MasteryModel
-from ..planner import plan
+from ..planner import plan, WorkloadCache
 
 
 def compute_effective_context(
@@ -68,6 +68,7 @@ def replan(
     review_urgency=None,
     model: Optional[MasteryModel] = None,
     cfg: EngineConfig = DEFAULT_CONFIG,
+    workload_cache: Optional[WorkloadCache] = None,
 ) -> Plan:
     """Pure replanning from state, execution log, and initial context (M6).
 
@@ -117,6 +118,7 @@ def replan(
         review_urgency=review_urgency,
         model=model,
         cfg=cfg,
+        workload_cache=workload_cache,
     )
 
     combined_trace = tuple(replan_trace) + revised_plan.trace

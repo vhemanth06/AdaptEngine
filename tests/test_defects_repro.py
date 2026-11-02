@@ -142,3 +142,47 @@ def test_repro_df_ai_reviewer_rejected(tmp_path):
     with pytest.raises(UnreviewedContentError) as exc_info:
         load_curriculum(str(curr_path), manifest_path=str(manifest_path), allow_unreviewed=False)
     assert "ai" in str(exc_info.value).lower()
+
+
+@pytest.mark.xfail(
+    strict=True,
+    reason="Mid-day replan after partial day does not account for already-consumed budget on start day; documented limitation.",
+)
+def test_repro_partial_day_replan_budget_overflow():
+    """Defect: replanning mid-day after completing 10 of 15 minutes packs a full 15m on Day 1 (total 25m > budget 15m)."""
+    from adaptengine.api import Engine
+    from adaptengine.core.schema import Event, EventType, PlanContext
+    from adaptengine.learner.state import ExecutionLog
+
+    engine = Engine.from_files(
+        "data/curriculum/curriculum_4node.json",
+        "data/curriculum/activities_4node.json",
+    )
+    state, log = engine.init_learner(), ExecutionLog()
+    ctx = PlanContext(goal="C4", deadline_day=5, budget=15, current_day=1)
+    plan = engine.plan(state, ctx)
+
+    time_spent = 0
+    for aid in plan.days[0].activities:
+        dur = engine.activities[aid].duration
+        if time_spent + dur <= 10:
+            a = engine.activities[aid]
+            correct = True if a.type.value == "EXERCISE" else None
+            state, log = engine.record(
+                state,
+                log,
+                Event(
+                    day=1,
+                    kind=EventType.COMPLETED,
+                    activity_id=aid,
+                    minutes_elapsed=dur,
+                    correct=correct,
+                ),
+            )
+            time_spent += dur
+
+    revised = engine.replan(state, log, ctx)
+    day1_replan = next((d for d in revised.days if d.day == 1), None)
+    replan_day1_duration = day1_replan.duration if day1_replan else 0
+    # True requirement: time_spent (10) + replan_day1_duration should not exceed budget (15)
+    assert time_spent + replan_day1_duration <= 15

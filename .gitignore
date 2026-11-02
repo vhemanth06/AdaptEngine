@@ -12,6 +12,7 @@ env/
 # Pytest / Coverage
 .pytest_cache/
 .coverage
+.coverage.*
 htmlcov/
 
 # Editor
@@ -32,3 +33,8 @@ data/my_log.json
 dummy_activities.json
 out1.txt
 out2.txt
+learner_session.json
+test_snapshot.json
+graphify-out/
+*.tmp
+

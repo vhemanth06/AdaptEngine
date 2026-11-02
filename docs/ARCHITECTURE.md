@@ -8,7 +8,8 @@
 - `planner/`: Deterministic path planner, difficulty policy, feasibility bounds, exact bin-packing oracle.
 - `review/`: Spaced review forgetting model (half-life decay) and review urgency scoring.
 - `replanner/`: Dynamic horizon replanning on events (missed day, failed assessment, deadline changed, budget changed).
-- `experiments/`: Paired synthetic baseline evaluation harness with IRT simulated learners (`run_evaluation.py`).
+- `experiments/`: Paired synthetic baseline evaluation harness with closed-loop IRT simulated learners (`run_evaluation.py`, `sim.py`, `arms.py`, `diag_eval.py`, `stats.py`, `checks.py`, `synth_curriculum.py`, `run_replan_latency.py`).
+- `planner/workload.py`: Workload projection memoization via caller-owned `WorkloadCache` (explicit value, no hidden engine state).
 
 ## Deferred Modules
 The following modules are deferred per the W3 review scope:
@@ -95,7 +96,7 @@ AdaptEngine acts as an embedded, deterministic learning path and diagnostic engi
 3. **Plan (M3):** Filter eligible activities by unlocked prerequisites, rank, pack days within budget (5, 10, 15, 30 min), returning a feasibility verdict.
 4. **Execute and update:** Learner interaction outcomes are dispatched as typed `Event`s to `Engine.record`, updating mastery and log atomically.
 5. **Replan (Implemented, M6):** Missed days or constraint changes trigger replanning over the remaining horizon, preserving completed attempts without loss or duplication.
-6. **Evaluate (Planned, M8):** Run paired simulation workloads against frozen baselines with fixed seeds.
+6. **Evaluate (Implemented, M8):** Run paired simulation workloads against frozen baselines with key-seeded draws and bootstrap confidence intervals.
 
 ---
 
@@ -112,13 +113,15 @@ AdaptEngine acts as an embedded, deterministic learning path and diagnostic engi
 | pyBKT Adapter | `learner/adapter.py` | Implemented (W3) | Discrete difficulty class mapping (D6) with parity test against custom oracle |
 | Learner State & Persistence | `learner/state.py`, `session.py` | Hardened (W3, W5) | Immutable state, evidence semantics, attempt idempotency, atomic snapshot persistence with context |
 | Adaptive Diagnostic | `diagnostic/` | Implemented (W3) | M2 EIG-based selection, per-concept/global caps, descendant skipping, cold start |
-| Engine Facade | `api.py` | Hardened (W3, W5) | Single mutation boundary `Engine.record`, `Engine.diagnose`, `Engine.plan`, `Engine.replan` |
-| CLI Interface | `cli.py` | Hardened (W3, W5) | Thin command-line interface with default review gate, `plan --json`, and `replan` |
-| Planner & Feasibility Oracle | `planner/` | Implemented (W4) | Day-by-day packing, difficulty policy, feasibility bounds, exact oracle |
-| Review & Remediation | `review/`, `planner/schedule.py` | Implemented (W5) | Half-life decay forgetting baseline, priority tiers (remediation > review > new), repeat lesson insertion |
-| Replanner | `replanner/`, `api.py` | Implemented (W5) | Horizon replanning on missed days, failed assessments, deadline changes, budget changes |
-| Explainer & Traces | `planner/plan.py` | Implemented (W5) | Machine-readable decision traces, pure JSON serialization with config hash |
-| Simulator & Evaluator | Planned | Planned (M8) | Transparent synthetic evaluation harness |
+| Engine Facade | `api.py` | Hardened (W3, W5, W6) | Single mutation boundary `Engine.record`, `Engine.diagnose`, `Engine.plan`, `Engine.replan` with optional `WorkloadCache` |
+| CLI Interface | `cli.py` | Hardened (W3, W5, W6) | Thin command-line interface with default review gate, `plan --json`, `replan`, clean exit codes |
+| Planner & Feasibility Oracle | `planner/` | Implemented (W4, W6) | Day-by-day packing, difficulty policy, feasibility bounds, exact oracle with activity-level SELECTED traces |
+| Review & Remediation | `review/`, `planner/schedule.py` | Implemented (W5, W6) | Half-life decay forgetting baseline, priority tiers, repeat lesson insertion, starvation termination bound |
+| Replanner | `replanner/`, `api.py` | Implemented (W5, W6) | Horizon replanning on missed days, failed assessments, deadline/budget changes; frontier memoization |
+| Explainer & Traces | `planner/plan.py` | Implemented (W5, W6) | Machine-readable decision traces, pure JSON serialization with config hash, 100% activity trace coverage |
+| Simulator & Evaluator | `experiments/` | Implemented (W6, M8) | Transparent paired synthetic evaluation harness with closed-loop IRT learners, matched budgets, 4 arms, and latency benchmark (`checks.py`, `sim.py`, `arms.py`, `diag_eval.py`, `stats.py`, `synth_curriculum.py`, `run_evaluation.py`, `run_replan_latency.py`) |
+
+> **Stateful Purity Note:** The workload cache (`WorkloadCache`) used for frontier replanning is an explicit, caller-owned memoization value passed across calls (`workload_cache=cache`). The `Engine` facade itself maintains no hidden internal state or mutable caches, preserving functional purity and determinism across planning operations.
 
 ---
 

@@ -59,8 +59,13 @@ def run_greedy_schedule(
                 rem_flagged_concepts.add(cid)
 
     current_day = ctx.current_day
+    max_day = max(ctx.deadline_day * 3, 100)
+    consecutive_starvation_days = 0
 
     while queues:
+        if current_day > max_day:
+            break
+        queue_progress = False
         # Find concepts due for review on current_day
         reviewed_today: set[str] = set()
         due_reviews: dict[str, tuple[float, float]] = {}
@@ -210,6 +215,7 @@ def run_greedy_schedule(
             rem_budget -= selected.duration
 
             if kind == "remediation":
+                queue_progress = True
                 queues[concept_id].pop(0)
                 if not queues[concept_id]:
                     del queues[concept_id]
@@ -251,6 +257,7 @@ def run_greedy_schedule(
                     }
                 )
             else:  # kind == "new"
+                queue_progress = True
                 queues[concept_id].pop(0)
                 if not queues[concept_id]:
                     del queues[concept_id]
@@ -281,6 +288,12 @@ def run_greedy_schedule(
             days.append(
                 PlanDay(day=current_day, activities=tuple(day_activity_ids), duration=day_duration)
             )
+        if not queue_progress:
+            consecutive_starvation_days += 1
+            if consecutive_starvation_days >= 15:
+                break
+        else:
+            consecutive_starvation_days = 0
         current_day += 1
 
     return tuple(days), trace

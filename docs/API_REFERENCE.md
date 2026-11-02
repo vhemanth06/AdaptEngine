@@ -30,6 +30,7 @@ This document provides a comprehensive reference and technical description for *
 23. [`review/forgetting.py` — Spaced Review & Memory Decay Model](#23-reviewforgettingpy--spaced-review--memory-decay-model)
 24. [`replanner/replan.py` — Dynamic Horizon Replanning](#24-replannerreplanpy--dynamic-horizon-replanning)
 25. [`scripts/run_w5.py` — Week 5 Standalone Acceptance Runner](#25-scriptsrun_w5py--week-5-standalone-acceptance-runner)
+26. [`scripts/run_w6.py` — Week 6 Standalone Acceptance Runner](#26-scriptsrun_w6py--week-6-standalone-acceptance-runner)
 
 ---
 
@@ -384,8 +385,10 @@ The central facade for AdaptEngine, acting as the single mutation boundary.
 - **`init_learner(self) -> LearnerState`:** Generates cold-start learner state for all concepts in the curriculum DAG.
 - **`diagnose(self, state: LearnerState, response_provider: Callable[[Activity], bool], goal_concepts: Sequence[str] | None = None, model: MasteryModel | None = None) -> DiagnosticResult`:** Executes an adaptive diagnostic session.
 - **`record(self, state: LearnerState, log: ExecutionLog, event: Event) -> tuple[LearnerState, ExecutionLog]`:** Single mutation boundary: records an event, evaluates Bayesian mastery updates, sets/clears remediation flags, deduplicates attempts by `attempt_id`, and returns the updated immutable state and log tuple. Supports all 5 event types (`COMPLETED`, `MISSED`, `FAILED_ASSESSMENT`, `DEADLINE_CHANGED`, `BUDGET_CHANGED`).
-- **`plan(self, state: LearnerState, ctx: PlanContext, *, done_ids: set[str] | None = None, review_urgency: dict[str, float] | None = None, model: MasteryModel | None = None) -> Plan`:** Generates a deterministic, time-budgeted study plan toward `ctx.goal` within `ctx.budget` minutes per day by `ctx.deadline_day`.
-- **`replan(self, state: LearnerState, log: ExecutionLog, initial_ctx: PlanContext, model: MasteryModel | None = None) -> Plan`:** Pure replanning from event log and snapshot: computes effective context folding `DEADLINE_CHANGED` and `BUDGET_CHANGED`, starts from next available day, excludes completed activities, and returns the revised plan or infeasible proof.
+- **`plan(self, state: LearnerState, ctx: PlanContext, *, done_ids: set[str] | None = None, review_urgency: dict[str, float] | None = None, model: MasteryModel | None = None, workload_cache: WorkloadCache | None = None) -> Plan`:** Generates a deterministic, time-budgeted study plan toward `ctx.goal` within `ctx.budget` minutes per day by `ctx.deadline_day`. Accepts optional caller-owned `workload_cache`.
+- **`replan(self, state: LearnerState, log: ExecutionLog, initial_ctx: PlanContext, model: MasteryModel | None = None, workload_cache: WorkloadCache | None = None) -> Plan`:** Pure replanning from event log and snapshot: computes effective context folding `DEADLINE_CHANGED` and `BUDGET_CHANGED`, starts from next available day, excludes completed activities, and returns the revised plan or infeasible proof.
+  - **`replan_full` mode:** Default mode when `workload_cache=None`. Recomputes all concept workload projections from scratch. Ideal for one-shot CLI execution.
+  - **`replan_frontier` mode:** Invoked by passing a persistent `WorkloadCache` instance across successive calls (`workload_cache=cache`). Reuses cached concept projections for concepts whose state and completed activity subset have not changed, yielding faster execution while generating bitwise identical plans.
 
 ---
 
@@ -442,6 +445,14 @@ Outputs an auditable evidence package in `runs/w3/<timestamp>/`.
 
 ## 17. `planner/workload.py` — Required Concepts & Workload Projection
 
+### Class `WorkloadCache`
+Caller-owned memo of per-concept workload projections:
+- **Methods:**
+  - `get(key: tuple) -> tuple[ConceptWorkload, tuple] | None`: Returns cached concept workload and trace slice, recording a hit or miss counter.
+  - `put(key: tuple, value: tuple[ConceptWorkload, tuple]) -> None`: Stores projected concept workload and trace slice.
+  - `copy() -> WorkloadCache`: Creates a shallow copy of the cache store for isolated benchmarking passes.
+- **Fields:** `hits: int`, `misses: int`.
+
 ### Class `ConceptWorkload`
 Dataclass representing projected workload for a single concept:
 - **Fields:** `concept_id: str`, `activities: list[Activity]`, `total_minutes: int`, `p_final: float`, `responses_final: int`.
@@ -451,10 +462,10 @@ Dataclass aggregating projected workload across all required concepts:
 - **Fields:** `concept_workloads: dict[str, ConceptWorkload]`, `required_concepts: set[str]`, `total_minutes: int`.
 - **Properties:** `all_activities -> list[Activity]`.
 
-### `compute_workload(graph: CurriculumGraph, activities: Iterable[Activity], state: LearnerState, goal: str, done_ids: set[str] | None = None, model: MasteryModel | None = None, cfg: EngineConfig = DEFAULT_CONFIG) -> WorkloadProjection`
-- **Parameters:** `graph` (`CurriculumGraph`), `activities` (all available activities), `state` (`LearnerState`), `goal` (target concept ID), `done_ids` (already completed activity IDs), `model` (`MasteryModel`), `cfg` (`EngineConfig`).
+### `compute_workload(graph: CurriculumGraph, activities: Iterable[Activity], state: LearnerState, goal: str, done_ids: set[str] | None = None, model: MasteryModel | None = None, cfg: EngineConfig = DEFAULT_CONFIG, cache: WorkloadCache | None = None) -> WorkloadProjection`
+- **Parameters:** `graph` (`CurriculumGraph`), `activities` (all available activities), `state` (`LearnerState`), `goal` (target concept ID), `done_ids` (already completed activity IDs), `model` (`MasteryModel`), `cfg` (`EngineConfig`), `cache` (optional `WorkloadCache`).
 - **Returns:** `WorkloadProjection`.
-- **Description:** Identifies required concepts ($\{goal\} \cup \text{ancestors}(goal) \setminus \text{evidence\_mastered}$). For each concept, queues unfinished lessons then exercises picked by the difficulty policy, updating belief $p$ assuming correct responses ($T_{\text{exercise}}$), until $p \ge \theta$ and $\text{responses} \ge k_{\text{responses}}$.
+- **Description:** Identifies required concepts ($\{goal\} \cup \text{ancestors}(goal) \setminus \text{evidence\_mastered}$). For each concept, checks `cache` for a matching key `(concept_id, concept_state, completed_concept_activities, cfg, model_name)`. On miss, queues unfinished lessons then exercises picked by the difficulty policy, updating belief $p$ assuming correct responses ($T_{\text{exercise}}$), until $p \ge \theta$ and $\text{responses} \ge k_{\text{responses}}$, then stores the result in `cache`.
 - **Raises:** `UnknownConceptError` if `goal` is not in `graph`, `ContentInsufficientError` if available exercises run out before reaching evidence mastery.
 
 ---

@@ -1,4 +1,6 @@
-from typing import Mapping, Sequence, Optional
+from __future__ import annotations
+
+from typing import Any, Mapping, Optional, Sequence
 from ..core.config import EngineConfig, DEFAULT_CONFIG
 from ..core.schema import Activity, ActivityType
 from ..curriculum.graph import CurriculumGraph
@@ -14,6 +16,33 @@ class ContentInsufficientError(Exception):
     pass
 
 
+class WorkloadCache:
+    """Caller-owned memo of per-concept workload projections (explicit value, no hidden state)."""
+
+    def __init__(self):
+        self._store: dict[Any, Any] = {}
+        self.hits = 0
+        self.misses = 0
+
+    def get(self, key: Any) -> Optional[Any]:
+        v = self._store.get(key)
+        if v is None:
+            self.misses += 1
+        else:
+            self.hits += 1
+        return v
+
+    def put(self, key: Any, value: Any) -> None:
+        self._store[key] = value
+
+    def copy(self) -> "WorkloadCache":
+        c = WorkloadCache()
+        c._store = dict(self._store)
+        c.hits = self.hits
+        c.misses = self.misses
+        return c
+
+
 def compute_workload(
     graph: CurriculumGraph,
     activities: Mapping[str, Activity],
@@ -22,6 +51,7 @@ def compute_workload(
     done_ids: Sequence[str] = (),
     model: Optional[MasteryModel] = None,
     cfg: EngineConfig = DEFAULT_CONFIG,
+    cache: Optional[WorkloadCache] = None,
 ) -> tuple[dict[str, tuple[Activity, ...]], list[dict], dict[str, float]]:
     """Compute required concepts and projected workload to reach mastery (T3).
 
@@ -61,14 +91,36 @@ def compute_workload(
         else:
             required_concepts.append(c)
 
+    ids_by_concept: dict[str, set[str]] = {}
+    for a in activities.values():
+        ids_by_concept.setdefault(a.target_concept, set()).add(a.activity_id)
+
     workload: dict[str, tuple[Activity, ...]] = {}
     projected_p: dict[str, float] = {}
 
     for c in required_concepts:
         c_state = state.concepts[c]
+        mine = frozenset(done_set & ids_by_concept.get(c, set()))
+        model_id = (
+            (type(model).__name__, id(model))
+            if hasattr(model, "__dict__")
+            else type(model).__name__
+        )
+        key = (c, c_state, mine, cfg, model_id)
+
+        if cache is not None:
+            hit = cache.get(key)
+            if hit is not None:
+                concept_workload, concept_trace = hit
+                trace.extend(concept_trace)
+                workload[c] = concept_workload
+                projected_p[c] = c_state.p
+                continue
+
+        this_concept_trace: list[dict[str, Any]] = []
         p = c_state.p
         responses = c_state.responses
-        concept_workload: list[Activity] = []
+        concept_workload_list: list[Activity] = []
 
         c_lessons = sorted(
             [
@@ -82,22 +134,22 @@ def compute_workload(
         # 0. Remediation repeat lesson if flagged (D20, D21, T4)
         if c_state.needs_remediation and c_lessons:
             rem_lesson = c_lessons[0]
-            concept_workload.append(rem_lesson)
+            concept_workload_list.append(rem_lesson)
             p = learn(p, cfg.t_lesson)
-            trace.append(
-                {
-                    "decision": "INSERTED",
-                    "concept_id": c,
-                    "activity_id": rem_lesson.activity_id,
-                    "reason": "REMEDIATION_INSERTED",
-                    "p": c_state.p,
-                }
-            )
+            rem_trace = {
+                "decision": "INSERTED",
+                "concept_id": c,
+                "activity_id": rem_lesson.activity_id,
+                "reason": "REMEDIATION_INSERTED",
+                "p": c_state.p,
+            }
+            this_concept_trace.append(rem_trace)
+            trace.append(rem_trace)
 
         # 1. Unfinished lessons in deterministic order
         for lesson in c_lessons:
-            if lesson.activity_id not in done_set and lesson not in concept_workload:
-                concept_workload.append(lesson)
+            if lesson.activity_id not in done_set and lesson not in concept_workload_list:
+                concept_workload_list.append(lesson)
                 p = learn(p, cfg.t_lesson)
 
         # 2. Exercises chosen by difficulty policy
@@ -117,11 +169,15 @@ def compute_workload(
                 )
             chosen = select_exercise(available_exercises, p, cfg.target_success, model, cfg)
             available_exercises.remove(chosen)
-            concept_workload.append(chosen)
+            concept_workload_list.append(chosen)
             p = model.update(p, chosen.difficulty, True, cfg.t_exercise)
             responses += 1
 
-        workload[c] = tuple(concept_workload)
+        concept_workload_tuple = tuple(concept_workload_list)
+        workload[c] = concept_workload_tuple
         projected_p[c] = c_state.p
+
+        if cache is not None:
+            cache.put(key, (concept_workload_tuple, tuple(this_concept_trace)))
 
     return workload, trace, projected_p

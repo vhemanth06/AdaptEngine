@@ -1,0 +1,103 @@
+{
+  "metadata": {
+    "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+    "python_version": "3.11.17",
+    "git_sha": "26b59d454dd4647b71af8c2449c15afd8d46fb8c",
+    "repeats": 5,
+    "quick": true
+  },
+  "curricula": {
+    "4-node": [
+      {
+        "event_kind": "missed_day",
+        "median_full_ms": 0.638,
+        "p95_full_ms": 0.64,
+        "median_frontier_ms": 0.483,
+        "p95_frontier_ms": 0.525,
+        "speedup": 1.321,
+        "cache_hits": 4,
+        "cache_misses": 4,
+        "stability": 0.0
+      },
+      {
+        "event_kind": "failed_assessment",
+        "median_full_ms": 0.62,
+        "p95_full_ms": 0.623,
+        "median_frontier_ms": 0.523,
+        "p95_frontier_ms": 0.528,
+        "speedup": 1.185,
+        "cache_hits": 3,
+        "cache_misses": 5,
+        "stability": 1.0
+      },
+      {
+        "event_kind": "budget_change",
+        "median_full_ms": 0.638,
+        "p95_full_ms": 0.676,
+        "median_frontier_ms": 0.493,
+        "p95_frontier_ms": 0.606,
+        "speedup": 1.294,
+        "cache_hits": 4,
+        "cache_misses": 4,
+        "stability": 0.5833
+      },
+      {
+        "event_kind": "deadline_change",
+        "median_full_ms": 0.659,
+        "p95_full_ms": 0.688,
+        "median_frontier_ms": 0.506,
+        "p95_frontier_ms": 0.513,
+        "speedup": 1.302,
+        "cache_hits": 4,
+        "cache_misses": 4,
+        "stability": 1.0
+      }
+    ],
+    "8-node": [
+      {
+        "event_kind": "missed_day",
+        "median_full_ms": 1.285,
+        "p95_full_ms": 1.327,
+        "median_frontier_ms": 1.014,
+        "p95_frontier_ms": 1.076,
+        "speedup": 1.267,
+        "cache_hits": 7,
+        "cache_misses": 7,
+        "stability": 0.0
+      },
+      {
+        "event_kind": "failed_assessment",
+        "median_full_ms": 1.354,
+        "p95_full_ms": 1.378,
+        "median_frontier_ms": 1.117,
+        "p95_frontier_ms": 1.169,
+        "speedup": 1.212,
+        "cache_hits": 6,
+        "cache_misses": 8,
+        "stability": 1.0
+      },
+      {
+        "event_kind": "budget_change",
+        "median_full_ms": 1.402,
+        "p95_full_ms": 1.422,
+        "median_frontier_ms": 1.11,
+        "p95_frontier_ms": 1.184,
+        "speedup": 1.263,
+        "cache_hits": 7,
+        "cache_misses": 7,
+        "stability": 0.3333
+      },
+      {
+        "event_kind": "deadline_change",
+        "median_full_ms": 1.348,
+        "p95_full_ms": 1.367,
+        "median_frontier_ms": 1.052,
+        "p95_frontier_ms": 1.088,
+        "speedup": 1.281,
+        "cache_hits": 7,
+        "cache_misses": 7,
+        "stability": 1.0
+      }
+    ]
+  }
+}
