@@ -1,0 +1,1359 @@
+{
+  "pybkt_parity": {
+    "reference": "experiments/results/bkt_fit_ct_pybkt.json",
+    "per_skill": {
+      "Calculate part in proportion with fractions": {
+        "max_abs_param_diff": 0.009957,
+        "loglik_fast_em": -1832.234886,
+        "loglik_at_pybkt_params": -1832.210409
+      },
+      "Calculate total in proportion with fractions": {
+        "max_abs_param_diff": 0.015655,
+        "loglik_fast_em": -1595.589963,
+        "loglik_at_pybkt_params": -1595.580483
+      },
+      "Calculate unit rate": {
+        "max_abs_param_diff": 0.000167,
+        "loglik_fast_em": -3462.514564,
+        "loglik_at_pybkt_params": -3462.515729
+      },
+      "Plot decimal - thousandths": {
+        "max_abs_param_diff": 0.271838,
+        "loglik_fast_em": -357.209771,
+        "loglik_at_pybkt_params": -359.130759
+      },
+      "Plot imperfect radical": {
+        "max_abs_param_diff": 0.008246,
+        "loglik_fast_em": -521.77473,
+        "loglik_at_pybkt_params": -521.773739
+      },
+      "Plot non-terminating improper fraction": {
+        "max_abs_param_diff": 0.015389,
+        "loglik_fast_em": -475.246055,
+        "loglik_at_pybkt_params": -475.350391
+      },
+      "Plot pi": {
+        "max_abs_param_diff": 0.334084,
+        "loglik_fast_em": -252.951163,
+        "loglik_at_pybkt_params": -267.525961
+      },
+      "Plot terminating proper fraction": {
+        "max_abs_param_diff": 0.035026,
+        "loglik_fast_em": -762.056467,
+        "loglik_at_pybkt_params": -762.099603
+      },
+      "Plot whole number": {
+        "max_abs_param_diff": 0.105753,
+        "loglik_fast_em": -181.942164,
+        "loglik_at_pybkt_params": -182.135142
+      }
+    },
+    "max_abs_param_diff": 0.334084,
+    "min_loglik_gain_fast_minus_pybkt": -0.024477
+  },
+  "dataset": "ct",
+  "meta": {
+    "code_hash": "854912fa2b278efdd54658c58fabb1b6a0a31de8459763e7d907443457e44eea",
+    "timestamp_utc": "2026-11-08T18:29:08.162896+00:00",
+    "seed": 42,
+    "runtime_seconds": {
+      "per_skill_fit": 1.4,
+      "class_fit": 1.9,
+      "bootstrap_skills": 201.0,
+      "bootstrap_class": 96.8,
+      "heldout_cv": 9.7,
+      "total": 311.2
+    },
+    "data_checksums": {
+      "ct.csv": {
+        "sha256": "161e598a609ecdf829938f8453c15da445ca0c65558367e95ac9f412929b9e55",
+        "matches_CHECKSUMS": true
+      }
+    },
+    "backend": "fast_em (numpy Baum-Welch, pyBKT 1.4.3 init ranges/stopping rule)",
+    "em": {
+      "num_fits": 5,
+      "tol": 0.005,
+      "maxiter": 100,
+      "forgets": false
+    },
+    "constraints": {
+      "degenerate_if": [
+        "guess+slip>=1",
+        "guess>0.5",
+        "slip>0.5"
+      ],
+      "prior_floor_flag": 0.01,
+      "selection": "best log-likelihood restart; degenerate fits flagged, not refit"
+    },
+    "workers": 8,
+    "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.43",
+    "python": "3.11.17",
+    "numpy": "1.26.4",
+    "pandas": "3.0.6"
+  },
+  "cleaning": {
+    "raw_rows": 16857,
+    "rows_with_skill": 16857,
+    "skills_before_min_students": 12,
+    "rows_final": 15935,
+    "skills_final": 9,
+    "students_final": 550,
+    "correct_rate_final": 0.6245
+  },
+  "difficulty": {
+    "source": "ct.csv itself, Problem Name (pyBKT's ct multigs column)",
+    "d_definition": "1 - mean correctness per item",
+    "min_answers_per_item": 20,
+    "class_rule": "engine get_difficulty_class on d clipped to [D_MIN, D_MAX]: easy d<0.35, medium d<0.65, hard otherwise",
+    "items_rated_in_clean_data": 377,
+    "items_in_clean_data": 498,
+    "answers_per_class": {
+      "easy": 7063,
+      "medium": 5550,
+      "hard": 1443,
+      "unrated": 1879
+    },
+    "items_per_class": {
+      "easy": 195,
+      "medium": 142,
+      "hard": 40
+    }
+  },
+  "per_skill": {
+    "Calculate part in proportion with fractions": {
+      "prior": 0.585823,
+      "learn": 0.136493,
+      "guess": 0.378541,
+      "slip": 0.13962,
+      "loglik": -1832.234886,
+      "iters": 24,
+      "converged": true,
+      "n_students": 453,
+      "n_answers": 3358,
+      "flags": []
+    },
+    "Calculate total in proportion with fractions": {
+      "prior": 0.454656,
+      "learn": 0.27158,
+      "guess": 0.289631,
+      "slip": 0.128434,
+      "loglik": -1595.589963,
+      "iters": 18,
+      "converged": true,
+      "n_students": 451,
+      "n_answers": 2968,
+      "flags": []
+    },
+    "Calculate unit rate": {
+      "prior": 4.5e-05,
+      "learn": 0.066283,
+      "guess": 0.501858,
+      "slip": 0.113426,
+      "loglik": -3462.514564,
+      "iters": 67,
+      "converged": true,
+      "n_students": 470,
+      "n_answers": 5273,
+      "flags": [
+        "guess>0.5",
+        "prior<0.01"
+      ]
+    },
+    "Plot decimal - thousandths": {
+      "prior": 0.153462,
+      "learn": 0.392852,
+      "guess": 0.194325,
+      "slip": 0.33224,
+      "loglik": -357.209771,
+      "iters": 23,
+      "converged": true,
+      "n_students": 251,
+      "n_answers": 564,
+      "flags": []
+    },
+    "Plot imperfect radical": {
+      "prior": 0.278186,
+      "learn": 0.134424,
+      "guess": 0.080757,
+      "slip": 0.283834,
+      "loglik": -521.77473,
+      "iters": 10,
+      "converged": true,
+      "n_students": 253,
+      "n_answers": 923,
+      "flags": []
+    },
+    "Plot non-terminating improper fraction": {
+      "prior": 0.725346,
+      "learn": 0.229911,
+      "guess": 0.004183,
+      "slip": 0.307085,
+      "loglik": -475.246055,
+      "iters": 54,
+      "converged": true,
+      "n_students": 255,
+      "n_answers": 726,
+      "flags": []
+    },
+    "Plot pi": {
+      "prior": 0.683778,
+      "learn": 0.627306,
+      "guess": 0.044576,
+      "slip": 0.11368,
+      "loglik": -252.951163,
+      "iters": 37,
+      "converged": true,
+      "n_students": 253,
+      "n_answers": 417,
+      "flags": []
+    },
+    "Plot terminating proper fraction": {
+      "prior": 0.600588,
+      "learn": 0.015138,
+      "guess": 0.31422,
+      "slip": 0.336508,
+      "loglik": -762.056467,
+      "iters": 8,
+      "converged": true,
+      "n_students": 256,
+      "n_answers": 1116,
+      "flags": []
+    },
+    "Plot whole number": {
+      "prior": 0.775325,
+      "learn": 0.38354,
+      "guess": 0.713775,
+      "slip": 0.051198,
+      "loglik": -181.942164,
+      "iters": 27,
+      "converged": true,
+      "n_students": 256,
+      "n_answers": 590,
+      "flags": [
+        "guess>0.5"
+      ]
+    }
+  },
+  "per_skill_summary": {
+    "n_skills": 9,
+    "n_guess_plus_slip_ge_1": 0,
+    "pct_guess_plus_slip_ge_1": 0.0,
+    "n_degenerate": 2,
+    "pct_degenerate": 22.2,
+    "degenerate_skills": [
+      "Calculate unit rate",
+      "Plot whole number"
+    ],
+    "flag_counts": {
+      "guess>0.5": 2,
+      "prior<0.01": 1
+    },
+    "all": {
+      "prior": {
+        "n": 9,
+        "min": 4.5e-05,
+        "q25": 0.278186,
+        "median": 0.585823,
+        "q75": 0.683778,
+        "max": 0.775325
+      },
+      "learn": {
+        "n": 9,
+        "min": 0.015138,
+        "q25": 0.134424,
+        "median": 0.229911,
+        "q75": 0.38354,
+        "max": 0.627306
+      },
+      "guess": {
+        "n": 9,
+        "min": 0.004183,
+        "q25": 0.080757,
+        "median": 0.289631,
+        "q75": 0.378541,
+        "max": 0.713775
+      },
+      "slip": {
+        "n": 9,
+        "min": 0.051198,
+        "q25": 0.11368,
+        "median": 0.13962,
+        "q75": 0.307085,
+        "max": 0.336508
+      }
+    },
+    "non_degenerate": {
+      "prior": {
+        "n": 7,
+        "min": 0.153462,
+        "q25": 0.366421,
+        "median": 0.585823,
+        "q75": 0.642183,
+        "max": 0.725346
+      },
+      "learn": {
+        "n": 7,
+        "min": 0.015138,
+        "q25": 0.135458,
+        "median": 0.229911,
+        "q75": 0.332216,
+        "max": 0.627306
+      },
+      "guess": {
+        "n": 7,
+        "min": 0.004183,
+        "q25": 0.062666,
+        "median": 0.194325,
+        "q75": 0.301926,
+        "max": 0.378541
+      },
+      "slip": {
+        "n": 7,
+        "min": 0.11368,
+        "q25": 0.134027,
+        "median": 0.283834,
+        "q75": 0.319663,
+        "max": 0.336508
+      }
+    }
+  },
+  "class_fit": {
+    "prior": 0.634033,
+    "learn": 0.11673,
+    "guess": {
+      "easy": 0.477106,
+      "medium": 0.276535,
+      "hard": 0.001598,
+      "unrated": 0.268999
+    },
+    "slip": {
+      "easy": 0.111022,
+      "medium": 0.365979,
+      "hard": 0.633805,
+      "unrated": 0.224487
+    },
+    "loglik": -9228.032588,
+    "iters": 32,
+    "converged": true,
+    "flags": {
+      "easy": [],
+      "medium": [],
+      "hard": [
+        "slip>0.5"
+      ],
+      "unrated": []
+    },
+    "answers_per_class": {
+      "easy": 7063,
+      "medium": 5550,
+      "hard": 1443,
+      "unrated": 1879
+    },
+    "bootstrap": {
+      "prior": {
+        "ci95": [
+          0.347377,
+          0.742951
+        ],
+        "boot_median": 0.620904
+      },
+      "learn": {
+        "ci95": [
+          0.091173,
+          0.140829
+        ],
+        "boot_median": 0.115031
+      },
+      "guess_easy": {
+        "ci95": [
+          0.384628,
+          0.620494
+        ],
+        "boot_median": 0.482799
+      },
+      "guess_medium": {
+        "ci95": [
+          0.21536,
+          0.38529
+        ],
+        "boot_median": 0.280379
+      },
+      "guess_hard": {
+        "ci95": [
+          0.0,
+          0.062528
+        ],
+        "boot_median": 0.001847
+      },
+      "guess_unrated": {
+        "ci95": [
+          0.184761,
+          0.428069
+        ],
+        "boot_median": 0.274549
+      },
+      "slip_easy": {
+        "ci95": [
+          0.063245,
+          0.134067
+        ],
+        "boot_median": 0.108884
+      },
+      "slip_medium": {
+        "ci95": [
+          0.273372,
+          0.39518
+        ],
+        "boot_median": 0.36453
+      },
+      "slip_hard": {
+        "ci95": [
+          0.472331,
+          0.692362
+        ],
+        "boot_median": 0.631683
+      },
+      "slip_unrated": {
+        "ci95": [
+          0.144712,
+          0.272883
+        ],
+        "boot_median": 0.219072
+      }
+    },
+    "n_resamples": 200
+  },
+  "bootstrap_skills": {
+    "n_resamples": 200,
+    "unit": "student",
+    "skills": "all 9",
+    "init": "restart 0 = full-data estimate, restarts 1-4 random",
+    "per_skill": {
+      "Calculate unit rate": {
+        "prior": {
+          "ci95": [
+            0.0,
+            9e-05
+          ],
+          "boot_median": 8e-06
+        },
+        "learn": {
+          "ci95": [
+            0.048187,
+            0.081999
+          ],
+          "boot_median": 0.064878
+        },
+        "guess": {
+          "ci95": [
+            0.470919,
+            0.527623
+          ],
+          "boot_median": 0.501208
+        },
+        "slip": {
+          "ci95": [
+            0.074857,
+            0.155938
+          ],
+          "boot_median": 0.112961
+        },
+        "point": {
+          "prior": 4.5e-05,
+          "learn": 0.066283,
+          "guess": 0.501858,
+          "slip": 0.113426
+        }
+      },
+      "Calculate part in proportion with fractions": {
+        "prior": {
+          "ci95": [
+            0.341945,
+            0.741898
+          ],
+          "boot_median": 0.552571
+        },
+        "learn": {
+          "ci95": [
+            0.099841,
+            0.170961
+          ],
+          "boot_median": 0.133781
+        },
+        "guess": {
+          "ci95": [
+            0.263231,
+            0.518538
+          ],
+          "boot_median": 0.395668
+        },
+        "slip": {
+          "ci95": [
+            0.080463,
+            0.183215
+          ],
+          "boot_median": 0.132968
+        },
+        "point": {
+          "prior": 0.585823,
+          "learn": 0.136493,
+          "guess": 0.378541,
+          "slip": 0.13962
+        }
+      },
+      "Calculate total in proportion with fractions": {
+        "prior": {
+          "ci95": [
+            0.32774,
+            0.563498
+          ],
+          "boot_median": 0.443895
+        },
+        "learn": {
+          "ci95": [
+            0.218803,
+            0.3268
+          ],
+          "boot_median": 0.271419
+        },
+        "guess": {
+          "ci95": [
+            0.216319,
+            0.382372
+          ],
+          "boot_median": 0.291948
+        },
+        "slip": {
+          "ci95": [
+            0.100145,
+            0.152685
+          ],
+          "boot_median": 0.127141
+        },
+        "point": {
+          "prior": 0.454656,
+          "learn": 0.27158,
+          "guess": 0.289631,
+          "slip": 0.128434
+        }
+      },
+      "Plot terminating proper fraction": {
+        "prior": {
+          "ci95": [
+            0.327739,
+            0.776558
+          ],
+          "boot_median": 0.578164
+        },
+        "learn": {
+          "ci95": [
+            0.001489,
+            0.123828
+          ],
+          "boot_median": 0.018974
+        },
+        "guess": {
+          "ci95": [
+            0.17578,
+            0.399765
+          ],
+          "boot_median": 0.313981
+        },
+        "slip": {
+          "ci95": [
+            0.203467,
+            0.406263
+          ],
+          "boot_median": 0.322128
+        },
+        "point": {
+          "prior": 0.600588,
+          "learn": 0.015138,
+          "guess": 0.31422,
+          "slip": 0.336508
+        }
+      },
+      "Plot whole number": {
+        "prior": {
+          "ci95": [
+            0.209705,
+            0.962197
+          ],
+          "boot_median": 0.722161
+        },
+        "learn": {
+          "ci95": [
+            0.029104,
+            0.999998
+          ],
+          "boot_median": 0.335704
+        },
+        "guess": {
+          "ci95": [
+            0.058576,
+            0.914364
+          ],
+          "boot_median": 0.73743
+        },
+        "slip": {
+          "ci95": [
+            0.001855,
+            0.099844
+          ],
+          "boot_median": 0.043565
+        },
+        "point": {
+          "prior": 0.775325,
+          "learn": 0.38354,
+          "guess": 0.713775,
+          "slip": 0.051198
+        }
+      },
+      "Plot non-terminating improper fraction": {
+        "prior": {
+          "ci95": [
+            0.634998,
+            0.805476
+          ],
+          "boot_median": 0.730133
+        },
+        "learn": {
+          "ci95": [
+            0.11659,
+            0.325761
+          ],
+          "boot_median": 0.226042
+        },
+        "guess": {
+          "ci95": [
+            0.000339,
+            0.077821
+          ],
+          "boot_median": 0.002286
+        },
+        "slip": {
+          "ci95": [
+            0.249998,
+            0.362098
+          ],
+          "boot_median": 0.303636
+        },
+        "point": {
+          "prior": 0.725346,
+          "learn": 0.229911,
+          "guess": 0.004183,
+          "slip": 0.307085
+        }
+      },
+      "Plot imperfect radical": {
+        "prior": {
+          "ci95": [
+            0.156866,
+            0.58148
+          ],
+          "boot_median": 0.286048
+        },
+        "learn": {
+          "ci95": [
+            0.07913,
+            0.196147
+          ],
+          "boot_median": 0.133638
+        },
+        "guess": {
+          "ci95": [
+            0.005758,
+            0.13406
+          ],
+          "boot_median": 0.073041
+        },
+        "slip": {
+          "ci95": [
+            0.110729,
+            0.497056
+          ],
+          "boot_median": 0.287974
+        },
+        "point": {
+          "prior": 0.278186,
+          "learn": 0.134424,
+          "guess": 0.080757,
+          "slip": 0.283834
+        }
+      },
+      "Plot pi": {
+        "prior": {
+          "ci95": [
+            0.347237,
+            0.774423
+          ],
+          "boot_median": 0.672048
+        },
+        "learn": {
+          "ci95": [
+            0.377218,
+            0.742385
+          ],
+          "boot_median": 0.605448
+        },
+        "guess": {
+          "ci95": [
+            0.001104,
+            0.436586
+          ],
+          "boot_median": 0.038455
+        },
+        "slip": {
+          "ci95": [
+            0.000356,
+            0.192466
+          ],
+          "boot_median": 0.101473
+        },
+        "point": {
+          "prior": 0.683778,
+          "learn": 0.627306,
+          "guess": 0.044576,
+          "slip": 0.11368
+        }
+      },
+      "Plot decimal - thousandths": {
+        "prior": {
+          "ci95": [
+            0.003962,
+            0.422505
+          ],
+          "boot_median": 0.156094
+        },
+        "learn": {
+          "ci95": [
+            0.29778,
+            0.536481
+          ],
+          "boot_median": 0.406893
+        },
+        "guess": {
+          "ci95": [
+            0.011134,
+            0.27896
+          ],
+          "boot_median": 0.185448
+        },
+        "slip": {
+          "ci95": [
+            0.227709,
+            0.422762
+          ],
+          "boot_median": 0.340881
+        },
+        "point": {
+          "prior": 0.153462,
+          "learn": 0.392852,
+          "guess": 0.194325,
+          "slip": 0.33224
+        }
+      }
+    }
+  },
+  "heldout": {
+    "folds": 5,
+    "fold_unit": "student",
+    "per_fold": {
+      "fitted_per_skill": [
+        {
+          "n": 3149,
+          "rmse": 0.458056,
+          "brier": 0.209816,
+          "logloss": 0.605577,
+          "auc": 0.702963,
+          "ece": 0.026373
+        },
+        {
+          "n": 3029,
+          "rmse": 0.457052,
+          "brier": 0.208896,
+          "logloss": 0.604773,
+          "auc": 0.675835,
+          "ece": 0.041425
+        },
+        {
+          "n": 3494,
+          "rmse": 0.447204,
+          "brier": 0.199991,
+          "logloss": 0.583724,
+          "auc": 0.727292,
+          "ece": 0.029171
+        },
+        {
+          "n": 3262,
+          "rmse": 0.452261,
+          "brier": 0.20454,
+          "logloss": 0.594526,
+          "auc": 0.700666,
+          "ece": 0.045003
+        },
+        {
+          "n": 3001,
+          "rmse": 0.449506,
+          "brier": 0.202056,
+          "logloss": 0.587384,
+          "auc": 0.730025,
+          "ece": 0.040652
+        }
+      ],
+      "fitted_class_profile": [
+        {
+          "n": 3149,
+          "rmse": 0.457059,
+          "brier": 0.208903,
+          "logloss": 0.605742,
+          "auc": 0.704594,
+          "ece": 0.019464
+        },
+        {
+          "n": 3029,
+          "rmse": 0.456616,
+          "brier": 0.208498,
+          "logloss": 0.604574,
+          "auc": 0.673337,
+          "ece": 0.03571
+        },
+        {
+          "n": 3494,
+          "rmse": 0.44964,
+          "brier": 0.202177,
+          "logloss": 0.589865,
+          "auc": 0.715623,
+          "ece": 0.019644
+        },
+        {
+          "n": 3262,
+          "rmse": 0.458768,
+          "brier": 0.210468,
+          "logloss": 0.608504,
+          "auc": 0.684278,
+          "ece": 0.034522
+        },
+        {
+          "n": 3001,
+          "rmse": 0.452803,
+          "brier": 0.205031,
+          "logloss": 0.595415,
+          "auc": 0.710765,
+          "ece": 0.026039
+        }
+      ],
+      "heuristic_class_D6": [
+        {
+          "n": 3149,
+          "rmse": 0.497875,
+          "brier": 0.247879,
+          "logloss": 0.690352,
+          "auc": 0.673066,
+          "ece": 0.144513
+        },
+        {
+          "n": 3029,
+          "rmse": 0.502665,
+          "brier": 0.252672,
+          "logloss": 0.701553,
+          "auc": 0.645522,
+          "ece": 0.163384
+        },
+        {
+          "n": 3494,
+          "rmse": 0.488024,
+          "brier": 0.238168,
+          "logloss": 0.668812,
+          "auc": 0.703,
+          "ece": 0.146089
+        },
+        {
+          "n": 3262,
+          "rmse": 0.503806,
+          "brier": 0.253821,
+          "logloss": 0.703525,
+          "auc": 0.655699,
+          "ece": 0.155152
+        },
+        {
+          "n": 3001,
+          "rmse": 0.483591,
+          "brier": 0.23386,
+          "logloss": 0.658317,
+          "auc": 0.709252,
+          "ece": 0.136243
+        }
+      ],
+      "heuristic_continuous": [
+        {
+          "n": 3149,
+          "rmse": 0.495948,
+          "brier": 0.245965,
+          "logloss": 0.685531,
+          "auc": 0.677908,
+          "ece": 0.149009
+        },
+        {
+          "n": 3029,
+          "rmse": 0.501132,
+          "brier": 0.251133,
+          "logloss": 0.697509,
+          "auc": 0.649765,
+          "ece": 0.159472
+        },
+        {
+          "n": 3494,
+          "rmse": 0.486474,
+          "brier": 0.236657,
+          "logloss": 0.665181,
+          "auc": 0.705691,
+          "ece": 0.147238
+        },
+        {
+          "n": 3262,
+          "rmse": 0.502512,
+          "brier": 0.252519,
+          "logloss": 0.70004,
+          "auc": 0.660893,
+          "ece": 0.156449
+        },
+        {
+          "n": 3001,
+          "rmse": 0.481391,
+          "brier": 0.231737,
+          "logloss": 0.652839,
+          "auc": 0.716261,
+          "ece": 0.135958
+        }
+      ]
+    },
+    "pooled_oof": {
+      "fitted_per_skill": {
+        "n": 15935,
+        "rmse": 0.452709,
+        "brier": 0.204945,
+        "logloss": 0.594944,
+        "auc": 0.705326,
+        "ece": 0.029127,
+        "reliability": [
+          {
+            "bin": [
+              0.0,
+              0.1
+            ],
+            "n": 0,
+            "mean_pred": null,
+            "obs_rate": null
+          },
+          {
+            "bin": [
+              0.1,
+              0.2
+            ],
+            "n": 86,
+            "mean_pred": 0.193798,
+            "obs_rate": 0.232558
+          },
+          {
+            "bin": [
+              0.2,
+              0.3
+            ],
+            "n": 946,
+            "mean_pred": 0.245932,
+            "obs_rate": 0.247357
+          },
+          {
+            "bin": [
+              0.3,
+              0.4
+            ],
+            "n": 350,
+            "mean_pred": 0.365531,
+            "obs_rate": 0.362857
+          },
+          {
+            "bin": [
+              0.4,
+              0.5
+            ],
+            "n": 1349,
+            "mean_pred": 0.466845,
+            "obs_rate": 0.542624
+          },
+          {
+            "bin": [
+              0.5,
+              0.6
+            ],
+            "n": 5415,
+            "mean_pred": 0.545405,
+            "obs_rate": 0.516528
+          },
+          {
+            "bin": [
+              0.6,
+              0.7
+            ],
+            "n": 2353,
+            "mean_pred": 0.645666,
+            "obs_rate": 0.692733
+          },
+          {
+            "bin": [
+              0.7,
+              0.8
+            ],
+            "n": 1817,
+            "mean_pred": 0.745009,
+            "obs_rate": 0.708861
+          },
+          {
+            "bin": [
+              0.8,
+              0.9
+            ],
+            "n": 3258,
+            "mean_pred": 0.852705,
+            "obs_rate": 0.858195
+          },
+          {
+            "bin": [
+              0.9,
+              1.0
+            ],
+            "n": 361,
+            "mean_pred": 0.921354,
+            "obs_rate": 0.905817
+          }
+        ]
+      },
+      "fitted_class_profile": {
+        "n": 15935,
+        "rmse": 0.454909,
+        "brier": 0.206942,
+        "logloss": 0.600659,
+        "auc": 0.697933,
+        "ece": 0.011232,
+        "reliability": [
+          {
+            "bin": [
+              0.0,
+              0.1
+            ],
+            "n": 13,
+            "mean_pred": 0.08781,
+            "obs_rate": 0.384615
+          },
+          {
+            "bin": [
+              0.1,
+              0.2
+            ],
+            "n": 423,
+            "mean_pred": 0.164455,
+            "obs_rate": 0.186761
+          },
+          {
+            "bin": [
+              0.2,
+              0.3
+            ],
+            "n": 621,
+            "mean_pred": 0.231722,
+            "obs_rate": 0.252818
+          },
+          {
+            "bin": [
+              0.3,
+              0.4
+            ],
+            "n": 470,
+            "mean_pred": 0.378657,
+            "obs_rate": 0.434043
+          },
+          {
+            "bin": [
+              0.4,
+              0.5
+            ],
+            "n": 2106,
+            "mean_pred": 0.464187,
+            "obs_rate": 0.484805
+          },
+          {
+            "bin": [
+              0.5,
+              0.6
+            ],
+            "n": 3094,
+            "mean_pred": 0.543132,
+            "obs_rate": 0.530381
+          },
+          {
+            "bin": [
+              0.6,
+              0.7
+            ],
+            "n": 2697,
+            "mean_pred": 0.645463,
+            "obs_rate": 0.637746
+          },
+          {
+            "bin": [
+              0.7,
+              0.8
+            ],
+            "n": 3957,
+            "mean_pred": 0.749593,
+            "obs_rate": 0.749558
+          },
+          {
+            "bin": [
+              0.8,
+              0.9
+            ],
+            "n": 2127,
+            "mean_pred": 0.84291,
+            "obs_rate": 0.834509
+          },
+          {
+            "bin": [
+              0.9,
+              1.0
+            ],
+            "n": 427,
+            "mean_pred": 0.908331,
+            "obs_rate": 0.896956
+          }
+        ]
+      },
+      "heuristic_class_D6": {
+        "n": 15935,
+        "rmse": 0.495214,
+        "brier": 0.245237,
+        "logloss": 0.684422,
+        "auc": 0.678767,
+        "ece": 0.145155,
+        "reliability": [
+          {
+            "bin": [
+              0.0,
+              0.1
+            ],
+            "n": 0,
+            "mean_pred": null,
+            "obs_rate": null
+          },
+          {
+            "bin": [
+              0.1,
+              0.2
+            ],
+            "n": 1745,
+            "mean_pred": 0.172247,
+            "obs_rate": 0.286533
+          },
+          {
+            "bin": [
+              0.2,
+              0.3
+            ],
+            "n": 3471,
+            "mean_pred": 0.262262,
+            "obs_rate": 0.552002
+          },
+          {
+            "bin": [
+              0.3,
+              0.4
+            ],
+            "n": 2696,
+            "mean_pred": 0.355682,
+            "obs_rate": 0.643917
+          },
+          {
+            "bin": [
+              0.4,
+              0.5
+            ],
+            "n": 1102,
+            "mean_pred": 0.456501,
+            "obs_rate": 0.641561
+          },
+          {
+            "bin": [
+              0.5,
+              0.6
+            ],
+            "n": 1749,
+            "mean_pred": 0.561307,
+            "obs_rate": 0.570612
+          },
+          {
+            "bin": [
+              0.6,
+              0.7
+            ],
+            "n": 1020,
+            "mean_pred": 0.651976,
+            "obs_rate": 0.72451
+          },
+          {
+            "bin": [
+              0.7,
+              0.8
+            ],
+            "n": 1368,
+            "mean_pred": 0.757428,
+            "obs_rate": 0.74269
+          },
+          {
+            "bin": [
+              0.8,
+              0.9
+            ],
+            "n": 2784,
+            "mean_pred": 0.846084,
+            "obs_rate": 0.840158
+          },
+          {
+            "bin": [
+              0.9,
+              1.0
+            ],
+            "n": 0,
+            "mean_pred": null,
+            "obs_rate": null
+          }
+        ]
+      },
+      "heuristic_continuous": {
+        "n": 15935,
+        "rmse": 0.493527,
+        "brier": 0.243569,
+        "logloss": 0.680159,
+        "auc": 0.683385,
+        "ece": 0.1445,
+        "reliability": [
+          {
+            "bin": [
+              0.0,
+              0.1
+            ],
+            "n": 83,
+            "mean_pred": 0.086723,
+            "obs_rate": 0.156627
+          },
+          {
+            "bin": [
+              0.1,
+              0.2
+            ],
+            "n": 1498,
+            "mean_pred": 0.171835,
+            "obs_rate": 0.294393
+          },
+          {
+            "bin": [
+              0.2,
+              0.3
+            ],
+            "n": 3243,
+            "mean_pred": 0.255117,
+            "obs_rate": 0.533148
+          },
+          {
+            "bin": [
+              0.3,
+              0.4
+            ],
+            "n": 2930,
+            "mean_pred": 0.345968,
+            "obs_rate": 0.613652
+          },
+          {
+            "bin": [
+              0.4,
+              0.5
+            ],
+            "n": 1061,
+            "mean_pred": 0.440594,
+            "obs_rate": 0.697455
+          },
+          {
+            "bin": [
+              0.5,
+              0.6
+            ],
+            "n": 1818,
+            "mean_pred": 0.552561,
+            "obs_rate": 0.551155
+          },
+          {
+            "bin": [
+              0.6,
+              0.7
+            ],
+            "n": 1082,
+            "mean_pred": 0.640912,
+            "obs_rate": 0.746765
+          },
+          {
+            "bin": [
+              0.7,
+              0.8
+            ],
+            "n": 1438,
+            "mean_pred": 0.754342,
+            "obs_rate": 0.744784
+          },
+          {
+            "bin": [
+              0.8,
+              0.9
+            ],
+            "n": 2542,
+            "mean_pred": 0.839989,
+            "obs_rate": 0.833989
+          },
+          {
+            "bin": [
+              0.9,
+              1.0
+            ],
+            "n": 240,
+            "mean_pred": 0.918182,
+            "obs_rate": 0.954167
+          }
+        ]
+      }
+    },
+    "heuristic": {
+      "prior_p0": 0.2,
+      "learn_T_exercise": 0.05,
+      "continuous": "g=GUESS_COEF*(1-d), s=SLIP_BASE+SLIP_COEF*d, d clipped; unrated d=0.5",
+      "class_D6": {
+        "easy": {
+          "rep_d": 0.2,
+          "guess": 0.24,
+          "slip": 0.1
+        },
+        "medium": {
+          "rep_d": 0.5,
+          "guess": 0.15,
+          "slip": 0.175
+        },
+        "hard": {
+          "rep_d": 0.8,
+          "guess": 0.06,
+          "slip": 0.25
+        }
+      },
+      "unrated": "medium"
+    },
+    "difficulty_note": "d recomputed per fold from training students only"
+  }
+}

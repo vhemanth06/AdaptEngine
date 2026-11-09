@@ -531,26 +531,38 @@ def test_pybkt_adapter_genuine_parity():
 
     import pandas as pd
 
-    df = pd.DataFrame(
-        [
-            {"user_id": 1, "skill_name": "easy", "correct": 1, "order_id": 1},
-            {"user_id": 1, "skill_name": "medium", "correct": 0, "order_id": 2},
-            {"user_id": 1, "skill_name": "hard", "correct": 1, "order_id": 3},
-        ]
-    )
-    # Check predictions from pyBKT model
-    py_preds = adapter.pybkt_model.predict(data=df)
-    assert len(py_preds) == 3
+    def pybkt_vs(adapter_under_test):
+        """Max |difference| between pyBKT predict() and the adapter, stepwise, per class (T1.5).
 
-    # Check parity with adapter's predict_correct and update
-    rep_d = {"easy": 0.20, "medium": 0.50, "hard": 0.80}
-    for cname in ("easy", "medium", "hard"):
-        d = rep_d[cname]
-        pred_adapter = adapter.predict_correct(0.20, d)
-        params = adapter.get_class_params(cname)
-        g, s = params["guess"], params["slip"]
-        exp_pred = 0.20 * (1.0 - s) + 0.80 * g
-        assert pred_adapter == pytest.approx(exp_pred, abs=1e-9)
+        pyBKT 1.4.3: correct_predictions[t] = P(correct_t) before observing t, and
+        state_predictions[t] = P(mastered) before observing t (i.e. after step t-1's transition).
+        """
+        seq = [1, 0, 0, 1, 1, 0, 1, 1]
+        worst = 0.0
+        for cname, d in (("easy", 0.20), ("medium", 0.50), ("hard", 0.80)):
+            df = pd.DataFrame(
+                [
+                    {"user_id": 7, "skill_name": cname, "correct": c, "order_id": i + 1}
+                    for i, c in enumerate(seq)
+                ]
+            )
+            pred = adapter.pybkt_model.predict(data=df)
+            p = adapter.cfg.p0
+            for c, (_, row) in zip(seq, pred.iterrows()):
+                worst = max(worst, abs(row.state_predictions - p))
+                worst = max(
+                    worst, abs(row.correct_predictions - adapter_under_test.predict_correct(p, d))
+                )
+                p = adapter_under_test.update(p, d, bool(c), adapter.cfg.t_exercise)
+        return worst
+
+    assert pybkt_vs(adapter) < 1e-6
+
+    # Sensitivity: a perturbed formula (slip + 0.01 on every class) must be detected.
+    perturbed = PyBKTAdapter(
+        class_params={c: {**v, "slip": v["slip"] + 0.01} for c, v in adapter.class_params.items()}
+    )
+    assert pybkt_vs(perturbed) > 1e-4
 
 
 def test_planner_and_replanner_with_adapter_injection():

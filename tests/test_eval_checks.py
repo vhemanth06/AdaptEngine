@@ -12,7 +12,7 @@ from adaptengine.core.schema import PlanContext, PlanDay  # noqa: E402
 from experiments.checks import (  # noqa: E402
     count_budget_violations,
     count_duplicate_activities,
-    count_prerequisite_violations,
+    count_plan_prereq_violations,
 )
 
 
@@ -34,7 +34,7 @@ def test_hand_built_downstream_before_prereq_violation(engine):
         PlanDay(day=1, activities=("L-C4",), duration=4),
         PlanDay(day=2, activities=("L-C1",), duration=4),
     )
-    violations = count_prerequisite_violations(engine, start_state, bad_days)
+    violations = count_plan_prereq_violations(engine, start_state, bad_days)
     assert violations > 0, "Expected downstream before prereq to yield prerequisite violations"
 
 
@@ -49,7 +49,7 @@ def test_engine_plan_novice_and_advanced_zero_violations(engine):
     ctx_novice = PlanContext(goal="C4", deadline_day=10, budget=15, current_day=1)
     plan_novice = engine.plan(novice_state, ctx_novice)
 
-    assert count_prerequisite_violations(engine, novice_state, plan_novice.days) == 0
+    assert count_plan_prereq_violations(engine, novice_state, plan_novice.days) == 0
     assert count_budget_violations(engine, plan_novice.days, 15) == 0
     assert count_duplicate_activities(plan_novice.days) == 0
 
@@ -62,7 +62,7 @@ def test_engine_plan_novice_and_advanced_zero_violations(engine):
     ctx_adv = PlanContext(goal="C4", deadline_day=10, budget=15, current_day=1)
     plan_adv = engine.plan(adv_state, ctx_adv)
 
-    assert count_prerequisite_violations(engine, adv_state, plan_adv.days) == 0
+    assert count_plan_prereq_violations(engine, adv_state, plan_adv.days) == 0
     assert count_budget_violations(engine, plan_adv.days, 15) == 0
     assert count_duplicate_activities(plan_adv.days) == 0
 
@@ -93,3 +93,24 @@ def test_duplicate_activities_detection():
         PlanDay(day=2, activities=("act_2", "act_3"), duration=8),
     )
     assert count_duplicate_activities(dup_days) == 1
+
+
+def test_executed_audit_flags_wrong_answers_plan_audit_does_not(engine):
+    """W7 T1.1: a learner who answers every C1 item wrong is not evidence-mastered on C1, so running
+    the stale W6 plan's C3 work is an executed violation; the optimistic plan audit reports 0."""
+    from adaptengine.core.schema import ActivityType, Event, EventType
+    from adaptengine.learner.state import ExecutionLog
+    from experiments.checks import count_executed_prereq_violations
+
+    s0 = engine.init_learner()
+    plan = engine.plan(s0, PlanContext(goal="C4", deadline_day=30, budget=15))
+    state, log = s0, ExecutionLog()
+    for d in plan.days:
+        for aid in d.activities:
+            a = engine.activities[aid]
+            wrong = a.type == ActivityType.EXERCISE and a.target_concept == "C1"
+            correct = None if a.type == ActivityType.LESSON else not wrong
+            ev = Event(d.day, EventType.COMPLETED, aid, a.duration, correct)
+            state, log = engine.record(state, log, ev)
+    assert count_plan_prereq_violations(engine, s0, plan.days) == 0
+    assert count_executed_prereq_violations(engine, s0, log) > 0

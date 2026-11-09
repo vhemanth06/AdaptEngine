@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+/* Projector-size type; system fonts only (offline-safe, no CDN). */
+html {
+  font-size: 19px;
+}
+body {
+  @apply bg-slate-50 text-slate-900;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+button {
+  @apply cursor-pointer;
+}
+:focus-visible {
+  outline: 3px solid #0072b2;
+  outline-offset: 2px;
+}

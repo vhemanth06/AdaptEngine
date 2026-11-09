@@ -21,7 +21,14 @@ from adaptengine.core.config import DEFAULT_CONFIG
 
 from adaptengine.core.schema import ActivityType
 from adaptengine.learner.state import ConceptStatus, LearnerConcept, LearnerState
-from experiments.sim import PROFILES, SimLearner, SimProfile
+from experiments.sim import PROFILES, TRUE_MASTERY_CUTOFF, SimLearner, SimProfile, make_sim
+from experiments.stats import (
+    brier_decomposition,
+    log_loss,
+    paired_summary,
+    reliability_bins,
+    roc_auc,
+)
 
 
 def compute_diagnostic_errors(
@@ -56,9 +63,10 @@ def run_adaptive_diagnostic(
     engine: Engine,
     seed: int,
     profile: SimProfile,
+    world: str = "S0",
 ) -> tuple[LearnerState, int]:
     """Run active information gain (EIG) diagnostic probe using key-seeded responses."""
-    sim = SimLearner(seed=seed, concepts=engine.graph.concepts(), profile=profile)
+    sim = make_sim(engine, seed, profile, world)
     init_state = engine.init_learner()
     diag_res = engine.diagnose(
         init_state,
@@ -76,9 +84,10 @@ def run_fixed_diagnostic(
     seed: int,
     profile: SimProfile,
     item_cap: int,
+    world: str = "S0",
 ) -> tuple[LearnerState, int]:
     """Run round-robin fixed concept probe using independent SimLearner instance with same seed."""
-    sim = SimLearner(seed=seed, concepts=engine.graph.concepts(), profile=profile)
+    sim = make_sim(engine, seed, profile, world)
     concepts = list(engine.graph.concepts())
     all_exercises = sorted(
         [a for a in engine.activities.values() if a.type == ActivityType.EXERCISE],
@@ -124,9 +133,10 @@ def run_random_diagnostic(
     seed: int,
     profile: SimProfile,
     item_cap: int,
+    world: str = "S0",
 ) -> tuple[LearnerState, int]:
     """Run uniform random exercise probe using keyed seed shuffle on independent SimLearner."""
-    sim = SimLearner(seed=seed, concepts=engine.graph.concepts(), profile=profile)
+    sim = make_sim(engine, seed, profile, world)
     all_exercises = sorted(
         [a for a in engine.activities.values() if a.type == ActivityType.EXERCISE],
         key=lambda a: a.activity_id,
@@ -301,4 +311,100 @@ def run_diagnostic_tuning(
                 sum(heldout_default_items) / len(heldout_default_items), 3
             ),
         },
+    }
+
+
+# -------------------------------------------------------------------------------------------
+# W7 T3.1: proper scoring rules. p is P(learner is in the mastered state), so it is scored
+# against binary truth 1[theta >= TRUE_MASTERY_CUTOFF] (Brier, log-loss, AUC, reliability) and
+# by next-response Brier on held-out probe items. |p - theta| (MAE) is kept as a legacy column
+# only: it is an improper scoring rule for a probability [Pelanek 2015].
+# -------------------------------------------------------------------------------------------
+
+
+# Diagnostic settings shipped in W6 (before the T3.3 pre-registered selection changed defaults)
+W6_DIAGNOSTIC = {"prior_mode": "flat", "concept_cap": 3, "n_max": 8}
+
+
+def binary_score(engine: Engine, state: LearnerState, seed: int, profile: SimProfile, world: str):
+    """Per-learner scores of a diagnostic end state against the simulator's initial truth."""
+    sim = make_sim(engine, seed, profile, world)
+    truth = sim.initial
+    concepts = list(engine.graph.concepts())
+    pairs = [(state.concepts[c].p, truth[c] >= TRUE_MASTERY_CUTOFF) for c in concepts]
+    # Next-response check: every exercise answered once more by an independent "probe" draw
+    probe = []
+    for a in sorted(engine.activities.values(), key=lambda a: a.activity_id):
+        if a.type == ActivityType.EXERCISE:
+            pred = engine.model.predict_correct(state.concepts[a.target_concept].p, a.difficulty)
+            probe.append(
+                (pred, sim.respond(a.target_concept, a.activity_id, a.difficulty, "probe"))
+            )
+    return {
+        "brier": sum((p - y) ** 2 for p, y in pairs) / len(pairs),
+        "next_brier": sum((p - y) ** 2 for p, y in probe) / len(probe),
+        "mae_legacy": sum(abs(state.concepts[c].p - truth[c]) for c in concepts) / len(concepts),
+        "pairs": pairs,
+        "probe_pairs": probe,
+    }
+
+
+def diagnostic_arms(engine: Engine, seed: int, profile: SimProfile, world: str = "S0", extra=None):
+    """End states of every diagnostic arm for one learner, at matched item budgets.
+
+    extra: optional {name: callable(seed, profile, world) -> (state, items)} for variant arms.
+    """
+    st_a, n = run_adaptive_diagnostic(engine, seed, profile, world)
+    out = {"prior_only": (engine.init_learner(), 0), "adaptive": (st_a, n)}
+    for cap, tag in ((n, "n"), (4, "4"), (8, "8")):
+        out[f"fixed@{tag}"] = run_fixed_diagnostic(engine, seed, profile, cap, world)
+        out[f"random@{tag}"] = run_random_diagnostic(engine, seed, profile, cap, world)
+    for name, fn in (extra or {}).items():
+        out[name] = fn(seed, profile, world)
+    return out
+
+
+def evaluate_diagnostic_binary(
+    engine: Engine,
+    seeds: Sequence[int],
+    profile: SimProfile,
+    world: str = "S0",
+    extra=None,
+    reference: str = "adaptive",
+) -> dict[str, Any]:
+    """Arm table with Brier / log-loss / AUC / next-response Brier / reliability + paired CIs
+    (per-learner Brier differences vs `reference` and vs prior_only)."""
+    per_arm: dict[str, list] = {}
+    items: dict[str, list] = {}
+    for s in seeds:
+        for name, (st, k) in diagnostic_arms(engine, s, profile, world, extra).items():
+            per_arm.setdefault(name, []).append(binary_score(engine, st, s, profile, world))
+            items.setdefault(name, []).append(k)
+    table: dict[str, Any] = {}
+    for name, rows in per_arm.items():
+        pairs = [x for r in rows for x in r["pairs"]]
+        brier = [r["brier"] for r in rows]
+        table[name] = {
+            "brier": round(sum(brier) / len(brier), 4),
+            "log_loss": log_loss(pairs),
+            "auc": roc_auc(pairs),
+            "next_response_brier": round(sum(r["next_brier"] for r in rows) / len(rows), 4),
+            "mae_legacy": round(sum(r["mae_legacy"] for r in rows) / len(rows), 4),
+            "items_used": round(sum(items[name]) / len(items[name]), 3),
+            "decomposition": brier_decomposition(pairs),
+            "reliability": reliability_bins(pairs),
+            "paired_brier_vs_" + reference: paired_summary(
+                brier, [r["brier"] for r in per_arm[reference]]
+            ),
+            "paired_brier_vs_prior_only": paired_summary(
+                brier, [r["brier"] for r in per_arm["prior_only"]]
+            ),
+        }
+    return {
+        "world": world,
+        "n_learners": len(seeds),
+        "truth": f"1[theta >= {TRUE_MASTERY_CUTOFF}] at diagnostic time",
+        "mae_note": "mae_legacy = |p - theta|: improper scoring rule for a probability "
+        "[Pelanek 2015]; kept for comparison with W6 only",
+        "arms": table,
     }

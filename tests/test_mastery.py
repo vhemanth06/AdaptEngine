@@ -91,3 +91,36 @@ def test_correct_hard_raises_more():
     p_easy = update_mastery(p, 0.2, True, T)
     p_hard = update_mastery(p, 0.8, True, T)
     assert p_hard > p_easy
+
+
+def test_alternative_mastery_criteria_t5_4():
+    from adaptengine.core.config import EngineConfig
+    from adaptengine.learner.state import LearnerConcept, is_evidence_mastered
+
+    c = LearnerConcept("C1", p=0.86, responses=3, correct_responses=2, correct_streak=2)
+    assert is_evidence_mastered(c, EngineConfig())  # D4 default
+    assert not is_evidence_mastered(c, EngineConfig(mastery_criterion="n_consecutive"))
+    assert is_evidence_mastered(c, EngineConfig(mastery_criterion="n_consecutive", n_consecutive=2))
+    # H(0.86) = 0.584 > 0.5: knowledge level met, certainty not
+    assert not is_evidence_mastered(c, EngineConfig(mastery_criterion="two_threshold"))
+    sure = LearnerConcept("C1", p=0.95, responses=3, correct_responses=3, correct_streak=3)
+    assert is_evidence_mastered(sure, EngineConfig(mastery_criterion="two_threshold"))
+
+
+def test_streak_tracking_and_planning_under_criteria_t5_4():
+    from adaptengine.api import Engine
+    from adaptengine.core.config import EngineConfig
+    from adaptengine.core.schema import Event, EventType, PlanContext, PlanStatus
+    from adaptengine.learner.state import ExecutionLog
+
+    for crit in ("bkt_threshold", "n_consecutive", "two_threshold"):
+        e = Engine.from_files(
+            "data/curriculum/curriculum_4node.json",
+            "data/curriculum/activities_4node.json",
+            config=EngineConfig(mastery_criterion=crit),
+        )
+        s, log = e.init_learner(), ExecutionLog()
+        for i, ok in enumerate((True, True, False, True)):
+            s, log = e.record(s, log, Event(1, EventType.COMPLETED, "E-C1-0.2", 2, ok))
+        assert s.concepts["C1"].correct_streak == 1
+        assert e.plan(s, PlanContext("C4", 30, 15)).status == PlanStatus.FEASIBLE

@@ -26,5 +26,12 @@
     "date": "2026-10-20T07:03:58.658154+00:00",
     "sha256": "5e85f159c97b17f074a7c770c46ea63aac2dbbc5306212768f5b76ea270f590d",
     "source": "hand-written"
+  },
+  "data/content/content_8node.json": {
+    "reviewer": "PENDING_HUMAN_REVIEW",
+    "ai_assisted": true,
+    "date": "2026-11-08T17:28:41.468805+00:00",
+    "sha256": "e153fcbdb5b2983472c1cc5c099723743360276d93e9e3f40c29901e553c2898",
+    "source": "ai-drafted demo content"
   }
 }

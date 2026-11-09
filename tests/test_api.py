@@ -79,9 +79,11 @@ def test_api_deadline_and_budget_changed():
     assert len(l2.events) == 2
     assert l2.events[1].value == 15
 
-    # Reject invalid budget
+    # Reject invalid budget: membership is checked against EngineConfig.allowed_budgets (T5.1)
     with pytest.raises(ValidationError):
-        Event(day=2, kind=EventType.BUDGET_CHANGED, value=25)
+        engine.record(state, l1, Event(day=2, kind=EventType.BUDGET_CHANGED, value=25))
+    with pytest.raises(ValidationError):
+        Event(day=2, kind=EventType.BUDGET_CHANGED, value=0)
 
 
 def test_api_duplicate_missed_deduplicated():

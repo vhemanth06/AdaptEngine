@@ -68,3 +68,13 @@ Transparency regarding defects that AI-generated tests initially failed to detec
 - **Synthetic Baseline Scope:** Experimental gains demonstrated in `experiments/run_evaluation.py` (M8 / TC8.1) use simulated learners with 2-parameter logistic IRT response curves against BKT belief updates on synthetic 4-node curriculum graphs. Synthetic gains support synthetic claims only; empirical efficacy requires classroom/field trials.
 - **pyBKT Parameter Mapping:** The pyBKT adapter operates over discrete classes (`easy`, `medium`, `hard`) mapped to representative points ($d=0.20, 0.50, 0.80$). Continuous difficulty parameterization is handled by the exact reference oracle `CustomBKT`.
 - **Heuristic Priors:** Transition probabilities ($T_{\text{lesson}}=0.20, T_{\text{exercise}}=0.05, T_{\text{diag}}=0.0$) and guess/slip multipliers are heuristic prototype priors intended for algorithmic validation.
+
+---
+
+## 5. Week 6 and Week 7 Addendum (recorded 8 November 2026)
+
+- **Week 6 tools:** Google Antigravity IDE (agentic assistant) for the evaluation harness, frontier replanning and documentation; `graphify` (code-graph tool) for repository maps — its output (`graphify-out/`) is a scratch artifact and is being untracked.
+- **Week 7 tools:** Claude Code (Anthropic, model Claude Opus 5.5) as an agentic coding assistant, including parallel sub-agents for (a) the real-data BKT fitting pipeline (WP7), (b) the AI-drafted demo content file (T8.1) and (c) the demo frontend (WP8). The review that motivated the Week 7 plan (`report.md`, prototype probes) was also AI-assisted.
+- **Scope of W7 generation:** executed-state audit, closed-loop entry point, mid-day budget, exercise repeats, best-effort plans, maintenance reviews, diagnostic flags and state-space diagnostic, simulator worlds S0–S4, evaluation/sensitivity/latency runners, fitting pipeline, FastAPI adapter and React demo, and the documentation updates listed in `docs/WEEK7_REPORT_NOTES.md`.
+- **Controls applied in W7:** no git commands during implementation (version control left to the human); every number in the W7 notes comes from a command output or results file with its `code_hash`; selection rules and simulator variants were pre-registered (timestamp + code hash) before running; negative results are kept; AI-drafted content is marked `PENDING_HUMAN_REVIEW` in `data/review_manifest.json` until a human reviews it.
+- **Human checks still required:** review of `data/content/content_8node.json`; approval of decisions D41–D48 (`docs/FREEZE_RECORD.md` §2.1); verification of the W7 results before committing.

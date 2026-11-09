@@ -1,4 +1,5 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
+from types import MappingProxyType
 from enum import Enum
 from typing import Callable, Mapping, Optional, Sequence
 from ..core.errors import UnknownConceptError
@@ -45,7 +46,7 @@ class ConceptDiagnosticResult:
 @dataclass(frozen=True)
 class DiagnosticResult:
     state: LearnerState
-    concept_results: dict[str, ConceptDiagnosticResult]
+    concept_results: Mapping[str, ConceptDiagnosticResult]  # read-only (T9.1 hygiene)
     item_log: tuple[DiagnosticItemLog, ...]
     total_items: int
 
@@ -62,6 +63,121 @@ class AdaptiveDiagnostic:
         self.activities = activities
         self.config = config
         self.model = model if model is not None else CustomBKT(config)
+
+    def _prune(self, concept_id, p, goal_set, results, skipped, concepts) -> None:
+        """Apply the configured pruning after a concept's diagnosis ends (D8, T3.2).
+
+        hard: p < skip_threshold skips every undiagnosed descendant (W6 behaviour).
+        soft: undiagnosed descendants keep being assessed, but their prior is capped at p.
+        none: no effect.
+        """
+        mode = self.config.pruning_mode
+        if mode == "none":
+            return
+        for desc in sorted(self.graph.descendants(concept_id)):
+            if desc not in goal_set or desc in results:
+                continue
+            if mode == "hard":
+                if p < self.config.skip_threshold:
+                    skipped.add(desc)
+            elif concepts[desc].responses == 0 and concepts[desc].p > p:
+                concepts[desc] = replace(concepts[desc], p=p)
+
+    def _ask(self, concept_id, current_c, act, eig, n_done, response_provider, model, sid):
+        raw_resp = response_provider(act)
+        check_bool(raw_resp, "response_provider return")
+        new_c, _ = update_concept_evidence(
+            current_c,
+            act.difficulty,
+            raw_resp,
+            transition=self.config.t_diag,
+            model=model,
+            cfg=self.config,
+            day=None,
+            attempt_id=f"diag-{sid}-{concept_id}-{n_done + 1}",
+        )
+        log = DiagnosticItemLog(
+            concept_id=concept_id,
+            activity_id=act.activity_id,
+            difficulty=act.difficulty,
+            response=raw_resp,
+            p_before=current_c.p,
+            p_after=new_c.p,
+            eig=eig,
+        )
+        return new_c, log
+
+    def _run_frontier(self, ordered, goal_set, concepts, response_provider, model, sid):
+        """T3.2 selection_scope="frontier": each step picks the max-EIG unasked item over every
+        open concept whose in-goal prerequisites are finished; per-concept stops still apply."""
+        cfg = self.config
+        results: dict[str, ConceptDiagnosticResult] = {}
+        skipped: set[str] = set()
+        n_items = {c: 0 for c in ordered}
+        asked: set[str] = set()
+        item_log: list[DiagnosticItemLog] = []
+        total = 0
+        exercises = {
+            c: [
+                a
+                for a in self.activities.values()
+                if a.target_concept == c and a.type == ActivityType.EXERCISE
+            ]
+            for c in ordered
+        }
+
+        def finish(c, reason):
+            fc = concepts[c]
+            results[c] = ConceptDiagnosticResult(
+                c, fc.p, fc.uncertainty, fc.status, n_items[c], reason
+            )
+            if reason != StopReason.SKIPPED_ANCESTOR_UNMASTERED:
+                self._prune(c, fc.p, goal_set, results, skipped, concepts)
+
+        while True:
+            for c in ordered:  # resolve skips and exhausted concepts first
+                if c not in results and c in skipped:
+                    finish(c, StopReason.SKIPPED_ANCESTOR_UNMASTERED)
+                elif c not in results and not any(a.activity_id not in asked for a in exercises[c]):
+                    finish(c, StopReason.NO_ITEMS)
+            open_c = [
+                c
+                for c in ordered
+                if c not in results
+                and all(q in results for q in self.graph.prerequisites(c) if q in goal_set)
+            ]
+            if not open_c or total >= cfg.n_max:
+                break
+            scored = []
+            for c in open_c:
+                for act in exercises[c]:
+                    if act.activity_id not in asked:
+                        eig = compute_eig(concepts[c].p, act, cfg, model=model)
+                        key = candidate_sort_key(eig, act.difficulty, act.activity_id)
+                        scored.append((key, eig, c, act))
+            scored.sort(key=lambda x: x[0])
+            _, eig, c, act = scored[0]
+            asked.add(act.activity_id)
+            concepts[c], rec = self._ask(
+                c, concepts[c], act, eig, n_items[c], response_provider, model, sid
+            )
+            item_log.append(rec)
+            n_items[c] += 1
+            total += 1
+            if n_items[c] >= cfg.min_items_per_concept and concepts[c].uncertainty <= cfg.h_stop:
+                finish(c, StopReason.ENTROPY)
+            elif n_items[c] >= cfg.concept_cap:
+                finish(c, StopReason.CONCEPT_CAP)
+
+        for c in ordered:
+            if c not in results:
+                finish(c, StopReason.GLOBAL_CAP if total >= cfg.n_max else StopReason.NOT_REACHED)
+        return DiagnosticResult(
+            state=LearnerState(concepts=concepts),
+            concept_results=MappingProxyType(dict(results)),
+            item_log=tuple(item_log),
+            total_items=total,
+        )
 
     def run(
         self,
@@ -87,6 +203,17 @@ class AdaptiveDiagnostic:
         ordered_concepts = [c for c in self.graph.topological_order() if c in goal_set]
 
         updated_concepts = dict(state.concepts)
+        if self.config.prior_mode == "population":
+            # T3.2: concepts still at the flat cold-start prior (no evidence, p == p0) start at a
+            # population base rate instead; a p set by the caller is kept
+            for c in ordered_concepts:
+                uc = updated_concepts[c]
+                if uc.responses == 0 and uc.p == self.config.p0:
+                    updated_concepts[c] = replace(uc, p=self.config.population_p0)
+        if self.config.selection_scope == "frontier":
+            return self._run_frontier(
+                ordered_concepts, goal_set, updated_concepts, response_provider, active_model, sid
+            )
         concept_results: dict[str, ConceptDiagnosticResult] = {}
         item_log: list[DiagnosticItemLog] = []
         asked_activities: set[str] = set()
@@ -183,7 +310,10 @@ class AdaptiveDiagnostic:
                     )
                 )
 
-                if current_c.uncertainty <= self.config.h_stop:
+                if (
+                    n_concept_items >= self.config.min_items_per_concept
+                    and current_c.uncertainty <= self.config.h_stop
+                ):
                     c_stop_reason = StopReason.ENTROPY
                     break
 
@@ -205,12 +335,10 @@ class AdaptiveDiagnostic:
                 stop_reason=c_stop_reason,
             )
 
-            # Descendant skipping (D8)
-            if final_c.p < self.config.skip_threshold:
-                descendants = self.graph.descendants(concept_id)
-                for desc in descendants:
-                    if desc in goal_set and desc not in concept_results:
-                        skipped_concepts.add(desc)
+            # Descendant skipping (D8) / soft prior cap (T3.2)
+            self._prune(
+                concept_id, final_c.p, goal_set, concept_results, skipped_concepts, updated_concepts
+            )
 
         # Ensure any remaining unprobed concepts in goal_set are recorded
         for cid in ordered_concepts:
@@ -227,7 +355,7 @@ class AdaptiveDiagnostic:
 
         return DiagnosticResult(
             state=LearnerState(concepts=updated_concepts),
-            concept_results=concept_results,
+            concept_results=MappingProxyType(concept_results),
             item_log=tuple(item_log),
             total_items=total_items,
         )

@@ -50,6 +50,23 @@ The Adaptive Diagnostic (**Milestone M2**) computes an initial mastery profile f
 
 ---
 
+## 3a. Stopping-Rule Feasibility (W7 T3.4)
+
+Analytic posterior after one or two answers at the cold-start prior (p0 = 0.20, H(p0) = 0.722 bits, T_diag = 0, g(d) = 0.30(1 − d), s(d) = 0.05 + 0.25d; values from `CustomBKT.update` and `entropy`). The entropy stop fires when H ≤ h_stop = 0.50.
+
+| d | 1 right: p / H | 1 wrong: p / H | 2 wrong: p / H | 2 right: p / H | right, wrong: p / H |
+|---|---|---|---|---|---|
+| 0.20 | 0.4839 / 0.999 | 0.0318 / **0.204** | 0.0043 / 0.040 | 0.7785 / 0.763 | 0.1098 / **0.499** |
+| 0.50 | 0.5789 / 0.982 | 0.0490 / **0.282** | 0.0105 / 0.084 | 0.8832 / 0.520 | 0.2206 / 0.761 |
+| 0.80 | 0.7576 / 0.799 | 0.0623 / **0.337** | 0.0174 / 0.126 | 0.9750 / **0.168** | 0.4539 / 0.994 |
+
+Reading the table:
+
+- **One wrong answer always stops the concept** (H ≤ 0.34 < 0.50 at every difficulty), and p < 0.40 then hard-prunes every descendant (D8). One slip on a root concept therefore ends the diagnosis of its whole sub-tree. This is the over-aggressive stopping found in R§2.6 (144 of 400 concept diagnoses ended after one item).
+- **One right answer never stops it** (H ≥ 0.80), so the asymmetry comes from the low prior, not from the items.
+- With `min_items_per_concept = 2` (T3.2) a single answer can't stop the concept; the second answer decides. Two wrong answers still stop (H ≤ 0.13), as do right-then-wrong on an easy item (H = 0.499) and two right answers on a hard item (H = 0.168). Mixed evidence on medium/hard items keeps the concept open until `concept_cap`.
+- Soft pruning (`pruning_mode = "soft"`) replaces the skip with a prior cap, so descendants are still measured.
+
 ## 4. Structured Results & Guarantees
 
 ### Result Structure

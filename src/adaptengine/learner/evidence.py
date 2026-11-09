@@ -2,7 +2,7 @@ from dataclasses import replace
 from typing import Optional, TYPE_CHECKING
 from ..core.validators import check_bool, check_non_negative_int
 from ..core.config import EngineConfig, DEFAULT_CONFIG
-from .state import LearnerConcept, ConceptStatus
+from .state import LearnerConcept, ConceptStatus, is_evidence_mastered
 
 if TYPE_CHECKING:
     from .adapter import MasteryModel
@@ -46,6 +46,13 @@ def update_concept_evidence(
     else:
         new_day = concept.last_practice_day
 
+    # n_reviews counts review attempts only (W7 T2.6): responses on an already evidence-mastered
+    # concept. A correct review stretches the half-life by half_life_growth (1.0 = unchanged).
+    is_review = is_evidence_mastered(concept, cfg)
+    new_half_life = concept.half_life_days * (
+        cfg.half_life_growth if is_review and correct else 1.0
+    )
+
     new_concept = replace(
         concept,
         p=new_p,
@@ -54,6 +61,8 @@ def update_concept_evidence(
         status=ConceptStatus.ASSESSED,
         seen_attempt_ids=new_seen,
         last_practice_day=new_day,
-        n_reviews=concept.n_reviews + 1,
+        n_reviews=concept.n_reviews + (1 if is_review else 0),
+        correct_streak=concept.correct_streak + 1 if correct else 0,
+        half_life_days=new_half_life,
     )
     return new_concept, True

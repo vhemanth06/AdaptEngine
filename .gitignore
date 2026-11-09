@@ -38,6 +38,15 @@ test_snapshot.json
 graphify-out/
 *.tmp
 
-# data/external/
+# Downloaded datasets (W7 T0.4; rebuild with scripts/download_data.py)
+data/external/*
+!data/external/CHECKSUMS
+
+# Demo frontend (W7 WP8)
+frontend/.sessions/
+frontend/web/node_modules/
+frontend/web/dist/
+frontend/web/test-results/
+frontend/web/playwright-report/
 
 Claude outputs/

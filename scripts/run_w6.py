@@ -153,9 +153,10 @@ def main():
     # -------------------------------------------------------------
     print("\n[Phase 5] TC8.1: Running Evaluation Quick Mode Twice (Byte-Identical Check)...")
     eval_script = os.path.join(repo_root, "experiments", "run_evaluation.py")
-    eval_res_path = os.path.join(repo_root, "experiments", "results", "evaluation_results.json")
+    # W7 T1.3: write quick runs to the run dir, never over the canonical 100-seed artifact
+    eval_res_path = os.path.join(run_dir, "evaluation_results_quick.json")
 
-    rc_eval1, out_eval1 = run_cmd([sys.executable, eval_script, "--quick"])
+    rc_eval1, out_eval1 = run_cmd([sys.executable, eval_script, "--quick", "--out", eval_res_path])
     if rc_eval1 != 0:
         print("  ✗ Eval run 1 failed:\n", out_eval1)
         summary_table.append(("Phase 5: TC8.1 Evaluation Rerun", "FAIL", "Run 1 failed"))
@@ -164,7 +165,9 @@ def main():
         with open(eval_res_path, "rb") as f:
             eval_bytes1 = f.read()
 
-        rc_eval2, out_eval2 = run_cmd([sys.executable, eval_script, "--quick"])
+        rc_eval2, out_eval2 = run_cmd(
+            [sys.executable, eval_script, "--quick", "--out", eval_res_path]
+        )
         if rc_eval2 != 0:
             print("  ✗ Eval run 2 failed:\n", out_eval2)
             summary_table.append(("Phase 5: TC8.1 Evaluation Rerun", "FAIL", "Run 2 failed"))
@@ -226,7 +229,9 @@ def main():
         for rec in per_seed_planner:
             for arm_name in ("adapt", "no_review", "no_replan"):
                 arm_res = rec.get(arm_name, {})
-                prereq_v = arm_res.get("prerequisite_violations", 0)
+                prereq_v = arm_res["plan_prereq_violations"]
+                if arm_name in ("adapt", "no_review"):  # W7 D46: executed-state audit
+                    prereq_v += arm_res["executed_prereq_violations"]
                 budget_v = arm_res.get("budget_violations", 0)
                 cov = arm_res.get("plan_trace_coverage", 0.0)
 
@@ -250,7 +255,7 @@ def main():
                 continue
             for arm_name in ("adapt", "no_review"):
                 metrics = arms.get(arm_name, {})
-                prereq_v = metrics.get("prerequisite_violations", 0)
+                prereq_v = metrics["plan_prereq_violations"] + metrics["executed_prereq_violations"]
                 budget_v = metrics.get("budget_violations", 0)
                 cov = metrics.get("plan_trace_coverage", 0.0)
 
@@ -294,8 +299,7 @@ def main():
     print("\n[Phase 8] Finalizing Evidence Artifacts...")
     lat_res_path = os.path.join(repo_root, "experiments", "results", "replan_latency.json")
 
-    if os.path.isfile(eval_res_path):
-        shutil.copy2(eval_res_path, os.path.join(run_dir, "evaluation_results.json"))
+    # quick-run results already live in run_dir (eval_res_path)
     if os.path.isfile(lat_res_path):
         shutil.copy2(lat_res_path, os.path.join(run_dir, "replan_latency.json"))
 

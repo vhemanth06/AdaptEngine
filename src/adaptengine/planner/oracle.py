@@ -16,6 +16,7 @@ def solve_oracle(
     budget: int,
     num_days: int,
     node_limit: int = 1000,
+    used_first_day: int = 0,
 ) -> tuple[PlanStatus, Optional[list[list[str]]], int]:
     """Exact branch-and-bound bin packing oracle with precedence constraints (T6).
 
@@ -25,6 +26,7 @@ def solve_oracle(
        If day(p) == day(a), p must be placed before a.
     3. Pruned by remaining total capacity.
     4. Bounded by node_limit: stops with PlanStatus.UNKNOWN if reached (never false INFEASIBLE).
+    5. Day 0 starts with used_first_day minutes already consumed (mid-day replan, T2.1).
 
     Returns:
         (status, assignment, nodes_explored)
@@ -73,6 +75,7 @@ def solve_oracle(
         suffix_durations[i] = suffix_durations[i + 1] + ordered_acts[i].duration
 
     day_durations = [0] * num_days
+    day_durations[0] = used_first_day
     day_assignments: list[list[str]] = [[] for _ in range(num_days)]
     activity_day: dict[str, int] = {}
     nodes_explored = 0

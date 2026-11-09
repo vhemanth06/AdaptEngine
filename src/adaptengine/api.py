@@ -1,7 +1,16 @@
 from typing import Mapping, Optional
 from dataclasses import replace
 from .core.config import EngineConfig, DEFAULT_CONFIG
-from .core.schema import Event, EventType, ActivityType, Activity, Plan, PlanContext
+from .core.schema import (
+    Event,
+    EventType,
+    ActivityType,
+    Activity,
+    Plan,
+    PlanContext,
+    PlanDay,
+    PlanStatus,
+)
 from .curriculum.loader import load_curriculum, load_activities
 from .curriculum.graph import CurriculumGraph
 from .learner.state import LearnerState, ExecutionLog, initial_state
@@ -119,6 +128,40 @@ class Engine:
             workload_cache=workload_cache,
         )
 
+    def next_activities(
+        self,
+        state: LearnerState,
+        log: ExecutionLog,
+        ctx: PlanContext,
+        *,
+        review_urgency=None,
+        model=None,
+        workload_cache=None,
+    ) -> tuple[Optional[PlanDay], Plan]:
+        """Recommended online loop (T2.2, rolling horizon): replan everything from the real state
+        and log, commit only today's slice. Call at the start of each study day and again after
+        any wrong answer. ctx.current_day is "today"; budget/deadline events in the log are folded
+        in and minutes already used today are respected (T2.1).
+
+        Returns (today's PlanDay or None, full Plan). For a non-FEASIBLE plan the slice comes
+        from plan.best_effort_days (D42), so the learner is not left idle while work is reachable.
+        """
+        from .replanner import compute_effective_context
+
+        full = self.replan(
+            state,
+            log,
+            ctx,
+            review_urgency=review_urgency,
+            model=model,
+            workload_cache=workload_cache,
+        )
+        eff_ctx, start_day, _ = compute_effective_context(ctx, log)
+        if eff_ctx is None:
+            return None, full
+        days = full.days if full.status == PlanStatus.FEASIBLE else full.best_effort_days
+        return next((d for d in days if d.day == start_day and d.activities), None), full
+
     def record(
         self, state: LearnerState, log: ExecutionLog, event: Event
     ) -> tuple[LearnerState, ExecutionLog]:
@@ -142,7 +185,7 @@ class Engine:
             )
 
         # Log-level duplicate attempt_id check (Finding 7)
-        if any(e.attempt_id == attempt_id for e in log.events):
+        if attempt_id in log.attempt_ids:  # O(1) (T9.1)
             return state, log
 
         if event.kind == EventType.MISSED:

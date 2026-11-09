@@ -60,8 +60,10 @@ def check_feasibility_bounds(
         )
 
     # 2. Total duration bound
+    # T2.1: minutes already used on the start day count as consumed capacity
+    used = ctx.minutes_used_today
     total_minutes = sum(a.duration for a in all_activities)
-    min_days_total = math.ceil(total_minutes / ctx.budget)
+    min_days_total = math.ceil((total_minutes + used) / ctx.budget)
 
     # 3. Critical path bound
     concept_durations = {c: sum(a.duration for a in acts) for c, acts in workload.items()}
@@ -75,7 +77,7 @@ def check_feasibility_bounds(
             cp[c] = dur + max(cp.get(p, 0) for p in preds)
 
     critical_path_minutes = cp.get(ctx.goal, 0)
-    min_days_critical = math.ceil(critical_path_minutes / ctx.budget)
+    min_days_critical = math.ceil((critical_path_minutes + used) / ctx.budget)
 
     min_required_days = max(min_days_total, min_days_critical)
 

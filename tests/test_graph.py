@@ -55,3 +55,28 @@ def test_tc42_precursor_ignore_descriptions():
     assert g1.roots() == g2.roots()
     assert g1.topological_order() == g2.topological_order()
     assert g1.depth("C1") == g2.depth("C1")
+
+
+def test_precomputed_indices_match_networkx_t6_1():
+    """W7 T6.1: precomputed graph queries equal the NetworkX answers they replace."""
+    import networkx as nx
+    from adaptengine.api import Engine
+
+    e = Engine.from_files(
+        "data/curriculum/curriculum_8node.json", "data/curriculum/activities_8node.json"
+    )
+    g = e.graph
+    for c in g.concepts():
+        assert g.ancestors(c) == frozenset(nx.ancestors(g._graph, c))
+        assert g.descendants(c) == frozenset(nx.descendants(g._graph, c))
+        assert g.prerequisites(c) == tuple(sorted(g._graph.predecessors(c)))
+    assert g.topological_order() == tuple(nx.lexicographical_topological_sort(g._graph))
+
+
+def test_workload_cache_bounded_t6_1():
+    from adaptengine.planner.workload import WorkloadCache
+
+    c = WorkloadCache(maxsize=2)
+    for i in range(5):
+        c.put(i, i)
+    assert c.get(0) is None and c.get(4) == 4 and len(c._store) == 2

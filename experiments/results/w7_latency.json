@@ -1,0 +1,122 @@
+{
+  "after_T6_1": {
+    "code_hash": "8ef52d544d11adc1704cb0a52a61411b686f623f20683c642b7d48c8c53b8e02",
+    "repeats": 20,
+    "results": {
+      "4-node": {
+        "frontier_replan_ms": [
+          1.764,
+          0.03
+        ],
+        "full_plan_ms": [
+          1.826,
+          0.024
+        ]
+      },
+      "8-node": {
+        "frontier_replan_ms": [
+          3.027,
+          0.305
+        ],
+        "full_plan_ms": [
+          3.066,
+          0.023
+        ]
+      },
+      "synth-20": {
+        "frontier_replan_ms": [
+          7.441,
+          1.161
+        ],
+        "full_plan_ms": [
+          7.603,
+          0.353
+        ]
+      },
+      "synth-50": {
+        "frontier_replan_ms": [
+          21.75,
+          0.086
+        ],
+        "full_plan_ms": [
+          22.496,
+          0.077
+        ]
+      },
+      "synth-50_oracle_b10_d58": {
+        "plan_ms": [
+          9.463,
+          0.12
+        ],
+        "reason": "ORACLE_ASSIGNMENT"
+      }
+    },
+    "timestamp_utc": "2026-11-08T18:04:21.950624+00:00"
+  },
+  "before_T6_1": {
+    "code_hash": "58c75a0f19576d7061f1fb7c2c8e63a56c55d463e20a36a993a7d6f2535e2b29",
+    "repeats": 20,
+    "results": {
+      "4-node": {
+        "frontier_replan_ms": [
+          2.829,
+          0.04
+        ],
+        "full_plan_ms": [
+          2.905,
+          0.033
+        ]
+      },
+      "8-node": {
+        "frontier_replan_ms": [
+          5.103,
+          0.292
+        ],
+        "full_plan_ms": [
+          5.218,
+          0.075
+        ]
+      },
+      "synth-20": {
+        "frontier_replan_ms": [
+          14.38,
+          1.234
+        ],
+        "full_plan_ms": [
+          14.464,
+          0.214
+        ]
+      },
+      "synth-50": {
+        "frontier_replan_ms": [
+          57.98,
+          0.623
+        ],
+        "full_plan_ms": [
+          60.448,
+          0.579
+        ]
+      },
+      "synth-50_oracle_b10_d58": {
+        "plan_ms": [
+          24.106,
+          0.092
+        ],
+        "reason": "ORACLE_ASSIGNMENT"
+      }
+    },
+    "timestamp_utc": "2026-11-08T18:03:50.022718+00:00"
+  },
+  "plan_identity": {
+    "different": 0,
+    "grid": "4-node/8-node/synth-20/synth-50 x budgets 5,10,15,30 x deadlines 3,6,12,40 + 50 random record/replan walks x 5 days on 4-node and 8-node",
+    "plans_compared": 564
+  },
+  "speedup_full_plan": {
+    "4-node": 1.59,
+    "8-node": 1.7,
+    "synth-20": 1.9,
+    "synth-50": 2.69
+  },
+  "speedup_oracle": 2.55
+}

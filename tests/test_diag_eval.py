@@ -91,3 +91,24 @@ def test_tuning_grid_execution():
     assert "winner" in res
     assert "heldout_comparison" in res
     assert res["winner"]["avg_items"] <= 4.0
+
+
+def test_binary_truth_scoring_t3_1():
+    """W7 T3.1: reproduces the R§2.6 re-scoring on the 50 held-out learners (odd seeds 101-199):
+    adaptive Brier 0.2425 vs prior-only 0.2080 against 1[theta >= 0.70]."""
+    from adaptengine.core.config import EngineConfig
+    from experiments.diag_eval import W6_DIAGNOSTIC, evaluate_diagnostic_binary
+
+    e = Engine.from_files(
+        "data/curriculum/curriculum_4node.json",
+        "data/curriculum/activities_4node.json",
+        config=EngineConfig(**W6_DIAGNOSTIC),
+    )
+    r = evaluate_diagnostic_binary(e, [s for s in range(100, 200) if s % 2], PROFILES["nominal"])
+    arms = r["arms"]
+    assert arms["adaptive"]["brier"] == 0.2425
+    assert arms["prior_only"]["brier"] == 0.208
+    assert arms["prior_only"]["auc"] == 0.5
+    lo, hi = arms["fixed@n"]["paired_brier_vs_adaptive"]["ci95"]
+    assert hi < 0  # fixed@n is significantly better calibrated than the shipped adaptive arm
+    assert sum(b["n"] for b in arms["adaptive"]["reliability"]) == 50 * 4

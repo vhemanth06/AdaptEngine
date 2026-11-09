@@ -4,20 +4,31 @@ from ..curriculum.graph import CurriculumGraph
 from ..learner.state import LearnerConcept, LearnerState
 
 
+def recall_at(last_practice_day: Optional[int], half_life_days: float, day: int) -> Optional[float]:
+    """Single recall implementation (D23, D43): r = 2^(-dt / h), dt = max(0, day - last_day).
+
+    Returns None if never practiced (D22). Used by recall() and by the planner's projection.
+    """
+    if last_practice_day is None:
+        return None
+    dt = max(0, day - last_practice_day)
+    if half_life_days <= 0.0:
+        return 0.0
+    return 2.0 ** (-float(dt) / float(half_life_days))
+
+
+def urgency_from_recall(r: float, descendant_count: int) -> float:
+    """Spaced review urgency (D25): (1 - r) * (1 + descendant_count)."""
+    return (1.0 - r) * (1.0 + float(descendant_count))
+
+
 def recall(concept: LearnerConcept, day: int) -> Optional[float]:
     """Calculate exponential forgetting recall probability r(t) = 2^(-dt / h) (D23).
 
     Returns None if concept was never practiced (last_practice_day is None, D22).
     dt uses integer day differences: max(0, day - last_practice_day).
     """
-    if concept.last_practice_day is None:
-        return None
-
-    dt = max(0, day - concept.last_practice_day)
-    h = concept.half_life_days
-    if h <= 0.0:
-        return 0.0
-    return 2.0 ** (-float(dt) / float(h))
+    return recall_at(concept.last_practice_day, concept.half_life_days, day)
 
 
 def is_review_due(concept: LearnerConcept, day: int, cfg: EngineConfig = DEFAULT_CONFIG) -> bool:
@@ -41,7 +52,7 @@ def review_urgency(
     r = recall(concept, day)
     if r is None or r >= cfg.recall_threshold:
         return 0.0
-    return (1.0 - r) * (1.0 + float(descendant_count))
+    return urgency_from_recall(r, descendant_count)
 
 
 def compute_review_urgencies(

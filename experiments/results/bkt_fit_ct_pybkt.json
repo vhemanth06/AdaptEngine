@@ -1,0 +1,214 @@
+{
+  "per_skill": {
+    "Calculate part in proportion with fractions": {
+      "prior": 0.575866,
+      "learn": 0.137432,
+      "guess": 0.383152,
+      "slip": 0.137773,
+      "cv_rmse": 0.427572,
+      "cv_auc": 0.672558,
+      "flags": []
+    },
+    "Calculate total in proportion with fractions": {
+      "prior": 0.439001,
+      "learn": 0.270311,
+      "guess": 0.299007,
+      "slip": 0.125578,
+      "cv_rmse": 0.424303,
+      "cv_auc": 0.709487,
+      "flags": []
+    },
+    "Calculate unit rate": {
+      "prior": 5.1e-05,
+      "learn": 0.066305,
+      "guess": 0.501691,
+      "slip": 0.113387,
+      "cv_rmse": 0.482559,
+      "cv_auc": 0.60229,
+      "flags": [
+        "guess>0.5",
+        "prior<0.01"
+      ]
+    },
+    "Finding the intersection, GLF": {
+      "prior": 0.196391,
+      "learn": 0.059333,
+      "guess": 0.433398,
+      "slip": 0.05723,
+      "cv_rmse": 0.492737,
+      "cv_auc": 0.596404,
+      "flags": []
+    },
+    "Finding the intersection, Mixed": {
+      "prior": 0.377286,
+      "learn": 0.043786,
+      "guess": 0.349171,
+      "slip": 0.308123,
+      "cv_rmse": 0.501452,
+      "cv_auc": 0.528121,
+      "flags": []
+    },
+    "Finding the intersection, SIF": {
+      "prior": 0.004319,
+      "learn": 0.121352,
+      "guess": 0.406899,
+      "slip": 0.009796,
+      "cv_rmse": 0.492598,
+      "cv_auc": 0.553005,
+      "flags": [
+        "prior<0.01"
+      ]
+    },
+    "Plot decimal - thousandths": {
+      "prior": 0.4253,
+      "learn": 0.519237,
+      "guess": 0.017572,
+      "slip": 0.45322,
+      "cv_rmse": 0.474619,
+      "cv_auc": 0.625795,
+      "flags": []
+    },
+    "Plot imperfect radical": {
+      "prior": 0.281578,
+      "learn": 0.134631,
+      "guess": 0.077971,
+      "slip": 0.29208,
+      "cv_rmse": 0.437375,
+      "cv_auc": 0.635989,
+      "flags": []
+    },
+    "Plot non-terminating improper fraction": {
+      "prior": 0.737999,
+      "learn": 0.22282,
+      "guess": 0.002911,
+      "slip": 0.322474,
+      "cv_rmse": 0.483037,
+      "cv_auc": 0.647975,
+      "flags": []
+    },
+    "Plot pi": {
+      "prior": 0.995433,
+      "learn": 0.96139,
+      "guess": 0.0,
+      "slip": 0.390778,
+      "cv_rmse": 0.47172,
+      "cv_auc": 0.589829,
+      "flags": []
+    },
+    "Plot terminating proper fraction": {
+      "prior": 0.635614,
+      "learn": 0.014392,
+      "guess": 0.30095,
+      "slip": 0.349491,
+      "cv_rmse": 0.497938,
+      "cv_auc": 0.563465,
+      "flags": []
+    },
+    "Plot whole number": {
+      "prior": 0.881078,
+      "learn": 0.40516,
+      "guess": 0.634926,
+      "slip": 0.065352,
+      "cv_rmse": 0.290552,
+      "cv_auc": 0.492436,
+      "flags": [
+        "guess>0.5"
+      ]
+    }
+  },
+  "fit_seconds": 127.0,
+  "total_seconds": 1159.6,
+  "settings": {
+    "seed": 42,
+    "num_fits": 5,
+    "folds": 5,
+    "parallel": false
+  },
+  "meta": {
+    "code_hash": "3c3eb761eea20c7f20525aeccfec5a37b3598cacef188b847b5c538e595def36",
+    "timestamp_utc": "2026-11-08T17:58:54.056446+00:00"
+  },
+  "summary": {
+    "n_skills": 12,
+    "n_guess_plus_slip_ge_1": 0,
+    "pct_guess_plus_slip_ge_1": 0.0,
+    "n_degenerate": 2,
+    "pct_degenerate": 16.7,
+    "degenerate_skills": [
+      "Calculate unit rate",
+      "Plot whole number"
+    ],
+    "flag_counts": {
+      "guess>0.5": 2,
+      "prior<0.01": 2
+    },
+    "all": {
+      "prior": {
+        "n": 12,
+        "min": 5.1e-05,
+        "q25": 0.260281,
+        "median": 0.432151,
+        "q75": 0.66121,
+        "max": 0.995433
+      },
+      "learn": {
+        "n": 12,
+        "min": 0.014392,
+        "q25": 0.064562,
+        "median": 0.136032,
+        "q75": 0.304023,
+        "max": 0.96139
+      },
+      "guess": {
+        "n": 12,
+        "min": 0.0,
+        "q25": 0.062871,
+        "median": 0.32506,
+        "q75": 0.413524,
+        "max": 0.634926
+      },
+      "slip": {
+        "n": 12,
+        "min": 0.009796,
+        "q25": 0.101378,
+        "median": 0.214927,
+        "q75": 0.329228,
+        "max": 0.45322
+      }
+    },
+    "non_degenerate": {
+      "prior": {
+        "n": 10,
+        "min": 0.004319,
+        "q25": 0.305505,
+        "median": 0.432151,
+        "q75": 0.620677,
+        "max": 0.995433
+      },
+      "learn": {
+        "n": 10,
+        "min": 0.014392,
+        "q25": 0.074838,
+        "median": 0.136032,
+        "q75": 0.258438,
+        "max": 0.96139
+      },
+      "guess": {
+        "n": 10,
+        "min": 0.0,
+        "q25": 0.032672,
+        "median": 0.299978,
+        "q75": 0.374657,
+        "max": 0.433398
+      },
+      "slip": {
+        "n": 10,
+        "min": 0.009796,
+        "q25": 0.128627,
+        "median": 0.300101,
+        "q75": 0.342736,
+        "max": 0.45322
+      }
+    }
+  }
+}

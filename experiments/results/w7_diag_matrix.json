@@ -1,0 +1,1075 @@
+{
+  "metadata": {
+    "code_hash": "854912fa2b278efdd54658c58fabb1b6a0a31de8459763e7d907443457e44eea",
+    "fitted_profile": "/home/vhemanth06/Documents/AdaptEngine/config/fitted_sim.json",
+    "irt_cat_note": "IRT CAT uses the simulator's true discrimination a=3 (advantage in S0/S2, which are 2PL IRT worlds)",
+    "n_learners": 250,
+    "seeds": [
+      101,
+      599,
+      "odd"
+    ],
+    "timestamp_utc": "2026-11-08T18:37:34.631887+00:00"
+  },
+  "worlds": {
+    "S0": {
+      "default_t33": {
+        "auc": 0.5913,
+        "brier": 0.2234,
+        "decomposition": {
+          "base_rate": 0.275,
+          "reliability": 0.0316,
+          "resolution": 0.0075,
+          "uncertainty": 0.1994
+        },
+        "items": 2.728,
+        "log_loss": 0.6967,
+        "next_response_brier": 0.289,
+        "vs_prior_only": {
+          "ci95": [
+            0.0023,
+            0.0347
+          ],
+          "diff": 0.0184
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0098,
+            -0.0001
+          ],
+          "diff": -0.0048
+        }
+      },
+      "fitted_bkt": {
+        "auc": 0.5943,
+        "brier": 0.2368,
+        "decomposition": {
+          "base_rate": 0.275,
+          "reliability": 0.0444,
+          "resolution": 0.007,
+          "uncertainty": 0.1994
+        },
+        "items": 2.148,
+        "log_loss": 0.7246,
+        "next_response_brier": 0.2489,
+        "vs_prior_only": {
+          "ci95": [
+            0.0147,
+            0.0497
+          ],
+          "diff": 0.0318
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            0.0004,
+            0.017
+          ],
+          "diff": 0.0085
+        }
+      },
+      "fixed@n_default": {
+        "auc": 0.6195,
+        "brier": 0.2019,
+        "decomposition": {
+          "base_rate": 0.275,
+          "reliability": 0.0107,
+          "resolution": 0.0081,
+          "uncertainty": 0.1994
+        },
+        "items": 2.728,
+        "log_loss": 0.6044,
+        "next_response_brier": 0.2695,
+        "vs_prior_only": {
+          "ci95": [
+            -0.0148,
+            0.0088
+          ],
+          "diff": -0.0031
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0426,
+            -0.0094
+          ],
+          "diff": -0.0263
+        }
+      },
+      "frontier": {
+        "auc": 0.5945,
+        "brier": 0.2282,
+        "decomposition": {
+          "base_rate": 0.275,
+          "reliability": 0.0364,
+          "resolution": 0.0076,
+          "uncertainty": 0.1994
+        },
+        "items": 2.948,
+        "log_loss": 0.7094,
+        "next_response_brier": 0.2988,
+        "vs_prior_only": {
+          "ci95": [
+            0.0067,
+            0.0396
+          ],
+          "diff": 0.0232
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "diff": 0.0
+        }
+      },
+      "irt_cat_global@8": {
+        "auc": 0.5818,
+        "brier": 0.2298,
+        "decomposition": {
+          "base_rate": 0.275,
+          "reliability": 0.0354,
+          "resolution": 0.0041,
+          "uncertainty": 0.1994
+        },
+        "items": 8.0,
+        "log_loss": 0.7225,
+        "next_response_brier": 0.2903,
+        "vs_prior_only": {
+          "ci95": [
+            0.0116,
+            0.0389
+          ],
+          "diff": 0.0248
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0168,
+            0.0205
+          ],
+          "diff": 0.0016
+        }
+      },
+      "irt_cat_global@n": {
+        "auc": 0.5836,
+        "brier": 0.217,
+        "decomposition": {
+          "base_rate": 0.275,
+          "reliability": 0.023,
+          "resolution": 0.0046,
+          "uncertainty": 0.1994
+        },
+        "items": 2.728,
+        "log_loss": 0.6392,
+        "next_response_brier": 0.2758,
+        "vs_prior_only": {
+          "ci95": [
+            -0.0002,
+            0.0242
+          ],
+          "diff": 0.012
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0294,
+            0.0071
+          ],
+          "diff": -0.0112
+        }
+      },
+      "irt_cat_per_concept@8": {
+        "auc": 0.7174,
+        "brier": 0.1785,
+        "decomposition": {
+          "base_rate": 0.275,
+          "reliability": 0.003,
+          "resolution": 0.0234,
+          "uncertainty": 0.1994
+        },
+        "items": 8.0,
+        "log_loss": 0.5311,
+        "next_response_brier": 0.2693,
+        "vs_prior_only": {
+          "ci95": [
+            -0.0385,
+            -0.0139
+          ],
+          "diff": -0.0265
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0672,
+            -0.0324
+          ],
+          "diff": -0.0498
+        }
+      },
+      "min_k2": {
+        "auc": 0.6515,
+        "brier": 0.2244,
+        "decomposition": {
+          "base_rate": 0.275,
+          "reliability": 0.0388,
+          "resolution": 0.0136,
+          "uncertainty": 0.1994
+        },
+        "items": 5.204,
+        "log_loss": 0.707,
+        "next_response_brier": 0.2882,
+        "vs_prior_only": {
+          "ci95": [
+            0.0008,
+            0.0383
+          ],
+          "diff": 0.0194
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0149,
+            0.0074
+          ],
+          "diff": -0.0038
+        }
+      },
+      "prior_only": {
+        "auc": 0.5,
+        "brier": 0.205,
+        "decomposition": {
+          "base_rate": 0.275,
+          "reliability": 0.0056,
+          "resolution": 0.0,
+          "uncertainty": 0.1994
+        },
+        "items": 0.0,
+        "log_loss": 0.6044,
+        "next_response_brier": 0.2904,
+        "vs_prior_only": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "diff": 0.0
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0396,
+            -0.0067
+          ],
+          "diff": -0.0232
+        }
+      },
+      "r74_recommended": {
+        "auc": 0.7025,
+        "brier": 0.228,
+        "decomposition": {
+          "base_rate": 0.275,
+          "reliability": 0.051,
+          "resolution": 0.0224,
+          "uncertainty": 0.1994
+        },
+        "items": 8.0,
+        "log_loss": 0.7511,
+        "next_response_brier": 0.2816,
+        "vs_prior_only": {
+          "ci95": [
+            -0.0,
+            0.0442
+          ],
+          "diff": 0.023
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0169,
+            0.0166
+          ],
+          "diff": -0.0003
+        }
+      },
+      "soft_prune": {
+        "auc": 0.6421,
+        "brier": 0.239,
+        "decomposition": {
+          "base_rate": 0.275,
+          "reliability": 0.0555,
+          "resolution": 0.0152,
+          "uncertainty": 0.1994
+        },
+        "items": 5.708,
+        "log_loss": 0.856,
+        "next_response_brier": 0.3172,
+        "vs_prior_only": {
+          "ci95": [
+            0.0141,
+            0.0542
+          ],
+          "diff": 0.034
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0005,
+            0.0224
+          ],
+          "diff": 0.0108
+        }
+      },
+      "state_space": {
+        "auc": 0.5666,
+        "brier": 0.252,
+        "decomposition": {
+          "base_rate": 0.275,
+          "reliability": 0.0605,
+          "resolution": 0.0103,
+          "uncertainty": 0.1994
+        },
+        "items": 3.124,
+        "log_loss": 1.1079,
+        "next_response_brier": 0.3254,
+        "vs_prior_only": {
+          "ci95": [
+            0.0293,
+            0.0656
+          ],
+          "diff": 0.047
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            0.0143,
+            0.0333
+          ],
+          "diff": 0.0237
+        }
+      },
+      "w6_shipped": {
+        "auc": 0.5945,
+        "brier": 0.2282,
+        "decomposition": {
+          "base_rate": 0.275,
+          "reliability": 0.0364,
+          "resolution": 0.0076,
+          "uncertainty": 0.1994
+        },
+        "items": 2.948,
+        "log_loss": 0.7094,
+        "next_response_brier": 0.2988,
+        "vs_prior_only": {
+          "ci95": [
+            0.0067,
+            0.0396
+          ],
+          "diff": 0.0232
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "diff": 0.0
+        }
+      }
+    },
+    "S2": {
+      "default_t33": {
+        "auc": 0.5851,
+        "brier": 0.1888,
+        "decomposition": {
+          "base_rate": 0.175,
+          "reliability": 0.0483,
+          "resolution": 0.0039,
+          "uncertainty": 0.1444
+        },
+        "items": 2.744,
+        "log_loss": 0.6156,
+        "next_response_brier": 0.2805,
+        "vs_prior_only": {
+          "ci95": [
+            0.026,
+            0.0614
+          ],
+          "diff": 0.0438
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0057,
+            0.005
+          ],
+          "diff": -0.0001
+        }
+      },
+      "fitted_bkt": {
+        "auc": 0.5858,
+        "brier": 0.2129,
+        "decomposition": {
+          "base_rate": 0.175,
+          "reliability": 0.0715,
+          "resolution": 0.003,
+          "uncertainty": 0.1444
+        },
+        "items": 2.184,
+        "log_loss": 0.6657,
+        "next_response_brier": 0.2479,
+        "vs_prior_only": {
+          "ci95": [
+            0.0467,
+            0.0879
+          ],
+          "diff": 0.0679
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            0.0135,
+            0.035
+          ],
+          "diff": 0.024
+        }
+      },
+      "fixed@n_default": {
+        "auc": 0.6306,
+        "brier": 0.1673,
+        "decomposition": {
+          "base_rate": 0.175,
+          "reliability": 0.0295,
+          "resolution": 0.0066,
+          "uncertainty": 0.1444
+        },
+        "items": 2.744,
+        "log_loss": 0.5125,
+        "next_response_brier": 0.2637,
+        "vs_prior_only": {
+          "ci95": [
+            0.0083,
+            0.0359
+          ],
+          "diff": 0.0223
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0385,
+            -0.0053
+          ],
+          "diff": -0.0216
+        }
+      },
+      "frontier": {
+        "auc": 0.5922,
+        "brier": 0.1889,
+        "decomposition": {
+          "base_rate": 0.175,
+          "reliability": 0.0486,
+          "resolution": 0.0042,
+          "uncertainty": 0.1444
+        },
+        "items": 3.012,
+        "log_loss": 0.6067,
+        "next_response_brier": 0.2882,
+        "vs_prior_only": {
+          "ci95": [
+            0.0262,
+            0.0616
+          ],
+          "diff": 0.0439
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "diff": 0.0
+        }
+      },
+      "irt_cat_global@8": {
+        "auc": 0.755,
+        "brier": 0.1515,
+        "decomposition": {
+          "base_rate": 0.175,
+          "reliability": 0.0272,
+          "resolution": 0.0188,
+          "uncertainty": 0.1444
+        },
+        "items": 8.0,
+        "log_loss": 0.4603,
+        "next_response_brier": 0.2757,
+        "vs_prior_only": {
+          "ci95": [
+            -0.0148,
+            0.0279
+          ],
+          "diff": 0.0065
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.058,
+            -0.0173
+          ],
+          "diff": -0.0373
+        }
+      },
+      "irt_cat_global@n": {
+        "auc": 0.7092,
+        "brier": 0.1583,
+        "decomposition": {
+          "base_rate": 0.175,
+          "reliability": 0.0291,
+          "resolution": 0.0152,
+          "uncertainty": 0.1444
+        },
+        "items": 2.744,
+        "log_loss": 0.4852,
+        "next_response_brier": 0.2666,
+        "vs_prior_only": {
+          "ci95": [
+            -0.005,
+            0.0329
+          ],
+          "diff": 0.0133
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0506,
+            -0.0086
+          ],
+          "diff": -0.0306
+        }
+      },
+      "irt_cat_per_concept@8": {
+        "auc": 0.6602,
+        "brier": 0.1578,
+        "decomposition": {
+          "base_rate": 0.175,
+          "reliability": 0.023,
+          "resolution": 0.0087,
+          "uncertainty": 0.1444
+        },
+        "items": 8.0,
+        "log_loss": 0.4842,
+        "next_response_brier": 0.2667,
+        "vs_prior_only": {
+          "ci95": [
+            -0.0004,
+            0.0253
+          ],
+          "diff": 0.0128
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0485,
+            -0.0147
+          ],
+          "diff": -0.0311
+        }
+      },
+      "min_k2": {
+        "auc": 0.6389,
+        "brier": 0.1987,
+        "decomposition": {
+          "base_rate": 0.175,
+          "reliability": 0.0612,
+          "resolution": 0.0067,
+          "uncertainty": 0.1444
+        },
+        "items": 5.236,
+        "log_loss": 0.6363,
+        "next_response_brier": 0.2862,
+        "vs_prior_only": {
+          "ci95": [
+            0.0324,
+            0.0745
+          ],
+          "diff": 0.0537
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0014,
+            0.0204
+          ],
+          "diff": 0.0098
+        }
+      },
+      "prior_only": {
+        "auc": 0.5,
+        "brier": 0.145,
+        "decomposition": {
+          "base_rate": 0.175,
+          "reliability": 0.0006,
+          "resolution": 0.0,
+          "uncertainty": 0.1444
+        },
+        "items": 0.0,
+        "log_loss": 0.4657,
+        "next_response_brier": 0.2792,
+        "vs_prior_only": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "diff": 0.0
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0616,
+            -0.0262
+          ],
+          "diff": -0.0439
+        }
+      },
+      "r74_recommended": {
+        "auc": 0.6698,
+        "brier": 0.2226,
+        "decomposition": {
+          "base_rate": 0.175,
+          "reliability": 0.087,
+          "resolution": 0.0087,
+          "uncertainty": 0.1444
+        },
+        "items": 8.0,
+        "log_loss": 0.7413,
+        "next_response_brier": 0.2852,
+        "vs_prior_only": {
+          "ci95": [
+            0.0539,
+            0.102
+          ],
+          "diff": 0.0776
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            0.0165,
+            0.0495
+          ],
+          "diff": 0.0337
+        }
+      },
+      "soft_prune": {
+        "auc": 0.6458,
+        "brier": 0.1978,
+        "decomposition": {
+          "base_rate": 0.175,
+          "reliability": 0.0628,
+          "resolution": 0.0091,
+          "uncertainty": 0.1444
+        },
+        "items": 5.672,
+        "log_loss": 0.6893,
+        "next_response_brier": 0.3095,
+        "vs_prior_only": {
+          "ci95": [
+            0.0319,
+            0.0722
+          ],
+          "diff": 0.0528
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.002,
+            0.0204
+          ],
+          "diff": 0.0089
+        }
+      },
+      "state_space": {
+        "auc": 0.6259,
+        "brier": 0.1925,
+        "decomposition": {
+          "base_rate": 0.175,
+          "reliability": 0.0571,
+          "resolution": 0.0098,
+          "uncertainty": 0.1444
+        },
+        "items": 3.18,
+        "log_loss": 0.7741,
+        "next_response_brier": 0.3131,
+        "vs_prior_only": {
+          "ci95": [
+            0.0276,
+            0.0675
+          ],
+          "diff": 0.0475
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0072,
+            0.0141
+          ],
+          "diff": 0.0036
+        }
+      },
+      "w6_shipped": {
+        "auc": 0.5922,
+        "brier": 0.1889,
+        "decomposition": {
+          "base_rate": 0.175,
+          "reliability": 0.0486,
+          "resolution": 0.0042,
+          "uncertainty": 0.1444
+        },
+        "items": 3.012,
+        "log_loss": 0.6067,
+        "next_response_brier": 0.2882,
+        "vs_prior_only": {
+          "ci95": [
+            0.0262,
+            0.0616
+          ],
+          "diff": 0.0439
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "diff": 0.0
+        }
+      }
+    },
+    "S4": {
+      "default_t33": {
+        "auc": 0.7753,
+        "brier": 0.1139,
+        "decomposition": {
+          "base_rate": 0.199,
+          "reliability": 0.0013,
+          "resolution": 0.0468,
+          "uncertainty": 0.1594
+        },
+        "items": 2.468,
+        "log_loss": 0.3794,
+        "next_response_brier": 0.1805,
+        "vs_prior_only": {
+          "ci95": [
+            -0.0569,
+            -0.0343
+          ],
+          "diff": -0.0455
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0002,
+            0.0065
+          ],
+          "diff": 0.0032
+        }
+      },
+      "fitted_bkt": {
+        "auc": 0.772,
+        "brier": 0.1266,
+        "decomposition": {
+          "base_rate": 0.199,
+          "reliability": 0.0052,
+          "resolution": 0.0379,
+          "uncertainty": 0.1594
+        },
+        "items": 2.06,
+        "log_loss": 0.415,
+        "next_response_brier": 0.2472,
+        "vs_prior_only": {
+          "ci95": [
+            -0.0475,
+            -0.0185
+          ],
+          "diff": -0.0328
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            0.0085,
+            0.0239
+          ],
+          "diff": 0.0159
+        }
+      },
+      "fixed@n_default": {
+        "auc": 0.7724,
+        "brier": 0.1309,
+        "decomposition": {
+          "base_rate": 0.199,
+          "reliability": 0.001,
+          "resolution": 0.0295,
+          "uncertainty": 0.1594
+        },
+        "items": 2.468,
+        "log_loss": 0.409,
+        "next_response_brier": 0.188,
+        "vs_prior_only": {
+          "ci95": [
+            -0.0381,
+            -0.0196
+          ],
+          "diff": -0.0285
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            0.0103,
+            0.0304
+          ],
+          "diff": 0.0202
+        }
+      },
+      "frontier": {
+        "auc": 0.7826,
+        "brier": 0.1107,
+        "decomposition": {
+          "base_rate": 0.199,
+          "reliability": 0.0003,
+          "resolution": 0.0489,
+          "uncertainty": 0.1594
+        },
+        "items": 2.616,
+        "log_loss": 0.3698,
+        "next_response_brier": 0.1788,
+        "vs_prior_only": {
+          "ci95": [
+            -0.0606,
+            -0.0374
+          ],
+          "diff": -0.0487
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "diff": 0.0
+        }
+      },
+      "irt_cat_global@8": {
+        "auc": 0.7187,
+        "brier": 0.1619,
+        "decomposition": {
+          "base_rate": 0.199,
+          "reliability": 0.0173,
+          "resolution": 0.0136,
+          "uncertainty": 0.1594
+        },
+        "items": 8.0,
+        "log_loss": 0.6845,
+        "next_response_brier": 0.2014,
+        "vs_prior_only": {
+          "ci95": [
+            -0.006,
+            0.0109
+          ],
+          "diff": 0.0025
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            0.0369,
+            0.0654
+          ],
+          "diff": 0.0512
+        }
+      },
+      "irt_cat_global@n": {
+        "auc": 0.6382,
+        "brier": 0.1607,
+        "decomposition": {
+          "base_rate": 0.199,
+          "reliability": 0.0134,
+          "resolution": 0.0127,
+          "uncertainty": 0.1594
+        },
+        "items": 2.468,
+        "log_loss": 0.5236,
+        "next_response_brier": 0.2025,
+        "vs_prior_only": {
+          "ci95": [
+            -0.0055,
+            0.008
+          ],
+          "diff": 0.0013
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            0.037,
+            0.063
+          ],
+          "diff": 0.05
+        }
+      },
+      "irt_cat_per_concept@8": {
+        "auc": 0.9434,
+        "brier": 0.0771,
+        "decomposition": {
+          "base_rate": 0.199,
+          "reliability": 0.0154,
+          "resolution": 0.0971,
+          "uncertainty": 0.1594
+        },
+        "items": 8.0,
+        "log_loss": 0.2758,
+        "next_response_brier": 0.1638,
+        "vs_prior_only": {
+          "ci95": [
+            -0.0922,
+            -0.0723
+          ],
+          "diff": -0.0823
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0443,
+            -0.0222
+          ],
+          "diff": -0.0336
+        }
+      },
+      "min_k2": {
+        "auc": 0.8455,
+        "brier": 0.0995,
+        "decomposition": {
+          "base_rate": 0.199,
+          "reliability": 0.0003,
+          "resolution": 0.06,
+          "uncertainty": 0.1594
+        },
+        "items": 4.524,
+        "log_loss": 0.3227,
+        "next_response_brier": 0.1738,
+        "vs_prior_only": {
+          "ci95": [
+            -0.0724,
+            -0.0476
+          ],
+          "diff": -0.0599
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0183,
+            -0.005
+          ],
+          "diff": -0.0112
+        }
+      },
+      "prior_only": {
+        "auc": 0.5,
+        "brier": 0.1594,
+        "decomposition": {
+          "base_rate": 0.199,
+          "reliability": 0.0,
+          "resolution": 0.0,
+          "uncertainty": 0.1594
+        },
+        "items": 0.0,
+        "log_loss": 0.499,
+        "next_response_brier": 0.2001,
+        "vs_prior_only": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "diff": 0.0
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            0.0374,
+            0.0606
+          ],
+          "diff": 0.0487
+        }
+      },
+      "r74_recommended": {
+        "auc": 0.9453,
+        "brier": 0.0589,
+        "decomposition": {
+          "base_rate": 0.199,
+          "reliability": 0.001,
+          "resolution": 0.1014,
+          "uncertainty": 0.1594
+        },
+        "items": 8.0,
+        "log_loss": 0.2016,
+        "next_response_brier": 0.157,
+        "vs_prior_only": {
+          "ci95": [
+            -0.1148,
+            -0.0854
+          ],
+          "diff": -0.1005
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0626,
+            -0.0409
+          ],
+          "diff": -0.0517
+        }
+      },
+      "soft_prune": {
+        "auc": 0.8566,
+        "brier": 0.0686,
+        "decomposition": {
+          "base_rate": 0.199,
+          "reliability": 0.0028,
+          "resolution": 0.0939,
+          "uncertainty": 0.1594
+        },
+        "items": 5.292,
+        "log_loss": 0.2791,
+        "next_response_brier": 0.1607,
+        "vs_prior_only": {
+          "ci95": [
+            -0.105,
+            -0.0766
+          ],
+          "diff": -0.0908
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            -0.0516,
+            -0.0337
+          ],
+          "diff": -0.0421
+        }
+      },
+      "state_space": {
+        "auc": 0.6105,
+        "brier": 0.1319,
+        "decomposition": {
+          "base_rate": 0.199,
+          "reliability": 0.0099,
+          "resolution": 0.0423,
+          "uncertainty": 0.1594
+        },
+        "items": 2.836,
+        "log_loss": 0.7295,
+        "next_response_brier": 0.1898,
+        "vs_prior_only": {
+          "ci95": [
+            -0.0411,
+            -0.0144
+          ],
+          "diff": -0.0275
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            0.0138,
+            0.0284
+          ],
+          "diff": 0.0212
+        }
+      },
+      "w6_shipped": {
+        "auc": 0.7826,
+        "brier": 0.1107,
+        "decomposition": {
+          "base_rate": 0.199,
+          "reliability": 0.0003,
+          "resolution": 0.0489,
+          "uncertainty": 0.1594
+        },
+        "items": 2.616,
+        "log_loss": 0.3698,
+        "next_response_brier": 0.1788,
+        "vs_prior_only": {
+          "ci95": [
+            -0.0606,
+            -0.0374
+          ],
+          "diff": -0.0487
+        },
+        "vs_w6_shipped": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "diff": 0.0
+        }
+      }
+    }
+  }
+}

@@ -124,10 +124,17 @@ def test_prerequisite_safety_tc31(engine, budget):
     assert p.status == PlanStatus.FEASIBLE
 
     # Map each scheduled activity to (day, sequence_index_within_day)
+    # D43 maintenance reviews are post-mastery revisits, not new learning: skip them here
+    reviews = {
+        (t["day"], t["activity_id"])
+        for t in p.trace
+        if t.get("decision") == "SELECTED" and t.get("reason") == "REVIEW_DUE"
+    }
     schedule_pos = {}
     for d in p.days:
         for idx, aid in enumerate(d.activities):
-            schedule_pos[aid] = (d.day, idx)
+            if (d.day, aid) not in reviews:
+                schedule_pos[aid] = (d.day, idx)
 
     # For every concept in graph, all activities of prerequisite concepts
     # must appear strictly before any activity of dependent concept
@@ -180,13 +187,23 @@ def test_pacing_variation_by_budget_tc33(engine):
     assert p_5.status == PlanStatus.FEASIBLE
     assert p_30.status == PlanStatus.FEASIBLE
 
-    # B=30 finishes in exactly 1 day (total workload 26 min <= 30)
-    assert len(p_30.days) == 1
+    def new_content_days(p):
+        # D43 maintenance-review days (REVIEW_DUE only) are excluded from pacing
+        return sorted(
+            {
+                t["day"]
+                for t in p.trace
+                if t.get("decision") == "SELECTED" and t.get("reason") != "REVIEW_DUE"
+            }
+        )
+
+    # B=30 finishes new content in exactly 1 day (total workload 26 min <= 30)
+    assert new_content_days(p_30) == [1]
     assert p_30.days[0].duration == 26
 
     # B=5 takes clearly more days (7 days)
-    assert len(p_5.days) >= 6
-    assert len(p_5.days) > len(p_30.days)
+    assert len(new_content_days(p_5)) >= 6
+    assert len(new_content_days(p_5)) > len(new_content_days(p_30))
 
 
 # =====================================================================
@@ -406,10 +423,17 @@ def test_planner_8node_fixture():
     assert scheduled_concepts == expected_ancestors
 
     # Check prerequisite safety on 8-node DAG
+    # D43 maintenance reviews are post-mastery revisits, not new learning: skip them here
+    reviews = {
+        (t["day"], t["activity_id"])
+        for t in p.trace
+        if t.get("decision") == "SELECTED" and t.get("reason") == "REVIEW_DUE"
+    }
     schedule_pos = {}
     for d in p.days:
         for idx, aid in enumerate(d.activities):
-            schedule_pos[aid] = (d.day, idx)
+            if (d.day, aid) not in reviews:
+                schedule_pos[aid] = (d.day, idx)
 
     for aid, pos in schedule_pos.items():
         c = engine_8node.activities[aid].target_concept
@@ -548,8 +572,9 @@ def test_schema_validations():
         PlanContext(goal="", deadline_day=1, budget=10)
     with pytest.raises(ValidationError):
         PlanContext(goal="C1", deadline_day=0, budget=10)
+    # T5.1: budget membership is config-driven (checked by the planner), not by the schema
     with pytest.raises(ValidationError):
-        PlanContext(goal="C1", deadline_day=1, budget=7)
+        PlanContext(goal="C1", deadline_day=1, budget=0)
     with pytest.raises(ValidationError):
         PlanContext(goal="C1", deadline_day=1, budget=10, current_day=2)
 
@@ -569,7 +594,8 @@ def test_schema_validations():
 def test_is_evidence_mastered_custom():
     c = LearnerConcept("C1", p=0.86, responses=2)
     # Mastered under default (theta=0.85, k=2)
-    assert c.evidence_mastered is True
+    with pytest.warns(DeprecationWarning):
+        assert c.evidence_mastered is True
     from adaptengine.learner import is_evidence_mastered
 
     cfg_strict = EngineConfig(theta=0.90)
@@ -613,3 +639,41 @@ def test_oracle_path_selected_trace_tc7_1(engine, monkeypatch):
 
     serialized = serialize_plan(p)
     assert json.dumps(serialized)
+
+
+def test_oracle_path_trace_natural_case_t1_4():
+    """W7 T1.4 (R§2.8): natural oracle case (8-node, budget 5, deadline 12, no monkeypatching).
+    W6 code left 45 SELECTED records for 21 planned activities; now exactly one per activity."""
+    import collections
+
+    sys.path.insert(0, ".")
+    from experiments.stats import audit_plan_trace_coverage
+
+    e = Engine.from_files(
+        "data/curriculum/curriculum_8node.json", "data/curriculum/activities_8node.json"
+    )
+    goal = e.graph.topological_order()[-1]
+    p = e.plan(e.init_learner(), PlanContext(goal=goal, deadline_day=12, budget=5))
+    assert p.reason == "ORACLE_ASSIGNMENT"
+    sel = collections.Counter(
+        (t["day"], t["activity_id"]) for t in p.trace if t.get("decision") == "SELECTED"
+    )
+    planned = collections.Counter((d.day, a) for d in p.days for a in d.activities)
+    assert sel == planned and sum(sel.values()) == 21
+    assert all(t["superseded"] for t in p.trace if t.get("decision") == "GREEDY_ATTEMPT")
+    assert audit_plan_trace_coverage(p) == 1.0
+
+
+def test_oracle_respects_used_first_day_t2_1():
+    """W7 T2.1: the oracle treats minutes already used on the start day as consumed capacity."""
+    acts = [OracleActivity("a", 10), OracleActivity("b", 10)]
+    status, _, _ = solve_oracle(acts, {}, budget=15, num_days=2)
+    assert status == PlanStatus.FEASIBLE
+    status, _, _ = solve_oracle(acts, {}, budget=15, num_days=2, used_first_day=10)
+    assert status == PlanStatus.INFEASIBLE
+
+
+def test_plan_context_minutes_used_today_validation_t2_1():
+    with pytest.raises(ValidationError):
+        PlanContext(goal="C1", deadline_day=3, budget=10, minutes_used_today=11)
+    assert PlanContext(goal="C1", deadline_day=3, budget=10, minutes_used_today=10)

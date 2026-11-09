@@ -34,7 +34,8 @@ def test_adapt_zero_violations_all_scenarios(engine):
         if sc is None:
             continue
         res = run_episode(engine, seed=42, scenario=sc, arm="adapt", profile=profile)
-        assert res["prerequisite_violations"] == 0, f"Prereq violation in {sc_name}"
+        assert res["plan_prereq_violations"] == 0, f"Plan prereq violation in {sc_name}"
+        assert res["executed_prereq_violations"] == 0, f"Executed violation in {sc_name}"
         assert res["budget_violations"] == 0, f"Budget violation in {sc_name}"
         assert res["plan_trace_coverage"] == 1.0
 

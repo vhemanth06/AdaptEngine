@@ -206,12 +206,24 @@ def main():
     st = engine_4node.init_learner()
     p_b5 = engine_4node.plan(st, PlanContext("C4", deadline_day=30, budget=5))
     p_b30 = engine_4node.plan(st, PlanContext("C4", deadline_day=30, budget=30))
-    assert len(p_b5.days) >= 6
-    assert len(p_b30.days) == 1
+
+    def new_content_days(p):
+        # W7 D43: maintenance-review days (REVIEW_DUE only) are not pacing of new content
+        return len(
+            {
+                t["day"]
+                for t in p.trace
+                if t.get("decision") == "SELECTED" and t.get("reason") != "REVIEW_DUE"
+            }
+        )
+
+    d5, d30 = new_content_days(p_b5), new_content_days(p_b30)
+    assert d5 >= 6
+    assert d30 == 1
     planner_results["TC3.3_pacing_disparity"] = {
-        "budget_5_days": len(p_b5.days),
-        "budget_30_days": len(p_b30.days),
-        "ratio": round(len(p_b5.days) / len(p_b30.days), 2),
+        "budget_5_days": d5,
+        "budget_30_days": d30,
+        "ratio": round(d5 / d30, 2),
     }
     print(
         f" -> TC3.3 Pacing Disparity (B=5 -> {len(p_b5.days)}d vs B=30 -> {len(p_b30.days)}d): PASS"

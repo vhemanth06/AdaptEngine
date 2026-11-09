@@ -8,7 +8,7 @@ This document records the finalized architectural and methodological decisions f
 
 - **Mastery Estimation:** Single Bayesian Knowledge Tracing (BKT) model per concept with latent learning transitions ($T_{\text{exercise}} = 0.05, T_{\text{diag}} = 0.0, T_{\text{lesson}} = 0.20$). Replaced older Beta distribution proposals.
 - **Mastery Adapter & Oracle:** Standardized `MasteryModel` protocol. `CustomBKT` serves as the exact reference oracle for continuous equations; `PyBKTAdapter` maps continuous difficulty into 3 discrete item classes (easy, medium, hard) adhering to Decision D6.
-- **Adaptive Diagnosis (Milestone M2):** Active assessment based on Expected Information Gain (EIG), constrained by a global item cap $N_{\max} = 8$, per-concept cap $3$, entropy threshold $H \le 0.50$, and ancestor pruning at $p < 0.40$.
+- **Adaptive Diagnosis (Milestone M2):** Active assessment based on Expected Information Gain (EIG), constrained by a global item cap $N_{\max}$ (8 in W6; 6 since the W7 T3.3 pre-registered selection, D44), per-concept cap (3 in W6; 2 since D44), entropy threshold $H \le 0.50$, and ancestor pruning at $p < 0.40$.
 - **Path Planning & Feasibility:** Deterministic scheduler with feasibility bounds and an exact bin-packing oracle. Replaced earlier custom A* proposals with provable constraint satisfiability.
 - **Spaced Review:** Fixed half-life decay baseline $r(t) = 2^{-\Delta t / h}$. Half-Life Regression (HLR) is deferred unless fitting datasets and feature mappings are established.
 - **Evidence-Mastered Definition:** Strict separation between instructional exposure (`lessons_done`), assessment observations (`responses`), and evidence-mastered ($\text{evidence\_mastered} := p \ge \theta \text{ and } \text{responses} \ge k$, default $k=2, \theta=0.85$). Lessons never mark concepts as assessed or evidence-mastered.
@@ -47,6 +47,7 @@ The following decisions were flagged for human sign-off; defaults were applied t
 | **D16** | Within-concept order | **Lessons before exercises, enforced by queue** | Instructional lessons precede practice exercises within a concept, enforced by queue sequencing rather than heuristic score. |
 | **D17** | Oracle limit | **Node count integer (`oracle_node_limit`)** | Because `time`, `datetime`, and wall-clock modules are strictly prohibited in the deterministic core, search limits are bounded by branch-and-bound node expansions. |
 | **D18** | Day numbering | **Absolute integers from `current_day` to `deadline_day`** | Eliminates relative offset ambiguity; plan starts at `current_day` and terminates at or before absolute `deadline_day`. |
+| **D19** | *(reserved)* | **No decision was recorded under this ID in W4** | The W4 section heading announced D11–D19 but only D11–D18 were written; R§3 flagged the gap. The ID stays unused so later numbering is stable (W7 T9.1). |
 
 ---
 
@@ -89,3 +90,19 @@ The following decisions were flagged for human sign-off; defaults were applied t
 | **D38** | Oracle assignment trace parity | **Per-activity `SELECTED` trace records with `reason="ORACLE_ASSIGNED"`** | When exact branch-and-bound packs days after greedy schedule overshoots deadline, each placed activity receives an explicit `SELECTED` record. Ensures 100% explanation trace coverage and satisfies TC7.1. |
 | **D39** | Diagnostic evaluation protocol | **50/50 seed split; pre-declared selection rule evaluated once on held-out** | Even seeds form the tuning cohort; odd seeds form the held-out evaluation cohort. Selection rule chooses lowest tuning MAE among configurations consuming $\le 50\%$ items of the fixed arm before running held-out evaluation. |
 | **D40** | Scheduler review starvation bound | **Safety termination upon 15 consecutive starvation days or horizon exceeded** | In large curricula ($N \ge 40$) under tight budgets where daily review debt exceeds daily capacity, greedy scheduler terminates when queue progress stalls for 15 consecutive days or calendar horizon is exceeded, allowing exact oracle or shortfall resolution to take over cleanly. |
+
+---
+
+## 7. Week 7 Decisions (D41 – D48) — Proposed for W7, awaiting human approval
+
+| # | Decision Topic | Decision Choice | Rationale & Verification |
+|---|---|---|---|
+| **D41** | Exercise repetition in new learning | **`allow_exercise_repeats=True`: unseen exercises first, then the least-recently-attempted one** | With 4 exercises per concept a few wrong answers made mastery unreachable (`CONTENT_INSUFFICIENT`) and the learner idle (R§2.3). Attempt IDs keep repeats idempotent; `CONTENT_INSUFFICIENT` now means an empty bank. `tests/test_w7_planner.py::test_repeats_keep_plan_feasible_after_failing_c1_t2_3`. |
+| **D42** | Infeasible goals | **Return `INFEASIBLE`/`UNKNOWN` + shortfall + options *and* `best_effort_days` toward the deepest reachable concept on the goal path** | An infeasible verdict used to mean an idle learner. Trace marks the schedule `BEST_EFFORT`. `tests/test_w7_planner.py::test_best_effort_plan_on_infeasible_t2_4`, `::test_deadline_cut_episode_never_idle_t2_4`. |
+| **D43** | Spaced review reachability | **`half_life_days` in config; maintenance tier schedules due reviews until `deadline_day`; one recall implementation in `review/forgetting.py`; `n_reviews` counts review attempts only** | Reviews could never fire (hard-coded h = 30, scheduler stopped when new content ended, duplicated recall formula; R§2.5). `tests/test_review.py::test_review_due_fires_with_short_half_life_t2_6`. |
+| **D44** | Diagnostic design and selection | **Flags `min_items_per_concept`, `pruning_mode`, `selection_scope`, `prior_mode`; defaults chosen by a pre-registered Brier rule (T3.3) → population prior 0.24, `concept_cap=2`, `n_max=6`** | MAE |p − θ| is an improper metric for a mastery probability; the W6 D39 rule was overridden post hoc. The new rule was registered with its code hash before the run and applied as written (`docs/preregistration/W7_T3.3_2026-11-08.md`, `experiments/results/w7_diag_selection.json`). |
+| **D45** | Demo UI | **Adapter only; the engine is the sole decision source** | The FastAPI adapter and React app contain no planning, mastery or eligibility logic; the API test asserts API plans equal direct `Engine` calls (`frontend/api/tests/test_api.py`). |
+| **D46** | Primary safety metric | **Executed-state prerequisite audit (replay the real log through `engine.record`); the plan-level audit is secondary** | The W6 optimistic audit hid 183 (adapt) / 640 (static) executed violations in calm (R§2.1). With the closed loop (T2.2) adapt has 0. `experiments/checks.py::count_executed_prereq_violations`. |
+| **D47** | Simulator worlds and pre-registration | **Worlds S0–S4 (independent, prerequisite-gated, correlated, forgetting, BKT-generated); every new world/metric/rule is pre-registered with a timestamp and code hash before running** | Avoids tuning the simulator until adapt wins; S0 is kept and reported (`docs/preregistration/W7_T4.1_2026-11-08.md`). |
+| **D48** | Fitted parameter profiles | **Fitted BKT parameters are stored as named config profiles (`config/fitted_*.json`) with source and code hash; the D6 heuristic stays the default until a fitted profile beats it on held-out data** | Fits on ASSISTments 2009 / Cognitive Tutor (maths) give realistic ranges, not Python-learner values (T3.5, T7.3, T7.6). |
+

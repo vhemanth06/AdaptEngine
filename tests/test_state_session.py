@@ -7,6 +7,7 @@ from adaptengine.learner.state import (
     ConceptStatus,
     LearnerConcept,
     LearnerState,
+    is_evidence_mastered,
 )
 from adaptengine.session import (
     apply_response,
@@ -30,7 +31,7 @@ def test_initial_state():
     assert c.uncertainty == pytest.approx(0.7219, abs=1e-4)
     assert not c.assessed
     assert c.status == ConceptStatus.UNASSESSED
-    assert not c.evidence_mastered
+    assert not is_evidence_mastered(c)
 
     with pytest.raises(TypeError):
         state.concepts["C1"] = c
@@ -71,7 +72,7 @@ def test_apply_lesson_exposure_semantics():
     assert c.p > 0.85
     assert not c.assessed
     assert c.status == ConceptStatus.UNASSESSED
-    assert not c.evidence_mastered
+    assert not is_evidence_mastered(c)
     assert c.lessons_done == 8
     assert c.responses == 0
 

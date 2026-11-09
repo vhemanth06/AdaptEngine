@@ -162,11 +162,8 @@ class Event:
         elif self.kind == EventType.BUDGET_CHANGED:
             if self.value is None:
                 raise ValidationError("BUDGET_CHANGED event requires value")
+            # membership in EngineConfig.allowed_budgets is checked by Engine.record (T5.1)
             check_positive_int(self.value, "budget value")
-            if self.value not in (5, 10, 15, 30):
-                raise ValidationError(
-                    f"BUDGET_CHANGED value must be one of (5, 10, 15, 30), got {self.value}"
-                )
             if (
                 self.activity_id is not None
                 or self.correct is not None
@@ -189,14 +186,20 @@ class PlanContext:
     deadline_day: int
     budget: int
     current_day: int = 1
+    # W7 T2.1: minutes already spent on current_day (mid-day replanning)
+    minutes_used_today: int = 0
 
     def __post_init__(self):
         check_valid_id(self.goal, "goal")
         check_positive_int(self.deadline_day, "deadline_day")
         check_positive_int(self.budget, "budget")
         check_positive_int(self.current_day, "current_day")
-        if self.budget not in (5, 10, 15, 30):
-            raise ValidationError(f"budget must be one of (5, 10, 15, 30), got {self.budget}")
+        check_non_negative_int(self.minutes_used_today, "minutes_used_today")
+        if self.minutes_used_today > self.budget:
+            raise ValidationError(
+                f"minutes_used_today ({self.minutes_used_today}) cannot exceed budget ({self.budget})"
+            )
+        # membership in EngineConfig.allowed_budgets is checked by the planner (T5.1)
         if self.deadline_day < self.current_day:
             raise ValidationError(
                 f"deadline_day ({self.deadline_day}) must be >= current_day ({self.current_day})"
@@ -237,6 +240,8 @@ class Plan:
     shortfall_days: int = 0
     options: tuple[str, ...] = ()
     trace: tuple[dict[str, Any], ...] = ()
+    # D42: when the goal can't be planned, a schedule toward the deepest reachable concept
+    best_effort_days: tuple[PlanDay, ...] = ()
 
     def __post_init__(self):
         if not isinstance(self.status, PlanStatus):
@@ -255,5 +260,13 @@ class Plan:
             object.__setattr__(self, "options", tuple(self.options))
         if not isinstance(self.trace, (tuple, list)):
             raise ValidationError(f"trace must be a sequence, got {type(self.trace).__name__}")
+        if not isinstance(self.best_effort_days, (tuple, list)):
+            raise ValidationError("best_effort_days must be a sequence")
+        object.__setattr__(self, "best_effort_days", tuple(self.best_effort_days))
+        for d in self.best_effort_days:
+            if not isinstance(d, PlanDay):
+                raise ValidationError(f"best_effort_days element must be PlanDay, got {d!r}")
+        if self.best_effort_days and self.status == PlanStatus.FEASIBLE:
+            raise ValidationError("best_effort_days only accompany a non-FEASIBLE plan")
         if isinstance(self.trace, list):
             object.__setattr__(self, "trace", tuple(self.trace))

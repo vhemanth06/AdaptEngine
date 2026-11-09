@@ -25,45 +25,53 @@ class CurriculumGraph:
         except nx.NetworkXNoCycle:
             pass
 
+        # T6.1: the graph is immutable, so every query the planner's inner loops use is
+        # precomputed once here instead of calling NetworkX on each call.
+        g = self._graph
+        self._concepts = tuple(sorted(g.nodes()))
+        self._roots = tuple(sorted(n for n, d in g.in_degree() if d == 0))
+        self._topo = tuple(nx.lexicographical_topological_sort(g))
+        self._prereqs = {c: tuple(sorted(g.predecessors(c))) for c in self._concepts}
+        self._ancestors = {c: frozenset(nx.ancestors(g, c)) for c in self._concepts}
+        self._descendants = {c: frozenset(nx.descendants(g, c)) for c in self._concepts}
+        self._depth: dict[str, int] = {}
+        for node in self._topo:
+            preds = self._prereqs[node]
+            self._depth[node] = max((self._depth[p] for p in preds), default=-1) + 1
+        self.fingerprint = hash((self._concepts, tuple(self._prereqs.items())))
+
+    def _check(self, c: str) -> None:
+        if c not in self._prereqs:
+            raise UnknownConceptError(f"Concept {c} not in graph")
+
     @classmethod
     def from_concepts(cls, concepts: tuple[Concept, ...]) -> "CurriculumGraph":
         return cls(concepts)
 
     def concepts(self) -> tuple[str, ...]:
-        return tuple(sorted(self._graph.nodes()))
+        return self._concepts
 
     def roots(self) -> tuple[str, ...]:
-        return tuple(sorted(n for n, d in self._graph.in_degree() if d == 0))
+        return self._roots
 
     def prerequisites(self, c: str) -> tuple[str, ...]:
-        if c not in self._graph:
-            raise UnknownConceptError(f"Concept {c} not in graph")
-        return tuple(sorted(self._graph.predecessors(c)))
+        self._check(c)
+        return self._prereqs[c]
 
     def ancestors(self, c: str) -> frozenset[str]:
-        if c not in self._graph:
-            raise UnknownConceptError(f"Concept {c} not in graph")
-        return frozenset(nx.ancestors(self._graph, c))
+        self._check(c)
+        return self._ancestors[c]
 
     def descendants(self, c: str) -> frozenset[str]:
-        if c not in self._graph:
-            raise UnknownConceptError(f"Concept {c} not in graph")
-        return frozenset(nx.descendants(self._graph, c))
+        self._check(c)
+        return self._descendants[c]
 
     def descendant_count(self, c: str) -> int:
         return len(self.descendants(c))
 
     def depth(self, c: str) -> int:
-        if c not in self._graph:
-            raise UnknownConceptError(f"Concept {c} not in graph")
-        depths = {}
-        for node in nx.lexicographical_topological_sort(self._graph):
-            preds = list(self._graph.predecessors(node))
-            if not preds:
-                depths[node] = 0
-            else:
-                depths[node] = max(depths[p] for p in preds) + 1
-        return depths[c]
+        self._check(c)
+        return self._depth[c]
 
     def topological_order(self) -> tuple[str, ...]:
-        return tuple(nx.lexicographical_topological_sort(self._graph))
+        return self._topo

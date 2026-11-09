@@ -3,7 +3,7 @@ PYTHON = $(if $(wildcard $(VENV)/bin/python),$(VENV)/bin/python,python3)
 PYTEST = $(if $(wildcard $(VENV)/bin/pytest),$(VENV)/bin/pytest,pytest)
 RUFF = $(if $(wildcard $(VENV)/bin/ruff),$(VENV)/bin/ruff,ruff)
 
-.PHONY: all w3 w4 w5 w6 poc eval eval-quick test lint format check
+.PHONY: all w3 w4 w5 w6 poc eval eval-quick test lint format check demo-api demo-web demo-test
 
 all: check w3 w4 w5 w6 poc eval
 
@@ -43,3 +43,14 @@ format:
 
 check: lint test
 
+
+# Demo frontend (W7 WP8). Needs: pip install -e ".[demo]" and npm ci in frontend/web.
+demo-api:
+	$(PYTHON) -m uvicorn frontend.api.app:app --port 8000
+
+demo-web:
+	cd frontend/web && npm run dev
+
+demo-test:
+	$(PYTEST) -q frontend/api/tests
+	cd frontend/web && npm run build && npx playwright test

@@ -77,3 +77,10 @@ def check_valid_id(value: Any, name: str) -> str:
     if not isinstance(value, str) or not value.strip() or any(c.isspace() for c in value):
         raise ValidationError(f"{name} must be a non-empty string without spaces, got {value!r}")
     return value
+
+
+def check_budget(value, allowed) -> int:
+    """Daily budget must be one of the configured allowed budgets (T5.1: from EngineConfig)."""
+    if value not in tuple(allowed):
+        raise ValidationError(f"budget must be one of {tuple(allowed)}, got {value}")
+    return value

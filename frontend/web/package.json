@@ -1,0 +1,31 @@
+{
+  "name": "adaptengine-demo-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit -p . && vite build",
+    "preview": "vite preview",
+    "gen:types": "node scripts/gen-types.mjs",
+    "e2e": "playwright test"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.107.1",
+    "@xyflow/react": "^12.12.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^2.15.4"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "@tailwindcss/vite": "^4.3.5",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^4.7.0",
+    "openapi-typescript": "^7.13.0",
+    "tailwindcss": "^4.3.5",
+    "typescript": "~5.6",
+    "vite": "^6.4.5"
+  }
+}

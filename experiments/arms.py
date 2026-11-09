@@ -15,8 +15,18 @@ from dataclasses import dataclass
 from typing import Any, Mapping, Optional, Sequence
 
 from adaptengine.core.schema import ActivityType, Event, EventType, Plan, PlanContext, PlanDay
-from experiments.checks import count_budget_violations, count_prerequisite_violations
-from experiments.sim import SimLearner, SimProfile, TRUE_MASTERY_CUTOFF
+from experiments.checks import (
+    count_budget_violations,
+    count_executed_prereq_violations,
+    count_plan_prereq_violations,
+)
+from adaptengine.learner.state import ExecutionLog, is_evidence_mastered
+from experiments.stats import selected_coverage
+from experiments.sim import SimProfile, TRUE_MASTERY_CUTOFF, make_sim
+
+
+# Arms that use the engine's closed loop (Engine.next_activities, T2.2)
+CLOSED_LOOP_ARMS = ("adapt", "no_review")
 
 
 @dataclass(frozen=True)
@@ -59,7 +69,16 @@ def get_scenario(name: str, engine, start_state, goal: str, budget: int) -> Opti
     """Construct a standardized scenario (calm, missed_day, budget_drop, deadline_cut)."""
     uncapped_ctx = PlanContext(goal=goal, deadline_day=60, budget=budget, current_day=1)
     uncapped_plan = engine.plan(start_state, uncapped_ctx)
-    deadline = max(3, len(uncapped_plan.days) + 2)
+    # Size the horizon on new-content days only; maintenance review days (D43) are excluded.
+    last_new = max(
+        (
+            t["day"]
+            for t in uncapped_plan.trace
+            if t.get("decision") == "SELECTED" and t.get("reason") != "REVIEW_DUE"
+        ),
+        default=0,
+    )
+    deadline = max(3, sum(1 for d in uncapped_plan.days if d.day <= last_new) + 2)
 
     if name == "calm":
         return Scenario("calm", budget=budget, deadline=deadline, goal=goal, events=())
@@ -92,35 +111,42 @@ def get_scenario(name: str, engine, start_state, goal: str, budget: int) -> Opti
             goal=goal,
             events=((2, EventType.DEADLINE_CHANGED, deadline - 1),),
         )
+    # W7 T4.1 stress cases
+    elif name == "missed_2days":
+        return Scenario(
+            "missed_2days",
+            budget=budget,
+            deadline=deadline,
+            goal=goal,
+            events=((2, EventType.MISSED, None), (3, EventType.MISSED, None)),
+        )
+    elif name == "budget_crash":
+        if budget != 30:
+            return None
+        return Scenario(
+            "budget_crash",
+            budget=budget,
+            deadline=deadline,
+            goal=goal,
+            events=((2, EventType.BUDGET_CHANGED, 5),),
+        )
+    elif name == "deadline_halved":
+        return Scenario(
+            "deadline_halved",
+            budget=budget,
+            deadline=deadline,
+            goal=goal,
+            events=((2, EventType.DEADLINE_CHANGED, max(2, deadline // 2)),),
+        )
+    elif name == "forgetting_21":
+        return Scenario("forgetting_21", budget=budget, deadline=21, goal=goal, events=())
     else:
         raise ValueError(f"Unknown scenario name: {name}")
 
 
 def compute_plan_trace_coverage(plan: Plan) -> float:
-    """Compute explanation coverage of a plan's trace across all scheduled activities."""
-    if not plan.days:
-        return 1.0
-    total_acts = sum(len(d.activities) for d in plan.days)
-    if total_acts == 0:
-        return 1.0
-
-    selected_in_trace: set[tuple[int, str]] = set()
-    for tr in plan.trace:
-        dec = tr.get("decision")
-        if dec == "SELECTED":
-            aid = tr.get("activity_id")
-            reason = tr.get("reason")
-            day = tr.get("day")
-            if aid and reason and day is not None:
-                if reason == "ORACLE_ASSIGNED" or tr.get("score_components") is not None:
-                    selected_in_trace.add((day, aid))
-
-    covered = 0
-    for d in plan.days:
-        for aid in d.activities:
-            if (d.day, aid) in selected_in_trace:
-                covered += 1
-    return covered / total_acts
+    """Explanation coverage: exactly one SELECTED record per planned (day, activity) (T1.4)."""
+    return selected_coverage(plan)
 
 
 def run_episode(
@@ -129,9 +155,14 @@ def run_episode(
     scenario: Scenario,
     arm: str,
     profile: SimProfile,
+    world: str = "S0",
+    sim_kw: Optional[Mapping[str, Any]] = None,
 ) -> dict[str, Any]:
-    """Execute a single closed-loop episode day-by-day under the specified arm and scenario."""
-    sim = SimLearner(seed=seed, concepts=engine.graph.concepts(), profile=profile)
+    """Execute a single closed-loop episode day-by-day under the specified arm and scenario.
+
+    world selects the simulator variant (S0-S4, T4.2); sim_kw is passed to the SimLearner.
+    """
+    sim = make_sim(engine, seed, profile, world=world, **(sim_kw or {}))
     start_state = engine.init_learner()
 
     review_urgency: Optional[Mapping[str, float]] = None
@@ -154,18 +185,49 @@ def run_episode(
         trace_coverage = compute_plan_trace_coverage(plan)
 
     state = start_state
-    log = engine.init_learner_session().log if hasattr(engine, "init_learner_session") else None
-    from adaptengine.learner.state import ExecutionLog
-
     log = ExecutionLog()
 
     peak_theta = dict(sim.theta)
     attempts: list[list[Any]] = []
+    exercise_log: list[list[Any]] = []  # [concept, activity_id, difficulty, correct] (T3.5)
     executed_activities_by_day: dict[int, list[str]] = {}
     effective_budget = scenario.budget
     effective_deadline = scenario.deadline
     budget_in_force_per_day: dict[int, int] = {}
-    dirty = False
+    idle_days = 0
+    closed_loop = arm in CLOSED_LOOP_ARMS
+    goal = scenario.goal
+    minutes_so_far = 0
+    goal_traj: list[list[float]] = [[0, round(sim.theta[goal], 4)]]
+    minutes_to_goal_mastery: Optional[int] = 0 if sim.theta[goal] >= TRUE_MASTERY_CUTOFF else None
+
+    def execute(aid: str, day: int) -> Optional[bool]:
+        """Run one activity on the simulated learner and record it; returns correctness."""
+        nonlocal state, log, minutes_so_far, minutes_to_goal_mastery
+        a = engine.activities[aid]
+        c = a.target_concept
+        correct: Optional[bool] = None
+        if a.type == ActivityType.EXERCISE:
+            pred = float(engine.model.predict_correct(state.concepts[c].p, a.difficulty))
+            correct = sim.respond(c, a.activity_id, a.difficulty, tag="run")
+            attempts.append([round(pred, 4), bool(correct)])
+            exercise_log.append([c, a.activity_id, a.difficulty, bool(correct)])
+        ev = Event(
+            day=day,
+            kind=EventType.COMPLETED,
+            activity_id=aid,
+            minutes_elapsed=a.duration,
+            correct=correct,
+        )
+        state, log = engine.record(state, log, ev)
+        sim.apply_activity(c, is_lesson=a.type == ActivityType.LESSON, day=day)
+        for concept_id in sim.theta:
+            peak_theta[concept_id] = max(peak_theta[concept_id], sim.theta[concept_id])
+        minutes_so_far += a.duration
+        goal_traj.append([minutes_so_far, round(sim.theta[goal], 4)])
+        if minutes_to_goal_mastery is None and sim.theta[goal] >= TRUE_MASTERY_CUTOFF:
+            minutes_to_goal_mastery = minutes_so_far
+        return correct
 
     for day in range(1, effective_deadline + 1):
         budget_in_force_per_day[day] = effective_budget
@@ -177,7 +239,6 @@ def run_episode(
         for _, kind, val in day_events:
             if kind == EventType.MISSED:
                 state, log = engine.record(state, log, Event(day=day, kind=EventType.MISSED))
-                dirty = True
                 skip_day_execution = True
             elif kind == EventType.BUDGET_CHANGED:
                 effective_budget = val
@@ -185,84 +246,56 @@ def run_episode(
                 state, log = engine.record(
                     state, log, Event(day=day, kind=EventType.BUDGET_CHANGED, value=val)
                 )
-                dirty = True
             elif kind == EventType.DEADLINE_CHANGED:
                 effective_deadline = val
                 state, log = engine.record(
                     state, log, Event(day=day, kind=EventType.DEADLINE_CHANGED, value=val)
                 )
-                dirty = True
 
         if day > effective_deadline:
             break
-
-        if dirty and arm in ("adapt", "no_review"):
-            replan_ctx = PlanContext(
-                goal=scenario.goal,
-                deadline_day=effective_deadline,
-                budget=effective_budget,
-                current_day=day,
-            )
-            plan = engine.replan(state, log, replan_ctx, review_urgency=review_urgency)
-            plan_days = plan.days
-            trace_coverage = min(trace_coverage, compute_plan_trace_coverage(plan))
-            dirty = False
-
         if skip_day_execution:
             continue
 
-        # Look up activities scheduled for current day
-        current_day_plan = next((d for d in plan_days if d.day == day), None)
-        if current_day_plan is None:
-            continue
-
         day_done_acts: list[str] = []
-        for aid in current_day_plan.activities:
-            a = engine.activities[aid]
-            c = a.target_concept
-
-            if a.type == ActivityType.LESSON:
-                state, log = engine.record(
-                    state,
-                    log,
-                    Event(
-                        day=day,
-                        kind=EventType.COMPLETED,
-                        activity_id=aid,
-                        minutes_elapsed=a.duration,
-                        correct=None,
-                    ),
+        if closed_loop:
+            # T2.2: rolling horizon. Replan from the real state at the start of the day and after
+            # every wrong answer; execute only today's slice.
+            used = 0
+            while True:
+                ctx = PlanContext(
+                    goal=scenario.goal,
+                    deadline_day=effective_deadline,
+                    budget=effective_budget,
+                    current_day=day,
                 )
-                sim.apply_activity(c, is_lesson=True, day=day)
-            else:
-                p_before = state.concepts[c].p
-                pred = float(engine.model.predict_correct(p_before, a.difficulty))
-                correct = sim.respond(c, a.activity_id, a.difficulty, tag="run")
-                attempts.append([round(pred, 4), bool(correct)])
+                today, plan = engine.next_activities(state, log, ctx, review_urgency=review_urgency)
+                trace_coverage = min(trace_coverage, compute_plan_trace_coverage(plan))
+                if today is None:
+                    break
+                surprised = False
+                for aid in today.activities:
+                    if used + engine.activities[aid].duration > effective_budget:
+                        break  # defensive; the engine already respects minutes_used_today
+                    correct = execute(aid, day)
+                    used += engine.activities[aid].duration
+                    day_done_acts.append(aid)
+                    if correct is False:
+                        surprised = True
+                        break
+                if not surprised:
+                    break
+        else:
+            # no_replan / static: fixed initial schedule, never replanned (W6 baselines)
+            current_day_plan = next((d for d in plan_days if d.day == day), None)
+            for aid in current_day_plan.activities if current_day_plan else ():
+                execute(aid, day)
+                day_done_acts.append(aid)
 
-                state_before = state
-                state, log = engine.record(
-                    state,
-                    log,
-                    Event(
-                        day=day,
-                        kind=EventType.COMPLETED,
-                        activity_id=aid,
-                        minutes_elapsed=a.duration,
-                        correct=correct,
-                    ),
-                )
-                sim.apply_activity(c, is_lesson=False, day=day)
-
-                if (
-                    not state_before.concepts[c].needs_remediation
-                    and state.concepts[c].needs_remediation
-                ):
-                    dirty = True
-
-            for concept_id in sim.theta:
-                peak_theta[concept_id] = max(peak_theta[concept_id], sim.theta[concept_id])
-            day_done_acts.append(aid)
+        if not day_done_acts and not is_evidence_mastered(
+            state.concepts[scenario.goal], engine.config
+        ):
+            idle_days += 1
 
         if day_done_acts:
             executed_activities_by_day[day] = day_done_acts
@@ -282,7 +315,8 @@ def run_episode(
         for d, acts in sorted(executed_activities_by_day.items())
     )
 
-    prereq_violations = count_prerequisite_violations(engine, start_state, executed_plan_days)
+    plan_prereq_violations = count_plan_prereq_violations(engine, start_state, executed_plan_days)
+    executed_prereq_violations = count_executed_prereq_violations(engine, start_state, log)
     budget_violations = count_budget_violations(
         engine, executed_plan_days, lambda d: budget_in_force_per_day.get(d, scenario.budget)
     )
@@ -299,7 +333,21 @@ def run_episode(
         else 1.0
     )
 
+    all_required_mastered = all(sim.theta[c] >= TRUE_MASTERY_CUTOFF for c in need_concepts)
+    reviewed = {c for c in reached if state.concepts[c].n_reviews > 0}
+
+    def mean_ret(cs):
+        return round(sum(sim.theta[c] / peak_theta[c] for c in cs) / len(cs), 4) if cs else None
+
     return {
+        "world": sim.world,
+        "all_required_mastered": all_required_mastered,
+        "minutes_to_goal_mastery": minutes_to_goal_mastery,
+        "goal_theta_by_minutes": goal_traj,
+        "deadline_violations": sum(1 for d in executed_activities_by_day if d > effective_deadline),
+        "retention_reviewed": mean_ret(reviewed),
+        "retention_not_reviewed": mean_ret(set(reached) - reviewed),
+        "goal_evidence_mastered": is_evidence_mastered(state.concepts[goal], engine.config),
         "arm": arm,
         "scenario": scenario.name,
         "seed": seed,
@@ -312,10 +360,18 @@ def run_episode(
             d: sum(engine.activities[a].duration for a in acts)
             for d, acts in executed_activities_by_day.items()
         },
-        "prerequisite_violations": prereq_violations,
+        "plan_prereq_violations": plan_prereq_violations,
+        "executed_prereq_violations": executed_prereq_violations,
         "budget_violations": budget_violations,
         "attempts": attempts,
+        "exercise_log": exercise_log,
         "plan_trace_coverage": trace_coverage,
+        "idle_days": idle_days,
+        "minutes_used": sum(
+            engine.activities[a].duration
+            for acts in executed_activities_by_day.values()
+            for a in acts
+        ),
         "total_activities_completed": sum(
             len(acts) for acts in executed_activities_by_day.values()
         ),

@@ -1,0 +1,1710 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "AdaptEngine demo API",
+  "version": "0.1.0"
+ },
+ "paths": {
+  "/api/curricula": {
+   "get": {
+    "summary": "List Curricula",
+    "operationId": "list_curricula_api_curricula_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/CurriculumSummary"
+         },
+         "type": "array",
+         "title": "Response List Curricula Api Curricula Get"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/curricula/{cid}": {
+   "get": {
+    "summary": "Get Curriculum",
+    "operationId": "get_curriculum_api_curricula__cid__get",
+    "parameters": [
+     {
+      "name": "cid",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Cid"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CurriculumDetail"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/sessions": {
+   "post": {
+    "summary": "Create Session",
+    "operationId": "create_session_api_sessions_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/CreateSession"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SessionOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/sessions/{sid}": {
+   "get": {
+    "summary": "Get Session",
+    "operationId": "get_session_api_sessions__sid__get",
+    "parameters": [
+     {
+      "name": "sid",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Sid"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SessionOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/sessions/{sid}/diagnostic/answer": {
+   "post": {
+    "summary": "Diagnostic Answer",
+    "operationId": "diagnostic_answer_api_sessions__sid__diagnostic_answer_post",
+    "parameters": [
+     {
+      "name": "sid",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Sid"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DiagnosticAnswer"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SessionOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/sessions/{sid}/plan": {
+   "post": {
+    "summary": "Make Plan",
+    "operationId": "make_plan_api_sessions__sid__plan_post",
+    "parameters": [
+     {
+      "name": "sid",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Sid"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PlanRequest"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SessionOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/sessions/{sid}/events": {
+   "post": {
+    "summary": "Post Event",
+    "operationId": "post_event_api_sessions__sid__events_post",
+    "parameters": [
+     {
+      "name": "sid",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Sid"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/EventRequest"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/EventResult"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/sessions/{sid}/trace": {
+   "get": {
+    "summary": "Get Trace",
+    "operationId": "get_trace_api_sessions__sid__trace_get",
+    "parameters": [
+     {
+      "name": "sid",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Sid"
+      }
+     },
+     {
+      "name": "activity_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Activity Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/TraceOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/simulate": {
+   "post": {
+    "summary": "Simulate",
+    "operationId": "simulate_api_simulate_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SimulateRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SimulateOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/evaluation": {
+   "get": {
+    "summary": "Evaluation",
+    "operationId": "evaluation_api_evaluation_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/EvaluationOut"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "ActivityInfo": {
+    "properties": {
+     "activity_id": {
+      "type": "string",
+      "title": "Activity Id"
+     },
+     "type": {
+      "type": "string",
+      "enum": [
+       "LESSON",
+       "EXERCISE"
+      ],
+      "title": "Type"
+     },
+     "target_concept": {
+      "type": "string",
+      "title": "Target Concept"
+     },
+     "duration": {
+      "type": "integer",
+      "title": "Duration"
+     },
+     "difficulty": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Difficulty"
+     }
+    },
+    "type": "object",
+    "required": [
+     "activity_id",
+     "type",
+     "target_concept",
+     "duration"
+    ],
+    "title": "ActivityInfo"
+   },
+   "ConceptInfo": {
+    "properties": {
+     "concept_id": {
+      "type": "string",
+      "title": "Concept Id"
+     },
+     "description": {
+      "type": "string",
+      "title": "Description"
+     },
+     "prerequisites": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Prerequisites"
+     },
+     "depth": {
+      "type": "integer",
+      "title": "Depth"
+     }
+    },
+    "type": "object",
+    "required": [
+     "concept_id",
+     "description",
+     "prerequisites",
+     "depth"
+    ],
+    "title": "ConceptInfo"
+   },
+   "ConceptResult": {
+    "properties": {
+     "concept_id": {
+      "type": "string",
+      "title": "Concept Id"
+     },
+     "p": {
+      "type": "number",
+      "title": "P"
+     },
+     "n_items": {
+      "type": "integer",
+      "title": "N Items"
+     },
+     "stop_reason": {
+      "type": "string",
+      "title": "Stop Reason"
+     }
+    },
+    "type": "object",
+    "required": [
+     "concept_id",
+     "p",
+     "n_items",
+     "stop_reason"
+    ],
+    "title": "ConceptResult"
+   },
+   "ConceptState": {
+    "properties": {
+     "concept_id": {
+      "type": "string",
+      "title": "Concept Id"
+     },
+     "p": {
+      "type": "number",
+      "title": "P"
+     },
+     "responses": {
+      "type": "integer",
+      "title": "Responses"
+     },
+     "lessons_done": {
+      "type": "integer",
+      "title": "Lessons Done"
+     },
+     "status": {
+      "type": "string",
+      "title": "Status"
+     },
+     "evidence_mastered": {
+      "type": "boolean",
+      "title": "Evidence Mastered"
+     },
+     "needs_remediation": {
+      "type": "boolean",
+      "title": "Needs Remediation"
+     }
+    },
+    "type": "object",
+    "required": [
+     "concept_id",
+     "p",
+     "responses",
+     "lessons_done",
+     "status",
+     "evidence_mastered",
+     "needs_remediation"
+    ],
+    "title": "ConceptState"
+   },
+   "ConceptUpdate": {
+    "properties": {
+     "concept_id": {
+      "type": "string",
+      "title": "Concept Id"
+     },
+     "p_before": {
+      "type": "number",
+      "title": "P Before"
+     },
+     "p_after": {
+      "type": "number",
+      "title": "P After"
+     },
+     "correct": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Correct"
+     },
+     "needs_remediation": {
+      "type": "boolean",
+      "title": "Needs Remediation"
+     },
+     "evidence_mastered": {
+      "type": "boolean",
+      "title": "Evidence Mastered"
+     },
+     "explanation": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Explanation"
+     }
+    },
+    "type": "object",
+    "required": [
+     "concept_id",
+     "p_before",
+     "p_after",
+     "needs_remediation",
+     "evidence_mastered"
+    ],
+    "title": "ConceptUpdate"
+   },
+   "ContextOut": {
+    "properties": {
+     "goal": {
+      "type": "string",
+      "title": "Goal"
+     },
+     "deadline_day": {
+      "type": "integer",
+      "title": "Deadline Day"
+     },
+     "budget": {
+      "type": "integer",
+      "title": "Budget"
+     },
+     "current_day": {
+      "type": "integer",
+      "title": "Current Day",
+      "default": 1
+     },
+     "minutes_used_today": {
+      "type": "integer",
+      "title": "Minutes Used Today",
+      "default": 0
+     }
+    },
+    "type": "object",
+    "required": [
+     "goal",
+     "deadline_day",
+     "budget"
+    ],
+    "title": "ContextOut"
+   },
+   "CreateSession": {
+    "properties": {
+     "curriculum": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.\\-]{1,64}$",
+      "title": "Curriculum"
+     },
+     "goal": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.\\-]{1,64}$",
+      "title": "Goal"
+     },
+     "deadline_day": {
+      "type": "integer",
+      "maximum": 365.0,
+      "minimum": 1.0,
+      "title": "Deadline Day"
+     },
+     "budget": {
+      "type": "integer",
+      "maximum": 600.0,
+      "minimum": 1.0,
+      "title": "Budget"
+     }
+    },
+    "type": "object",
+    "required": [
+     "curriculum",
+     "goal",
+     "deadline_day",
+     "budget"
+    ],
+    "title": "CreateSession"
+   },
+   "CurriculumDetail": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "concepts": {
+      "items": {
+       "$ref": "#/components/schemas/ConceptInfo"
+      },
+      "type": "array",
+      "title": "Concepts"
+     },
+     "activities": {
+      "items": {
+       "$ref": "#/components/schemas/ActivityInfo"
+      },
+      "type": "array",
+      "title": "Activities"
+     },
+     "content": {
+      "anyOf": [
+       {
+        "additionalProperties": {
+         "additionalProperties": true,
+         "type": "object"
+        },
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Content"
+     },
+     "allowed_budgets": {
+      "items": {
+       "type": "integer"
+      },
+      "type": "array",
+      "title": "Allowed Budgets"
+     },
+     "theta": {
+      "type": "number",
+      "title": "Theta"
+     },
+     "k_responses": {
+      "type": "integer",
+      "title": "K Responses"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "concepts",
+     "activities",
+     "allowed_budgets",
+     "theta",
+     "k_responses"
+    ],
+    "title": "CurriculumDetail"
+   },
+   "CurriculumSummary": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "concepts": {
+      "type": "integer",
+      "title": "Concepts"
+     },
+     "activities": {
+      "type": "integer",
+      "title": "Activities"
+     },
+     "reviewed": {
+      "type": "boolean",
+      "title": "Reviewed"
+     },
+     "review_error": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Review Error"
+     },
+     "has_content": {
+      "type": "boolean",
+      "title": "Has Content"
+     },
+     "content_reviewer": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Content Reviewer"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "concepts",
+     "activities",
+     "reviewed",
+     "has_content"
+    ],
+    "title": "CurriculumSummary"
+   },
+   "DiagnosticAnswer": {
+    "properties": {
+     "activity_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.\\-]{1,64}$",
+      "title": "Activity Id"
+     },
+     "choice": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "maximum": 3.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Choice"
+     },
+     "correct": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Correct"
+     }
+    },
+    "type": "object",
+    "required": [
+     "activity_id"
+    ],
+    "title": "DiagnosticAnswer"
+   },
+   "DiagnosticItem": {
+    "properties": {
+     "activity_id": {
+      "type": "string",
+      "title": "Activity Id"
+     },
+     "concept_id": {
+      "type": "string",
+      "title": "Concept Id"
+     },
+     "correct": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Correct"
+     },
+     "p_before": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "P Before"
+     },
+     "p_after": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "P After"
+     }
+    },
+    "type": "object",
+    "required": [
+     "activity_id",
+     "concept_id"
+    ],
+    "title": "DiagnosticItem"
+   },
+   "DiagnosticOut": {
+    "properties": {
+     "done": {
+      "type": "boolean",
+      "title": "Done"
+     },
+     "next_item": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/DiagnosticItem"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "items": {
+      "items": {
+       "$ref": "#/components/schemas/DiagnosticItem"
+      },
+      "type": "array",
+      "title": "Items"
+     },
+     "live_p": {
+      "anyOf": [
+       {
+        "additionalProperties": {
+         "type": "number"
+        },
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Live P"
+     },
+     "concept_results": {
+      "items": {
+       "$ref": "#/components/schemas/ConceptResult"
+      },
+      "type": "array",
+      "title": "Concept Results",
+      "default": []
+     }
+    },
+    "type": "object",
+    "required": [
+     "done",
+     "items"
+    ],
+    "title": "DiagnosticOut"
+   },
+   "EvaluationFile": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "data": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Data"
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "data"
+    ],
+    "title": "EvaluationFile"
+   },
+   "EvaluationOut": {
+    "properties": {
+     "files": {
+      "items": {
+       "$ref": "#/components/schemas/EvaluationFile"
+      },
+      "type": "array",
+      "title": "Files"
+     }
+    },
+    "type": "object",
+    "required": [
+     "files"
+    ],
+    "title": "EvaluationOut"
+   },
+   "EventOut": {
+    "properties": {
+     "day": {
+      "type": "integer",
+      "title": "Day"
+     },
+     "kind": {
+      "type": "string",
+      "title": "Kind"
+     },
+     "activity_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Activity Id"
+     },
+     "minutes_elapsed": {
+      "type": "integer",
+      "title": "Minutes Elapsed",
+      "default": 0
+     },
+     "correct": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Correct"
+     },
+     "attempt_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Attempt Id"
+     },
+     "value": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Value"
+     }
+    },
+    "type": "object",
+    "required": [
+     "day",
+     "kind"
+    ],
+    "title": "EventOut"
+   },
+   "EventRequest": {
+    "properties": {
+     "kind": {
+      "type": "string",
+      "enum": [
+       "COMPLETED",
+       "FAILED_ASSESSMENT",
+       "MISSED",
+       "BUDGET_CHANGED",
+       "DEADLINE_CHANGED"
+      ],
+      "title": "Kind"
+     },
+     "day": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "maximum": 365.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Day"
+     },
+     "activity_id": {
+      "anyOf": [
+       {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9_.\\-]{1,64}$"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Activity Id"
+     },
+     "choice": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "maximum": 3.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Choice"
+     },
+     "correct": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Correct"
+     },
+     "value": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "maximum": 600.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Value"
+     }
+    },
+    "type": "object",
+    "required": [
+     "kind"
+    ],
+    "title": "EventRequest"
+   },
+   "EventResult": {
+    "properties": {
+     "session": {
+      "$ref": "#/components/schemas/SessionOut"
+     },
+     "update": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/ConceptUpdate"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "old_status": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Old Status"
+     },
+     "changes": {
+      "items": {
+       "$ref": "#/components/schemas/PlanChange"
+      },
+      "type": "array",
+      "title": "Changes"
+     }
+    },
+    "type": "object",
+    "required": [
+     "session",
+     "changes"
+    ],
+    "title": "EventResult"
+   },
+   "HTTPValidationError": {
+    "properties": {
+     "detail": {
+      "items": {
+       "$ref": "#/components/schemas/ValidationError"
+      },
+      "type": "array",
+      "title": "Detail"
+     }
+    },
+    "type": "object",
+    "title": "HTTPValidationError"
+   },
+   "PlanChange": {
+    "properties": {
+     "activity_id": {
+      "type": "string",
+      "title": "Activity Id"
+     },
+     "old_day": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Old Day"
+     },
+     "new_day": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "New Day"
+     }
+    },
+    "type": "object",
+    "required": [
+     "activity_id"
+    ],
+    "title": "PlanChange"
+   },
+   "PlanDayOut": {
+    "properties": {
+     "day": {
+      "type": "integer",
+      "title": "Day"
+     },
+     "activities": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Activities"
+     },
+     "duration": {
+      "type": "integer",
+      "title": "Duration"
+     }
+    },
+    "type": "object",
+    "required": [
+     "day",
+     "activities",
+     "duration"
+    ],
+    "title": "PlanDayOut"
+   },
+   "PlanOut": {
+    "properties": {
+     "config_hash": {
+      "type": "string",
+      "title": "Config Hash"
+     },
+     "status": {
+      "type": "string",
+      "enum": [
+       "FEASIBLE",
+       "INFEASIBLE",
+       "UNKNOWN"
+      ],
+      "title": "Status"
+     },
+     "reason": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Reason"
+     },
+     "shortfall_days": {
+      "type": "integer",
+      "title": "Shortfall Days"
+     },
+     "options": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Options"
+     },
+     "days": {
+      "items": {
+       "$ref": "#/components/schemas/PlanDayOut"
+      },
+      "type": "array",
+      "title": "Days"
+     },
+     "best_effort_days": {
+      "items": {
+       "$ref": "#/components/schemas/PlanDayOut"
+      },
+      "type": "array",
+      "title": "Best Effort Days"
+     },
+     "trace": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array",
+      "title": "Trace"
+     }
+    },
+    "type": "object",
+    "required": [
+     "config_hash",
+     "status",
+     "shortfall_days",
+     "options",
+     "days",
+     "best_effort_days",
+     "trace"
+    ],
+    "title": "PlanOut"
+   },
+   "PlanRequest": {
+    "properties": {
+     "goal": {
+      "anyOf": [
+       {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9_.\\-]{1,64}$"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Goal"
+     },
+     "deadline_day": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "maximum": 365.0,
+        "minimum": 1.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Deadline Day"
+     },
+     "budget": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "maximum": 600.0,
+        "minimum": 1.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Budget"
+     }
+    },
+    "type": "object",
+    "title": "PlanRequest",
+    "description": "Optional overrides of the session's base context (Setup screen)."
+   },
+   "SessionOut": {
+    "properties": {
+     "session_id": {
+      "type": "string",
+      "title": "Session Id"
+     },
+     "curriculum": {
+      "type": "string",
+      "title": "Curriculum"
+     },
+     "context": {
+      "$ref": "#/components/schemas/ContextOut"
+     },
+     "effective": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/ContextOut"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "concepts": {
+      "items": {
+       "$ref": "#/components/schemas/ConceptState"
+      },
+      "type": "array",
+      "title": "Concepts"
+     },
+     "diagnostic": {
+      "$ref": "#/components/schemas/DiagnosticOut"
+     },
+     "plan": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/PlanOut"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "today": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/PlanDayOut"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "replan_ms": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Replan Ms"
+     },
+     "events": {
+      "items": {
+       "$ref": "#/components/schemas/EventOut"
+      },
+      "type": "array",
+      "title": "Events"
+     }
+    },
+    "type": "object",
+    "required": [
+     "session_id",
+     "curriculum",
+     "context",
+     "concepts",
+     "diagnostic",
+     "events"
+    ],
+    "title": "SessionOut"
+   },
+   "SimEpisode": {
+    "properties": {
+     "arm": {
+      "type": "string",
+      "title": "Arm"
+     },
+     "scenario": {
+      "type": "string",
+      "title": "Scenario"
+     },
+     "seed": {
+      "type": "integer",
+      "title": "Seed"
+     },
+     "goal_true_mastery": {
+      "type": "number",
+      "title": "Goal True Mastery"
+     },
+     "goal_mastered": {
+      "type": "boolean",
+      "title": "Goal Mastered"
+     },
+     "mean_true_mastery_goal_and_ancestors": {
+      "type": "number",
+      "title": "Mean True Mastery Goal And Ancestors"
+     },
+     "retention": {
+      "type": "number",
+      "title": "Retention"
+     },
+     "days_used": {
+      "type": "integer",
+      "title": "Days Used"
+     },
+     "executed_minutes_per_day": {
+      "additionalProperties": {
+       "type": "integer"
+      },
+      "type": "object",
+      "title": "Executed Minutes Per Day"
+     },
+     "plan_prereq_violations": {
+      "type": "integer",
+      "title": "Plan Prereq Violations"
+     },
+     "executed_prereq_violations": {
+      "type": "integer",
+      "title": "Executed Prereq Violations"
+     },
+     "budget_violations": {
+      "type": "integer",
+      "title": "Budget Violations"
+     },
+     "idle_days": {
+      "type": "integer",
+      "title": "Idle Days"
+     },
+     "minutes_used": {
+      "type": "integer",
+      "title": "Minutes Used"
+     },
+     "total_activities_completed": {
+      "type": "integer",
+      "title": "Total Activities Completed"
+     }
+    },
+    "type": "object",
+    "required": [
+     "arm",
+     "scenario",
+     "seed",
+     "goal_true_mastery",
+     "goal_mastered",
+     "mean_true_mastery_goal_and_ancestors",
+     "retention",
+     "days_used",
+     "executed_minutes_per_day",
+     "plan_prereq_violations",
+     "executed_prereq_violations",
+     "budget_violations",
+     "idle_days",
+     "minutes_used",
+     "total_activities_completed"
+    ],
+    "title": "SimEpisode"
+   },
+   "SimulateOut": {
+    "properties": {
+     "scenario": {
+      "anyOf": [
+       {
+        "additionalProperties": true,
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Scenario"
+     },
+     "episodes": {
+      "items": {
+       "$ref": "#/components/schemas/SimEpisode"
+      },
+      "type": "array",
+      "title": "Episodes"
+     },
+     "note": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Note"
+     }
+    },
+    "type": "object",
+    "required": [
+     "episodes"
+    ],
+    "title": "SimulateOut"
+   },
+   "SimulateRequest": {
+    "properties": {
+     "curriculum": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.\\-]{1,64}$",
+      "title": "Curriculum"
+     },
+     "goal": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.\\-]{1,64}$",
+      "title": "Goal"
+     },
+     "budget": {
+      "type": "integer",
+      "maximum": 600.0,
+      "minimum": 1.0,
+      "title": "Budget",
+      "default": 15
+     },
+     "arm": {
+      "type": "string",
+      "enum": [
+       "adapt",
+       "no_review",
+       "no_replan",
+       "static"
+      ],
+      "title": "Arm",
+      "default": "adapt"
+     },
+     "scenario": {
+      "type": "string",
+      "enum": [
+       "calm",
+       "missed_day",
+       "budget_drop",
+       "deadline_cut"
+      ],
+      "title": "Scenario",
+      "default": "missed_day"
+     },
+     "profile": {
+      "type": "string",
+      "enum": [
+       "nominal",
+       "high_slip",
+       "fast_forgetter",
+       "rapid_learner"
+      ],
+      "title": "Profile",
+      "default": "nominal"
+     },
+     "seed": {
+      "type": "integer",
+      "maximum": 1000000.0,
+      "minimum": 0.0,
+      "title": "Seed",
+      "default": 100
+     },
+     "n_seeds": {
+      "type": "integer",
+      "maximum": 100.0,
+      "minimum": 1.0,
+      "title": "N Seeds",
+      "default": 1
+     }
+    },
+    "type": "object",
+    "required": [
+     "curriculum",
+     "goal"
+    ],
+    "title": "SimulateRequest"
+   },
+   "TraceOut": {
+    "properties": {
+     "activity_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Activity Id"
+     },
+     "records": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array",
+      "title": "Records"
+     },
+     "deferred_same_day": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array",
+      "title": "Deferred Same Day"
+     }
+    },
+    "type": "object",
+    "required": [
+     "records",
+     "deferred_same_day"
+    ],
+    "title": "TraceOut"
+   },
+   "ValidationError": {
+    "properties": {
+     "loc": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ]
+      },
+      "type": "array",
+      "title": "Location"
+     },
+     "msg": {
+      "type": "string",
+      "title": "Message"
+     },
+     "type": {
+      "type": "string",
+      "title": "Error Type"
+     },
+     "input": {
+      "title": "Input"
+     },
+     "ctx": {
+      "type": "object",
+      "title": "Context"
+     }
+    },
+    "type": "object",
+    "required": [
+     "loc",
+     "msg",
+     "type"
+    ],
+    "title": "ValidationError"
+   }
+  }
+ }
+}

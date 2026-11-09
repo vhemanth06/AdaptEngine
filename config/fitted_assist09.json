@@ -1,0 +1,101 @@
+{
+  "profile": "fitted_assist09",
+  "source": "ASSISTments 2009-10 skill-builder (as.csv, original==1), multigs by D6 difficulty class, shared prior/learn across 81 skills",
+  "source_results": "experiments/results/bkt_fit_assist09.json",
+  "code_hash": "e3e519c08e13ce39e4fbf1e530199abd9bac391232d1561f7d5e011b4aa69733",
+  "timestamp_utc": "2026-11-08T17:40:03.608532+00:00",
+  "caveat": "Fitted on middle-school MATHS data, not Python programming. Use for realistic ranges/shapes and as a calibration benchmark only; the D6 heuristic stays the engine default until held-out results on own learners favour this.",
+  "ci95": {
+    "prior": {
+      "ci95": [
+        0.721021,
+        0.764224
+      ],
+      "boot_median": 0.740237
+    },
+    "learn": {
+      "ci95": [
+        0.067098,
+        0.079985
+      ],
+      "boot_median": 0.072237
+    },
+    "guess_easy": {
+      "ci95": [
+        0.321577,
+        0.403669
+      ],
+      "boot_median": 0.367448
+    },
+    "guess_medium": {
+      "ci95": [
+        0.126007,
+        0.163748
+      ],
+      "boot_median": 0.145781
+    },
+    "guess_hard": {
+      "ci95": [
+        0.042477,
+        0.077139
+      ],
+      "boot_median": 0.057886
+    },
+    "guess_unrated": {
+      "ci95": [
+        0.238645,
+        0.302946
+      ],
+      "boot_median": 0.275727
+    },
+    "slip_easy": {
+      "ci95": [
+        0.127351,
+        0.137664
+      ],
+      "boot_median": 0.132153
+    },
+    "slip_medium": {
+      "ci95": [
+        0.33016,
+        0.35348
+      ],
+      "boot_median": 0.341364
+    },
+    "slip_hard": {
+      "ci95": [
+        0.629348,
+        0.661204
+      ],
+      "boot_median": 0.646137
+    },
+    "slip_unrated": {
+      "ci95": [
+        0.181312,
+        0.197779
+      ],
+      "boot_median": 0.189925
+    }
+  },
+  "p0": 0.7415,
+  "t_exercise": 0.072513,
+  "class_params": {
+    "easy": {
+      "guess": 0.369083,
+      "slip": 0.132163
+    },
+    "medium": {
+      "guess": 0.146758,
+      "slip": 0.34157
+    },
+    "hard": {
+      "guess": 0.057842,
+      "slip": 0.645722
+    }
+  },
+  "constraint_warnings": {
+    "hard": [
+      "slip>0.5"
+    ]
+  }
+}

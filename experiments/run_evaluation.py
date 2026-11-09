@@ -30,7 +30,7 @@ import json
 import os
 import subprocess
 import sys
-from typing import Any
+from typing import Any, Optional
 
 repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if repo_root not in sys.path:
@@ -40,6 +40,7 @@ from adaptengine.api import Engine  # noqa: E402
 from adaptengine.core.config import DEFAULT_CONFIG, config_hash  # noqa: E402
 from experiments.arms import get_scenario, run_episode  # noqa: E402
 from experiments.diag_eval import (  # noqa: E402
+    evaluate_diagnostic_binary,
     evaluate_diagnostic_learner,
     run_diagnostic_tuning,
 )
@@ -51,9 +52,16 @@ from experiments.stats import (  # noqa: E402
 )
 
 
+DEFAULT_OUT = os.path.join(repo_root, "experiments", "results", "evaluation_results.json")
+
+
 def run_evaluation(
-    num_seeds: int = 100, seed_start: int = 100, quick: bool = False
+    num_seeds: int = 100,
+    seed_start: int = 100,
+    quick: bool = False,
+    out_path: Optional[str] = DEFAULT_OUT,
 ) -> dict[str, Any]:
+    """Run the paired evaluation; write JSON to out_path (None = don't write)."""
     if quick:
         num_seeds = min(num_seeds, 10)
 
@@ -132,6 +140,10 @@ def run_evaluation(
         profile=PROFILES["nominal"],
     )
     diagnostic_summary["tuning"] = tuning_res
+    # W7 T3.1: proper scoring rules against binary truth on the held-out cohort (primary metric)
+    diagnostic_summary["binary_truth"] = evaluate_diagnostic_binary(
+        engine_4, eval_seeds, PROFILES["nominal"]
+    )
 
     # -------------------------------------------------------------------------
     # PART 2: Planner Arms Main Table (Nominal Profile, Budget 15, 4 Scenarios)
@@ -183,7 +195,9 @@ def run_evaluation(
             mean_days = round(
                 sum(r["days_used"] for r in arm_seed_results) / len(arm_seed_results), 3
             )
-            total_prereq_viol = sum(r["prerequisite_violations"] for r in arm_seed_results)
+            total_plan_viol = sum(r["plan_prereq_violations"] for r in arm_seed_results)
+            total_exec_viol = sum(r["executed_prereq_violations"] for r in arm_seed_results)
+            learners_exec_viol = sum(1 for r in arm_seed_results if r["executed_prereq_violations"])
             total_budget_viol = sum(r["budget_violations"] for r in arm_seed_results)
             trace_cov = round(
                 sum(r["plan_trace_coverage"] for r in arm_seed_results) / len(arm_seed_results), 4
@@ -225,7 +239,9 @@ def run_evaluation(
                 "mean_true_goal_mastery": mean_true_mastery,
                 "mean_retention": mean_retention,
                 "mean_days_used": mean_days,
-                "prerequisite_violations": total_prereq_viol,
+                "plan_prereq_violations": total_plan_viol,
+                "executed_prereq_violations": total_exec_viol,
+                "learners_with_executed_prereq_violations": learners_exec_viol,
                 "budget_violations": total_budget_viol,
                 "brier": arm_brier,
                 "auc": arm_auc,
@@ -268,6 +284,9 @@ def run_evaluation(
                     "mean_days_used": round(
                         sum(r["days_used"] for r in arm_results) / len(arm_results), 3
                     ),
+                    "executed_prereq_violations": sum(
+                        r["executed_prereq_violations"] for r in arm_results
+                    ),
                 }
             robustness_table[prof_name][str(b)] = budget_res
 
@@ -277,9 +296,7 @@ def run_evaluation(
         curriculum_8_path = "data/curriculum/curriculum_8node.json"
         activities_8_path = "data/curriculum/activities_8node.json"
         curricula_used.append("8-node")
-        engine_8 = Engine.from_files(
-            curriculum_8_path, activities_8_path, config=DEFAULT_CONFIG, allow_unreviewed=True
-        )
+        engine_8 = Engine.from_files(curriculum_8_path, activities_8_path, config=DEFAULT_CONFIG)
         start_state_8 = engine_8.init_learner()
         goal_8 = engine_8.graph.topological_order()[-1]
 
@@ -304,6 +321,9 @@ def run_evaluation(
                         ),
                         "mean_days_used": round(
                             sum(r["days_used"] for r in runs_8) / len(runs_8), 3
+                        ),
+                        "executed_prereq_violations": sum(
+                            r["executed_prereq_violations"] for r in runs_8
                         ),
                     }
                 eight_node_summary[sc_name] = sc8_res
@@ -334,10 +354,10 @@ def run_evaluation(
         },
     }
 
-    out_path = os.path.join(repo_root, "experiments", "results", "evaluation_results.json")
-    os.makedirs(os.path.dirname(out_path), exist_ok=True)
-    with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(results, f, indent=2, sort_keys=True)
+    if out_path is not None:
+        os.makedirs(os.path.dirname(os.path.abspath(out_path)), exist_ok=True)
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(results, f, indent=2, sort_keys=True)
 
     return results
 
@@ -375,6 +395,16 @@ def print_evaluation_summary(results: dict[str, Any]) -> None:
         f" Random @ 8 items : MAE(all)={rn_8['mae_all']:.4f} | MAE(assessed)={rn_8['mae_assessed']:.4f} | Items={rn_8['items_used']:.1f} | Unassessed={rn_8['unassessed_fraction']:.1%}"
     )
 
+    if "binary_truth" in diag:
+        print("\n--- Diagnostic vs binary truth (primary, W7 T3.1; Brier lower is better) ---")
+        for name, row in diag["binary_truth"]["arms"].items():
+            pv = row["paired_brier_vs_adaptive"]
+            print(
+                f" {name:11s}: Brier={row['brier']:.4f} AUC={row['auc']} LogLoss={row['log_loss']}"
+                f" NextResp={row['next_response_brier']:.4f} Items={row['items_used']:.2f}"
+                f" | vs adaptive {pv['diff']:+.4f} {pv['ci95']}"
+            )
+
     if "tuning" in diag and "winner" in diag["tuning"]:
         w = diag["tuning"]["winner"]
         hc = diag["tuning"]["heldout_comparison"]
@@ -391,7 +421,7 @@ def print_evaluation_summary(results: dict[str, Any]) -> None:
         for arm in ["adapt", "no_review", "no_replan", "static"]:
             row = planner[sc][arm]
             print(
-                f"  {arm:10s} : MasteryRate={row['goal_mastery_rate']:.1%} | MeanTheta={row['mean_true_goal_mastery']:.4f} | Retention={row['mean_retention']:.4f} | Days={row['mean_days_used']:.1f} | Violations=(P:{row['prerequisite_violations']}, B:{row['budget_violations']})"
+                f"  {arm:10s} : MasteryRate={row['goal_mastery_rate']:.1%} | MeanTheta={row['mean_true_goal_mastery']:.4f} | Retention={row['mean_retention']:.4f} | Days={row['mean_days_used']:.1f} | Violations=(Exec:{row['executed_prereq_violations']}, Plan:{row['plan_prereq_violations']}, B:{row['budget_violations']})"
             )
 
 
@@ -404,9 +434,12 @@ def main() -> None:
         "--seeds", type=int, default=100, help="Number of learners to simulate (default 100)"
     )
     parser.add_argument("--start", type=int, default=100, help="Starting random seed (default 100)")
+    parser.add_argument("--out", default=DEFAULT_OUT, help="Output JSON path")
     args = parser.parse_args()
 
-    results = run_evaluation(num_seeds=args.seeds, seed_start=args.start, quick=args.quick)
+    results = run_evaluation(
+        num_seeds=args.seeds, seed_start=args.start, quick=args.quick, out_path=args.out
+    )
     print_evaluation_summary(results)
 
 

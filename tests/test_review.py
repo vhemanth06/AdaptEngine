@@ -74,3 +74,47 @@ def test_compute_review_urgencies():
     assert "C1" in urgs
     assert urgs["C1"] == pytest.approx(1.0)
     assert "C2" not in urgs
+
+
+def test_review_due_fires_with_short_half_life_t2_6():
+    """W7 T2.6 (D43): with half_life_days=7 and a 21-day deadline the maintenance tier schedules
+    due reviews after new content; with the W6 default (h=30) and maintenance off, none fire."""
+    from adaptengine.api import Engine
+    from adaptengine.core.schema import PlanContext
+
+    def review_records(cfg):
+        e = Engine.from_files(
+            "data/curriculum/curriculum_4node.json",
+            "data/curriculum/activities_4node.json",
+            config=cfg,
+        )
+        p = e.plan(e.init_learner(), PlanContext(goal="C4", deadline_day=21, budget=15))
+        assert all(
+            c.half_life_days == cfg.half_life_days for c in e.init_learner().concepts.values()
+        )
+        return [
+            t
+            for t in p.trace
+            if t.get("decision") == "SELECTED" and t.get("reason") == "REVIEW_DUE"
+        ], p
+
+    recs, p = review_records(EngineConfig(half_life_days=7.0))
+    assert recs and max(t["day"] for t in recs) <= 21
+    assert max(d.day for d in p.days) <= 21
+    none, _ = review_records(EngineConfig(maintenance_reviews=False))
+    assert none == []
+
+
+def test_n_reviews_counts_review_attempts_only_t2_6():
+    from adaptengine.learner.adapter import CustomBKT
+    from adaptengine.learner.evidence import update_concept_evidence
+
+    cfg = EngineConfig(half_life_growth=2.0)
+    c = LearnerConcept(concept_id="C1", p=0.2, half_life_days=10.0)
+    c2, _ = update_concept_evidence(c, 0.5, True, transition=0.05, model=CustomBKT(cfg), cfg=cfg)
+    assert c2.n_reviews == 0 and c2.half_life_days == 10.0  # learning, not review
+    m = LearnerConcept(
+        concept_id="C1", p=0.95, responses=3, correct_responses=3, half_life_days=10.0
+    )
+    m2, _ = update_concept_evidence(m, 0.5, True, transition=0.05, model=CustomBKT(cfg), cfg=cfg)
+    assert m2.n_reviews == 1 and m2.half_life_days == 20.0

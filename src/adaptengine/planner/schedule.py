@@ -2,9 +2,10 @@ from typing import Mapping, Sequence, Optional, Any
 from ..core.config import EngineConfig, DEFAULT_CONFIG
 from ..core.schema import Activity, ActivityType, PlanContext, PlanDay
 from ..curriculum.graph import CurriculumGraph
-from ..learner.state import LearnerState
+from ..learner.state import LearnerState, is_evidence_mastered
 from ..learner.adapter import MasteryModel, CustomBKT
 from ..learner.mastery import learn
+from ..review.forgetting import recall_at, urgency_from_recall
 from .difficulty import select_exercise
 
 
@@ -25,6 +26,7 @@ def run_greedy_schedule(
     - Tier 0: Remediation repeat lessons (D21)
     - Tier 1: Spaced reviews (r < threshold) ordered by urgency (D25)
     - Tier 2: New curriculum lessons and exercises (D16)
+    - Maintenance (D43): after Tier 2 is exhausted, days until deadline_day hold due reviews only
 
     Rules:
     - Precedence: all direct prerequisites completed before scheduling concept (D11, D12).
@@ -49,6 +51,11 @@ def run_greedy_schedule(
     proj_half_life: dict[str, float] = {}
     rem_flagged_concepts: set[str] = set()
 
+    satisfied: set[str] = (
+        {cid for cid, c in state.concepts.items() if is_evidence_mastered(c, cfg)}
+        if state is not None
+        else set(graph.concepts()) - set(queues)
+    )
     if state is not None:
         for cid, c in state.concepts.items():
             proj_last_practice_day[cid] = c.last_practice_day
@@ -58,11 +65,20 @@ def run_greedy_schedule(
             if c.needs_remediation:
                 rem_flagged_concepts.add(cid)
 
+    # T6.1: exercises-by-concept index built once per call (same order as a full scan)
+    exercises_by_concept: dict[str, list[Activity]] = {}
+    for a in (activities or {}).values():
+        if a.type == ActivityType.EXERCISE:
+            exercises_by_concept.setdefault(a.target_concept, []).append(a)
+
     current_day = ctx.current_day
     max_day = max(ctx.deadline_day * 3, 100)
     consecutive_starvation_days = 0
+    # D43 maintenance tier: once new content is exhausted, keep scheduling due reviews (only)
+    # until deadline_day, so spaced review can fire after the learning phase.
+    maintenance = cfg.maintenance_reviews and state is not None and activities is not None
 
-    while queues:
+    while queues or (maintenance and current_day <= ctx.deadline_day):
         if current_day > max_day:
             break
         queue_progress = False
@@ -71,20 +87,19 @@ def run_greedy_schedule(
         due_reviews: dict[str, tuple[float, float]] = {}
         if state is not None and activities is not None:
             for cid in sorted(state.concepts.keys()):
-                last_d = proj_last_practice_day.get(cid)
-                if last_d is None:
+                r = recall_at(
+                    proj_last_practice_day.get(cid),
+                    proj_half_life.get(cid, cfg.half_life_days),
+                    current_day,
+                )
+                if r is None:
                     continue
-                dt = max(0, current_day - last_d)
-                h = proj_half_life.get(cid, 30.0)
-                r = 2.0 ** (-float(dt) / float(h))
                 if review_urgency_override is not None and cid in review_urgency_override:
                     urg = review_urgency_override[cid]
                     if urg > 0.0:
                         due_reviews[cid] = (r, urg)
                 elif r < cfg.recall_threshold:
-                    desc_count = graph.descendant_count(cid)
-                    urg = (1.0 - r) * (1.0 + float(desc_count))
-                    due_reviews[cid] = (r, urg)
+                    due_reviews[cid] = (r, urgency_from_recall(r, graph.descendant_count(cid)))
 
         # Log REVIEW_DUE trace records for concepts due today
         for cid, (r_val, urg_val) in due_reviews.items():
@@ -100,7 +115,8 @@ def run_greedy_schedule(
                 }
             )
 
-        rem_budget = ctx.budget
+        # T2.1: the start day may already be partly used (mid-day replan)
+        rem_budget = ctx.budget - (ctx.minutes_used_today if current_day == ctx.current_day else 0)
         day_activity_ids: list[str] = []
         day_duration = 0
 
@@ -108,7 +124,17 @@ def run_greedy_schedule(
             candidates = []
 
             # 1. Tier 0: Remediation candidates
-            remediation_c = [c for c in sorted(queues.keys()) if c in rem_flagged_concepts]
+            # Prerequisite gate (D11/TC3.1) applies to every tier: no activity for a concept
+            # while a direct prerequisite still has queued work (W7 fix found by the T4.4 audit)
+            # A prerequisite is satisfied only if it was evidence-mastered at plan start or its
+            # queued work has been completed in the projection (covers best-effort plans whose
+            # workload omits an unmastered prerequisite).
+            def gated(c: str) -> bool:
+                return any(p in queues or p not in satisfied for p in graph.prerequisites(c))
+
+            remediation_c = [
+                c for c in sorted(queues.keys()) if c in rem_flagged_concepts and not gated(c)
+            ]
             for c in remediation_c:
                 cand = queues[c][0]
                 if cand.duration > rem_budget:
@@ -128,14 +154,10 @@ def run_greedy_schedule(
 
             # 2. Tier 1: Spaced review candidates
             for cid, (r_val, urg_val) in due_reviews.items():
-                if cid in reviewed_today:
+                if cid in reviewed_today or gated(cid):
                     continue
                 if activities is not None:
-                    c_exs = [
-                        a
-                        for a in activities.values()
-                        if a.target_concept == cid and a.type == ActivityType.EXERCISE
-                    ]
+                    c_exs = exercises_by_concept.get(cid, [])
                     if c_exs:
                         chosen_ex = select_exercise(
                             c_exs, projected_p[cid], cfg.target_success, model, cfg
@@ -219,6 +241,7 @@ def run_greedy_schedule(
                 queues[concept_id].pop(0)
                 if not queues[concept_id]:
                     del queues[concept_id]
+                    satisfied.add(concept_id)
                 rem_flagged_concepts.discard(concept_id)
                 proj_last_practice_day[concept_id] = current_day
                 projected_p[concept_id] = learn(projected_p[concept_id], cfg.t_lesson)
@@ -261,6 +284,7 @@ def run_greedy_schedule(
                 queues[concept_id].pop(0)
                 if not queues[concept_id]:
                     del queues[concept_id]
+                    satisfied.add(concept_id)
                 proj_last_practice_day[concept_id] = current_day
                 if selected.type == ActivityType.LESSON:
                     projected_p[concept_id] = learn(projected_p[concept_id], cfg.t_lesson)
@@ -288,7 +312,7 @@ def run_greedy_schedule(
             days.append(
                 PlanDay(day=current_day, activities=tuple(day_activity_ids), duration=day_duration)
             )
-        if not queue_progress:
+        if queues and not queue_progress:
             consecutive_starvation_days += 1
             if consecutive_starvation_days >= 15:
                 break

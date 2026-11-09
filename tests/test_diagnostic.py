@@ -158,3 +158,110 @@ def test_tie_breaking_d10():
     k_close = candidate_sort_key(0.5, 0.5, "ACT-Z")
     k_far = candidate_sort_key(0.5, 0.2, "ACT-A")
     assert k_close < k_far  # |0.5 - 0.5| = 0 wins over |0.2 - 0.5| = 0.3
+
+
+# ---------------- W7 T3.2: diagnostic flags ----------------
+def _diag(**kw):
+    from adaptengine.core.config import EngineConfig
+
+    return Engine.from_files(
+        "data/curriculum/curriculum_4node.json",
+        "data/curriculum/activities_4node.json",
+        config=EngineConfig(**kw),
+    )
+
+
+def _run(engine, answer):
+    return engine.diagnose(engine.init_learner(), response_provider=answer, session_id="t")
+
+
+def test_min_items_before_entropy_stop_t3_2():
+    r1 = _run(_diag(), lambda a: False)
+    assert any(
+        cr.stop_reason == StopReason.ENTROPY and cr.n_items == 1
+        for cr in r1.concept_results.values()
+    )
+    r2 = _run(_diag(min_items_per_concept=2, pruning_mode="none"), lambda a: False)
+    for cr in r2.concept_results.values():
+        if cr.stop_reason == StopReason.ENTROPY:
+            assert cr.n_items >= 2
+
+
+def test_pruning_modes_t3_2():
+    hard = _run(_diag(prior_mode="flat"), lambda a: False)
+    assert any(
+        cr.stop_reason == StopReason.SKIPPED_ANCESTOR_UNMASTERED
+        for cr in hard.concept_results.values()
+    )
+    for mode in ("soft", "none"):
+        r = _run(_diag(pruning_mode=mode, n_max=12, prior_mode="flat"), lambda a: False)
+        assert all(
+            cr.stop_reason != StopReason.SKIPPED_ANCESTOR_UNMASTERED
+            for cr in r.concept_results.values()
+        )
+        first_c4 = next(x for x in r.item_log if x.concept_id == "C4")
+        c3_final = r.concept_results["C3"].p
+        if mode == "soft":
+            assert first_c4.p_before <= c3_final + 1e-12  # prior capped at the ancestor's p
+        else:
+            assert first_c4.p_before == 0.20
+
+
+def test_frontier_scope_respects_dag_and_caps_t3_2():
+    eng = _diag(selection_scope="frontier", pruning_mode="none", n_max=6)
+    r = _run(eng, lambda a: a.difficulty < 0.5)
+    assert r.total_items <= 6 and len(r.item_log) == r.total_items
+    seen = []
+    for it in r.item_log:
+        for q in eng.graph.prerequisites(it.concept_id):
+            # a concept is only probed after its prerequisites' diagnoses ended
+            assert q in seen or all(x.concept_id != q for x in r.item_log)
+        if it.concept_id not in seen:
+            seen.append(it.concept_id)
+    r2 = _run(eng, lambda a: a.difficulty < 0.5)
+    assert r == r2  # deterministic
+    with pytest.raises(TypeError):
+        r.concept_results["C1"] = None  # read-only mapping
+
+
+def test_population_prior_t3_2():
+    r = _run(_diag(prior_mode="population", population_p0=0.3, n_max=1), lambda a: True)
+    unprobed = [c for c, cr in r.concept_results.items() if cr.n_items == 0]
+    assert unprobed and all(r.state.concepts[c].p == 0.3 for c in unprobed)
+
+
+def test_diagnostic_flag_validation_t3_2():
+    from adaptengine.core.config import EngineConfig
+
+    for kw in (
+        {"pruning_mode": "x"},
+        {"selection_scope": "x"},
+        {"prior_mode": "x"},
+        {"min_items_per_concept": 0},
+        {"population_p0": 1.0},
+    ):
+        with pytest.raises(Exception):
+            EngineConfig(**kw)
+
+
+def test_state_space_diagnostic_t3_6():
+    from adaptengine.diagnostic.state_space import StateSpaceDiagnostic, consistent_patterns
+
+    eng = _diag()
+    pats = consistent_patterns(eng.graph, eng.graph.concepts())
+    # 4-node DAG C1, C2 -> C3 -> C4: {}, {1}, {2}, {1,2}, {1,2,3}, {1,2,3,4}
+    assert len(pats) == 6
+    assert all(all(q in s for c in s for q in eng.graph.prerequisites(c)) for s in pats)
+    ssd = StateSpaceDiagnostic(eng.graph, eng.activities, eng.config)
+    r = ssd.run(eng.init_learner(), lambda a: False)
+    p = {c: r.state.concepts[c].p for c in eng.graph.concepts()}
+    # marginals respect the DAG: a dependant is never more likely mastered than its prerequisite
+    assert p["C3"] <= min(p["C1"], p["C2"]) + 1e-12 and p["C4"] <= p["C3"] + 1e-12
+    assert 1 <= r.total_items <= eng.config.n_max
+    assert r == ssd.run(eng.init_learner(), lambda a: False)
+    right = ssd.run(eng.init_learner(), lambda a: True)
+    assert right.state.concepts["C1"].p > p["C1"]
+    e8 = Engine.from_files(
+        "data/curriculum/curriculum_8node.json", "data/curriculum/activities_8node.json"
+    )
+    assert len(consistent_patterns(e8.graph, e8.graph.concepts())) <= 256

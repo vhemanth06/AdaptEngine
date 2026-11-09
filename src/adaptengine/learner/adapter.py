@@ -96,6 +96,12 @@ class PyBKTAdapter:
             float(self.cfg.guess_coef),
             float(self.cfg.slip_base),
             float(self.cfg.slip_coef),
+            # class_params must be part of the key, or a custom-parameter adapter would reuse a
+            # pyBKT model fitted with the default parameters (found in W7 T1.5)
+            tuple(
+                (c, float(v["guess"]), float(v["slip"]))
+                for c, v in sorted(self.class_params.items())
+            ),
         )
         if cache_key in _PYBKT_MODEL_CACHE:
             self._pybkt_instance = _PYBKT_MODEL_CACHE[cache_key]
@@ -132,7 +138,7 @@ class PyBKTAdapter:
             _PYBKT_MODEL_CACHE[cache_key] = m
             self._pybkt_instance = m
             self._pybkt_available = True
-        except (ImportError, Exception) as exc:
+        except ImportError as exc:  # T1.5: only a missing library falls back; other errors surface
             _PYBKT_MODEL_CACHE[cache_key] = None
             self._pybkt_instance = None
             self._pybkt_available = False

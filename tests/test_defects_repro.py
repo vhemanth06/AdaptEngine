@@ -9,7 +9,7 @@ from adaptengine.core.errors import (
 )
 from adaptengine.curriculum.loader import load_curriculum
 from adaptengine.learner.mastery import guess, learn
-from adaptengine.learner.state import initial_state, LearnerConcept
+from adaptengine.learner.state import initial_state, is_evidence_mastered, LearnerConcept
 from adaptengine.session import apply_lesson
 from adaptengine.core.config import EngineConfig
 
@@ -82,7 +82,7 @@ def test_repro_dd_lesson_assessed_and_replay():
 
     c = state.concepts["C1"]
     assert not c.assessed, "Lesson should not set assessed=True"
-    assert not c.evidence_mastered, "Lesson exposure must not mark evidence_mastered"
+    assert not is_evidence_mastered(c), "Lesson exposure must not mark evidence_mastered"
 
 
 def test_repro_dd_last_practice_day_rewind():
@@ -144,12 +144,10 @@ def test_repro_df_ai_reviewer_rejected(tmp_path):
     assert "ai" in str(exc_info.value).lower()
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="Mid-day replan after partial day does not account for already-consumed budget on start day; documented limitation.",
-)
 def test_repro_partial_day_replan_budget_overflow():
-    """Defect: replanning mid-day after completing 10 of 15 minutes packs a full 15m on Day 1 (total 25m > budget 15m)."""
+    """W6 defect fixed in W7 T2.1: replanning mid-day after completing 10 of 15 minutes used to pack
+    a full 15m on Day 1 (total 25m > budget 15m). PlanContext.minutes_used_today now carries the
+    consumed minutes into the scheduler, feasibility bounds and oracle."""
     from adaptengine.api import Engine
     from adaptengine.core.schema import Event, EventType, PlanContext
     from adaptengine.learner.state import ExecutionLog
@@ -186,3 +184,7 @@ def test_repro_partial_day_replan_budget_overflow():
     replan_day1_duration = day1_replan.duration if day1_replan else 0
     # True requirement: time_spent (10) + replan_day1_duration should not exceed budget (15)
     assert time_spent + replan_day1_duration <= 15
+    assert revised.trace is not None
+    # Every plan day stays within budget, including the partly used first day.
+    for d in revised.days:
+        assert d.duration + (time_spent if d.day == 1 else 0) <= 15

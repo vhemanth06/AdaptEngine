@@ -36,23 +36,24 @@ def main(argv=None):
 
     parser = argparse.ArgumentParser(prog="adaptengine")
     subparsers = parser.add_subparsers(dest="command", required=True)
+    # T9.1: options shared by every subcommand live on one parent parser
+    common = argparse.ArgumentParser(add_help=False)
+    common.add_argument("--allow-unreviewed", action="store_true")
 
     # validate
-    val_parser = subparsers.add_parser("validate")
+    val_parser = subparsers.add_parser("validate", parents=[common])
     val_parser.add_argument("--curriculum", required=True)
     val_parser.add_argument("--activities", required=True)
     val_parser.add_argument("--manifest")
-    val_parser.add_argument("--allow-unreviewed", action="store_true")
 
     # show
-    show_parser = subparsers.add_parser("show")
+    show_parser = subparsers.add_parser("show", parents=[common])
     show_parser.add_argument("--curriculum", required=True)
     show_parser.add_argument("--activities", default="data/curriculum/activities_4node.json")
     show_parser.add_argument("--manifest")
-    show_parser.add_argument("--allow-unreviewed", action="store_true")
 
     # init-learner
-    init_parser = subparsers.add_parser("init-learner")
+    init_parser = subparsers.add_parser("init-learner", parents=[common])
     init_parser.add_argument("--curriculum", required=True)
     init_parser.add_argument("--activities", default="data/curriculum/activities_4node.json")
     init_parser.add_argument("--out")
@@ -61,10 +62,9 @@ def main(argv=None):
     init_parser.add_argument("--deadline", type=int)
     init_parser.add_argument("--budget", type=int)
     init_parser.add_argument("--manifest")
-    init_parser.add_argument("--allow-unreviewed", action="store_true")
 
     # update
-    upd_parser = subparsers.add_parser("update")
+    upd_parser = subparsers.add_parser("update", parents=[common])
     upd_parser.add_argument("--curriculum", required=True)
     upd_parser.add_argument("--activities", required=True)
     upd_parser.add_argument("--snapshot")
@@ -75,7 +75,6 @@ def main(argv=None):
     upd_parser.add_argument("--day", type=int, required=True)
     upd_parser.add_argument("--attempt-id")
     upd_parser.add_argument("--manifest")
-    upd_parser.add_argument("--allow-unreviewed", action="store_true")
     upd_parser.add_argument("--save", action="store_true")
     upd_parser.add_argument(
         "--model",
@@ -86,14 +85,13 @@ def main(argv=None):
 
     # Event recording commands: missed-day
     for name in ("missed-day", "record-missed-day"):
-        m_parser = subparsers.add_parser(name)
+        m_parser = subparsers.add_parser(name, parents=[common])
         m_parser.add_argument("--curriculum", required=True)
         m_parser.add_argument("--activities", required=True)
         m_parser.add_argument("--snapshot", required=True)
         m_parser.add_argument("--day", type=int, required=True)
         m_parser.add_argument("--attempt-id")
         m_parser.add_argument("--manifest")
-        m_parser.add_argument("--allow-unreviewed", action="store_true")
         m_parser.add_argument(
             "--model",
             choices=["custombkt", "pybkt"],
@@ -103,7 +101,7 @@ def main(argv=None):
 
     # Event recording commands: failed-assessment
     for name in ("failed-assessment", "record-failed-assessment"):
-        f_parser = subparsers.add_parser(name)
+        f_parser = subparsers.add_parser(name, parents=[common])
         f_parser.add_argument("--curriculum", required=True)
         f_parser.add_argument("--activities", required=True)
         f_parser.add_argument("--snapshot", required=True)
@@ -111,7 +109,6 @@ def main(argv=None):
         f_parser.add_argument("--day", type=int, required=True)
         f_parser.add_argument("--attempt-id")
         f_parser.add_argument("--manifest")
-        f_parser.add_argument("--allow-unreviewed", action="store_true")
         f_parser.add_argument(
             "--model",
             choices=["custombkt", "pybkt"],
@@ -121,7 +118,7 @@ def main(argv=None):
 
     # Event recording commands: change-deadline
     for name in ("change-deadline", "record-deadline-change"):
-        d_parser = subparsers.add_parser(name)
+        d_parser = subparsers.add_parser(name, parents=[common])
         d_parser.add_argument("--curriculum", required=True)
         d_parser.add_argument("--activities", required=True)
         d_parser.add_argument("--snapshot", required=True)
@@ -129,7 +126,6 @@ def main(argv=None):
         d_parser.add_argument("--new-deadline", type=int, required=True)
         d_parser.add_argument("--attempt-id")
         d_parser.add_argument("--manifest")
-        d_parser.add_argument("--allow-unreviewed", action="store_true")
         d_parser.add_argument(
             "--model",
             choices=["custombkt", "pybkt"],
@@ -139,7 +135,7 @@ def main(argv=None):
 
     # Event recording commands: change-budget
     for name in ("change-budget", "record-budget-change"):
-        b_parser = subparsers.add_parser(name)
+        b_parser = subparsers.add_parser(name, parents=[common])
         b_parser.add_argument("--curriculum", required=True)
         b_parser.add_argument("--activities", required=True)
         b_parser.add_argument("--snapshot", required=True)
@@ -147,7 +143,6 @@ def main(argv=None):
         b_parser.add_argument("--new-budget", type=int, required=True)
         b_parser.add_argument("--attempt-id")
         b_parser.add_argument("--manifest")
-        b_parser.add_argument("--allow-unreviewed", action="store_true")
         b_parser.add_argument(
             "--model",
             choices=["custombkt", "pybkt"],
@@ -156,7 +151,7 @@ def main(argv=None):
         )
 
     # Explicit legacy import/export commands
-    imp_parser = subparsers.add_parser("import-legacy")
+    imp_parser = subparsers.add_parser("import-legacy", parents=[common])
     imp_parser.add_argument("--curriculum", required=True)
     imp_parser.add_argument("--activities", required=True)
     imp_parser.add_argument("--learner", required=True)
@@ -166,19 +161,17 @@ def main(argv=None):
     imp_parser.add_argument("--deadline", type=int)
     imp_parser.add_argument("--budget", type=int)
     imp_parser.add_argument("--manifest")
-    imp_parser.add_argument("--allow-unreviewed", action="store_true")
 
-    exp_parser = subparsers.add_parser("export-legacy")
+    exp_parser = subparsers.add_parser("export-legacy", parents=[common])
     exp_parser.add_argument("--curriculum", required=True)
     exp_parser.add_argument("--activities", required=True)
     exp_parser.add_argument("--snapshot", required=True)
     exp_parser.add_argument("--out-learner", required=True)
     exp_parser.add_argument("--out-log", required=True)
     exp_parser.add_argument("--manifest")
-    exp_parser.add_argument("--allow-unreviewed", action="store_true")
 
     # plan
-    plan_parser = subparsers.add_parser("plan")
+    plan_parser = subparsers.add_parser("plan", parents=[common])
     plan_parser.add_argument("--curriculum", required=True)
     plan_parser.add_argument("--activities", required=True)
     plan_parser.add_argument("--snapshot")
@@ -189,7 +182,6 @@ def main(argv=None):
     plan_parser.add_argument("--budget", type=int)
     plan_parser.add_argument("--current-day", type=int, default=1)
     plan_parser.add_argument("--manifest")
-    plan_parser.add_argument("--allow-unreviewed", action="store_true")
     plan_parser.add_argument("--json", action="store_true")
     plan_parser.add_argument(
         "--model",
@@ -199,7 +191,7 @@ def main(argv=None):
     )
 
     # replan
-    replan_parser = subparsers.add_parser("replan")
+    replan_parser = subparsers.add_parser("replan", parents=[common])
     replan_parser.add_argument("--curriculum", required=True)
     replan_parser.add_argument("--activities", required=True)
     replan_parser.add_argument("--learner")
@@ -210,7 +202,6 @@ def main(argv=None):
     replan_parser.add_argument("--budget", type=int)
     replan_parser.add_argument("--current-day", type=int, default=1)
     replan_parser.add_argument("--manifest")
-    replan_parser.add_argument("--allow-unreviewed", action="store_true")
     replan_parser.add_argument("--json", action="store_true")
     replan_parser.add_argument(
         "--model",

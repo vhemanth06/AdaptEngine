@@ -10,7 +10,7 @@ from .learner.mastery import learn, entropy
 from .learner.adapter import CustomBKT, MasteryModel
 from .learner.evidence import update_concept_evidence
 from .core.config import DEFAULT_CONFIG, EngineConfig
-from .core.validators import check_bool, check_probability, check_non_negative_int
+from .core.validators import check_bool, check_budget, check_probability, check_non_negative_int
 
 
 @dataclass(frozen=True)
@@ -108,8 +108,7 @@ def apply_lesson(
         lessons_done=new_lessons,
         seen_attempt_ids=new_seen,
         last_practice_day=new_day,
-        n_reviews=old_c.n_reviews + 1,
-        needs_remediation=False,
+        needs_remediation=False,  # n_reviews counts review responses only (T2.6)
     )
 
     new_concepts = dict(state.concepts)
@@ -148,6 +147,7 @@ def serialize_learner(state: LearnerState) -> dict:
                 "status": c.status.value,
                 "responses": c.responses,
                 "correct_responses": c.correct_responses,
+                "correct_streak": c.correct_streak,
                 "lessons_done": c.lessons_done,
                 "seen_attempt_ids": sorted(list(c.seen_attempt_ids)),
                 "half_life_days": c.half_life_days,
@@ -256,10 +256,11 @@ def deserialize_learner(data: dict, concept_ids: tuple[str, ...]) -> LearnerStat
                     f"Concept {cid} uncertainty {raw_u} does not agree with entropy(p) {expected_h:.4f}"
                 )
 
-        # 6. half_life_days validation: missing/None means default 30.0; present must be positive finite number
+        # 6. half_life_days validation: missing/None means the default config half-life (30.0);
+        #    present must be positive finite number
         raw_hl = cdata.get("half_life_days")
         if raw_hl is None:
-            half_life_days = 30.0
+            half_life_days = DEFAULT_CONFIG.half_life_days
         else:
             if (
                 isinstance(raw_hl, bool)
@@ -289,6 +290,7 @@ def deserialize_learner(data: dict, concept_ids: tuple[str, ...]) -> LearnerStat
             lessons_done=cdata.get("lessons_done", 0),
             responses=responses,
             correct_responses=cdata.get("correct_responses", 0),
+            correct_streak=cdata.get("correct_streak", 0),
             status=status,
             seen_attempt_ids=frozenset(str(x) for x in seen_raw),
             half_life_days=half_life_days,
@@ -415,7 +417,10 @@ def save_snapshot(
 
 
 def load_snapshot(
-    path: str, concept_ids: tuple[str, ...], include_context: bool = False
+    path: str,
+    concept_ids: tuple[str, ...],
+    include_context: bool = False,
+    cfg: EngineConfig = DEFAULT_CONFIG,
 ) -> tuple[LearnerState, ExecutionLog] | tuple[LearnerState, ExecutionLog, Optional[PlanContext]]:
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -450,6 +455,7 @@ def load_snapshot(
             budget=cdata["budget"],
             current_day=cdata.get("current_day", 1),
         )
+        check_budget(ctx.budget, cfg.allowed_budgets)
     if include_context:
         return state, log, ctx
     return state, log

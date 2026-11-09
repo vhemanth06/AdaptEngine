@@ -12,12 +12,37 @@ from ..core.schema import Concept, Activity, ActivityType
 from ..core.config import EngineConfig, DEFAULT_CONFIG
 
 
-def _check_review_gate(path: str, manifest_path: str = None, *, is_curriculum: bool = False):
+def _read_bytes(path: str) -> bytes:
+    """Read a file once; the same bytes are hashed by the review gate and parsed (T9.1)."""
+    try:
+        with open(path, "rb") as f:
+            return f.read()
+    except OSError as e:
+        raise ValidationError(f"File {path}: failed to parse json: {e}")
+
+
+def _parse(path: str, raw: bytes):
+    try:
+        return json.loads(raw.decode("utf-8"))
+    except (json.JSONDecodeError, UnicodeDecodeError) as e:
+        raise ValidationError(f"File {path}: failed to parse json: {e}")
+
+
+def _check_review_gate(
+    path: str, manifest_path: str = None, *, is_curriculum: bool = False, raw: bytes = None
+):
     abs_path = os.path.abspath(path)
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 
     if manifest_path is None:
+        # Default works for a source checkout / editable install only; packaged installs must
+        # pass manifest_path explicitly (T9.1).
         manifest_path = os.path.join(repo_root, "data", "review_manifest.json")
+        if not os.path.exists(manifest_path):
+            raise UnreviewedContentError(
+                f"File {path}: no review manifest at {manifest_path}; pass manifest_path "
+                "explicitly (required when adaptengine is installed as a package)"
+            )
     else:
         manifest_path = os.path.abspath(manifest_path)
 
@@ -53,23 +78,21 @@ def _check_review_gate(path: str, manifest_path: str = None, *, is_curriculum: b
         if entry.get("edges_reviewed") is not True:
             raise UnreviewedContentError(f"File {path}: edges_reviewed not true")
 
-    hasher = hashlib.sha256()
-    with open(path, "rb") as f:
-        hasher.update(f.read())
-    file_hash = hasher.hexdigest()
+    if raw is None:
+        with open(path, "rb") as f:
+            raw = f.read()
+    file_hash = hashlib.sha256(raw).hexdigest()
 
     if file_hash != entry.get("sha256"):
         raise UnreviewedContentError(f"File {path}: Hash mismatch. File edited after review.")
 
 
 def load_curriculum(path, manifest_path=None, *, allow_unreviewed=False) -> tuple[Concept, ...]:
+    # a missing file still reports the review-gate error first, as before
+    raw = _read_bytes(path) if os.path.exists(path) else None
     if not allow_unreviewed:
-        _check_review_gate(path, manifest_path, is_curriculum=True)
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-    except (json.JSONDecodeError, OSError) as e:
-        raise ValidationError(f"File {path}: failed to parse json: {e}")
+        _check_review_gate(path, manifest_path, is_curriculum=True, raw=raw)
+    data = _parse(path, raw if raw is not None else _read_bytes(path))
 
     if not isinstance(data, dict):
         raise ValidationError(f"File {path}: root must be a JSON object")
@@ -128,13 +151,11 @@ def load_activities(
     allow_unreviewed=False,
     cfg: EngineConfig = DEFAULT_CONFIG,
 ) -> tuple[Activity, ...]:
+    # a missing file still reports the review-gate error first, as before
+    raw = _read_bytes(path) if os.path.exists(path) else None
     if not allow_unreviewed:
-        _check_review_gate(path, manifest_path, is_curriculum=False)
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-    except (json.JSONDecodeError, OSError) as e:
-        raise ValidationError(f"File {path}: failed to parse json: {e}")
+        _check_review_gate(path, manifest_path, is_curriculum=False, raw=raw)
+    data = _parse(path, raw if raw is not None else _read_bytes(path))
 
     if not isinstance(data, dict):
         raise ValidationError(f"File {path}: root must be a JSON object")

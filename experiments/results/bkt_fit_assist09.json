@@ -1,0 +1,2585 @@
+{
+  "pybkt_parity": null,
+  "dataset": "assist09",
+  "meta": {
+    "code_hash": "e3e519c08e13ce39e4fbf1e530199abd9bac391232d1561f7d5e011b4aa69733",
+    "timestamp_utc": "2026-11-08T17:40:03.608532+00:00",
+    "seed": 42,
+    "runtime_seconds": {
+      "per_skill_fit": 3.3,
+      "class_fit": 6.4,
+      "bootstrap_skills": 267.6,
+      "bootstrap_class": 662.5,
+      "heldout_cv": 39.4,
+      "total": 981.0
+    },
+    "data_checksums": {
+      "as.csv": {
+        "sha256": "f22e3fb7872c1784ce93b0f9ebabbe0cbcac4f896fd8b4a11667b9715d77dbdc",
+        "matches_CHECKSUMS": true
+      },
+      "assist09_skill_builder.csv": {
+        "sha256": "162ef8d2d28bcbfea6591a282994062bd8d5eaa00636544292a0d268dca6e5da",
+        "matches_CHECKSUMS": true
+      }
+    },
+    "backend": "fast_em (numpy Baum-Welch, pyBKT 1.4.3 init ranges/stopping rule)",
+    "em": {
+      "num_fits": 5,
+      "tol": 0.005,
+      "maxiter": 100,
+      "forgets": false
+    },
+    "constraints": {
+      "degenerate_if": [
+        "guess+slip>=1",
+        "guess>0.5",
+        "slip>0.5"
+      ],
+      "prior_floor_flag": 0.01,
+      "selection": "best log-likelihood restart; degenerate fits flagged, not refit"
+    },
+    "workers": 8,
+    "platform": "Linux-7.0.0-43-generic-x86_64-with-glibc2.43",
+    "python": "3.11.17",
+    "numpy": "1.26.4",
+    "pandas": "3.0.6"
+  },
+  "cleaning": {
+    "raw_rows": 525534,
+    "raw_answers": 346860,
+    "original==1": 449220,
+    "with_skill_name": 421318,
+    "dedup_order_skill": 300389,
+    "skills_before_min_students": 110,
+    "rows_final": 297016,
+    "skills_final": 81,
+    "students_final": 4125,
+    "correct_rate_final": 0.6608
+  },
+  "difficulty": {
+    "source": "assist09_skill_builder.csv (collapsed), problem_id, all rows",
+    "d_definition": "1 - mean correctness per item",
+    "min_answers_per_item": 20,
+    "class_rule": "engine get_difficulty_class on d clipped to [D_MIN, D_MAX]: easy d<0.35, medium d<0.65, hard otherwise",
+    "items_rated_in_clean_data": 4210,
+    "items_in_clean_data": 14328,
+    "answers_per_class": {
+      "easy": 103491,
+      "medium": 85352,
+      "hard": 11454,
+      "unrated": 96719
+    },
+    "items_per_class": {
+      "easy": 2254,
+      "medium": 1729,
+      "hard": 227
+    }
+  },
+  "per_skill": {
+    "Absolute Value": {
+      "prior": 0.560833,
+      "learn": 0.112618,
+      "guess": 0.431669,
+      "slip": 0.087889,
+      "loglik": -3687.592985,
+      "iters": 29,
+      "converged": true,
+      "n_students": 1002,
+      "n_answers": 7340,
+      "flags": []
+    },
+    "Addition Whole Numbers": {
+      "prior": 0.635097,
+      "learn": 0.207278,
+      "guess": 0.35918,
+      "slip": 0.121468,
+      "loglik": -2411.861073,
+      "iters": 17,
+      "converged": true,
+      "n_students": 988,
+      "n_answers": 4704,
+      "flags": []
+    },
+    "Addition and Subtraction Fractions": {
+      "prior": 0.754697,
+      "learn": 0.086912,
+      "guess": 0.113857,
+      "slip": 0.194654,
+      "loglik": -6075.169686,
+      "iters": 16,
+      "converged": true,
+      "n_students": 1353,
+      "n_answers": 11334,
+      "flags": []
+    },
+    "Addition and Subtraction Integers": {
+      "prior": 0.704601,
+      "learn": 0.009041,
+      "guess": 0.367717,
+      "slip": 0.198929,
+      "loglik": -7822.355373,
+      "iters": 18,
+      "converged": true,
+      "n_students": 1226,
+      "n_answers": 12741,
+      "flags": []
+    },
+    "Addition and Subtraction Positive Decimals": {
+      "prior": 0.616812,
+      "learn": 0.08636,
+      "guess": 0.144873,
+      "slip": 0.194135,
+      "loglik": -2856.73224,
+      "iters": 11,
+      "converged": true,
+      "n_students": 753,
+      "n_answers": 5012,
+      "flags": []
+    },
+    "Angles on Parallel Lines Cut by a Transversal": {
+      "prior": 0.564909,
+      "learn": 0.0,
+      "guess": 0.653664,
+      "slip": 0.000373,
+      "loglik": -129.50588,
+      "iters": 74,
+      "converged": true,
+      "n_students": 140,
+      "n_answers": 278,
+      "flags": [
+        "guess>0.5"
+      ]
+    },
+    "Area Circle": {
+      "prior": 0.913838,
+      "learn": 0.16648,
+      "guess": 0.069818,
+      "slip": 0.266343,
+      "loglik": -690.496442,
+      "iters": 19,
+      "converged": true,
+      "n_students": 264,
+      "n_answers": 1144,
+      "flags": []
+    },
+    "Area Irregular Figure": {
+      "prior": 0.681715,
+      "learn": 0.244535,
+      "guess": 0.051529,
+      "slip": 0.281741,
+      "loglik": -477.371924,
+      "iters": 22,
+      "converged": true,
+      "n_students": 194,
+      "n_answers": 750,
+      "flags": []
+    },
+    "Area Rectangle": {
+      "prior": 0.93469,
+      "learn": 0.565377,
+      "guess": 0.16365,
+      "slip": 0.099275,
+      "loglik": -186.817418,
+      "iters": 12,
+      "converged": true,
+      "n_students": 215,
+      "n_answers": 483,
+      "flags": []
+    },
+    "Area Trapezoid": {
+      "prior": 0.53782,
+      "learn": 0.318176,
+      "guess": 0.207885,
+      "slip": 0.253618,
+      "loglik": -598.907805,
+      "iters": 10,
+      "converged": true,
+      "n_students": 269,
+      "n_answers": 913,
+      "flags": []
+    },
+    "Area Triangle": {
+      "prior": 0.986339,
+      "learn": 0.059863,
+      "guess": 3e-06,
+      "slip": 0.12991,
+      "loglik": -116.600677,
+      "iters": 34,
+      "converged": true,
+      "n_students": 168,
+      "n_answers": 286,
+      "flags": []
+    },
+    "Box and Whisker": {
+      "prior": 0.745253,
+      "learn": 0.12865,
+      "guess": 0.35666,
+      "slip": 0.159981,
+      "loglik": -2096.451677,
+      "iters": 19,
+      "converged": true,
+      "n_students": 505,
+      "n_answers": 3957,
+      "flags": []
+    },
+    "Calculations with Similar Figures": {
+      "prior": 0.678964,
+      "learn": 0.132375,
+      "guess": 0.24565,
+      "slip": 0.255616,
+      "loglik": -3327.634543,
+      "iters": 20,
+      "converged": true,
+      "n_students": 379,
+      "n_answers": 5538,
+      "flags": []
+    },
+    "Circle Graph": {
+      "prior": 0.575231,
+      "learn": 0.057292,
+      "guess": 0.133719,
+      "slip": 0.292249,
+      "loglik": -3773.01533,
+      "iters": 15,
+      "converged": true,
+      "n_students": 616,
+      "n_answers": 6208,
+      "flags": []
+    },
+    "Circumference ": {
+      "prior": 0.927905,
+      "learn": 0.07968,
+      "guess": 0.110341,
+      "slip": 0.274085,
+      "loglik": -1064.866125,
+      "iters": 21,
+      "converged": true,
+      "n_students": 256,
+      "n_answers": 1769,
+      "flags": []
+    },
+    "Complementary and Supplementary Angles": {
+      "prior": 0.842746,
+      "learn": 0.139124,
+      "guess": 0.096,
+      "slip": 0.178599,
+      "loglik": -848.979662,
+      "iters": 18,
+      "converged": true,
+      "n_students": 458,
+      "n_answers": 1524,
+      "flags": []
+    },
+    "Congruence": {
+      "prior": 0.927978,
+      "learn": 0.768028,
+      "guess": 0.045665,
+      "slip": 0.056927,
+      "loglik": -193.519255,
+      "iters": 35,
+      "converged": true,
+      "n_students": 364,
+      "n_answers": 587,
+      "flags": []
+    },
+    "Conversion of Fraction Decimals Percents": {
+      "prior": 0.607854,
+      "learn": 0.014809,
+      "guess": 0.424251,
+      "slip": 0.201514,
+      "loglik": -11517.219671,
+      "iters": 7,
+      "converged": true,
+      "n_students": 1225,
+      "n_answers": 18740,
+      "flags": []
+    },
+    "Counting Methods": {
+      "prior": 0.641708,
+      "learn": 7.5e-05,
+      "guess": 0.377654,
+      "slip": 0.37931,
+      "loglik": -3323.484441,
+      "iters": 53,
+      "converged": true,
+      "n_students": 444,
+      "n_answers": 4867,
+      "flags": []
+    },
+    "D.4.8-understanding-concept-of-probabilities": {
+      "prior": 0.931554,
+      "learn": 0.999057,
+      "guess": 0.287786,
+      "slip": 0.136025,
+      "loglik": -194.976783,
+      "iters": 15,
+      "converged": true,
+      "n_students": 202,
+      "n_answers": 456,
+      "flags": []
+    },
+    "Divisibility Rules": {
+      "prior": 0.278373,
+      "learn": 0.18151,
+      "guess": 0.226204,
+      "slip": 0.205234,
+      "loglik": -1662.69877,
+      "iters": 9,
+      "converged": true,
+      "n_students": 274,
+      "n_answers": 2809,
+      "flags": []
+    },
+    "Division Fractions": {
+      "prior": 0.671485,
+      "learn": 0.189204,
+      "guess": 0.146359,
+      "slip": 0.178211,
+      "loglik": -2271.911604,
+      "iters": 11,
+      "converged": true,
+      "n_students": 724,
+      "n_answers": 4029,
+      "flags": []
+    },
+    "Effect of Changing Dimensions of a Shape Prportionally": {
+      "prior": 0.008248,
+      "learn": 0.426299,
+      "guess": 0.15029,
+      "slip": 0.173328,
+      "loglik": -623.06329,
+      "iters": 40,
+      "converged": true,
+      "n_students": 214,
+      "n_answers": 1099,
+      "flags": [
+        "prior<0.01"
+      ]
+    },
+    "Equation Solving More Than Two Steps": {
+      "prior": 0.49296,
+      "learn": 0.100163,
+      "guess": 0.262399,
+      "slip": 0.215811,
+      "loglik": -2898.220951,
+      "iters": 20,
+      "converged": true,
+      "n_students": 412,
+      "n_answers": 4772,
+      "flags": []
+    },
+    "Equation Solving Two or Fewer Steps": {
+      "prior": 0.634935,
+      "learn": 0.03794,
+      "guess": 0.287597,
+      "slip": 0.250916,
+      "loglik": -10475.063857,
+      "iters": 33,
+      "converged": true,
+      "n_students": 961,
+      "n_answers": 17311,
+      "flags": []
+    },
+    "Equivalent Fractions": {
+      "prior": 0.627871,
+      "learn": 0.09283,
+      "guess": 0.080034,
+      "slip": 0.294062,
+      "loglik": -1783.958461,
+      "iters": 19,
+      "converged": true,
+      "n_students": 426,
+      "n_answers": 2942,
+      "flags": []
+    },
+    "Estimation": {
+      "prior": 0.690805,
+      "learn": 0.171986,
+      "guess": 0.430673,
+      "slip": 0.135204,
+      "loglik": -793.020977,
+      "iters": 17,
+      "converged": true,
+      "n_students": 215,
+      "n_answers": 1602,
+      "flags": []
+    },
+    "Exponents": {
+      "prior": 0.847669,
+      "learn": 0.206774,
+      "guess": 0.170984,
+      "slip": 0.168547,
+      "loglik": -1526.441006,
+      "iters": 15,
+      "converged": true,
+      "n_students": 619,
+      "n_answers": 2947,
+      "flags": []
+    },
+    "Finding Percents": {
+      "prior": 0.3958,
+      "learn": 0.085989,
+      "guess": 0.119549,
+      "slip": 0.19651,
+      "loglik": -4187.833915,
+      "iters": 6,
+      "converged": true,
+      "n_students": 771,
+      "n_answers": 7640,
+      "flags": []
+    },
+    "Fraction Of": {
+      "prior": 0.93717,
+      "learn": 0.271466,
+      "guess": 0.046186,
+      "slip": 0.090449,
+      "loglik": -242.122627,
+      "iters": 18,
+      "converged": true,
+      "n_students": 288,
+      "n_answers": 607,
+      "flags": []
+    },
+    "Greatest Common Factor": {
+      "prior": 0.389717,
+      "learn": 0.077489,
+      "guess": 0.598672,
+      "slip": 0.005601,
+      "loglik": -132.219044,
+      "iters": 60,
+      "converged": true,
+      "n_students": 147,
+      "n_answers": 237,
+      "flags": [
+        "guess>0.5"
+      ]
+    },
+    "Histogram as Table or Graph": {
+      "prior": 0.786228,
+      "learn": 0.222594,
+      "guess": 0.184549,
+      "slip": 0.23299,
+      "loglik": -1049.314632,
+      "iters": 16,
+      "converged": true,
+      "n_students": 230,
+      "n_answers": 1804,
+      "flags": []
+    },
+    "Interior Angles Figures with More than 3 Sides": {
+      "prior": 0.727328,
+      "learn": 0.2274,
+      "guess": 0.102707,
+      "slip": 0.261306,
+      "loglik": -629.24497,
+      "iters": 20,
+      "converged": true,
+      "n_students": 256,
+      "n_answers": 995,
+      "flags": []
+    },
+    "Interior Angles Triangle": {
+      "prior": 0.887923,
+      "learn": 0.15001,
+      "guess": 0.085925,
+      "slip": 0.254296,
+      "loglik": -454.236956,
+      "iters": 28,
+      "converged": true,
+      "n_students": 253,
+      "n_answers": 744,
+      "flags": []
+    },
+    "Least Common Multiple": {
+      "prior": 0.508724,
+      "learn": 0.29079,
+      "guess": 0.112288,
+      "slip": 0.241208,
+      "loglik": -1961.193305,
+      "iters": 21,
+      "converged": true,
+      "n_students": 367,
+      "n_answers": 3256,
+      "flags": []
+    },
+    "Mean": {
+      "prior": 0.679434,
+      "learn": 0.15054,
+      "guess": 0.045604,
+      "slip": 0.331803,
+      "loglik": -1885.885871,
+      "iters": 31,
+      "converged": true,
+      "n_students": 680,
+      "n_answers": 2939,
+      "flags": []
+    },
+    "Median": {
+      "prior": 0.554963,
+      "learn": 0.081854,
+      "guess": 0.325484,
+      "slip": 0.172078,
+      "loglik": -3423.674354,
+      "iters": 15,
+      "converged": true,
+      "n_students": 791,
+      "n_answers": 5783,
+      "flags": []
+    },
+    "Mode": {
+      "prior": 0.888674,
+      "learn": 0.345383,
+      "guess": 0.033004,
+      "slip": 0.065003,
+      "loglik": -630.185916,
+      "iters": 23,
+      "converged": true,
+      "n_students": 572,
+      "n_answers": 1926,
+      "flags": []
+    },
+    "Multiplication Fractions": {
+      "prior": 0.582391,
+      "learn": 0.129356,
+      "guess": 0.317745,
+      "slip": 0.209595,
+      "loglik": -3372.996875,
+      "iters": 17,
+      "converged": true,
+      "n_students": 783,
+      "n_answers": 5547,
+      "flags": []
+    },
+    "Multiplication and Division Integers": {
+      "prior": 0.898504,
+      "learn": 0.070516,
+      "guess": 0.215951,
+      "slip": 0.146784,
+      "loglik": -3212.655902,
+      "iters": 17,
+      "converged": true,
+      "n_students": 900,
+      "n_answers": 6874,
+      "flags": []
+    },
+    "Multiplication and Division Positive Decimals": {
+      "prior": 0.783047,
+      "learn": 0.10536,
+      "guess": 0.330076,
+      "slip": 0.085683,
+      "loglik": -910.045615,
+      "iters": 11,
+      "converged": true,
+      "n_students": 348,
+      "n_answers": 1970,
+      "flags": []
+    },
+    "Nets of 3D Figures": {
+      "prior": 0.995633,
+      "learn": 0.0,
+      "guess": 0.000119,
+      "slip": 0.036237,
+      "loglik": -49.42628,
+      "iters": 49,
+      "converged": true,
+      "n_students": 229,
+      "n_answers": 280,
+      "flags": []
+    },
+    "Number Line": {
+      "prior": 0.601058,
+      "learn": 0.061071,
+      "guess": 0.337916,
+      "slip": 0.283256,
+      "loglik": -1242.513989,
+      "iters": 18,
+      "converged": true,
+      "n_students": 167,
+      "n_answers": 1895,
+      "flags": []
+    },
+    "Order of Operations +,-,/,* () positive reals": {
+      "prior": 0.911745,
+      "learn": 0.035235,
+      "guess": 0.093152,
+      "slip": 0.257838,
+      "loglik": -1390.028756,
+      "iters": 27,
+      "converged": true,
+      "n_students": 664,
+      "n_answers": 2339,
+      "flags": []
+    },
+    "Order of Operations All": {
+      "prior": 0.582836,
+      "learn": 0.166473,
+      "guess": 0.243103,
+      "slip": 0.228284,
+      "loglik": -2106.541026,
+      "iters": 17,
+      "converged": true,
+      "n_students": 651,
+      "n_answers": 3338,
+      "flags": []
+    },
+    "Ordering Fractions": {
+      "prior": 0.630044,
+      "learn": 0.062649,
+      "guess": 0.514383,
+      "slip": 0.067929,
+      "loglik": -3932.584742,
+      "iters": 23,
+      "converged": true,
+      "n_students": 882,
+      "n_answers": 8539,
+      "flags": [
+        "guess>0.5"
+      ]
+    },
+    "Ordering Integers": {
+      "prior": 0.88191,
+      "learn": 0.032027,
+      "guess": 0.415967,
+      "slip": 0.138159,
+      "loglik": -1707.166086,
+      "iters": 11,
+      "converged": true,
+      "n_students": 490,
+      "n_answers": 3532,
+      "flags": []
+    },
+    "Ordering Positive Decimals": {
+      "prior": 0.68005,
+      "learn": 0.07331,
+      "guess": 0.428776,
+      "slip": 0.104004,
+      "loglik": -3740.323779,
+      "iters": 19,
+      "converged": true,
+      "n_students": 942,
+      "n_answers": 7317,
+      "flags": []
+    },
+    "Ordering Real Numbers": {
+      "prior": 0.711233,
+      "learn": 0.078811,
+      "guess": 0.23246,
+      "slip": 0.179427,
+      "loglik": -857.399229,
+      "iters": 14,
+      "converged": true,
+      "n_students": 192,
+      "n_answers": 1525,
+      "flags": []
+    },
+    "Pattern Finding ": {
+      "prior": 0.602982,
+      "learn": 0.050104,
+      "guess": 0.110024,
+      "slip": 0.195906,
+      "loglik": -2746.521753,
+      "iters": 9,
+      "converged": true,
+      "n_students": 447,
+      "n_answers": 5284,
+      "flags": []
+    },
+    "Percent Of": {
+      "prior": 0.671594,
+      "learn": 0.117409,
+      "guess": 0.072004,
+      "slip": 0.286027,
+      "loglik": -5765.071863,
+      "iters": 23,
+      "converged": true,
+      "n_students": 1115,
+      "n_answers": 9474,
+      "flags": []
+    },
+    "Perimeter of a Polygon": {
+      "prior": 0.938668,
+      "learn": 0.001008,
+      "guess": 0.040593,
+      "slip": 0.2668,
+      "loglik": -355.025939,
+      "iters": 27,
+      "converged": true,
+      "n_students": 264,
+      "n_answers": 595,
+      "flags": []
+    },
+    "Prime Number": {
+      "prior": 0.293131,
+      "learn": 0.558973,
+      "guess": 0.405609,
+      "slip": 0.098487,
+      "loglik": -306.336775,
+      "iters": 81,
+      "converged": true,
+      "n_students": 155,
+      "n_answers": 646,
+      "flags": []
+    },
+    "Probability of Two Distinct Events": {
+      "prior": 0.592712,
+      "learn": 0.023511,
+      "guess": 0.276719,
+      "slip": 0.391697,
+      "loglik": -5004.755329,
+      "iters": 17,
+      "converged": true,
+      "n_students": 452,
+      "n_answers": 7453,
+      "flags": []
+    },
+    "Probability of a Single Event": {
+      "prior": 0.866277,
+      "learn": 0.119461,
+      "guess": 0.118402,
+      "slip": 0.174372,
+      "loglik": -3531.726289,
+      "iters": 20,
+      "converged": true,
+      "n_students": 939,
+      "n_answers": 7029,
+      "flags": []
+    },
+    "Proportion": {
+      "prior": 0.509845,
+      "learn": 0.040921,
+      "guess": 0.378749,
+      "slip": 0.169407,
+      "loglik": -5417.999737,
+      "iters": 12,
+      "converged": true,
+      "n_students": 756,
+      "n_answers": 9049,
+      "flags": []
+    },
+    "Pythagorean Theorem": {
+      "prior": 0.65747,
+      "learn": 0.0232,
+      "guess": 0.407046,
+      "slip": 0.291947,
+      "loglik": -4260.691204,
+      "iters": 15,
+      "converged": true,
+      "n_students": 283,
+      "n_answers": 6611,
+      "flags": []
+    },
+    "Range": {
+      "prior": 0.78337,
+      "learn": 0.393018,
+      "guess": 0.036315,
+      "slip": 0.174216,
+      "loglik": -2094.10349,
+      "iters": 50,
+      "converged": true,
+      "n_students": 769,
+      "n_answers": 4034,
+      "flags": []
+    },
+    "Reflection": {
+      "prior": 0.783406,
+      "learn": 0.018,
+      "guess": 1e-06,
+      "slip": 0.478291,
+      "loglik": -281.383777,
+      "iters": 45,
+      "converged": true,
+      "n_students": 176,
+      "n_answers": 459,
+      "flags": []
+    },
+    "Rotations": {
+      "prior": 0.002019,
+      "learn": 0.055618,
+      "guess": 0.089344,
+      "slip": 0.004051,
+      "loglik": -160.360674,
+      "iters": 74,
+      "converged": true,
+      "n_students": 163,
+      "n_answers": 427,
+      "flags": [
+        "prior<0.01"
+      ]
+    },
+    "Rounding": {
+      "prior": 0.695881,
+      "learn": 0.273112,
+      "guess": 0.200987,
+      "slip": 0.155893,
+      "loglik": -533.154458,
+      "iters": 18,
+      "converged": true,
+      "n_students": 229,
+      "n_answers": 951,
+      "flags": []
+    },
+    "Scatter Plot": {
+      "prior": 0.667825,
+      "learn": 0.425595,
+      "guess": 0.353255,
+      "slip": 0.050768,
+      "loglik": -643.349464,
+      "iters": 10,
+      "converged": true,
+      "n_students": 354,
+      "n_answers": 1859,
+      "flags": []
+    },
+    "Scientific Notation": {
+      "prior": 0.619242,
+      "learn": 0.171293,
+      "guess": 0.323881,
+      "slip": 0.101372,
+      "loglik": -928.113832,
+      "iters": 32,
+      "converged": true,
+      "n_students": 270,
+      "n_answers": 1888,
+      "flags": []
+    },
+    "Solving Inequalities": {
+      "prior": 0.603333,
+      "learn": 0.060557,
+      "guess": 0.338749,
+      "slip": 0.282954,
+      "loglik": -1241.67557,
+      "iters": 18,
+      "converged": true,
+      "n_students": 166,
+      "n_answers": 1894,
+      "flags": []
+    },
+    "Solving for a variable": {
+      "prior": 0.626774,
+      "learn": 0.057612,
+      "guess": 0.35008,
+      "slip": 0.145322,
+      "loglik": -1101.69412,
+      "iters": 13,
+      "converged": true,
+      "n_students": 307,
+      "n_answers": 1792,
+      "flags": []
+    },
+    "Square Root": {
+      "prior": 0.801605,
+      "learn": 0.044043,
+      "guess": 0.336604,
+      "slip": 0.157346,
+      "loglik": -2791.33714,
+      "iters": 10,
+      "converged": true,
+      "n_students": 341,
+      "n_answers": 5670,
+      "flags": []
+    },
+    "Stem and Leaf Plot": {
+      "prior": 0.780904,
+      "learn": 0.131419,
+      "guess": 0.115786,
+      "slip": 0.237423,
+      "loglik": -2219.38528,
+      "iters": 31,
+      "converged": true,
+      "n_students": 467,
+      "n_answers": 3828,
+      "flags": []
+    },
+    "Subtraction Whole Numbers": {
+      "prior": 0.762486,
+      "learn": 0.110294,
+      "guess": 0.124161,
+      "slip": 0.18309,
+      "loglik": -3061.251435,
+      "iters": 14,
+      "converged": true,
+      "n_students": 903,
+      "n_answers": 5770,
+      "flags": []
+    },
+    "Surface Area Cylinder": {
+      "prior": 0.238583,
+      "learn": 0.414763,
+      "guess": 0.074581,
+      "slip": 0.514336,
+      "loglik": -294.66251,
+      "iters": 47,
+      "converged": true,
+      "n_students": 135,
+      "n_answers": 491,
+      "flags": [
+        "slip>0.5"
+      ]
+    },
+    "Surface Area Rectangular Prism": {
+      "prior": 0.494111,
+      "learn": 0.254758,
+      "guess": 0.095259,
+      "slip": 0.258667,
+      "loglik": -932.711494,
+      "iters": 22,
+      "converged": true,
+      "n_students": 283,
+      "n_answers": 1480,
+      "flags": []
+    },
+    "Table": {
+      "prior": 0.851683,
+      "learn": 0.113472,
+      "guess": 0.107068,
+      "slip": 0.205217,
+      "loglik": -3656.713472,
+      "iters": 15,
+      "converged": true,
+      "n_students": 713,
+      "n_answers": 6834,
+      "flags": []
+    },
+    "Translations": {
+      "prior": 0.896186,
+      "learn": 0.001001,
+      "guess": 0.031812,
+      "slip": 0.39439,
+      "loglik": -301.293331,
+      "iters": 31,
+      "converged": true,
+      "n_students": 194,
+      "n_answers": 464,
+      "flags": []
+    },
+    "Unit Conversion Within a System": {
+      "prior": 0.79831,
+      "learn": 0.161422,
+      "guess": 0.127617,
+      "slip": 0.358921,
+      "loglik": -991.478145,
+      "iters": 39,
+      "converged": true,
+      "n_students": 361,
+      "n_answers": 1477,
+      "flags": []
+    },
+    "Unit Rate": {
+      "prior": 0.683357,
+      "learn": 0.073058,
+      "guess": 0.163285,
+      "slip": 0.379919,
+      "loglik": -2193.262464,
+      "iters": 46,
+      "converged": true,
+      "n_students": 626,
+      "n_answers": 3315,
+      "flags": []
+    },
+    "Venn Diagram": {
+      "prior": 0.782792,
+      "learn": 0.26963,
+      "guess": 0.06463,
+      "slip": 0.246125,
+      "loglik": -3372.512126,
+      "iters": 26,
+      "converged": true,
+      "n_students": 552,
+      "n_answers": 5809,
+      "flags": []
+    },
+    "Volume Cylinder": {
+      "prior": 0.560025,
+      "learn": 0.260973,
+      "guess": 0.189195,
+      "slip": 0.29949,
+      "loglik": -857.479256,
+      "iters": 14,
+      "converged": true,
+      "n_students": 304,
+      "n_answers": 1285,
+      "flags": []
+    },
+    "Volume Rectangular Prism": {
+      "prior": 0.964383,
+      "learn": 0.000373,
+      "guess": 0.302849,
+      "slip": 0.118713,
+      "loglik": -384.631271,
+      "iters": 20,
+      "converged": true,
+      "n_students": 345,
+      "n_answers": 926,
+      "flags": []
+    },
+    "Volume Sphere": {
+      "prior": 0.033411,
+      "learn": 0.181067,
+      "guess": 0.470078,
+      "slip": 0.159452,
+      "loglik": -511.38082,
+      "iters": 100,
+      "converged": false,
+      "n_students": 184,
+      "n_answers": 774,
+      "flags": []
+    },
+    "Write Linear Equation from Graph": {
+      "prior": 0.500169,
+      "learn": 0.126071,
+      "guess": 0.108933,
+      "slip": 0.399815,
+      "loglik": -1265.211933,
+      "iters": 30,
+      "converged": true,
+      "n_students": 332,
+      "n_answers": 1983,
+      "flags": []
+    },
+    "Write Linear Equation from Ordered Pairs": {
+      "prior": 0.899852,
+      "learn": 0.106582,
+      "guess": 9.4e-05,
+      "slip": 0.367065,
+      "loglik": -611.382254,
+      "iters": 24,
+      "converged": true,
+      "n_students": 223,
+      "n_answers": 949,
+      "flags": []
+    },
+    "Write Linear Equation from Situation": {
+      "prior": 0.936209,
+      "learn": 0.233778,
+      "guess": 0.000209,
+      "slip": 0.110028,
+      "loglik": -481.705357,
+      "iters": 50,
+      "converged": true,
+      "n_students": 223,
+      "n_answers": 1287,
+      "flags": []
+    }
+  },
+  "per_skill_summary": {
+    "n_skills": 81,
+    "n_guess_plus_slip_ge_1": 0,
+    "pct_guess_plus_slip_ge_1": 0.0,
+    "n_degenerate": 4,
+    "pct_degenerate": 4.9,
+    "degenerate_skills": [
+      "Angles on Parallel Lines Cut by a Transversal",
+      "Greatest Common Factor",
+      "Ordering Fractions",
+      "Surface Area Cylinder"
+    ],
+    "flag_counts": {
+      "guess>0.5": 3,
+      "prior<0.01": 2,
+      "slip>0.5": 1
+    },
+    "all": {
+      "prior": {
+        "n": 81,
+        "min": 0.002019,
+        "q25": 0.582836,
+        "median": 0.68005,
+        "q75": 0.847669,
+        "max": 0.995633
+      },
+      "learn": {
+        "n": 81,
+        "min": 0.0,
+        "q25": 0.059863,
+        "median": 0.113472,
+        "q75": 0.207278,
+        "max": 0.999057
+      },
+      "guess": {
+        "n": 81,
+        "min": 1e-06,
+        "q25": 0.093152,
+        "median": 0.16365,
+        "q75": 0.336604,
+        "max": 0.653664
+      },
+      "slip": {
+        "n": 81,
+        "min": 0.000373,
+        "q25": 0.136025,
+        "median": 0.195906,
+        "q75": 0.266343,
+        "max": 0.514336
+      }
+    },
+    "non_degenerate": {
+      "prior": {
+        "n": 77,
+        "min": 0.002019,
+        "q25": 0.601058,
+        "median": 0.683357,
+        "q75": 0.851683,
+        "max": 0.995633
+      },
+      "learn": {
+        "n": 77,
+        "min": 0.0,
+        "q25": 0.059863,
+        "median": 0.117409,
+        "q75": 0.207278,
+        "max": 0.999057
+      },
+      "guess": {
+        "n": 77,
+        "min": 1e-06,
+        "q25": 0.093152,
+        "median": 0.163285,
+        "q75": 0.325484,
+        "max": 0.470078
+      },
+      "slip": {
+        "n": 77,
+        "min": 0.004051,
+        "q25": 0.145322,
+        "median": 0.19651,
+        "q75": 0.266343,
+        "max": 0.478291
+      }
+    }
+  },
+  "class_fit": {
+    "prior": 0.7415,
+    "learn": 0.072513,
+    "guess": {
+      "easy": 0.369083,
+      "medium": 0.146758,
+      "hard": 0.057842,
+      "unrated": 0.274571
+    },
+    "slip": {
+      "easy": 0.132163,
+      "medium": 0.34157,
+      "hard": 0.645722,
+      "unrated": 0.19007
+    },
+    "loglik": -166969.423919,
+    "iters": 35,
+    "converged": true,
+    "flags": {
+      "easy": [],
+      "medium": [],
+      "hard": [
+        "slip>0.5"
+      ],
+      "unrated": []
+    },
+    "answers_per_class": {
+      "easy": 103491,
+      "medium": 85352,
+      "hard": 11454,
+      "unrated": 96719
+    },
+    "bootstrap": {
+      "prior": {
+        "ci95": [
+          0.721021,
+          0.764224
+        ],
+        "boot_median": 0.740237
+      },
+      "learn": {
+        "ci95": [
+          0.067098,
+          0.079985
+        ],
+        "boot_median": 0.072237
+      },
+      "guess_easy": {
+        "ci95": [
+          0.321577,
+          0.403669
+        ],
+        "boot_median": 0.367448
+      },
+      "guess_medium": {
+        "ci95": [
+          0.126007,
+          0.163748
+        ],
+        "boot_median": 0.145781
+      },
+      "guess_hard": {
+        "ci95": [
+          0.042477,
+          0.077139
+        ],
+        "boot_median": 0.057886
+      },
+      "guess_unrated": {
+        "ci95": [
+          0.238645,
+          0.302946
+        ],
+        "boot_median": 0.275727
+      },
+      "slip_easy": {
+        "ci95": [
+          0.127351,
+          0.137664
+        ],
+        "boot_median": 0.132153
+      },
+      "slip_medium": {
+        "ci95": [
+          0.33016,
+          0.35348
+        ],
+        "boot_median": 0.341364
+      },
+      "slip_hard": {
+        "ci95": [
+          0.629348,
+          0.661204
+        ],
+        "boot_median": 0.646137
+      },
+      "slip_unrated": {
+        "ci95": [
+          0.181312,
+          0.197779
+        ],
+        "boot_median": 0.189925
+      }
+    },
+    "n_resamples": 200
+  },
+  "bootstrap_skills": {
+    "n_resamples": 200,
+    "unit": "student",
+    "skills": "20 largest by number of students",
+    "init": "restart 0 = full-data estimate, restarts 1-4 random",
+    "per_skill": {
+      "Addition and Subtraction Fractions": {
+        "prior": {
+          "ci95": [
+            0.697283,
+            0.80563
+          ],
+          "boot_median": 0.751643
+        },
+        "learn": {
+          "ci95": [
+            0.061901,
+            0.11427
+          ],
+          "boot_median": 0.08898
+        },
+        "guess": {
+          "ci95": [
+            0.063474,
+            0.179427
+          ],
+          "boot_median": 0.117326
+        },
+        "slip": {
+          "ci95": [
+            0.179384,
+            0.211442
+          ],
+          "boot_median": 0.194579
+        },
+        "point": {
+          "prior": 0.754697,
+          "learn": 0.086912,
+          "guess": 0.113857,
+          "slip": 0.194654
+        }
+      },
+      "Addition and Subtraction Integers": {
+        "prior": {
+          "ci95": [
+            0.240291,
+            0.750938
+          ],
+          "boot_median": 0.702036
+        },
+        "learn": {
+          "ci95": [
+            0.005483,
+            0.013518
+          ],
+          "boot_median": 0.009551
+        },
+        "guess": {
+          "ci95": [
+            0.332886,
+            0.796879
+          ],
+          "boot_median": 0.368686
+        },
+        "slip": {
+          "ci95": [
+            0.177818,
+            0.626448
+          ],
+          "boot_median": 0.199584
+        },
+        "point": {
+          "prior": 0.704601,
+          "learn": 0.009041,
+          "guess": 0.367717,
+          "slip": 0.198929
+        }
+      },
+      "Conversion of Fraction Decimals Percents": {
+        "prior": {
+          "ci95": [
+            0.538533,
+            0.650841
+          ],
+          "boot_median": 0.604147
+        },
+        "learn": {
+          "ci95": [
+            0.010121,
+            0.020324
+          ],
+          "boot_median": 0.015266
+        },
+        "guess": {
+          "ci95": [
+            0.398745,
+            0.454655
+          ],
+          "boot_median": 0.425525
+        },
+        "slip": {
+          "ci95": [
+            0.181888,
+            0.218836
+          ],
+          "boot_median": 0.200184
+        },
+        "point": {
+          "prior": 0.607854,
+          "learn": 0.014809,
+          "guess": 0.424251,
+          "slip": 0.201514
+        }
+      },
+      "Percent Of": {
+        "prior": {
+          "ci95": [
+            0.608155,
+            0.729507
+          ],
+          "boot_median": 0.669463
+        },
+        "learn": {
+          "ci95": [
+            0.085964,
+            0.154266
+          ],
+          "boot_median": 0.115883
+        },
+        "guess": {
+          "ci95": [
+            0.048649,
+            0.118768
+          ],
+          "boot_median": 0.070871
+        },
+        "slip": {
+          "ci95": [
+            0.264603,
+            0.304114
+          ],
+          "boot_median": 0.286274
+        },
+        "point": {
+          "prior": 0.671594,
+          "learn": 0.117409,
+          "guess": 0.072004,
+          "slip": 0.286027
+        }
+      },
+      "Absolute Value": {
+        "prior": {
+          "ci95": [
+            0.480283,
+            0.627317
+          ],
+          "boot_median": 0.559627
+        },
+        "learn": {
+          "ci95": [
+            0.08694,
+            0.139486
+          ],
+          "boot_median": 0.113374
+        },
+        "guess": {
+          "ci95": [
+            0.380449,
+            0.485705
+          ],
+          "boot_median": 0.432019
+        },
+        "slip": {
+          "ci95": [
+            0.070764,
+            0.108525
+          ],
+          "boot_median": 0.08731
+        },
+        "point": {
+          "prior": 0.560833,
+          "learn": 0.112618,
+          "guess": 0.431669,
+          "slip": 0.087889
+        }
+      },
+      "Addition Whole Numbers": {
+        "prior": {
+          "ci95": [
+            0.489875,
+            0.74569
+          ],
+          "boot_median": 0.624726
+        },
+        "learn": {
+          "ci95": [
+            0.148923,
+            0.257199
+          ],
+          "boot_median": 0.210984
+        },
+        "guess": {
+          "ci95": [
+            0.226268,
+            0.48745
+          ],
+          "boot_median": 0.371676
+        },
+        "slip": {
+          "ci95": [
+            0.093608,
+            0.145347
+          ],
+          "boot_median": 0.118495
+        },
+        "point": {
+          "prior": 0.635097,
+          "learn": 0.207278,
+          "guess": 0.35918,
+          "slip": 0.121468
+        }
+      },
+      "Equation Solving Two or Fewer Steps": {
+        "prior": {
+          "ci95": [
+            0.515001,
+            0.734007
+          ],
+          "boot_median": 0.628004
+        },
+        "learn": {
+          "ci95": [
+            0.029355,
+            0.051505
+          ],
+          "boot_median": 0.037366
+        },
+        "guess": {
+          "ci95": [
+            0.169764,
+            0.372705
+          ],
+          "boot_median": 0.295606
+        },
+        "slip": {
+          "ci95": [
+            0.220789,
+            0.283155
+          ],
+          "boot_median": 0.248628
+        },
+        "point": {
+          "prior": 0.634935,
+          "learn": 0.03794,
+          "guess": 0.287597,
+          "slip": 0.250916
+        }
+      },
+      "Ordering Positive Decimals": {
+        "prior": {
+          "ci95": [
+            0.627629,
+            0.729074
+          ],
+          "boot_median": 0.673442
+        },
+        "learn": {
+          "ci95": [
+            0.055449,
+            0.098212
+          ],
+          "boot_median": 0.071585
+        },
+        "guess": {
+          "ci95": [
+            0.382756,
+            0.472677
+          ],
+          "boot_median": 0.431925
+        },
+        "slip": {
+          "ci95": [
+            0.089575,
+            0.116349
+          ],
+          "boot_median": 0.102839
+        },
+        "point": {
+          "prior": 0.68005,
+          "learn": 0.07331,
+          "guess": 0.428776,
+          "slip": 0.104004
+        }
+      },
+      "Probability of a Single Event": {
+        "prior": {
+          "ci95": [
+            0.802948,
+            0.908586
+          ],
+          "boot_median": 0.864687
+        },
+        "learn": {
+          "ci95": [
+            0.065959,
+            0.193911
+          ],
+          "boot_median": 0.116358
+        },
+        "guess": {
+          "ci95": [
+            0.060825,
+            0.240605
+          ],
+          "boot_median": 0.120351
+        },
+        "slip": {
+          "ci95": [
+            0.155474,
+            0.187496
+          ],
+          "boot_median": 0.172876
+        },
+        "point": {
+          "prior": 0.866277,
+          "learn": 0.119461,
+          "guess": 0.118402,
+          "slip": 0.174372
+        }
+      },
+      "Subtraction Whole Numbers": {
+        "prior": {
+          "ci95": [
+            0.669281,
+            0.835721
+          ],
+          "boot_median": 0.755274
+        },
+        "learn": {
+          "ci95": [
+            0.070665,
+            0.166036
+          ],
+          "boot_median": 0.117896
+        },
+        "guess": {
+          "ci95": [
+            0.059508,
+            0.210056
+          ],
+          "boot_median": 0.123274
+        },
+        "slip": {
+          "ci95": [
+            0.162617,
+            0.20232
+          ],
+          "boot_median": 0.181926
+        },
+        "point": {
+          "prior": 0.762486,
+          "learn": 0.110294,
+          "guess": 0.124161,
+          "slip": 0.18309
+        }
+      },
+      "Multiplication and Division Integers": {
+        "prior": {
+          "ci95": [
+            0.808324,
+            0.955789
+          ],
+          "boot_median": 0.898972
+        },
+        "learn": {
+          "ci95": [
+            0.036486,
+            0.097085
+          ],
+          "boot_median": 0.06539
+        },
+        "guess": {
+          "ci95": [
+            4.2e-05,
+            0.426635
+          ],
+          "boot_median": 0.208766
+        },
+        "slip": {
+          "ci95": [
+            0.11472,
+            0.177746
+          ],
+          "boot_median": 0.147353
+        },
+        "point": {
+          "prior": 0.898504,
+          "learn": 0.070516,
+          "guess": 0.215951,
+          "slip": 0.146784
+        }
+      },
+      "Ordering Fractions": {
+        "prior": {
+          "ci95": [
+            0.573608,
+            0.681629
+          ],
+          "boot_median": 0.63327
+        },
+        "learn": {
+          "ci95": [
+            0.047016,
+            0.083146
+          ],
+          "boot_median": 0.062998
+        },
+        "guess": {
+          "ci95": [
+            0.462165,
+            0.551194
+          ],
+          "boot_median": 0.513542
+        },
+        "slip": {
+          "ci95": [
+            0.05663,
+            0.081618
+          ],
+          "boot_median": 0.067596
+        },
+        "point": {
+          "prior": 0.630044,
+          "learn": 0.062649,
+          "guess": 0.514383,
+          "slip": 0.067929
+        }
+      },
+      "Median": {
+        "prior": {
+          "ci95": [
+            0.435527,
+            0.655578
+          ],
+          "boot_median": 0.56357
+        },
+        "learn": {
+          "ci95": [
+            0.055867,
+            0.109807
+          ],
+          "boot_median": 0.080252
+        },
+        "guess": {
+          "ci95": [
+            0.242956,
+            0.404416
+          ],
+          "boot_median": 0.319375
+        },
+        "slip": {
+          "ci95": [
+            0.134749,
+            0.204165
+          ],
+          "boot_median": 0.17299
+        },
+        "point": {
+          "prior": 0.554963,
+          "learn": 0.081854,
+          "guess": 0.325484,
+          "slip": 0.172078
+        }
+      },
+      "Multiplication Fractions": {
+        "prior": {
+          "ci95": [
+            0.465462,
+            0.715162
+          ],
+          "boot_median": 0.598618
+        },
+        "learn": {
+          "ci95": [
+            0.085318,
+            0.190067
+          ],
+          "boot_median": 0.129471
+        },
+        "guess": {
+          "ci95": [
+            0.188532,
+            0.398602
+          ],
+          "boot_median": 0.311872
+        },
+        "slip": {
+          "ci95": [
+            0.174919,
+            0.245007
+          ],
+          "boot_median": 0.213186
+        },
+        "point": {
+          "prior": 0.582391,
+          "learn": 0.129356,
+          "guess": 0.317745,
+          "slip": 0.209595
+        }
+      },
+      "Finding Percents": {
+        "prior": {
+          "ci95": [
+            0.340458,
+            0.44869
+          ],
+          "boot_median": 0.394146
+        },
+        "learn": {
+          "ci95": [
+            0.073254,
+            0.104095
+          ],
+          "boot_median": 0.086736
+        },
+        "guess": {
+          "ci95": [
+            0.088071,
+            0.146332
+          ],
+          "boot_median": 0.120797
+        },
+        "slip": {
+          "ci95": [
+            0.173499,
+            0.22071
+          ],
+          "boot_median": 0.196658
+        },
+        "point": {
+          "prior": 0.3958,
+          "learn": 0.085989,
+          "guess": 0.119549,
+          "slip": 0.19651
+        }
+      },
+      "Range": {
+        "prior": {
+          "ci95": [
+            0.618196,
+            0.826236
+          ],
+          "boot_median": 0.767477
+        },
+        "learn": {
+          "ci95": [
+            0.11543,
+            0.510662
+          ],
+          "boot_median": 0.32866
+        },
+        "guess": {
+          "ci95": [
+            0.000425,
+            0.416832
+          ],
+          "boot_median": 0.039312
+        },
+        "slip": {
+          "ci95": [
+            0.124876,
+            0.188672
+          ],
+          "boot_median": 0.165509
+        },
+        "point": {
+          "prior": 0.78337,
+          "learn": 0.393018,
+          "guess": 0.036315,
+          "slip": 0.174216
+        }
+      },
+      "Proportion": {
+        "prior": {
+          "ci95": [
+            0.393857,
+            0.625106
+          ],
+          "boot_median": 0.500205
+        },
+        "learn": {
+          "ci95": [
+            0.029137,
+            0.060825
+          ],
+          "boot_median": 0.041262
+        },
+        "guess": {
+          "ci95": [
+            0.268115,
+            0.445182
+          ],
+          "boot_median": 0.37965
+        },
+        "slip": {
+          "ci95": [
+            0.125673,
+            0.221582
+          ],
+          "boot_median": 0.166269
+        },
+        "point": {
+          "prior": 0.509845,
+          "learn": 0.040921,
+          "guess": 0.378749,
+          "slip": 0.169407
+        }
+      },
+      "Addition and Subtraction Positive Decimals": {
+        "prior": {
+          "ci95": [
+            0.544089,
+            0.674855
+          ],
+          "boot_median": 0.615827
+        },
+        "learn": {
+          "ci95": [
+            0.069233,
+            0.108938
+          ],
+          "boot_median": 0.08603
+        },
+        "guess": {
+          "ci95": [
+            0.103083,
+            0.2022
+          ],
+          "boot_median": 0.142063
+        },
+        "slip": {
+          "ci95": [
+            0.157446,
+            0.224625
+          ],
+          "boot_median": 0.195481
+        },
+        "point": {
+          "prior": 0.616812,
+          "learn": 0.08636,
+          "guess": 0.144873,
+          "slip": 0.194135
+        }
+      },
+      "Division Fractions": {
+        "prior": {
+          "ci95": [
+            0.591239,
+            0.758172
+          ],
+          "boot_median": 0.669821
+        },
+        "learn": {
+          "ci95": [
+            0.146835,
+            0.245019
+          ],
+          "boot_median": 0.185804
+        },
+        "guess": {
+          "ci95": [
+            0.061679,
+            0.223806
+          ],
+          "boot_median": 0.14045
+        },
+        "slip": {
+          "ci95": [
+            0.147255,
+            0.210186
+          ],
+          "boot_median": 0.178339
+        },
+        "point": {
+          "prior": 0.671485,
+          "learn": 0.189204,
+          "guess": 0.146359,
+          "slip": 0.178211
+        }
+      },
+      "Table": {
+        "prior": {
+          "ci95": [
+            0.773862,
+            0.891889
+          ],
+          "boot_median": 0.841245
+        },
+        "learn": {
+          "ci95": [
+            0.070431,
+            0.153425
+          ],
+          "boot_median": 0.100833
+        },
+        "guess": {
+          "ci95": [
+            0.035159,
+            0.300738
+          ],
+          "boot_median": 0.11531
+        },
+        "slip": {
+          "ci95": [
+            0.179162,
+            0.218787
+          ],
+          "boot_median": 0.199758
+        },
+        "point": {
+          "prior": 0.851683,
+          "learn": 0.113472,
+          "guess": 0.107068,
+          "slip": 0.205217
+        }
+      }
+    }
+  },
+  "heldout": {
+    "folds": 5,
+    "fold_unit": "student",
+    "per_fold": {
+      "fitted_per_skill": [
+        {
+          "n": 60979,
+          "rmse": 0.438737,
+          "brier": 0.192491,
+          "logloss": 0.568723,
+          "auc": 0.717501,
+          "ece": 0.008708
+        },
+        {
+          "n": 58022,
+          "rmse": 0.436851,
+          "brier": 0.190839,
+          "logloss": 0.565096,
+          "auc": 0.717582,
+          "ece": 0.008089
+        },
+        {
+          "n": 59529,
+          "rmse": 0.44167,
+          "brier": 0.195072,
+          "logloss": 0.574926,
+          "auc": 0.719503,
+          "ece": 0.012519
+        },
+        {
+          "n": 55985,
+          "rmse": 0.441248,
+          "brier": 0.1947,
+          "logloss": 0.574258,
+          "auc": 0.707152,
+          "ece": 0.012685
+        },
+        {
+          "n": 62501,
+          "rmse": 0.440446,
+          "brier": 0.193993,
+          "logloss": 0.572354,
+          "auc": 0.709405,
+          "ece": 0.006704
+        }
+      ],
+      "fitted_class_profile": [
+        {
+          "n": 60979,
+          "rmse": 0.438933,
+          "brier": 0.192662,
+          "logloss": 0.570104,
+          "auc": 0.714147,
+          "ece": 0.006502
+        },
+        {
+          "n": 58022,
+          "rmse": 0.439951,
+          "brier": 0.193557,
+          "logloss": 0.572424,
+          "auc": 0.706559,
+          "ece": 0.011844
+        },
+        {
+          "n": 59529,
+          "rmse": 0.44382,
+          "brier": 0.196976,
+          "logloss": 0.580401,
+          "auc": 0.711677,
+          "ece": 0.013388
+        },
+        {
+          "n": 55985,
+          "rmse": 0.442628,
+          "brier": 0.195919,
+          "logloss": 0.577732,
+          "auc": 0.703887,
+          "ece": 0.008747
+        },
+        {
+          "n": 62501,
+          "rmse": 0.441729,
+          "brier": 0.195125,
+          "logloss": 0.575807,
+          "auc": 0.702454,
+          "ece": 0.010467
+        }
+      ],
+      "heuristic_class_D6": [
+        {
+          "n": 60979,
+          "rmse": 0.473018,
+          "brier": 0.223746,
+          "logloss": 0.639963,
+          "auc": 0.691188,
+          "ece": 0.131176
+        },
+        {
+          "n": 58022,
+          "rmse": 0.47373,
+          "brier": 0.22442,
+          "logloss": 0.64188,
+          "auc": 0.685209,
+          "ece": 0.132746
+        },
+        {
+          "n": 59529,
+          "rmse": 0.474084,
+          "brier": 0.224756,
+          "logloss": 0.643199,
+          "auc": 0.691636,
+          "ece": 0.128811
+        },
+        {
+          "n": 55985,
+          "rmse": 0.476392,
+          "brier": 0.226949,
+          "logloss": 0.647751,
+          "auc": 0.68035,
+          "ece": 0.135042
+        },
+        {
+          "n": 62501,
+          "rmse": 0.475848,
+          "brier": 0.226432,
+          "logloss": 0.646491,
+          "auc": 0.679901,
+          "ece": 0.134665
+        }
+      ],
+      "heuristic_continuous": [
+        {
+          "n": 60979,
+          "rmse": 0.472353,
+          "brier": 0.223118,
+          "logloss": 0.637917,
+          "auc": 0.691068,
+          "ece": 0.130848
+        },
+        {
+          "n": 58022,
+          "rmse": 0.473103,
+          "brier": 0.223827,
+          "logloss": 0.639974,
+          "auc": 0.685296,
+          "ece": 0.131808
+        },
+        {
+          "n": 59529,
+          "rmse": 0.473513,
+          "brier": 0.224214,
+          "logloss": 0.641309,
+          "auc": 0.691748,
+          "ece": 0.129538
+        },
+        {
+          "n": 55985,
+          "rmse": 0.475895,
+          "brier": 0.226476,
+          "logloss": 0.646187,
+          "auc": 0.680611,
+          "ece": 0.135535
+        },
+        {
+          "n": 62501,
+          "rmse": 0.475232,
+          "brier": 0.225845,
+          "logloss": 0.644604,
+          "auc": 0.681442,
+          "ece": 0.133993
+        }
+      ]
+    },
+    "pooled_oof": {
+      "fitted_per_skill": {
+        "n": 297016,
+        "rmse": 0.439793,
+        "brier": 0.193418,
+        "logloss": 0.571065,
+        "auc": 0.7142,
+        "ece": 0.005422,
+        "reliability": [
+          {
+            "bin": [
+              0.0,
+              0.1
+            ],
+            "n": 217,
+            "mean_pred": 0.083798,
+            "obs_rate": 0.078341
+          },
+          {
+            "bin": [
+              0.1,
+              0.2
+            ],
+            "n": 4742,
+            "mean_pred": 0.176002,
+            "obs_rate": 0.139393
+          },
+          {
+            "bin": [
+              0.2,
+              0.3
+            ],
+            "n": 7617,
+            "mean_pred": 0.244334,
+            "obs_rate": 0.245766
+          },
+          {
+            "bin": [
+              0.3,
+              0.4
+            ],
+            "n": 16532,
+            "mean_pred": 0.361241,
+            "obs_rate": 0.355492
+          },
+          {
+            "bin": [
+              0.4,
+              0.5
+            ],
+            "n": 28713,
+            "mean_pred": 0.455158,
+            "obs_rate": 0.451956
+          },
+          {
+            "bin": [
+              0.5,
+              0.6
+            ],
+            "n": 33968,
+            "mean_pred": 0.555037,
+            "obs_rate": 0.558202
+          },
+          {
+            "bin": [
+              0.6,
+              0.7
+            ],
+            "n": 42955,
+            "mean_pred": 0.654911,
+            "obs_rate": 0.654871
+          },
+          {
+            "bin": [
+              0.7,
+              0.8
+            ],
+            "n": 89723,
+            "mean_pred": 0.751317,
+            "obs_rate": 0.740791
+          },
+          {
+            "bin": [
+              0.8,
+              0.9
+            ],
+            "n": 64342,
+            "mean_pred": 0.833055,
+            "obs_rate": 0.835411
+          },
+          {
+            "bin": [
+              0.9,
+              1.0
+            ],
+            "n": 8207,
+            "mean_pred": 0.923649,
+            "obs_rate": 0.919703
+          }
+        ]
+      },
+      "fitted_class_profile": {
+        "n": 297016,
+        "rmse": 0.4414,
+        "brier": 0.194834,
+        "logloss": 0.575259,
+        "auc": 0.707239,
+        "ece": 0.008588,
+        "reliability": [
+          {
+            "bin": [
+              0.0,
+              0.1
+            ],
+            "n": 335,
+            "mean_pred": 0.094727,
+            "obs_rate": 0.122388
+          },
+          {
+            "bin": [
+              0.1,
+              0.2
+            ],
+            "n": 1952,
+            "mean_pred": 0.154064,
+            "obs_rate": 0.180328
+          },
+          {
+            "bin": [
+              0.2,
+              0.3
+            ],
+            "n": 10266,
+            "mean_pred": 0.243543,
+            "obs_rate": 0.247224
+          },
+          {
+            "bin": [
+              0.3,
+              0.4
+            ],
+            "n": 22245,
+            "mean_pred": 0.348371,
+            "obs_rate": 0.358508
+          },
+          {
+            "bin": [
+              0.4,
+              0.5
+            ],
+            "n": 16494,
+            "mean_pred": 0.449444,
+            "obs_rate": 0.432339
+          },
+          {
+            "bin": [
+              0.5,
+              0.6
+            ],
+            "n": 30984,
+            "mean_pred": 0.541878,
+            "obs_rate": 0.547799
+          },
+          {
+            "bin": [
+              0.6,
+              0.7
+            ],
+            "n": 73994,
+            "mean_pred": 0.655337,
+            "obs_rate": 0.662135
+          },
+          {
+            "bin": [
+              0.7,
+              0.8
+            ],
+            "n": 58735,
+            "mean_pred": 0.764959,
+            "obs_rate": 0.752635
+          },
+          {
+            "bin": [
+              0.8,
+              0.9
+            ],
+            "n": 82011,
+            "mean_pred": 0.836299,
+            "obs_rate": 0.829779
+          },
+          {
+            "bin": [
+              0.9,
+              1.0
+            ],
+            "n": 0,
+            "mean_pred": null,
+            "obs_rate": null
+          }
+        ]
+      },
+      "heuristic_class_D6": {
+        "n": 297016,
+        "rmse": 0.474604,
+        "brier": 0.225249,
+        "logloss": 0.643828,
+        "auc": 0.685785,
+        "ece": 0.132431,
+        "reliability": [
+          {
+            "bin": [
+              0.0,
+              0.1
+            ],
+            "n": 18,
+            "mean_pred": 0.099787,
+            "obs_rate": 0.055556
+          },
+          {
+            "bin": [
+              0.1,
+              0.2
+            ],
+            "n": 22859,
+            "mean_pred": 0.185003,
+            "obs_rate": 0.253248
+          },
+          {
+            "bin": [
+              0.2,
+              0.3
+            ],
+            "n": 57192,
+            "mean_pred": 0.264257,
+            "obs_rate": 0.517205
+          },
+          {
+            "bin": [
+              0.3,
+              0.4
+            ],
+            "n": 26800,
+            "mean_pred": 0.356567,
+            "obs_rate": 0.626642
+          },
+          {
+            "bin": [
+              0.4,
+              0.5
+            ],
+            "n": 15034,
+            "mean_pred": 0.448252,
+            "obs_rate": 0.680657
+          },
+          {
+            "bin": [
+              0.5,
+              0.6
+            ],
+            "n": 21128,
+            "mean_pred": 0.557274,
+            "obs_rate": 0.744888
+          },
+          {
+            "bin": [
+              0.6,
+              0.7
+            ],
+            "n": 17423,
+            "mean_pred": 0.654347,
+            "obs_rate": 0.7241
+          },
+          {
+            "bin": [
+              0.7,
+              0.8
+            ],
+            "n": 29893,
+            "mean_pred": 0.757731,
+            "obs_rate": 0.700365
+          },
+          {
+            "bin": [
+              0.8,
+              0.9
+            ],
+            "n": 105917,
+            "mean_pred": 0.845736,
+            "obs_rate": 0.792167
+          },
+          {
+            "bin": [
+              0.9,
+              1.0
+            ],
+            "n": 752,
+            "mean_pred": 0.9,
+            "obs_rate": 0.890957
+          }
+        ]
+      },
+      "heuristic_continuous": {
+        "n": 297016,
+        "rmse": 0.474007,
+        "brier": 0.224683,
+        "logloss": 0.641965,
+        "auc": 0.686138,
+        "ece": 0.132305,
+        "reliability": [
+          {
+            "bin": [
+              0.0,
+              0.1
+            ],
+            "n": 156,
+            "mean_pred": 0.088745,
+            "obs_rate": 0.160256
+          },
+          {
+            "bin": [
+              0.1,
+              0.2
+            ],
+            "n": 18032,
+            "mean_pred": 0.183149,
+            "obs_rate": 0.262311
+          },
+          {
+            "bin": [
+              0.2,
+              0.3
+            ],
+            "n": 58072,
+            "mean_pred": 0.257859,
+            "obs_rate": 0.494834
+          },
+          {
+            "bin": [
+              0.3,
+              0.4
+            ],
+            "n": 29502,
+            "mean_pred": 0.348298,
+            "obs_rate": 0.598163
+          },
+          {
+            "bin": [
+              0.4,
+              0.5
+            ],
+            "n": 15573,
+            "mean_pred": 0.440465,
+            "obs_rate": 0.692352
+          },
+          {
+            "bin": [
+              0.5,
+              0.6
+            ],
+            "n": 21723,
+            "mean_pred": 0.55547,
+            "obs_rate": 0.741979
+          },
+          {
+            "bin": [
+              0.6,
+              0.7
+            ],
+            "n": 17510,
+            "mean_pred": 0.652047,
+            "obs_rate": 0.729069
+          },
+          {
+            "bin": [
+              0.7,
+              0.8
+            ],
+            "n": 31922,
+            "mean_pred": 0.760718,
+            "obs_rate": 0.691686
+          },
+          {
+            "bin": [
+              0.8,
+              0.9
+            ],
+            "n": 93322,
+            "mean_pred": 0.839242,
+            "obs_rate": 0.785303
+          },
+          {
+            "bin": [
+              0.9,
+              1.0
+            ],
+            "n": 11204,
+            "mean_pred": 0.915369,
+            "obs_rate": 0.90066
+          }
+        ]
+      }
+    },
+    "heuristic": {
+      "prior_p0": 0.2,
+      "learn_T_exercise": 0.05,
+      "continuous": "g=GUESS_COEF*(1-d), s=SLIP_BASE+SLIP_COEF*d, d clipped; unrated d=0.5",
+      "class_D6": {
+        "easy": {
+          "rep_d": 0.2,
+          "guess": 0.24,
+          "slip": 0.1
+        },
+        "medium": {
+          "rep_d": 0.5,
+          "guess": 0.15,
+          "slip": 0.175
+        },
+        "hard": {
+          "rep_d": 0.8,
+          "guess": 0.06,
+          "slip": 0.25
+        }
+      },
+      "unrated": "medium"
+    },
+    "difficulty_note": "d recomputed per fold from training students only"
+  }
+}

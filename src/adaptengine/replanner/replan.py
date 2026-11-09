@@ -19,6 +19,9 @@ def compute_effective_context(
 ) -> tuple[Optional[PlanContext], int, int]:
     """Fold DEADLINE_CHANGED and BUDGET_CHANGED events over initial_ctx (D29, D30).
 
+    The effective context carries the minutes already used on its start day (T2.1), so a
+    mid-day replan never packs more than the remaining daily budget.
+
     Returns (effective_context, target_current_day, effective_deadline).
     If target_current_day > effective_deadline, effective_context is None.
     """
@@ -37,11 +40,11 @@ def compute_effective_context(
             current_day = max(current_day, e.day + 1)
         elif e.kind in (EventType.COMPLETED, EventType.FAILED_ASSESSMENT):
             minutes_per_day[e.day] = minutes_per_day.get(e.day, 0) + e.minutes_elapsed
-            if minutes_per_day[e.day] >= budget:
-                # Daily budget reached or exceeded for this day; advance start day to next day
-                current_day = max(current_day, e.day + 1)
-            else:
-                current_day = max(current_day, e.day)
+            current_day = max(current_day, e.day)
+
+    # Daily budget (in force at the end of the log) used up on the start day: start the next day
+    while minutes_per_day.get(current_day, 0) >= budget:
+        current_day += 1
 
     if current_day > deadline:
         return None, current_day, deadline
@@ -52,6 +55,7 @@ def compute_effective_context(
             deadline_day=deadline,
             budget=budget,
             current_day=current_day,
+            minutes_used_today=minutes_per_day.get(current_day, 0),  # T2.1
         ),
         current_day,
         deadline,
@@ -129,4 +133,5 @@ def replan(
         shortfall_days=revised_plan.shortfall_days,
         options=revised_plan.options,
         trace=combined_trace,
+        best_effort_days=revised_plan.best_effort_days,
     )

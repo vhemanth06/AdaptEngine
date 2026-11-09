@@ -53,6 +53,20 @@ This record formally freezes all pedagogical, mathematical, architectural, and p
 
 ---
 
+### 2.1 Decisions after the 21 October freeze (D35 – D48)
+
+These are recorded in `docs/DECISIONS.md` but have **not** been through the freeze sign-off. Status "Proposed" means the human owner still has to approve them.
+
+| # | Decision | Status | Evidence |
+|---|---|---|---|
+| **D35** | Caller-owned `WorkloadCache` for frontier replanning | Implemented (W6); proposed | `tests/test_replan_frontier.py` |
+| **D36** | Key-seeded simulator determinism | Implemented (W6); proposed | `tests/test_sim.py` |
+| **D37** | Four planner evaluation arms | Implemented (W6); proposed | `tests/test_arms.py` |
+| **D38** | Oracle `SELECTED` records (superseded greedy records re-tagged in W7) | Implemented (W6, fixed W7 T1.4); proposed | `tests/test_planner.py::test_oracle_path_trace_natural_case_t1_4` |
+| **D39** | Diagnostic split & selection rule | **Superseded by D44** (W6 rule overridden post hoc) | `experiments/results/w7_diag_selection.json` |
+| **D40** | Scheduler starvation bound | Implemented (W6); proposed | `tests/test_planner.py` |
+| **D41–D48** | Week 7 decisions | Proposed (W7) | `docs/DECISIONS.md` §7 |
+
 ## 3. Milestone Acceptance Status
 
 - **M1: Curriculum & Learner State:** **FROZEN & VERIFIED** (`tests/test_graph.py`, `tests/test_schema.py`)

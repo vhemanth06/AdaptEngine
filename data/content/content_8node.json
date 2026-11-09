@@ -1,0 +1,471 @@
+{
+  "schema_version": 1,
+  "curriculum": "data/curriculum/curriculum_8node.json",
+  "activities_file": "data/curriculum/activities_8node.json",
+  "activities": {
+    "L-C1": {
+      "type": "LESSON",
+      "target_concept": "C1",
+      "title": "Basic Data Types",
+      "markdown": "Every value in Python has a **type**, and the type decides what you can do with it.\nThe four types you will use most are:\n\n- `int` for whole numbers, such as `42` or `-7`\n- `float` for numbers with a decimal point, such as `3.14`\n- `str` for text, written inside quotes: `\"hello\"`\n- `bool` for truth values: `True` or `False`\n\nYou can ask Python for the type of any value with `type()`:\n\n```python\nage = 20\nheight = 1.75\nname = \"Ana\"\nis_student = True\n\nprint(type(age))         # <class 'int'>\nprint(type(height))      # <class 'float'>\nprint(age + 1)           # 21\nprint(name + \"!\")        # Ana!\nprint(str(age) + \" yrs\") # 20 yrs\n```\n\nTypes matter because operators behave differently on them. `+` adds two numbers\nbut joins (concatenates) two strings. Mixing them, as in `\"age: \" + 20`, raises a\n`TypeError`, so you convert first with `str()`, `int()` or `float()`.\n\nDivision also has two forms: `/` always gives a `float` (`7 / 2` is `3.5`), while\n`//` is floor division and gives a whole-number result for two ints (`7 // 2` is `3`).\n\n**Key idea:** before combining two values, ask yourself what type each one is."
+    },
+    "E-C1-0.2": {
+      "type": "EXERCISE",
+      "target_concept": "C1",
+      "prompt": "What is the type of the value `3.0` in Python?",
+      "options": [
+        "`float`",
+        "`int`",
+        "`str`",
+        "`bool`"
+      ],
+      "correct": 0,
+      "explanation": "A number written with a decimal point is a `float`, even when the fractional part is zero."
+    },
+    "E-C1-0.4": {
+      "type": "EXERCISE",
+      "target_concept": "C1",
+      "prompt": "What does this code print?\n\n```python\nprint(7 // 2)\n```",
+      "options": [
+        "3.5",
+        "4",
+        "3",
+        "3.0"
+      ],
+      "correct": 2,
+      "explanation": "`//` is floor division: with two ints it drops the fractional part and gives the int `3`."
+    },
+    "E-C1-0.6": {
+      "type": "EXERCISE",
+      "target_concept": "C1",
+      "prompt": "What does this code print?\n\n```python\nx = \"5\"\ny = 3\nprint(x * y)\n```",
+      "options": [
+        "15",
+        "555",
+        "TypeError",
+        "5 5 5"
+      ],
+      "correct": 1,
+      "explanation": "Multiplying a string by an int repeats the string, so `\"5\" * 3` is `\"555\"`."
+    },
+    "E-C1-0.8": {
+      "type": "EXERCISE",
+      "target_concept": "C1",
+      "prompt": "What does this code print?\n\n```python\nprint(bool(\"False\"), bool(0.0), int(\"7\") + int(2.9))\n```",
+      "options": [
+        "False False 10",
+        "True True 9",
+        "True False 10",
+        "True False 9"
+      ],
+      "correct": 3,
+      "explanation": "Any non-empty string is truthy, `0.0` is falsy, and `int(2.9)` truncates to `2`, giving `7 + 2 = 9`."
+    },
+    "L-C2": {
+      "type": "LESSON",
+      "target_concept": "C2",
+      "title": "For & While Loops",
+      "markdown": "A **loop** repeats a block of code so you do not have to write it many times.\n\nA `for` loop walks over the items of a sequence. `range(n)` produces the numbers\n`0, 1, ..., n-1`, so the loop below runs exactly 3 times:\n\n```python\nfor i in range(3):\n    print(\"step\", i)\n# step 0\n# step 1\n# step 2\n\ncount = 3\nwhile count > 0:\n    print(count)\n    count -= 1\nprint(\"lift off!\")\n```\n\nA `while` loop keeps going **as long as its condition is true**. Something inside\nthe loop must eventually make the condition false (here, `count -= 1`), or the loop\nnever ends.\n\n`range` can take a start, a stop and a step: `range(2, 10, 3)` gives `2, 5, 8`.\nThe stop value itself is never included.\n\nTwo keywords control a loop from inside:\n\n- `break` leaves the loop immediately.\n- `continue` skips the rest of this pass and moves on to the next one.\n\n**Rule of thumb:** use `for` when you know what you are looping over, and `while`\nwhen you loop until something happens."
+    },
+    "E-C2-0.2": {
+      "type": "EXERCISE",
+      "target_concept": "C2",
+      "prompt": "How many lines does this loop print?\n\n```python\nfor i in range(5):\n    print(i)\n```",
+      "options": [
+        "5",
+        "4",
+        "6",
+        "It never stops"
+      ],
+      "correct": 0,
+      "explanation": "`range(5)` yields 0, 1, 2, 3, 4: five values, so the body runs five times."
+    },
+    "E-C2-0.4": {
+      "type": "EXERCISE",
+      "target_concept": "C2",
+      "prompt": "What does this code print?\n\n```python\nfor i in range(1, 10, 3):\n    print(i, end=\" \")\n```",
+      "options": [
+        "1 4 7",
+        "1 4 7 10",
+        "0 3 6 9",
+        "1 3 6 9"
+      ],
+      "correct": 0,
+      "explanation": "`range(1, 10, 3)` starts at 1 and adds 3 while staying below 10, giving 1, 4, 7."
+    },
+    "E-C2-0.6": {
+      "type": "EXERCISE",
+      "target_concept": "C2",
+      "prompt": "What does this code print?\n\n```python\nn = 10\ncount = 0\nwhile n > 1:\n    n = n // 2\n    count += 1\nprint(count)\n```",
+      "options": [
+        "10",
+        "4",
+        "5",
+        "3"
+      ],
+      "correct": 3,
+      "explanation": "`n` goes 10, 5, 2, 1; the loop body runs three times before `n > 1` is false."
+    },
+    "E-C2-0.8": {
+      "type": "EXERCISE",
+      "target_concept": "C2",
+      "prompt": "What does this code print?\n\n```python\ntotal = 0\nfor i in range(3):\n    for j in range(3):\n        if j == i:\n            break\n        total += 1\nelse:\n    total += 10\nprint(total)\n```",
+      "options": [
+        "3",
+        "6",
+        "13",
+        "16"
+      ],
+      "correct": 2,
+      "explanation": "The inner loop adds 0, 1 and 2 (total 3); `break` only exits the inner loop, so the outer loop finishes normally and its `else` adds 10."
+    },
+    "L-C3": {
+      "type": "LESSON",
+      "target_concept": "C3",
+      "title": "Lists & Arrays",
+      "markdown": "A **list** stores several values, in order, in one variable. Python lists play the\nrole that arrays play in many other languages.\n\n```python\nfruits = [\"apple\", \"banana\", \"cherry\"]\nprint(fruits[0])     # apple   (indexes start at 0)\nprint(fruits[-1])    # cherry  (negative indexes count from the end)\nprint(len(fruits))   # 3\n\nfruits.append(\"date\")       # add to the end\nfruits[1] = \"blueberry\"     # lists are mutable: you can change items\nprint(fruits[1:3])          # ['blueberry', 'cherry']\n\nfor fruit in fruits:\n    print(fruit.upper())\n```\n\nA **slice** `items[start:stop]` returns a new list from `start` up to, but not\nincluding, `stop`.\n\nLists are **mutable**: you can change them after creating them. Watch out:\n`b = a` does not copy a list. Both names then refer to the *same* list, so a change\nmade through `b` is also visible through `a`. Use `a.copy()` or `a[:]` when you need\nan independent copy.\n\nLists combine naturally with loops: a `for` loop visits each item in order, which\nis how you total, search or transform a collection."
+    },
+    "E-C3-0.2": {
+      "type": "EXERCISE",
+      "target_concept": "C3",
+      "prompt": "What does this code print?\n\n```python\nnums = [10, 20, 30]\nprint(nums[1])\n```",
+      "options": [
+        "10",
+        "20",
+        "30",
+        "IndexError"
+      ],
+      "correct": 1,
+      "explanation": "List indexes start at 0, so index 1 is the second item, `20`."
+    },
+    "E-C3-0.4": {
+      "type": "EXERCISE",
+      "target_concept": "C3",
+      "prompt": "What does this code print?\n\n```python\nnums = [1, 2, 3, 4, 5]\nprint(nums[1:4])\n```",
+      "options": [
+        "[1, 2, 3, 4]",
+        "[2, 3, 4, 5]",
+        "[2, 3, 4]",
+        "[2, 3]"
+      ],
+      "correct": 2,
+      "explanation": "A slice includes the start index and excludes the stop index, so `[1:4]` takes indexes 1, 2 and 3."
+    },
+    "E-C3-0.6": {
+      "type": "EXERCISE",
+      "target_concept": "C3",
+      "prompt": "What does this code print?\n\n```python\na = [1, 2, 3]\nb = a\nb.append(4)\nprint(a)\n```",
+      "options": [
+        "[1, 2, 3, 4]",
+        "[1, 2, 3]",
+        "[4]",
+        "[1, 2, 3, [4]]"
+      ],
+      "correct": 0,
+      "explanation": "`b = a` makes both names refer to the same list object, so appending through `b` also changes `a`."
+    },
+    "E-C3-0.8": {
+      "type": "EXERCISE",
+      "target_concept": "C3",
+      "prompt": "What does this code print?\n\n```python\ngrid = [[0] * 2] * 2\ngrid[0][0] = 1\nprint(grid)\n```",
+      "options": [
+        "[[1, 0], [0, 0]]",
+        "[[1, 1], [0, 0]]",
+        "[[1, 0], [1, 0]]",
+        "[[1, 1], [1, 1]]"
+      ],
+      "correct": 2,
+      "explanation": "`* 2` on the outer list repeats a reference to the same inner list, so both rows are one object and both show the change."
+    },
+    "L-C4": {
+      "type": "LESSON",
+      "target_concept": "C4",
+      "title": "List Comprehensions",
+      "markdown": "A **list comprehension** builds a new list from an existing sequence in one\nreadable line. Compare the loop version with the comprehension:\n\n```python\nnumbers = [1, 2, 3, 4, 5, 6]\n\n# loop version\nsquares = []\nfor n in numbers:\n    squares.append(n * n)\n\n# comprehension version\nsquares = [n * n for n in numbers]\nprint(squares)  # [1, 4, 9, 16, 25, 36]\n\nevens = [n for n in numbers if n % 2 == 0]\nprint(evens)    # [2, 4, 6]\n```\n\nThe general shape is `[expression for item in iterable if condition]`:\n\n- the **expression** says what goes into the new list,\n- the **for** part says where items come from,\n- the optional **if** part (at the end) filters which items are kept.\n\nYou can also choose between two values *inside* the expression with a conditional\nexpression: `[x if x > 0 else 0 for x in data]` keeps every position but replaces\nnegatives with `0`. Notice the difference: a trailing `if` *removes* items, while\n`a if cond else b` at the front *transforms* every item.\n\nUse comprehensions for short, simple transformations. If the logic needs several\nsteps, a normal loop is easier to read."
+    },
+    "E-C4-0.2": {
+      "type": "EXERCISE",
+      "target_concept": "C4",
+      "prompt": "What does this code print?\n\n```python\nprint([x * 2 for x in [1, 2, 3]])\n```",
+      "options": [
+        "[1, 2, 3, 1, 2, 3]",
+        "[2, 4, 6]",
+        "[1, 4, 9]",
+        "12"
+      ],
+      "correct": 1,
+      "explanation": "The comprehension applies `x * 2` to each item and collects the results in a new list."
+    },
+    "E-C4-0.4": {
+      "type": "EXERCISE",
+      "target_concept": "C4",
+      "prompt": "What does this code print?\n\n```python\nprint([x for x in range(10) if x % 3 == 0])\n```",
+      "options": [
+        "[0, 3, 6, 9]",
+        "[3, 6, 9]",
+        "[0, 3, 6]",
+        "[1, 4, 7]"
+      ],
+      "correct": 0,
+      "explanation": "`range(10)` includes 0, and `0 % 3 == 0` is true, so 0, 3, 6 and 9 are kept."
+    },
+    "E-C4-0.6": {
+      "type": "EXERCISE",
+      "target_concept": "C4",
+      "prompt": "What does this code print?\n\n```python\nprint([x if x > 2 else 0 for x in [1, 2, 3, 4]])\n```",
+      "options": [
+        "[3, 4]",
+        "[0, 3, 4]",
+        "[1, 2, 0, 0]",
+        "[0, 0, 3, 4]"
+      ],
+      "correct": 3,
+      "explanation": "A conditional expression at the front transforms every item instead of filtering, so the list keeps four elements."
+    },
+    "E-C4-0.8": {
+      "type": "EXERCISE",
+      "target_concept": "C4",
+      "prompt": "What does this code print?\n\n```python\nprint([(i, j) for i in range(3) for j in range(i)])\n```",
+      "options": [
+        "[(0, 0), (1, 1), (2, 2)]",
+        "[(1, 0), (2, 0), (2, 1)]",
+        "[(0, 1), (0, 2), (1, 2)]",
+        "[(0, 0), (1, 0), (1, 1), (2, 0), (2, 1), (2, 2)]"
+      ],
+      "correct": 1,
+      "explanation": "The `for` clauses nest left to right; for each `i`, `j` runs over `range(i)`, which is empty when `i` is 0."
+    },
+    "L-C5": {
+      "type": "LESSON",
+      "target_concept": "C5",
+      "title": "Functions & Scope",
+      "markdown": "A **function** is a named, reusable block of code. You define it with `def`,\ngive it parameters, and send a result back with `return`:\n\n```python\ndef area(width, height):\n    return width * height\n\nprint(area(3, 4))  # 12\n\ndef greet(name, greeting=\"Hello\"):\n    print(greeting + \", \" + name)\n\ngreet(\"Ana\")           # Hello, Ana\ngreet(\"Bo\", \"Hi\")      # Hi, Bo\n```\n\n`greeting=\"Hello\"` is a **default value**: it is used when the caller leaves that\nargument out.\n\nA function that never reaches a `return` statement returns `None`. Printing inside\na function is not the same as returning a value.\n\n**Scope** decides where a name is visible. A variable assigned inside a function is\n**local**: it exists only while the function runs and does not change a variable\nwith the same name outside it. Code inside a function can *read* a global variable,\nbut assigning to that name creates a new local one (unless you declare it `global`,\nwhich is rarely a good idea).\n\nGood functions do one job, take their inputs as parameters and return their result,\nwhich makes them easy to test and reuse."
+    },
+    "E-C5-0.2": {
+      "type": "EXERCISE",
+      "target_concept": "C5",
+      "prompt": "Which keyword starts a function definition in Python?",
+      "options": [
+        "`function`",
+        "`func`",
+        "`def`",
+        "`define`"
+      ],
+      "correct": 2,
+      "explanation": "Python functions are defined with `def name(parameters):`."
+    },
+    "E-C5-0.4": {
+      "type": "EXERCISE",
+      "target_concept": "C5",
+      "prompt": "What does this code print?\n\n```python\ndef double(x):\n    x * 2\n\nprint(double(3))\n```",
+      "options": [
+        "6",
+        "None",
+        "3",
+        "An error"
+      ],
+      "correct": 1,
+      "explanation": "The function computes `x * 2` but never returns it, so the call returns `None`."
+    },
+    "E-C5-0.6": {
+      "type": "EXERCISE",
+      "target_concept": "C5",
+      "prompt": "What does this code print?\n\n```python\nx = 5\n\ndef change():\n    x = 10\n\nchange()\nprint(x)\n```",
+      "options": [
+        "10",
+        "None",
+        "UnboundLocalError",
+        "5"
+      ],
+      "correct": 3,
+      "explanation": "Assigning `x` inside the function creates a new local variable; the global `x` is unchanged."
+    },
+    "E-C5-0.8": {
+      "type": "EXERCISE",
+      "target_concept": "C5",
+      "prompt": "What does this code print?\n\n```python\ndef add(item, bucket=[]):\n    bucket.append(item)\n    return bucket\n\nadd(1)\nprint(add(2))\n```",
+      "options": [
+        "[1, 2]",
+        "[2]",
+        "[1]",
+        "[[1], 2]"
+      ],
+      "correct": 0,
+      "explanation": "A default value is created once, when the function is defined, so both calls append to the same list."
+    },
+    "L-C6": {
+      "type": "LESSON",
+      "target_concept": "C6",
+      "title": "Dictionaries & Sets",
+      "markdown": "A **dictionary** (`dict`) maps **keys** to **values**, like a phone book maps names\nto numbers. A **set** is an unordered collection of **unique** values.\n\n```python\nages = {\"ana\": 30, \"bo\": 25}\nprint(ages[\"ana\"])          # 30\nages[\"cy\"] = 41             # add or update a key\nprint(ages.get(\"dan\", 0))   # 0  (default instead of an error)\n\nfor name, age in ages.items():\n    print(name, age)\n\ncolors = {\"red\", \"green\", \"red\"}\nprint(len(colors))          # 2  (duplicates are dropped)\nprint(\"green\" in colors)    # True\n```\n\nLooking up a missing key with `d[key]` raises a `KeyError`. Use `d.get(key, default)`\nwhen a key might be absent.\n\nDictionary keys must be **hashable**: strings, numbers and tuples work, but a list\ncannot be a key because it can change. Values can be anything, including lists and\nother dictionaries.\n\nSets are perfect for removing duplicates and for fast membership tests. They also\nsupport maths-style operations: `a | b` (union), `a & b` (intersection) and `a - b`\n(difference).\n\n**When to use which:** a list when order matters, a dict when you look things up by\na key, and a set when you only care whether something is present."
+    },
+    "E-C6-0.2": {
+      "type": "EXERCISE",
+      "target_concept": "C6",
+      "prompt": "What does this code print?\n\n```python\nages = {\"ana\": 30, \"bo\": 25}\nprint(ages[\"bo\"])\n```",
+      "options": [
+        "30",
+        "\"bo\"",
+        "KeyError",
+        "25"
+      ],
+      "correct": 3,
+      "explanation": "Indexing a dictionary with a key returns the value stored for that key."
+    },
+    "E-C6-0.4": {
+      "type": "EXERCISE",
+      "target_concept": "C6",
+      "prompt": "What does this code print?\n\n```python\nprint(len({1, 2, 2, 3, 3, 3}))\n```",
+      "options": [
+        "6",
+        "4",
+        "3",
+        "1"
+      ],
+      "correct": 2,
+      "explanation": "A set keeps only unique values, so it holds 1, 2 and 3."
+    },
+    "E-C6-0.6": {
+      "type": "EXERCISE",
+      "target_concept": "C6",
+      "prompt": "What does this code print?\n\n```python\nd = {\"a\": 1}\nprint(d.get(\"b\", 0) + d.get(\"a\", 0))\n```",
+      "options": [
+        "1",
+        "KeyError",
+        "0",
+        "None"
+      ],
+      "correct": 0,
+      "explanation": "`get` returns the default `0` for the missing key `\"b\"` instead of raising, and `1` for `\"a\"`."
+    },
+    "E-C6-0.8": {
+      "type": "EXERCISE",
+      "target_concept": "C6",
+      "prompt": "Which of these lines raises a `TypeError`?",
+      "options": [
+        "`d = {(1, 2): \"x\"}`",
+        "`d = {\"k\": [1, 2]}`",
+        "`d = {[1, 2]: \"x\"}`",
+        "`d = {1: {2: 3}}`"
+      ],
+      "correct": 2,
+      "explanation": "Dictionary keys must be hashable; a list is mutable and unhashable, while a tuple key and list or dict values are fine."
+    },
+    "L-C7": {
+      "type": "LESSON",
+      "target_concept": "C7",
+      "title": "Classes & OOP",
+      "markdown": "A **class** is a blueprint for creating **objects** that bundle data\n(**attributes**) with behaviour (**methods**). This is object-oriented programming\n(OOP).\n\n```python\nclass BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n\n    def deposit(self, amount):\n        self.balance += amount\n        return self.balance\n\nacct = BankAccount(\"Ana\")\nacct.deposit(50)\nprint(acct.owner, acct.balance)  # Ana 50\n```\n\n- `__init__` is the **constructor**. It runs automatically when you create an\n  object with `BankAccount(\"Ana\")`.\n- `self` is the object the method is working on. Python passes it for you:\n  `acct.deposit(50)` calls `BankAccount.deposit(acct, 50)`.\n- `self.balance = ...` creates an **instance attribute**, so each object has its\n  own copy.\n\nA variable written directly in the class body (outside any method) is a **class\nattribute** and is *shared* by every instance. That is handy for constants and\ncounters, but be careful with mutable values such as lists: every object would\nshare the same list.\n\nEach object created from a class is independent, so two accounts keep separate\nbalances."
+    },
+    "E-C7-0.2": {
+      "type": "EXERCISE",
+      "target_concept": "C7",
+      "prompt": "Inside a method, what does `self` refer to?",
+      "options": [
+        "The class itself",
+        "The object (instance) the method was called on",
+        "The parent class",
+        "The module the class is defined in"
+      ],
+      "correct": 1,
+      "explanation": "Python passes the instance as the first argument, so `obj.method()` runs with `self` bound to `obj`."
+    },
+    "E-C7-0.4": {
+      "type": "EXERCISE",
+      "target_concept": "C7",
+      "prompt": "What does this code print?\n\n```python\nclass Dog:\n    def __init__(self, name):\n        self.name = name\n\n    def speak(self):\n        return self.name + \" says woof\"\n\nd = Dog(\"Rex\")\nprint(d.speak())\n```",
+      "options": [
+        "Dog says woof",
+        "name says woof",
+        "Rex says woof",
+        "AttributeError"
+      ],
+      "correct": 2,
+      "explanation": "`__init__` stores `\"Rex\"` in `self.name`, and `speak` reads it back from the same object."
+    },
+    "E-C7-0.6": {
+      "type": "EXERCISE",
+      "target_concept": "C7",
+      "prompt": "What does this code print?\n\n```python\nclass Counter:\n    count = 0\n\n    def __init__(self):\n        Counter.count += 1\n\na = Counter()\nb = Counter()\nprint(Counter.count, a.count)\n```",
+      "options": [
+        "2 1",
+        "1 1",
+        "2 0",
+        "2 2"
+      ],
+      "correct": 3,
+      "explanation": "`count` is a class attribute shared by all instances; each constructor call increments it, and `a.count` reads the same shared value."
+    },
+    "E-C7-0.8": {
+      "type": "EXERCISE",
+      "target_concept": "C7",
+      "prompt": "What does this code print?\n\n```python\nclass Bag:\n    items = []\n\n    def add(self, x):\n        self.items.append(x)\n\na = Bag()\nb = Bag()\na.add(1)\nb.add(2)\nprint(len(a.items))\n```",
+      "options": [
+        "1",
+        "0",
+        "AttributeError",
+        "2"
+      ],
+      "correct": 3,
+      "explanation": "`items` is one list defined on the class, and `append` mutates it in place, so both bags share it."
+    },
+    "L-C8": {
+      "type": "LESSON",
+      "target_concept": "C8",
+      "title": "Inheritance & Polymorphism",
+      "markdown": "**Inheritance** lets a new class reuse and extend an existing one. The new class\n(the *child* or *subclass*) gets every method of the *parent* and can **override**\nthe ones it wants to change.\n\n```python\nclass Animal:\n    def __init__(self, name):\n        self.name = name\n\n    def speak(self):\n        return \"...\"\n\nclass Dog(Animal):\n    def speak(self):            # override\n        return self.name + \" says woof\"\n\nclass Puppy(Dog):\n    def speak(self):\n        return super().speak() + \" (squeaky)\"\n\nfor pet in [Animal(\"generic\"), Dog(\"Rex\"), Puppy(\"Bit\")]:\n    print(pet.speak())\n# ...\n# Rex says woof\n# Bit says woof (squeaky)\n```\n\n`super()` calls the parent's version of a method. It is commonly used in\n`__init__` so the parent can set up its attributes before the child adds its own.\n\n**Polymorphism** means \"many forms\": the loop above calls `speak()` on every pet\nwithout checking its class, and each object answers in its own way. Code written\nagainst the parent's interface works with any subclass.\n\nWhen Python looks up a method, it searches the object's class first, then its\nparents, following the **method resolution order** (`ClassName.__mro__`).\n\nUse inheritance for genuine *is-a* relationships (a `Dog` *is an* `Animal`)."
+    },
+    "E-C8-0.2": {
+      "type": "EXERCISE",
+      "target_concept": "C8",
+      "prompt": "What does `class Cat(Animal):` mean?",
+      "options": [
+        "`Cat` is a subclass that inherits from `Animal`",
+        "`Animal` is created inside `Cat`",
+        "`Cat` is an instance of `Animal`",
+        "`Cat` and `Animal` become the same class"
+      ],
+      "correct": 0,
+      "explanation": "The class named in parentheses is the parent; `Cat` inherits its attributes and methods."
+    },
+    "E-C8-0.4": {
+      "type": "EXERCISE",
+      "target_concept": "C8",
+      "prompt": "What does this code print?\n\n```python\nclass Animal:\n    def sound(self):\n        return \"...\"\n\nclass Cat(Animal):\n    def sound(self):\n        return \"meow\"\n\nclass Fish(Animal):\n    pass\n\nprint([a.sound() for a in [Cat(), Fish()]])\n```",
+      "options": [
+        "['meow', 'meow']",
+        "['...', '...']",
+        "AttributeError",
+        "['meow', '...']"
+      ],
+      "correct": 3,
+      "explanation": "`Cat` overrides `sound`, while `Fish` defines nothing and falls back to the inherited `Animal.sound`."
+    },
+    "E-C8-0.6": {
+      "type": "EXERCISE",
+      "target_concept": "C8",
+      "prompt": "What does this code print?\n\n```python\nclass Base:\n    def __init__(self):\n        self.tags = [\"base\"]\n\nclass Child(Base):\n    def __init__(self):\n        super().__init__()\n        self.tags.append(\"child\")\n\nprint(Child().tags)\n```",
+      "options": [
+        "['child']",
+        "['base', 'child']",
+        "['base']",
+        "AttributeError"
+      ],
+      "correct": 1,
+      "explanation": "`super().__init__()` runs the parent constructor first, creating `tags`, and then the child appends to it."
+    },
+    "E-C8-0.8": {
+      "type": "EXERCISE",
+      "target_concept": "C8",
+      "prompt": "What does this code print?\n\n```python\nclass A:\n    def who(self):\n        return \"A\"\n\nclass B(A):\n    def who(self):\n        return \"B\" + super().who()\n\nclass C(A):\n    def who(self):\n        return \"C\" + super().who()\n\nclass D(B, C):\n    pass\n\nprint(D().who())\n```",
+      "options": [
+        "BA",
+        "BCA",
+        "CBA",
+        "BACA"
+      ],
+      "correct": 1,
+      "explanation": "`D`'s method resolution order is D, B, C, A, and `super()` follows that order, so B's call goes to C before A."
+    }
+  }
+}

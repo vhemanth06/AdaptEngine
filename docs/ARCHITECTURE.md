@@ -9,7 +9,9 @@
 - `review/`: Spaced review forgetting model (half-life decay) and review urgency scoring.
 - `replanner/`: Dynamic horizon replanning on events (missed day, failed assessment, deadline changed, budget changed).
 - `experiments/`: Paired synthetic baseline evaluation harness with closed-loop IRT simulated learners (`run_evaluation.py`, `sim.py`, `arms.py`, `diag_eval.py`, `stats.py`, `checks.py`, `synth_curriculum.py`, `run_replan_latency.py`).
-- `planner/workload.py`: Workload projection memoization via caller-owned `WorkloadCache` (explicit value, no hidden engine state).
+- `planner/workload.py`: Workload projection memoization via caller-owned `WorkloadCache` (explicit value, no hidden engine state). Keys: concept, learner-concept state, the concept's completed-attempt history, config, model identity and (since W7 T6.1) a curriculum + activity-catalogue fingerprint; bounded at `maxsize=4096` (oldest evicted). Use one cache per engine/curriculum.
+- `curriculum/graph.py`: immutable graph; prerequisite tuples, ancestor/descendant sets, depths and topological order are precomputed once (W7 T6.1).
+- `Engine.next_activities` (W7 T2.2): recommended online loop (rolling horizon: replan from the real state, commit today's slice).
 
 ## Deferred Modules
 The following modules are deferred per the W3 review scope:

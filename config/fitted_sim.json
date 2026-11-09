@@ -1,0 +1,32 @@
+{
+  "name": "fitted_sim",
+  "source": "simulated S0 tuning cohort, adapt episodes, 4-node, B=15, calm",
+  "code_hash": "854912fa2b278efdd54658c58fabb1b6a0a31de8459763e7d907443457e44eea",
+  "timestamp_utc": "2026-11-08T18:37:19.347862+00:00",
+  "tuning": "even 100-198",
+  "heldout": "odd 101-199",
+  "p0": 0.484101,
+  "t_exercise": 0.245312,
+  "class_params": {
+    "easy": {
+      "guess": 0.517587,
+      "slip": 0.008248
+    },
+    "medium": {
+      "guess": 0.548322,
+      "slip": 0.327198
+    },
+    "hard": {
+      "guess": 0.025693,
+      "slip": 0.240831
+    }
+  },
+  "constraint_warnings": {
+    "easy": [
+      "guess>0.5"
+    ],
+    "medium": [
+      "guess>0.5"
+    ]
+  }
+}

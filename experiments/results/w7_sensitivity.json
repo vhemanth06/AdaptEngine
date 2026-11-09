@@ -1,0 +1,3599 @@
+{
+ "cells": {
+  "S0|4-node": {
+   "baseline": {
+    "all_required_rate": 0.065,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6242,
+    "mean_minutes": 46.81,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "criterion=bkt_threshold": {
+    "all_required_rate": 0.065,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6242,
+    "mean_minutes": 46.81,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "criterion=n_consecutive_2": {
+    "all_required_rate": 0.07,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.38,
+    "mean_goal_theta": 0.6139,
+    "mean_minutes": 48.905,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.01
+     ],
+     "diff": -0.005
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      1.575,
+      2.67
+     ],
+     "diff": 2.095
+    }
+   },
+   "criterion=n_consecutive_3": {
+    "all_required_rate": 0.09,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5331,
+    "mean_minutes": 54.805,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.185,
+      -0.07
+     ],
+     "diff": -0.125
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      6.81,
+      9.22
+     ],
+     "diff": 7.995
+    }
+   },
+   "criterion=two_threshold": {
+    "all_required_rate": 0.07,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.38,
+    "mean_goal_theta": 0.6143,
+    "mean_minutes": 48.7,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.01
+     ],
+     "diff": -0.005
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      1.42,
+      2.415
+     ],
+     "diff": 1.89
+    }
+   },
+   "half_life_days=14.0": {
+    "all_required_rate": 0.065,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6242,
+    "mean_minutes": 46.81,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "half_life_days=30.0": {
+    "all_required_rate": 0.065,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6242,
+    "mean_minutes": 46.81,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "half_life_days=60.0": {
+    "all_required_rate": 0.065,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6242,
+    "mean_minutes": 46.81,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "half_life_days=7.0": {
+    "all_required_rate": 0.07,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.355,
+    "mean_goal_theta": 0.6102,
+    "mean_minutes": 47.24,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.055,
+      -0.01
+     ],
+     "diff": -0.03
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.165,
+      0.7
+     ],
+     "diff": 0.43
+    }
+   },
+   "k_responses=1": {
+    "all_required_rate": 0.065,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6242,
+    "mean_minutes": 46.81,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "k_responses=2": {
+    "all_required_rate": 0.065,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6242,
+    "mean_minutes": 46.81,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "k_responses=3": {
+    "all_required_rate": 0.075,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.36,
+    "mean_goal_theta": 0.6028,
+    "mean_minutes": 51.465,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.07,
+      0.02
+     ],
+     "diff": -0.025
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      3.765,
+      5.62
+     ],
+     "diff": 4.655
+    }
+   },
+   "k_responses=4": {
+    "all_required_rate": 0.075,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.325,
+    "mean_goal_theta": 0.5821,
+    "mean_minutes": 53.96,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.115,
+      -0.005
+     ],
+     "diff": -0.06
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      6.07,
+      8.285
+     ],
+     "diff": 7.15
+    }
+   },
+   "p0=0.1": {
+    "all_required_rate": 0.065,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6222,
+    "mean_minutes": 48.335,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.015,
+      0.015
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      1.1,
+      2.015
+     ],
+     "diff": 1.525
+    }
+   },
+   "p0=0.2": {
+    "all_required_rate": 0.065,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6242,
+    "mean_minutes": 46.81,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "p0=0.3": {
+    "all_required_rate": 0.065,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6242,
+    "mean_minutes": 46.81,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "p0=0.4": {
+    "all_required_rate": 0.06,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.4,
+    "mean_goal_theta": 0.6351,
+    "mean_minutes": 45.57,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.01,
+      0.04
+     ],
+     "diff": 0.015
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -1.795,
+      -0.685
+     ],
+     "diff": -1.24
+    }
+   },
+   "recall_threshold=0.7": {
+    "all_required_rate": 0.065,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6242,
+    "mean_minutes": 46.81,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "recall_threshold=0.8": {
+    "all_required_rate": 0.065,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6242,
+    "mean_minutes": 46.81,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "recall_threshold=0.9": {
+    "all_required_rate": 0.065,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6242,
+    "mean_minutes": 46.81,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "remediation_threshold=0.3": {
+    "all_required_rate": 0.05,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.395,
+    "mean_goal_theta": 0.6357,
+    "mean_minutes": 47.02,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.045
+     ],
+     "diff": 0.01
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.445,
+      0.87
+     ],
+     "diff": 0.21
+    }
+   },
+   "remediation_threshold=0.4": {
+    "all_required_rate": 0.065,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6242,
+    "mean_minutes": 46.81,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "remediation_threshold=0.5": {
+    "all_required_rate": 0.07,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6242,
+    "mean_minutes": 46.97,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.035,
+      0.29
+     ],
+     "diff": 0.16
+    }
+   },
+   "static": {
+    "all_required_rate": 0.015,
+    "executed_prereq_violations": 1305,
+    "goal_mastery_rate": 0.37,
+    "mean_goal_theta": 0.6425,
+    "mean_minutes": 42.0,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.08,
+      0.045
+     ],
+     "diff": -0.015
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -5.995,
+      -3.58
+     ],
+     "diff": -4.81
+    }
+   },
+   "t_lesson=0.1": {
+    "all_required_rate": 0.075,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.375,
+    "mean_goal_theta": 0.6089,
+    "mean_minutes": 49.14,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.03,
+      0.01
+     ],
+     "diff": -0.01
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      1.835,
+      2.885
+     ],
+     "diff": 2.33
+    }
+   },
+   "t_lesson=0.2": {
+    "all_required_rate": 0.065,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6242,
+    "mean_minutes": 46.81,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "t_lesson=0.3": {
+    "all_required_rate": 0.055,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.39,
+    "mean_goal_theta": 0.6291,
+    "mean_minutes": 46.305,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.015,
+      0.025
+     ],
+     "diff": 0.005
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.8,
+      -0.235
+     ],
+     "diff": -0.505
+    }
+   },
+   "theta=0.7": {
+    "all_required_rate": 0.055,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.38,
+    "mean_goal_theta": 0.6267,
+    "mean_minutes": 46.47,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.015
+     ],
+     "diff": -0.005
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.615,
+      -0.09
+     ],
+     "diff": -0.34
+    }
+   },
+   "theta=0.75": {
+    "all_required_rate": 0.06,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6256,
+    "mean_minutes": 46.78,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.13,
+      0.08
+     ],
+     "diff": -0.03
+    }
+   },
+   "theta=0.75|k=1": {
+    "all_required_rate": 0.06,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6256,
+    "mean_minutes": 46.78,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.13,
+      0.08
+     ],
+     "diff": -0.03
+    }
+   },
+   "theta=0.75|k=2": {
+    "all_required_rate": 0.06,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6256,
+    "mean_minutes": 46.78,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.13,
+      0.08
+     ],
+     "diff": -0.03
+    }
+   },
+   "theta=0.75|k=3": {
+    "all_required_rate": 0.075,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.38,
+    "mean_goal_theta": 0.6118,
+    "mean_minutes": 51.025,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.05,
+      0.035
+     ],
+     "diff": -0.005
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      3.505,
+      4.955
+     ],
+     "diff": 4.215
+    }
+   },
+   "theta=0.8": {
+    "all_required_rate": 0.065,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6242,
+    "mean_minutes": 46.79,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.08,
+      0.04
+     ],
+     "diff": -0.02
+    }
+   },
+   "theta=0.85": {
+    "all_required_rate": 0.065,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6242,
+    "mean_minutes": 46.81,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "theta=0.85|k=1": {
+    "all_required_rate": 0.065,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6242,
+    "mean_minutes": 46.81,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "theta=0.85|k=2": {
+    "all_required_rate": 0.065,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6242,
+    "mean_minutes": 46.81,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "theta=0.85|k=3": {
+    "all_required_rate": 0.075,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.36,
+    "mean_goal_theta": 0.6028,
+    "mean_minutes": 51.465,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.07,
+      0.02
+     ],
+     "diff": -0.025
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      3.765,
+      5.62
+     ],
+     "diff": 4.655
+    }
+   },
+   "theta=0.9": {
+    "all_required_rate": 0.07,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.38,
+    "mean_goal_theta": 0.6143,
+    "mean_minutes": 48.7,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.01
+     ],
+     "diff": -0.005
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      1.42,
+      2.415
+     ],
+     "diff": 1.89
+    }
+   },
+   "theta=0.95": {
+    "all_required_rate": 0.08,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.32,
+    "mean_goal_theta": 0.5716,
+    "mean_minutes": 54.085,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.115,
+      -0.02
+     ],
+     "diff": -0.065
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      6.245,
+      8.405
+     ],
+     "diff": 7.275
+    }
+   },
+   "theta=0.95|k=1": {
+    "all_required_rate": 0.08,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.32,
+    "mean_goal_theta": 0.5716,
+    "mean_minutes": 54.085,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.115,
+      -0.02
+     ],
+     "diff": -0.065
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      6.245,
+      8.405
+     ],
+     "diff": 7.275
+    }
+   },
+   "theta=0.95|k=2": {
+    "all_required_rate": 0.08,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.32,
+    "mean_goal_theta": 0.5716,
+    "mean_minutes": 54.085,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.115,
+      -0.02
+     ],
+     "diff": -0.065
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      6.245,
+      8.405
+     ],
+     "diff": 7.275
+    }
+   },
+   "theta=0.95|k=3": {
+    "all_required_rate": 0.08,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.32,
+    "mean_goal_theta": 0.5716,
+    "mean_minutes": 54.085,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.115,
+      -0.02
+     ],
+     "diff": -0.065
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      6.245,
+      8.405
+     ],
+     "diff": 7.275
+    }
+   }
+  },
+  "S0|8-node": {
+   "baseline": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5897,
+    "mean_minutes": 76.56,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "criterion=bkt_threshold": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5897,
+    "mean_minutes": 76.56,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "criterion=n_consecutive_2": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5782,
+    "mean_minutes": 79.32,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.025
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      2.225,
+      3.31
+     ],
+     "diff": 2.76
+    }
+   },
+   "criterion=n_consecutive_3": {
+    "all_required_rate": 0.015,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.305,
+    "mean_goal_theta": 0.5169,
+    "mean_minutes": 84.32,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.095,
+      -0.03
+     ],
+     "diff": -0.06
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      6.84,
+      8.76
+     ],
+     "diff": 7.76
+    }
+   },
+   "criterion=two_threshold": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5784,
+    "mean_minutes": 79.045,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.025
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      1.995,
+      2.995
+     ],
+     "diff": 2.485
+    }
+   },
+   "half_life_days=14.0": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.355,
+    "mean_goal_theta": 0.5769,
+    "mean_minutes": 77.335,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.0
+     ],
+     "diff": -0.01
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.515,
+      1.06
+     ],
+     "diff": 0.775
+    }
+   },
+   "half_life_days=30.0": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5897,
+    "mean_minutes": 76.56,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "half_life_days=60.0": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5897,
+    "mean_minutes": 76.56,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "half_life_days=7.0": {
+    "all_required_rate": 0.01,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.33,
+    "mean_goal_theta": 0.5501,
+    "mean_minutes": 80.08,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.065,
+      -0.01
+     ],
+     "diff": -0.035
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      2.905,
+      4.23
+     ],
+     "diff": 3.52
+    }
+   },
+   "k_responses=1": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5897,
+    "mean_minutes": 76.56,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "k_responses=2": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5897,
+    "mean_minutes": 76.56,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "k_responses=3": {
+    "all_required_rate": 0.01,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.345,
+    "mean_goal_theta": 0.5503,
+    "mean_minutes": 81.835,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.045,
+      0.0
+     ],
+     "diff": -0.02
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      4.4,
+      6.18
+     ],
+     "diff": 5.275
+    }
+   },
+   "k_responses=4": {
+    "all_required_rate": 0.01,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.31,
+    "mean_goal_theta": 0.5222,
+    "mean_minutes": 83.67,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.09,
+      -0.025
+     ],
+     "diff": -0.055
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      6.125,
+      8.095
+     ],
+     "diff": 7.11
+    }
+   },
+   "p0=0.1": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.37,
+    "mean_goal_theta": 0.585,
+    "mean_minutes": 78.505,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.015,
+      0.025
+     ],
+     "diff": 0.005
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      1.57,
+      2.355
+     ],
+     "diff": 1.945
+    }
+   },
+   "p0=0.2": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5897,
+    "mean_minutes": 76.56,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "p0=0.3": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5897,
+    "mean_minutes": 76.56,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "p0=0.4": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.4,
+    "mean_goal_theta": 0.6195,
+    "mean_minutes": 76.16,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.01,
+      0.065
+     ],
+     "diff": 0.035
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -1.08,
+      0.3
+     ],
+     "diff": -0.4
+    }
+   },
+   "recall_threshold=0.7": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5897,
+    "mean_minutes": 76.56,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "recall_threshold=0.8": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5897,
+    "mean_minutes": 76.56,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "recall_threshold=0.9": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.355,
+    "mean_goal_theta": 0.5769,
+    "mean_minutes": 77.335,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.0
+     ],
+     "diff": -0.01
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.515,
+      1.06
+     ],
+     "diff": 0.775
+    }
+   },
+   "remediation_threshold=0.3": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.37,
+    "mean_goal_theta": 0.6116,
+    "mean_minutes": 78.105,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.015,
+      0.025
+     ],
+     "diff": 0.005
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.85,
+      2.26
+     ],
+     "diff": 1.545
+    }
+   },
+   "remediation_threshold=0.4": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5897,
+    "mean_minutes": 76.56,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "remediation_threshold=0.5": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5882,
+    "mean_minutes": 76.705,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.015,
+      0.305
+     ],
+     "diff": 0.145
+    }
+   },
+   "static": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 3205,
+    "goal_mastery_rate": 0.445,
+    "mean_goal_theta": 0.6702,
+    "mean_minutes": 74.0,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.035,
+      0.13
+     ],
+     "diff": 0.08
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -3.465,
+      -1.645
+     ],
+     "diff": -2.56
+    }
+   },
+   "t_lesson=0.1": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5721,
+    "mean_minutes": 79.55,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.025
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      2.49,
+      3.535
+     ],
+     "diff": 2.99
+    }
+   },
+   "t_lesson=0.2": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5897,
+    "mean_minutes": 76.56,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "t_lesson=0.3": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.385,
+    "mean_goal_theta": 0.6014,
+    "mean_minutes": 76.57,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.005,
+      0.04
+     ],
+     "diff": 0.02
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.31,
+      0.31
+     ],
+     "diff": 0.01
+    }
+   },
+   "theta=0.7": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.38,
+    "mean_goal_theta": 0.5957,
+    "mean_minutes": 76.025,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.035
+     ],
+     "diff": 0.015
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.895,
+      -0.195
+     ],
+     "diff": -0.535
+    }
+   },
+   "theta=0.75": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5903,
+    "mean_minutes": 76.39,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.3,
+      -0.05
+     ],
+     "diff": -0.17
+    }
+   },
+   "theta=0.75|k=1": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5903,
+    "mean_minutes": 76.39,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.3,
+      -0.05
+     ],
+     "diff": -0.17
+    }
+   },
+   "theta=0.75|k=2": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5903,
+    "mean_minutes": 76.39,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.3,
+      -0.05
+     ],
+     "diff": -0.17
+    }
+   },
+   "theta=0.75|k=3": {
+    "all_required_rate": 0.01,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.35,
+    "mean_goal_theta": 0.5577,
+    "mean_minutes": 81.515,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.04,
+      0.005
+     ],
+     "diff": -0.015
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      4.16,
+      5.775
+     ],
+     "diff": 4.955
+    }
+   },
+   "theta=0.8": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5903,
+    "mean_minutes": 76.505,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.12,
+      0.01
+     ],
+     "diff": -0.055
+    }
+   },
+   "theta=0.85": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5897,
+    "mean_minutes": 76.56,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "theta=0.85|k=1": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5897,
+    "mean_minutes": 76.56,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "theta=0.85|k=2": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5897,
+    "mean_minutes": 76.56,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "theta=0.85|k=3": {
+    "all_required_rate": 0.01,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.345,
+    "mean_goal_theta": 0.5503,
+    "mean_minutes": 81.835,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.045,
+      0.0
+     ],
+     "diff": -0.02
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      4.4,
+      6.18
+     ],
+     "diff": 5.275
+    }
+   },
+   "theta=0.9": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.365,
+    "mean_goal_theta": 0.5784,
+    "mean_minutes": 79.04,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.025
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      1.995,
+      2.99
+     ],
+     "diff": 2.48
+    }
+   },
+   "theta=0.95": {
+    "all_required_rate": 0.01,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5251,
+    "mean_minutes": 84.22,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.085,
+      -0.02
+     ],
+     "diff": -0.05
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      6.74,
+      8.625
+     ],
+     "diff": 7.66
+    }
+   },
+   "theta=0.95|k=1": {
+    "all_required_rate": 0.01,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5251,
+    "mean_minutes": 84.22,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.085,
+      -0.02
+     ],
+     "diff": -0.05
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      6.74,
+      8.625
+     ],
+     "diff": 7.66
+    }
+   },
+   "theta=0.95|k=2": {
+    "all_required_rate": 0.01,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5251,
+    "mean_minutes": 84.22,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.085,
+      -0.02
+     ],
+     "diff": -0.05
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      6.74,
+      8.625
+     ],
+     "diff": 7.66
+    }
+   },
+   "theta=0.95|k=3": {
+    "all_required_rate": 0.01,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5251,
+    "mean_minutes": 84.22,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.085,
+      -0.02
+     ],
+     "diff": -0.05
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      6.74,
+      8.625
+     ],
+     "diff": 7.66
+    }
+   }
+  },
+  "S1|4-node": {
+   "baseline": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5352,
+    "mean_minutes": 48.85,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "criterion=bkt_threshold": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5352,
+    "mean_minutes": 48.85,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "criterion=n_consecutive_2": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.25,
+    "mean_goal_theta": 0.5296,
+    "mean_minutes": 50.865,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.0
+     ],
+     "diff": -0.01
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      1.47,
+      2.575
+     ],
+     "diff": 2.015
+    }
+   },
+   "criterion=n_consecutive_3": {
+    "all_required_rate": 0.04,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.205,
+    "mean_goal_theta": 0.4973,
+    "mean_minutes": 55.115,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.095,
+      -0.02
+     ],
+     "diff": -0.055
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      5.28,
+      7.29
+     ],
+     "diff": 6.265
+    }
+   },
+   "criterion=two_threshold": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.25,
+    "mean_goal_theta": 0.5297,
+    "mean_minutes": 50.615,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.0
+     ],
+     "diff": -0.01
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      1.285,
+      2.28
+     ],
+     "diff": 1.765
+    }
+   },
+   "half_life_days=14.0": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5352,
+    "mean_minutes": 48.85,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "half_life_days=30.0": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5352,
+    "mean_minutes": 48.85,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "half_life_days=60.0": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5352,
+    "mean_minutes": 48.85,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "half_life_days=7.0": {
+    "all_required_rate": 0.025,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.245,
+    "mean_goal_theta": 0.5269,
+    "mean_minutes": 49.225,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.035,
+      0.0
+     ],
+     "diff": -0.015
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.15,
+      0.61
+     ],
+     "diff": 0.375
+    }
+   },
+   "k_responses=1": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5352,
+    "mean_minutes": 48.85,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "k_responses=2": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5352,
+    "mean_minutes": 48.85,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "k_responses=3": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.245,
+    "mean_goal_theta": 0.5255,
+    "mean_minutes": 52.045,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.045,
+      0.015
+     ],
+     "diff": -0.015
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      2.48,
+      3.93
+     ],
+     "diff": 3.195
+    }
+   },
+   "k_responses=4": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.235,
+    "mean_goal_theta": 0.5159,
+    "mean_minutes": 54.16,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.06,
+      0.01
+     ],
+     "diff": -0.025
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      4.395,
+      6.235
+     ],
+     "diff": 5.31
+    }
+   },
+   "p0=0.1": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5348,
+    "mean_minutes": 50.235,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.995,
+      1.835
+     ],
+     "diff": 1.385
+    }
+   },
+   "p0=0.2": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5352,
+    "mean_minutes": 48.85,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "p0=0.3": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5352,
+    "mean_minutes": 48.85,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "p0=0.4": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5412,
+    "mean_minutes": 48.0,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.02,
+      0.02
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -1.425,
+      -0.275
+     ],
+     "diff": -0.85
+    }
+   },
+   "recall_threshold=0.7": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5352,
+    "mean_minutes": 48.85,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "recall_threshold=0.8": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5352,
+    "mean_minutes": 48.85,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "recall_threshold=0.9": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5352,
+    "mean_minutes": 48.85,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "remediation_threshold=0.3": {
+    "all_required_rate": 0.02,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.25,
+    "mean_goal_theta": 0.5405,
+    "mean_minutes": 49.395,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.03,
+      0.01
+     ],
+     "diff": -0.01
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.08,
+      1.21
+     ],
+     "diff": 0.545
+    }
+   },
+   "remediation_threshold=0.4": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5352,
+    "mean_minutes": 48.85,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "remediation_threshold=0.5": {
+    "all_required_rate": 0.035,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5352,
+    "mean_minutes": 48.965,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.02,
+      0.255
+     ],
+     "diff": 0.115
+    }
+   },
+   "static": {
+    "all_required_rate": 0.015,
+    "executed_prereq_violations": 1420,
+    "goal_mastery_rate": 0.23,
+    "mean_goal_theta": 0.5232,
+    "mean_minutes": 42.0,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.065,
+      0.0
+     ],
+     "diff": -0.03
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -7.855,
+      -5.825
+     ],
+     "diff": -6.85
+    }
+   },
+   "t_lesson=0.1": {
+    "all_required_rate": 0.035,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.25,
+    "mean_goal_theta": 0.5278,
+    "mean_minutes": 51.03,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.0
+     ],
+     "diff": -0.01
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      1.655,
+      2.74
+     ],
+     "diff": 2.18
+    }
+   },
+   "t_lesson=0.2": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5352,
+    "mean_minutes": 48.85,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "t_lesson=0.3": {
+    "all_required_rate": 0.02,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.25,
+    "mean_goal_theta": 0.5364,
+    "mean_minutes": 48.355,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.0
+     ],
+     "diff": -0.01
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.78,
+      -0.225
+     ],
+     "diff": -0.495
+    }
+   },
+   "theta=0.7": {
+    "all_required_rate": 0.035,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.25,
+    "mean_goal_theta": 0.5341,
+    "mean_minutes": 48.29,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.03,
+      0.01
+     ],
+     "diff": -0.01
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.925,
+      -0.24
+     ],
+     "diff": -0.56
+    }
+   },
+   "theta=0.75": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.25,
+    "mean_goal_theta": 0.5347,
+    "mean_minutes": 48.69,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.0
+     ],
+     "diff": -0.01
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.38,
+      0.025
+     ],
+     "diff": -0.16
+    }
+   },
+   "theta=0.75|k=1": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.25,
+    "mean_goal_theta": 0.5347,
+    "mean_minutes": 48.69,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.0
+     ],
+     "diff": -0.01
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.38,
+      0.025
+     ],
+     "diff": -0.16
+    }
+   },
+   "theta=0.75|k=2": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.25,
+    "mean_goal_theta": 0.5347,
+    "mean_minutes": 48.69,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.0
+     ],
+     "diff": -0.01
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.38,
+      0.025
+     ],
+     "diff": -0.16
+    }
+   },
+   "theta=0.75|k=3": {
+    "all_required_rate": 0.025,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.24,
+    "mean_goal_theta": 0.5292,
+    "mean_minutes": 51.95,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.045,
+      0.005
+     ],
+     "diff": -0.02
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      2.43,
+      3.78
+     ],
+     "diff": 3.1
+    }
+   },
+   "theta=0.8": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.255,
+    "mean_goal_theta": 0.5348,
+    "mean_minutes": 48.8,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.015,
+      0.0
+     ],
+     "diff": -0.005
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.165,
+      0.04
+     ],
+     "diff": -0.05
+    }
+   },
+   "theta=0.85": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5352,
+    "mean_minutes": 48.85,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "theta=0.85|k=1": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5352,
+    "mean_minutes": 48.85,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "theta=0.85|k=2": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.26,
+    "mean_goal_theta": 0.5352,
+    "mean_minutes": 48.85,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "theta=0.85|k=3": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.245,
+    "mean_goal_theta": 0.5255,
+    "mean_minutes": 52.045,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.045,
+      0.015
+     ],
+     "diff": -0.015
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      2.48,
+      3.93
+     ],
+     "diff": 3.195
+    }
+   },
+   "theta=0.9": {
+    "all_required_rate": 0.03,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.25,
+    "mean_goal_theta": 0.5297,
+    "mean_minutes": 50.615,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.0
+     ],
+     "diff": -0.01
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      1.285,
+      2.28
+     ],
+     "diff": 1.765
+    }
+   },
+   "theta=0.95": {
+    "all_required_rate": 0.04,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.23,
+    "mean_goal_theta": 0.5122,
+    "mean_minutes": 54.55,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.065,
+      0.0
+     ],
+     "diff": -0.03
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      4.83,
+      6.585
+     ],
+     "diff": 5.7
+    }
+   },
+   "theta=0.95|k=1": {
+    "all_required_rate": 0.04,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.23,
+    "mean_goal_theta": 0.5122,
+    "mean_minutes": 54.55,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.065,
+      0.0
+     ],
+     "diff": -0.03
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      4.83,
+      6.585
+     ],
+     "diff": 5.7
+    }
+   },
+   "theta=0.95|k=2": {
+    "all_required_rate": 0.04,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.23,
+    "mean_goal_theta": 0.5122,
+    "mean_minutes": 54.55,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.065,
+      0.0
+     ],
+     "diff": -0.03
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      4.83,
+      6.585
+     ],
+     "diff": 5.7
+    }
+   },
+   "theta=0.95|k=3": {
+    "all_required_rate": 0.04,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.23,
+    "mean_goal_theta": 0.5122,
+    "mean_minutes": 54.55,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.065,
+      0.0
+     ],
+     "diff": -0.03
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      4.83,
+      6.585
+     ],
+     "diff": 5.7
+    }
+   }
+  },
+  "S1|8-node": {
+   "baseline": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5287,
+    "mean_minutes": 78.16,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "criterion=bkt_threshold": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5287,
+    "mean_minutes": 78.16,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "criterion=n_consecutive_2": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5238,
+    "mean_minutes": 80.45,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      1.85,
+      2.78
+     ],
+     "diff": 2.29
+    }
+   },
+   "criterion=n_consecutive_3": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.3,
+    "mean_goal_theta": 0.5096,
+    "mean_minutes": 84.305,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.035,
+      0.0
+     ],
+     "diff": -0.015
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      5.305,
+      7.055
+     ],
+     "diff": 6.145
+    }
+   },
+   "criterion=two_threshold": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5245,
+    "mean_minutes": 80.235,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      1.665,
+      2.51
+     ],
+     "diff": 2.075
+    }
+   },
+   "half_life_days=14.0": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5243,
+    "mean_minutes": 78.66,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.31,
+      0.695
+     ],
+     "diff": 0.5
+    }
+   },
+   "half_life_days=30.0": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5287,
+    "mean_minutes": 78.16,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "half_life_days=60.0": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5287,
+    "mean_minutes": 78.16,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "half_life_days=7.0": {
+    "all_required_rate": 0.005,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.31,
+    "mean_goal_theta": 0.5188,
+    "mean_minutes": 80.505,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.015,
+      0.0
+     ],
+     "diff": -0.005
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      1.825,
+      2.965
+     ],
+     "diff": 2.345
+    }
+   },
+   "k_responses=1": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5287,
+    "mean_minutes": 78.16,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "k_responses=2": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5287,
+    "mean_minutes": 78.16,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "k_responses=3": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.305,
+    "mean_goal_theta": 0.5176,
+    "mean_minutes": 82.12,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.0
+     ],
+     "diff": -0.01
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      3.17,
+      4.815
+     ],
+     "diff": 3.96
+    }
+   },
+   "k_responses=4": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.3,
+    "mean_goal_theta": 0.5091,
+    "mean_minutes": 83.685,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.035,
+      0.0
+     ],
+     "diff": -0.015
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      4.68,
+      6.385
+     ],
+     "diff": 5.525
+    }
+   },
+   "p0=0.1": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5264,
+    "mean_minutes": 79.755,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      1.23,
+      2.025
+     ],
+     "diff": 1.595
+    }
+   },
+   "p0=0.2": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5287,
+    "mean_minutes": 78.16,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "p0=0.3": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5287,
+    "mean_minutes": 78.16,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "p0=0.4": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.535,
+    "mean_minutes": 78.515,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.325,
+      1.01
+     ],
+     "diff": 0.355
+    }
+   },
+   "recall_threshold=0.7": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5287,
+    "mean_minutes": 78.16,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "recall_threshold=0.8": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5287,
+    "mean_minutes": 78.16,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "recall_threshold=0.9": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5243,
+    "mean_minutes": 78.66,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.31,
+      0.695
+     ],
+     "diff": 0.5
+    }
+   },
+   "remediation_threshold=0.3": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5317,
+    "mean_minutes": 80.25,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      1.51,
+      2.68
+     ],
+     "diff": 2.09
+    }
+   },
+   "remediation_threshold=0.4": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5287,
+    "mean_minutes": 78.16,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "remediation_threshold=0.5": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.528,
+    "mean_minutes": 78.22,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.085,
+      0.205
+     ],
+     "diff": 0.06
+    }
+   },
+   "static": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 3430,
+    "goal_mastery_rate": 0.34,
+    "mean_goal_theta": 0.5556,
+    "mean_minutes": 74.0,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.005,
+      0.045
+     ],
+     "diff": 0.025
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -4.96,
+      -3.34
+     ],
+     "diff": -4.16
+    }
+   },
+   "t_lesson=0.1": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.31,
+    "mean_goal_theta": 0.5235,
+    "mean_minutes": 80.79,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.015,
+      0.0
+     ],
+     "diff": -0.005
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      2.195,
+      3.11
+     ],
+     "diff": 2.63
+    }
+   },
+   "t_lesson=0.2": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5287,
+    "mean_minutes": 78.16,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "t_lesson=0.3": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5305,
+    "mean_minutes": 78.5,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.01,
+      0.675
+     ],
+     "diff": 0.34
+    }
+   },
+   "theta=0.7": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5294,
+    "mean_minutes": 77.745,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.8,
+      -0.05
+     ],
+     "diff": -0.415
+    }
+   },
+   "theta=0.75": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5283,
+    "mean_minutes": 77.93,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.435,
+      -0.055
+     ],
+     "diff": -0.23
+    }
+   },
+   "theta=0.75|k=1": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5283,
+    "mean_minutes": 77.93,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.435,
+      -0.055
+     ],
+     "diff": -0.23
+    }
+   },
+   "theta=0.75|k=2": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5283,
+    "mean_minutes": 77.93,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.435,
+      -0.055
+     ],
+     "diff": -0.23
+    }
+   },
+   "theta=0.75|k=3": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.305,
+    "mean_goal_theta": 0.5191,
+    "mean_minutes": 81.85,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.0
+     ],
+     "diff": -0.01
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      2.985,
+      4.4
+     ],
+     "diff": 3.69
+    }
+   },
+   "theta=0.8": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5284,
+    "mean_minutes": 78.035,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      -0.27,
+      -0.03
+     ],
+     "diff": -0.125
+    }
+   },
+   "theta=0.85": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5287,
+    "mean_minutes": 78.16,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "theta=0.85|k=1": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5287,
+    "mean_minutes": 78.16,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "theta=0.85|k=2": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5287,
+    "mean_minutes": 78.16,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    }
+   },
+   "theta=0.85|k=3": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.305,
+    "mean_goal_theta": 0.5176,
+    "mean_minutes": 82.12,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.025,
+      0.0
+     ],
+     "diff": -0.01
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      3.17,
+      4.815
+     ],
+     "diff": 3.96
+    }
+   },
+   "theta=0.9": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.315,
+    "mean_goal_theta": 0.5245,
+    "mean_minutes": 80.23,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "diff": 0.0
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      1.665,
+      2.505
+     ],
+     "diff": 2.07
+    }
+   },
+   "theta=0.95": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.3,
+    "mean_goal_theta": 0.5115,
+    "mean_minutes": 84.185,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.035,
+      0.0
+     ],
+     "diff": -0.015
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      5.2,
+      6.885
+     ],
+     "diff": 6.025
+    }
+   },
+   "theta=0.95|k=1": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.3,
+    "mean_goal_theta": 0.5115,
+    "mean_minutes": 84.185,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.035,
+      0.0
+     ],
+     "diff": -0.015
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      5.2,
+      6.885
+     ],
+     "diff": 6.025
+    }
+   },
+   "theta=0.95|k=2": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.3,
+    "mean_goal_theta": 0.5115,
+    "mean_minutes": 84.185,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.035,
+      0.0
+     ],
+     "diff": -0.015
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      5.2,
+      6.885
+     ],
+     "diff": 6.025
+    }
+   },
+   "theta=0.95|k=3": {
+    "all_required_rate": 0.0,
+    "executed_prereq_violations": 0,
+    "goal_mastery_rate": 0.3,
+    "mean_goal_theta": 0.5115,
+    "mean_minutes": 84.185,
+    "vs_baseline_goal_mastery": {
+     "ci95": [
+      -0.035,
+      0.0
+     ],
+     "diff": -0.015
+    },
+    "vs_baseline_minutes": {
+     "ci95": [
+      5.2,
+      6.885
+     ],
+     "diff": 6.025
+    }
+   }
+  }
+ },
+ "metadata": {
+  "budget": 15,
+  "code_hash": "c3cbb8f066c6cc843e611d19149d7f543c91c65afe652df6181b4fa22ca9f0a5",
+  "curricula": [
+   "4-node",
+   "8-node"
+  ],
+  "n": 200,
+  "runtime_s": 65.3,
+  "scans": {
+   "half_life_days": [
+    7.0,
+    14.0,
+    30.0,
+    60.0
+   ],
+   "k_responses": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "p0": [
+    0.1,
+    0.2,
+    0.3,
+    0.4
+   ],
+   "recall_threshold": [
+    0.7,
+    0.8,
+    0.9
+   ],
+   "remediation_threshold": [
+    0.3,
+    0.4,
+    0.5
+   ],
+   "t_lesson": [
+    0.1,
+    0.2,
+    0.3
+   ],
+   "theta": [
+    0.7,
+    0.75,
+    0.8,
+    0.85,
+    0.9,
+    0.95
+   ]
+  },
+  "scenario": "calm (horizon fixed from DEFAULT_CONFIG)",
+  "timestamp_utc": "2026-11-08T21:14:46.165790+00:00",
+  "worlds": [
+   "S0",
+   "S1"
+  ]
+ }
+}

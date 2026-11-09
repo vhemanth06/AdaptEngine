@@ -408,6 +408,31 @@ Validates spaced review under shared budget, automatic remediation, pure replann
 
 ---
 
+### Suite 19 (W7): Closed loop, repeats, best effort, expected projection, budgets (`tests/test_w7_planner.py`)
+- T2.3 repeats keep the plan feasible after failing C1 (W6 ablation → `CONTENT_INSUFFICIENT`); least-recently-seen order.
+- T2.5 expected projection never projects fewer items (budgets 5/10/15/30).
+- T2.2 a wrong answer changes the rest of the day's slice within the day's remaining budget; `next_activities` equals `replan`'s first day.
+- T2.4 best-effort schedule on INFEASIBLE; deadline_cut episodes never idle.
+- T5.1 allowed budgets come from `EngineConfig`.
+
+### Suite 20 (W7): Demo content and fitting pipeline
+- `tests/test_content.py` (T8.1): content file covers every 8-node activity; 8 negative cases.
+- `tests/test_fit_bkt.py` (T7.2): fitting pipeline on a tiny synthetic CSV; degenerate-fit check fires (skipped without pyBKT).
+- `frontend/api/tests/test_api.py` (T8.2): one TestClient test per route plus an end-to-end session equal to direct `Engine` calls (skipped without FastAPI).
+
+### W7 additions to existing suites
+- `test_eval_checks.py`: executed-state audit flags wrong answers that the plan audit misses (T1.1).
+- `test_evaluation.py`: tests write to `tmp_path`, canonical artifact untouched (T1.3); static plan violations > 0 under missed_day (T1.2); adapt/no_review executed violations = 0 (T2.2).
+- `test_planner.py`: natural oracle-path trace case, exactly one SELECTED per activity (T1.4); oracle and `PlanContext` respect `minutes_used_today` (T2.1).
+- `test_defects_repro.py`: the W6 mid-day xfail now passes (T2.1).
+- `test_feedback_fixes.py`: stepwise pyBKT `predict()` parity with a perturbation check (T1.5).
+- `test_review.py`: REVIEW_DUE fires with h = 7 / 21-day deadline; `n_reviews` counts review attempts only (T2.6).
+- `test_diagnostic.py`: min-k, pruning modes, frontier scope, population prior, flag validation (T3.2); state-space diagnostic (T3.6).
+- `test_diag_eval.py`: binary-truth scoring reproduces R§2.6 (T3.1).
+- `test_sim.py`: worlds S0–S4 deterministic, S1 gating, S2/S3/S4 properties (T4.2).
+- `test_graph.py`: precomputed indices equal NetworkX; bounded `WorkloadCache` (T6.1).
+- `test_mastery.py`: alternative mastery criteria and streak tracking (T5.4).
+
 ## 4. Verification Command & Reproducibility
 
 All tests can be executed at once:
@@ -418,7 +443,6 @@ make check && make w6
 
 Expected output:
 ```text
-171 passed, 1 xfailed in 4.76s
-Required test coverage of 84% reached. Total coverage: 89.94%
+W6: 171 passed, 1 xfailed; W7: see docs/WEEK7_REPORT_NOTES.md §1/§2 for the current counts (0 xfailed).
 ```
 
