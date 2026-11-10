@@ -2,6 +2,7 @@ import json
 import hashlib
 import math
 from dataclasses import dataclass, asdict
+from typing import Optional
 from . import constants
 from .errors import ValidationError
 from .validators import check_bool, check_positive_int
@@ -55,6 +56,44 @@ class EngineConfig:
     mastery_criterion: str = "bkt_threshold"
     n_consecutive: int = 3
     certainty_max_entropy: float = 0.5
+    # ---- W8 settings. Every default reproduces W7 behaviour (plan §0.1 rule 4).
+    # B.1 named profile: per-difficulty-class (class, guess, slip) triples replace the D6
+    # g(d)/s(d) heuristics when set; O.3 BKT forgets in the exercise transition
+    profile: str = "w7_default"
+    class_params: Optional[tuple[tuple[str, float, float], ...]] = None
+    forget: float = 0.0
+    # C.1 (D49) consolidation tier: verification practice once all required work is done
+    consolidation: bool = False
+    # C.2 (D50) one hard item before unlocking dependents when > probe_easy_share of a
+    # prerequisite's exercise evidence came from easy items
+    verification_probe: bool = False
+    probe_easy_share: float = 0.5
+    # C.3 (D51) horizon-aware strictness: when slack > strict_slack, use the two-part criterion
+    # (two_threshold) with k = strict_k and H <= strict_max_entropy
+    horizon_aware_mastery: bool = False
+    strict_slack: float = 0.5
+    strict_k: int = 3
+    strict_max_entropy: float = 0.35
+    # D.1 review cap (share of the daily budget for reviews while new content is pending;
+    # 1.0 = no cap) and goal-path relevance
+    review_cap_fraction: float = 1.0
+    review_goal_path_only: bool = False
+    # E.1 diagnostic scope: "all" concepts or "goal_path" (goal + ancestors not yet mastered)
+    diagnostic_scope: str = "all"
+    # F.1 attach an expected-projection deadline warning to plans (does not change schedules)
+    feasibility_warning: bool = False
+    # J.4 new-content ranking policy (deterministic = W7 scheduler, no hook)
+    ranking_policy: str = "deterministic"
+    policy_top_k: int = 5
+    policy_seed: int = 0
+    # O.1 measurement model, O.2 half-life model (HLR-lite weights: bias, correct, wrong)
+    mastery_model: str = "bkt"
+    elo_k: float = 0.4
+    elo_a: float = 1.7
+    half_life_model: str = "fixed"
+    hlr_weights: tuple[float, float, float] = (4.0, 0.5, -0.5)
+    # O.4 scheduler back-end ("cpsat" needs the optional [solver] extra)
+    scheduler: str = "greedy"
 
     def __post_init__(self):
         if not (0.0 < self.d_min < self.d_max < 1.0):
@@ -157,6 +196,74 @@ class EngineConfig:
             raise ValidationError(
                 f"half_life_growth must be finite in (0, 10], got {self.half_life_growth}"
             )
+        self._validate_w8()
+
+    def _validate_w8(self) -> None:
+        if not isinstance(self.profile, str) or not self.profile:
+            raise ValidationError("profile must be a non-empty string")
+        if self.class_params is not None:
+            names = [c[0] for c in self.class_params]
+            if sorted(names) != ["easy", "hard", "medium"]:
+                raise ValidationError(f"class_params needs easy/medium/hard, got {names}")
+            for name, g, s in self.class_params:
+                for label, v in (("guess", g), ("slip", s)):
+                    if not _finite_in(v, 0.0, 1.0):
+                        raise ValidationError(f"{name} {label} must be in (0, 1), got {v}")
+                if g + s >= 1.0:
+                    raise ValidationError(f"{name}: guess + slip must be < 1, got {g} + {s}")
+        if not (_finite_in(self.forget, 0.0, 1.0) or self.forget == 0.0):
+            raise ValidationError(f"forget must be in [0, 1), got {self.forget}")
+        for name in (
+            "consolidation",
+            "verification_probe",
+            "horizon_aware_mastery",
+            "review_goal_path_only",
+            "feasibility_warning",
+        ):
+            check_bool(getattr(self, name), name)
+        for name in ("probe_easy_share", "strict_slack"):
+            if not _finite_in(getattr(self, name), 0.0, 1.0):
+                raise ValidationError(f"{name} must be in (0, 1), got {getattr(self, name)}")
+        if not _finite_in(self.strict_max_entropy, 0.0, 1.0):
+            raise ValidationError(
+                f"strict_max_entropy must be in (0, 1), got {self.strict_max_entropy}"
+            )
+        check_positive_int(self.strict_k, "strict_k")
+        check_positive_int(self.policy_top_k, "policy_top_k")
+        if not isinstance(self.policy_seed, int) or isinstance(self.policy_seed, bool):
+            raise ValidationError("policy_seed must be an int")
+        if not (_finite_in(self.review_cap_fraction, 0.0, 1.0) or self.review_cap_fraction == 1.0):
+            raise ValidationError(
+                f"review_cap_fraction must be in (0, 1], got {self.review_cap_fraction}"
+            )
+        for name, val, allowed in (
+            ("diagnostic_scope", self.diagnostic_scope, ("all", "goal_path")),
+            (
+                "ranking_policy",
+                self.ranking_policy,
+                ("deterministic", "bandit_frozen", "bandit_updating", "random", "agent"),
+            ),
+            ("mastery_model", self.mastery_model, ("bkt", "elo")),
+            ("half_life_model", self.half_life_model, ("fixed", "hlr")),
+            ("scheduler", self.scheduler, ("greedy", "cpsat")),
+        ):
+            if val not in allowed:
+                raise ValidationError(f"{name} must be one of {allowed}, got {val!r}")
+        for name in ("elo_k", "elo_a"):
+            v = getattr(self, name)
+            if not isinstance(v, (int, float)) or not math.isfinite(v) or v <= 0:
+                raise ValidationError(f"{name} must be finite > 0, got {v}")
+        if len(self.hlr_weights) != 3 or not all(
+            isinstance(w, (int, float)) and math.isfinite(w) for w in self.hlr_weights
+        ):
+            raise ValidationError(f"hlr_weights must be 3 finite numbers, got {self.hlr_weights}")
+
+
+def _finite_in(v, lo: float, hi: float) -> bool:
+    """v is a finite real strictly inside (lo, hi)."""
+    return (
+        isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v) and lo < v < hi
+    )
 
 
 DEFAULT_CONFIG = EngineConfig()

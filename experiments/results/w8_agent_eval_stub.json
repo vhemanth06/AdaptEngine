@@ -1,0 +1,77 @@
+{
+ "metadata": {
+  "code_hash": "f09fb8e2f6126c98c5a81cddf0a840a3936509111cbbbdb064fd2e8d5a881b66",
+  "label": "stub plumbing run: not an agent evaluation",
+  "model": "template-stub-1",
+  "provider": "stub",
+  "runtime_s": 22.0,
+  "seeds": "odd 2001-2099 (50)",
+  "timestamp_utc": "2026-11-09T21:52:05.313217+00:00"
+ },
+ "orchestrator_N3": {
+  "agreement_with_tier_order": 0.4567,
+  "choices": {
+   "consolidate": 0,
+   "continue": 2345,
+   "rediagnose": 0,
+   "remediate": 0,
+   "review": 0
+  },
+  "decisions": 2345,
+  "executed_violations": 0,
+  "fallback_rate": 0.0,
+  "false_mastery": {
+   "adapt_final": 0.0251,
+   "orchestrated": 0.0303
+  },
+  "goal_mastery_vs_adapt_final": {
+   "ci95": [
+    0.0,
+    0.0
+   ],
+   "diff": 0.0
+  },
+  "utilisation": {
+   "adapt_final": 0.9456,
+   "orchestrated": 0.9082
+  }
+ },
+ "proposer_M3": {
+  "acceptance_rate": 1.0,
+  "mean_plan_days": 14,
+  "mean_reference_days": 14,
+  "n": 50,
+  "violations_by_rule": {}
+ },
+ "ranker_L4": {
+  "agent_vs_bandit_frozen": {
+   "ci95": [
+    -0.06,
+    0.0
+   ],
+   "diff": -0.02
+  },
+  "agent_vs_deterministic": {
+   "ci95": [
+    0.0,
+    0.0
+   ],
+   "diff": 0.0
+  },
+  "agreement_with_deterministic": 1.0,
+  "all_required": {
+   "agent": 0.9,
+   "bandit_frozen": 0.92,
+   "deterministic": 0.9
+  },
+  "executed_violations_agent": 0,
+  "fallback_rate": 0.0,
+  "goal_mastery": {
+   "agent": 0.96,
+   "bandit_frozen": 0.98,
+   "deterministic": 0.96
+  },
+  "mean_replan_latency_s": 0.0015,
+  "ranking_decisions": 1067
+ }
+}

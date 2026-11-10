@@ -115,5 +115,102 @@ def main():
             )
 
 
+# ---------------------------------------------------------------- W8 B.2 / O.3
+
+
+def _w8_episodes(args):
+    from experiments.w8_common import engine, goal_of
+
+    world, cur, arm, scen, horizon, seeds = args
+    e = engine(cur)
+    sc = get_scenario(scen, e, e.init_learner(), goal=goal_of(e), budget=15, horizon=horizon)
+    prof = PROFILES["fast_forgetter" if scen == "forgetting_21" else "nominal"]
+    return [
+        {"activity_log": run_episode(e, s, sc, arm, prof, world=world)["activity_log"]}
+        for s in seeds
+    ]
+
+
+def main_w8():
+    """B.2 (pre-registered, FINAL_A5 §2 + Amendment 1): per-world profiles with T_lesson;
+    O.3: S3 profile with forgets. Writes config/fitted_S{0,1,4}.json, config/fitted_S3*.json and
+    experiments/results/w8_fits.json."""
+    from multiprocessing import Pool
+
+    from experiments.bkt_lessons import fit, flags, sequences_from_episodes
+    from experiments.w8_common import FIT_SEEDS
+
+    jobs = {}
+    for world in ("S0", "S1", "S4"):
+        jobs[world] = [
+            (world, cur, arm, "calm", 14, FIT_SEEDS)
+            for cur in ("4-node", "8-node")
+            for arm in ("static_loop", "random_eligible")
+        ]
+    jobs["S3"] = [
+        (("S3", cur, arm, "forgetting_21", 21, FIT_SEEDS))
+        for cur in ("4-node", "8-node")
+        for arm in ("static_loop", "random_eligible")
+    ]
+    meta = {
+        **stamp(),
+        "fit_seeds": "even 2000-2398",
+        "preregistration": "docs/preregistration/FINAL_A5_2026-11-10.md",
+    }
+    out = {"metadata": meta, "fits": {}}
+    with Pool(min(12, os.cpu_count() or 2)) as pool:
+        episodes = {
+            w: [ep for r in pool.map(_w8_episodes, js) for ep in r] for w, js in jobs.items()
+        }
+    variants = [("S0", False), ("S1", False), ("S4", False), ("S3", False), ("S3", True)]
+    for world, forgets in variants:
+        seqs = sequences_from_episodes(episodes[world])
+        f = fit(seqs, forgets=forgets)
+        fl = flags(f)
+        name = f"fitted_{world}" + ("_forget" if forgets else "")
+        valid = not any("guess+slip>=1" in v for v in fl.values())
+        out["fits"][name] = {**f, "flags": fl, "valid": valid}
+        if not valid:
+            continue
+        prof = {
+            "name": name,
+            "source": f"simulated {world} fit cohort: static_loop + random_eligible, 4-node + 8-node, "
+            + ("forgetting_21 (fast_forgetter)" if world == "S3" else "B=15, calm, 14 days"),
+            **meta,
+            "p0": f["prior"],
+            "t_lesson": f["t_lesson"],
+            "t_exercise": f["t_exercise"],
+            "class_params": {
+                c: {"guess": f["guess"][c], "slip": f["slip"][c]}
+                for c in ("easy", "medium", "hard")
+            },
+            "constraint_warnings": fl,
+            "loglik": f["loglik"],
+        }
+        if forgets:
+            prof["forget"] = f["forget"]
+        with open(os.path.join(repo_root, "config", f"{name}.json"), "w") as fh:
+            json.dump(prof, fh, indent=2)
+            fh.write("\n")
+    path = os.path.join(repo_root, "experiments", "results", "w8_fits.json")
+    with open(path, "w") as fh:
+        json.dump(out, fh, indent=1, sort_keys=True)
+    for name, f in out["fits"].items():
+        print(
+            name,
+            "valid" if f["valid"] else "INVALID",
+            "p0 %.3f T_les %.3f T_ex %.3f F %.3f"
+            % (f["prior"], f["t_lesson"], f["t_exercise"], f["forget"]),
+            "g",
+            {k: round(v, 3) for k, v in f["guess"].items()},
+            "s",
+            {k: round(v, 3) for k, v in f["slip"].items()},
+            f["flags"],
+        )
+
+
 if __name__ == "__main__":
-    main()
+    if sys.argv[1:] == ["w8"]:
+        main_w8()
+    else:
+        main()

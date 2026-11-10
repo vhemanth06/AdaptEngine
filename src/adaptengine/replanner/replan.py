@@ -73,6 +73,7 @@ def replan(
     model: Optional[MasteryModel] = None,
     cfg: EngineConfig = DEFAULT_CONFIG,
     workload_cache: Optional[WorkloadCache] = None,
+    policy=None,
 ) -> Plan:
     """Pure replanning from state, execution log, and initial context (M6).
 
@@ -123,6 +124,7 @@ def replan(
         model=model,
         cfg=cfg,
         workload_cache=workload_cache,
+        policy=policy,
     )
 
     combined_trace = tuple(replan_trace) + revised_plan.trace
@@ -134,4 +136,5 @@ def replan(
         options=revised_plan.options,
         trace=combined_trace,
         best_effort_days=revised_plan.best_effort_days,
+        feasibility_warning=revised_plan.feasibility_warning,
     )

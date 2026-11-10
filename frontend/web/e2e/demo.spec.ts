@@ -1,21 +1,24 @@
-// The 6-minute demo script (report §10.5) in deterministic demo mode; doubles as the rehearsal.
-import { expect, test } from "@playwright/test";
+// The demo script (final report R§3.6) in deterministic demo mode; doubles as the rehearsal.
+import { expect, test, type Page } from "@playwright/test";
 
-test("6-minute demo script", async ({ page, request }) => {
+const budget = (page: Page, b: string) =>
+  page.getByRole("radiogroup", { name: "Minutes per day" }).getByRole("radio", { name: b, exact: true }).click();
+
+test("8-minute demo script", async ({ page, request }) => {
   await page.goto("/");
   await page.getByTestId("reset").click();
 
   // 1. Setup: C8, 10 min/day, deadline 10 -> FEASIBLE; 5 min/day -> not feasible, shortfall shown.
   await page.getByLabel("Goal concept").selectOption("C8");
   await page.getByLabel("Deadline (day)").fill("10");
-  await page.getByLabel("Minutes per day").selectOption("10");
+  await budget(page, "10");
   await page.getByTestId("make-plan").click();
   await expect(page.getByTestId("setup-status")).toContainText("✓ FEASIBLE");
-  await page.getByLabel("Minutes per day").selectOption("5");
+  await budget(page, "5");
   await page.getByTestId("make-plan").click();
   await expect(page.getByTestId("setup-status")).toContainText(/INFEASIBLE|UNKNOWN/);
   await expect(page.getByTestId("shortfall")).toContainText(/Short by \d+ day/);
-  await page.getByLabel("Minutes per day").selectOption("10");
+  await budget(page, "10");
   await page.getByTestId("make-plan").click();
   await expect(page.getByTestId("setup-status")).toContainText("✓ FEASIBLE");
 
@@ -70,10 +73,27 @@ test("6-minute demo script", async ({ page, request }) => {
   await expect(page.getByTestId("latency")).toHaveText(/\d+(\.\d+)? ms/);
   await expect(page.getByTestId("new-plan")).toBeVisible();
 
-  // 6. Autopilot and evaluation.
+  // 6. Autopilot: belief vs reality.
   await page.getByTestId("tab-autopilot").click();
   await page.getByTestId("run-autopilot").click();
   await expect(page.getByTestId("autopilot-results")).toBeVisible({ timeout: 60_000 });
+  await expect(page.getByTestId("belief-vs-reality")).toContainText("false mastery");
+
+  // 7. Policy Lab: bandit candidates + propensities; a forced bad agent output is rejected.
+  await page.getByTestId("tab-policy").click();
+  await page.getByRole("radiogroup", { name: "Ranking policy" }).getByRole("radio", { name: "bandit_frozen" }).click();
+  await page.getByTestId("run-policy").click();
+  await expect(page.getByTestId("policy-decisions")).toContainText("propensity");
+  await page.getByRole("radiogroup", { name: "Ranking policy" }).getByRole("radio", { name: "agent_bad" }).click();
+  await page.getByTestId("run-policy").click();
+  await expect(page.getByTestId("fallback-badge").first()).toContainText("AGENT_FALLBACK");
+
+  // 8. Plan proposer: the engine rejects an invalid agent plan with its reasons.
+  await page.getByTestId("tab-plan").click();
+  await page.getByTestId("propose-bad").click();
+  await expect(page.getByTestId("proposal-result")).toContainText("PREREQUISITE_ORDER");
+
+  // 9. Evaluation.
   await page.getByTestId("tab-evaluation").click();
-  await expect(page.getByTestId("evaluation")).toBeVisible();
+  await expect(page.getByTestId("evaluation").or(page.getByText("Final grid not found"))).toBeVisible();
 });

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "adaptengine"
-version = "0.3.0"
+version = "1.0.0"
 requires-python = ">=3.10"
 dependencies = [
     "networkx==3.4.2"
@@ -24,6 +24,12 @@ demo = [
     "pydantic",
     "httpx",
 ]
+agents = [
+    "anthropic",
+]
+solver = [
+    "ortools>=9.10",
+]
 figures = [
     "matplotlib>=3.8",
 ]
@@ -39,6 +45,9 @@ adaptengine = "adaptengine.cli:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+adaptengine = ["policy/*.md"]
+
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
@@ -48,3 +57,9 @@ filterwarnings = [
 
 [tool.ruff]
 line-length = 100
+# W8 0.2: the Week 7 review probes are kept verbatim as copied (reproducibility)
+extend-exclude = [
+    "experiments/probes/probe_w8.py",
+    "experiments/probes/probe_w8_calib.py",
+    "experiments/probes/probe_w8_sweep.py",
+]

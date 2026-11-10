@@ -57,7 +57,10 @@ def test_layering_and_dependency_rules():
         "diagnostic": 3,
         "planner": 3,
         "review": 3,
+        "policy": 3,
         "replanner": 4,
+        "agents": 5,
+        "authoring": 5,
         "session": 5,
         "api": 5,
         "cli": 6,
@@ -118,6 +121,11 @@ def test_prohibited_libraries():
                     "learner/adapter.py" in norm_path or "learner/pybkt_adapter.py" in norm_path
                 ), f"pyBKT illegal in {norm_path}"
 
+            # W8 K.1/D56: the agentic layer (authoring/, agents/) sits outside the core and may
+            # use time, network clients and providers; checked separately below
+            if "/authoring/" in norm_path or "/agents/" in norm_path:
+                continue
+
             # Determinism checks
             top_level = {imp.split(".")[0] for imp in imports}
             for forbidden in ["time", "datetime", "random"]:
@@ -144,3 +152,41 @@ from adaptengine.cli import main
     assert "random" in top_level
     assert "time" in top_level
     assert any(imp.startswith("adaptengine.cli") for imp in imports)
+
+
+CORE = ("core", "curriculum", "learner", "diagnostic", "planner", "review", "replanner", "policy")
+
+
+def test_core_never_imports_agentic_layer_or_providers():
+    """W8 K.1/D56: core packages never import adaptengine.authoring / adaptengine.agents or any
+    network/LLM client; only authoring/providers.py may import an LLM SDK."""
+    src_dir = "src/adaptengine"
+    net = {"anthropic", "openai", "urllib", "http", "requests", "httpx", "socket"}
+    for root, _, files in os.walk(src_dir):
+        for file in files:
+            if not file.endswith(".py"):
+                continue
+            path = os.path.join(root, file).replace("\\", "/")
+            imports = get_imports(path)
+            top = {imp.split(".")[0] for imp in imports}
+            if any(f"/{pkg}/" in path for pkg in CORE):
+                bad = [
+                    i
+                    for i in imports
+                    if i.startswith(("adaptengine.authoring", "adaptengine.agents"))
+                ]
+                assert not bad, f"{path} imports the agentic layer: {bad}"
+                assert not (top & net), f"{path} imports a network client: {top & net}"
+            if "anthropic" in top:
+                assert path.endswith("authoring/providers.py"), f"anthropic imported in {path}"
+
+
+def test_agentic_layer_is_off_by_default():
+    from adaptengine.api import Engine
+    from adaptengine.core.config import DEFAULT_CONFIG
+
+    assert DEFAULT_CONFIG.ranking_policy == "deterministic"
+    e = Engine.from_files(
+        "data/curriculum/curriculum_4node.json", "data/curriculum/activities_4node.json"
+    )
+    assert e.policy is None

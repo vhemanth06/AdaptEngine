@@ -93,7 +93,7 @@ def grid_section(g, out):
                 f"| {a} | {pct(r['goal_mastery_rate'])} | {r['mean_goal_theta']:.4f} | "
                 f"{pct(r['all_required_rate'])} | {r['mean_minutes']:.1f} | "
                 f"{r['executed_prereq_violations']} ({r['learners_with_executed_violations']}) | "
-                f"{r['idle_days']} | {diff} |"
+                f"{r.get('idle_days_unmastered', r.get('idle_days'))} | {diff} |"
             )
         out.append("")
     # Robustness matrix

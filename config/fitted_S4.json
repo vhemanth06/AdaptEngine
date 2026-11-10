@@ -1,0 +1,27 @@
+{
+  "name": "fitted_S4",
+  "source": "simulated S4 fit cohort: static_loop + random_eligible, 4-node + 8-node, B=15, calm, 14 days",
+  "code_hash": "f09fb8e2f6126c98c5a81cddf0a840a3936509111cbbbdb064fd2e8d5a881b66",
+  "timestamp_utc": "2026-11-09T21:01:11.315742+00:00",
+  "fit_seeds": "even 2000-2398",
+  "preregistration": "docs/preregistration/FINAL_A5_2026-11-10.md",
+  "p0": 0.23808551915734977,
+  "t_lesson": 0.194270779051513,
+  "t_exercise": 0.05024724405394447,
+  "class_params": {
+    "easy": {
+      "guess": 0.2480133840755767,
+      "slip": 0.10137799307697001
+    },
+    "medium": {
+      "guess": 0.15083840823152686,
+      "slip": 0.18007917266009799
+    },
+    "hard": {
+      "guess": 0.06388383533004138,
+      "slip": 0.25118080972192636
+    }
+  },
+  "constraint_warnings": {},
+  "loglik": -44245.4761918108
+}

@@ -1,0 +1,7229 @@
+{
+ "metadata": {
+  "code_hash": "f09fb8e2f6126c98c5a81cddf0a840a3936509111cbbbdb064fd2e8d5a881b66",
+  "timestamp_utc": "2026-11-09T21:06:22.002373+00:00",
+  "runtime_s": 271.6
+ },
+ "n_updates": 17775,
+ "weights": {
+  "bias": -0.01983549208335454,
+  "p": -0.16531195217626704,
+  "responses": 0.12435050811066707,
+  "days_since_practice": -0.09466459762996915,
+  "p_correct": 0.1928998661353942,
+  "fit_gap": 0.31231708144143533,
+  "unlock": 0.02593689580478463,
+  "review_urgency": 0.0,
+  "on_goal_path": -0.019835492083368933,
+  "is_lesson": 0.1706642683219458,
+  "diff_easy": -0.056177608575470994,
+  "diff_medium": -0.05242853255794894,
+  "diff_hard": -0.08189361927128383,
+  "det_rank": 0.028135884335853754,
+  "day_index": 0.0,
+  "remaining_days": -0.019835492083426057,
+  "remaining_budget": -0.008071990211546476
+ },
+ "curve": [
+  {
+   "seed": 6000,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": -0.027777777777777776,
+   "violations": 0
+  },
+  {
+   "seed": 6000,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.07142857142857142,
+   "violations": 0
+  },
+  {
+   "seed": 6000,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 39,
+   "mean_reward": -0.0235042735042735,
+   "violations": 0
+  },
+  {
+   "seed": 6000,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 21,
+   "mean_reward": 0.047619047619047616,
+   "violations": 0
+  },
+  {
+   "seed": 6002,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": false,
+   "decisions": 14,
+   "mean_reward": -0.03571428571428571,
+   "violations": 0
+  },
+  {
+   "seed": 6002,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": -0.1111111111111111,
+   "violations": 0
+  },
+  {
+   "seed": 6002,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 27,
+   "mean_reward": -0.03395061728395062,
+   "violations": 0
+  },
+  {
+   "seed": 6002,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 17,
+   "mean_reward": -0.07352941176470588,
+   "violations": 0
+  },
+  {
+   "seed": 6004,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 24,
+   "mean_reward": 0.020833333333333332,
+   "violations": 0
+  },
+  {
+   "seed": 6004,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": -0.03125,
+   "violations": 0
+  },
+  {
+   "seed": 6004,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 60,
+   "mean_reward": 0.004166666666666667,
+   "violations": 0
+  },
+  {
+   "seed": 6004,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": -0.017857142857142856,
+   "violations": 0
+  },
+  {
+   "seed": 6006,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 22,
+   "mean_reward": -0.056818181818181816,
+   "violations": 0
+  },
+  {
+   "seed": 6006,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6006,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 35,
+   "mean_reward": -0.014285714285714285,
+   "violations": 0
+  },
+  {
+   "seed": 6006,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": -0.005208333333333336,
+   "violations": 0
+  },
+  {
+   "seed": 6008,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": -0.009259259259259257,
+   "violations": 0
+  },
+  {
+   "seed": 6008,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": -0.026041666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6008,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 52,
+   "mean_reward": -0.004807692307692308,
+   "violations": 0
+  },
+  {
+   "seed": 6008,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": 0.025,
+   "violations": 0
+  },
+  {
+   "seed": 6010,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": false,
+   "decisions": 12,
+   "mean_reward": -0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6010,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6010,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 36,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6010,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 23,
+   "mean_reward": 0.021739130434782608,
+   "violations": 0
+  },
+  {
+   "seed": 6012,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": false,
+   "decisions": 13,
+   "mean_reward": -0.04487179487179487,
+   "violations": 0
+  },
+  {
+   "seed": 6012,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": 0.020833333333333332,
+   "violations": 0
+  },
+  {
+   "seed": 6012,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 47,
+   "mean_reward": 0.0035460992907801435,
+   "violations": 0
+  },
+  {
+   "seed": 6012,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 20,
+   "mean_reward": 0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6014,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": -0.03333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6014,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": -0.07291666666666667,
+   "violations": 0
+  },
+  {
+   "seed": 6014,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 23,
+   "mean_reward": -0.010869565217391304,
+   "violations": 0
+  },
+  {
+   "seed": 6014,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 22,
+   "mean_reward": 0.011363636363636364,
+   "violations": 0
+  },
+  {
+   "seed": 6016,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 25,
+   "mean_reward": 0.02,
+   "violations": 0
+  },
+  {
+   "seed": 6016,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 5,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6016,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 37,
+   "mean_reward": -0.00900900900900901,
+   "violations": 0
+  },
+  {
+   "seed": 6016,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": 0.045454545454545456,
+   "violations": 0
+  },
+  {
+   "seed": 6018,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": -0.022727272727272728,
+   "violations": 0
+  },
+  {
+   "seed": 6018,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6018,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 33,
+   "mean_reward": 0.030303030303030304,
+   "violations": 0
+  },
+  {
+   "seed": 6018,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 21,
+   "mean_reward": 0.03968253968253969,
+   "violations": 0
+  },
+  {
+   "seed": 6020,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": -0.022727272727272728,
+   "violations": 0
+  },
+  {
+   "seed": 6020,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.07142857142857142,
+   "violations": 0
+  },
+  {
+   "seed": 6020,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 25,
+   "mean_reward": -0.03,
+   "violations": 0
+  },
+  {
+   "seed": 6020,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 21,
+   "mean_reward": 0.09126984126984126,
+   "violations": 0
+  },
+  {
+   "seed": 6022,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.10119047619047618,
+   "violations": 0
+  },
+  {
+   "seed": 6022,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.15740740740740738,
+   "violations": 0
+  },
+  {
+   "seed": 6022,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 49,
+   "mean_reward": 0.025510204081632654,
+   "violations": 0
+  },
+  {
+   "seed": 6022,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": 0.07777777777777777,
+   "violations": 0
+  },
+  {
+   "seed": 6024,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 24,
+   "mean_reward": -0.010416666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6024,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": 0.05303030303030303,
+   "violations": 0
+  },
+  {
+   "seed": 6024,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 48,
+   "mean_reward": 0.0017361111111111095,
+   "violations": 0
+  },
+  {
+   "seed": 6024,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 26,
+   "mean_reward": 0.0608974358974359,
+   "violations": 0
+  },
+  {
+   "seed": 6026,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": 0.0125,
+   "violations": 0
+  },
+  {
+   "seed": 6026,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.057692307692307696,
+   "violations": 0
+  },
+  {
+   "seed": 6026,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 34,
+   "mean_reward": 0.017156862745098037,
+   "violations": 0
+  },
+  {
+   "seed": 6026,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 28,
+   "mean_reward": 0.07142857142857142,
+   "violations": 0
+  },
+  {
+   "seed": 6028,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": -0.015625,
+   "violations": 0
+  },
+  {
+   "seed": 6028,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6028,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 20,
+   "mean_reward": -0.01666666666666667,
+   "violations": 0
+  },
+  {
+   "seed": 6028,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6030,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": false,
+   "decisions": 17,
+   "mean_reward": 0.014705882352941176,
+   "violations": 0
+  },
+  {
+   "seed": 6030,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.047619047619047616,
+   "violations": 0
+  },
+  {
+   "seed": 6030,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 43,
+   "mean_reward": 0.005813953488372093,
+   "violations": 0
+  },
+  {
+   "seed": 6030,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": 0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6032,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": false,
+   "decisions": 13,
+   "mean_reward": 0.07692307692307693,
+   "violations": 0
+  },
+  {
+   "seed": 6032,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6032,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 39,
+   "mean_reward": 0.01282051282051282,
+   "violations": 0
+  },
+  {
+   "seed": 6032,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 30,
+   "mean_reward": 0.03333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6034,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.057692307692307696,
+   "violations": 0
+  },
+  {
+   "seed": 6034,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.0625,
+   "violations": 0
+  },
+  {
+   "seed": 6034,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 47,
+   "mean_reward": 0.007092198581560282,
+   "violations": 0
+  },
+  {
+   "seed": 6034,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": 0.020833333333333332,
+   "violations": 0
+  },
+  {
+   "seed": 6036,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 30,
+   "mean_reward": -0.025,
+   "violations": 0
+  },
+  {
+   "seed": 6036,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.019230769230769232,
+   "violations": 0
+  },
+  {
+   "seed": 6036,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 40,
+   "mean_reward": 0.00625,
+   "violations": 0
+  },
+  {
+   "seed": 6036,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.02380952380952381,
+   "violations": 0
+  },
+  {
+   "seed": 6038,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 44,
+   "mean_reward": 0.005681818181818182,
+   "violations": 0
+  },
+  {
+   "seed": 6038,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.07142857142857142,
+   "violations": 0
+  },
+  {
+   "seed": 6038,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 46,
+   "mean_reward": 0.03804347826086957,
+   "violations": 0
+  },
+  {
+   "seed": 6038,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.07692307692307693,
+   "violations": 0
+  },
+  {
+   "seed": 6040,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": -0.015625,
+   "violations": 0
+  },
+  {
+   "seed": 6040,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.01754385964912281,
+   "violations": 0
+  },
+  {
+   "seed": 6040,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 45,
+   "mean_reward": -0.005555555555555556,
+   "violations": 0
+  },
+  {
+   "seed": 6040,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 27,
+   "mean_reward": 0.03395061728395062,
+   "violations": 0
+  },
+  {
+   "seed": 6042,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": -0.020833333333333332,
+   "violations": 0
+  },
+  {
+   "seed": 6042,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.018518518518518514,
+   "violations": 0
+  },
+  {
+   "seed": 6042,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 29,
+   "mean_reward": -0.034482758620689655,
+   "violations": 0
+  },
+  {
+   "seed": 6042,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 23,
+   "mean_reward": 0.05072463768115942,
+   "violations": 0
+  },
+  {
+   "seed": 6044,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.02976190476190476,
+   "violations": 0
+  },
+  {
+   "seed": 6044,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": 0.025,
+   "violations": 0
+  },
+  {
+   "seed": 6044,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 23,
+   "mean_reward": 0.014492753623188408,
+   "violations": 0
+  },
+  {
+   "seed": 6044,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 27,
+   "mean_reward": 0.037037037037037035,
+   "violations": 0
+  },
+  {
+   "seed": 6046,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": -0.015625,
+   "violations": 0
+  },
+  {
+   "seed": 6046,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6046,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 40,
+   "mean_reward": -0.01875,
+   "violations": 0
+  },
+  {
+   "seed": 6046,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": -0.046875,
+   "violations": 0
+  },
+  {
+   "seed": 6048,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": false,
+   "decisions": 17,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6048,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 5,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6048,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 27,
+   "mean_reward": -0.027777777777777776,
+   "violations": 0
+  },
+  {
+   "seed": 6048,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": 0.046875,
+   "violations": 0
+  },
+  {
+   "seed": 6050,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": 0.046875,
+   "violations": 0
+  },
+  {
+   "seed": 6050,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": -0.04166666666666667,
+   "violations": 0
+  },
+  {
+   "seed": 6050,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 41,
+   "mean_reward": 0.024390243902439025,
+   "violations": 0
+  },
+  {
+   "seed": 6050,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 31,
+   "mean_reward": 0.024193548387096774,
+   "violations": 0
+  },
+  {
+   "seed": 6052,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": 0.0375,
+   "violations": 0
+  },
+  {
+   "seed": 6052,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.046296296296296294,
+   "violations": 0
+  },
+  {
+   "seed": 6052,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 36,
+   "mean_reward": 0.034722222222222224,
+   "violations": 0
+  },
+  {
+   "seed": 6052,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 27,
+   "mean_reward": 0.033950617283950615,
+   "violations": 0
+  },
+  {
+   "seed": 6054,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": -0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6054,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": -0.06481481481481483,
+   "violations": 0
+  },
+  {
+   "seed": 6054,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 50,
+   "mean_reward": -0.008333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6054,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": -0.05128205128205128,
+   "violations": 0
+  },
+  {
+   "seed": 6056,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": -0.027777777777777776,
+   "violations": 0
+  },
+  {
+   "seed": 6056,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6056,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 53,
+   "mean_reward": 0.0047169811320754715,
+   "violations": 0
+  },
+  {
+   "seed": 6056,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 22,
+   "mean_reward": 0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6058,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": 0.045454545454545456,
+   "violations": 0
+  },
+  {
+   "seed": 6058,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": -0.03571428571428571,
+   "violations": 0
+  },
+  {
+   "seed": 6058,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 30,
+   "mean_reward": 0.05,
+   "violations": 0
+  },
+  {
+   "seed": 6058,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 25,
+   "mean_reward": 0.013333333333333326,
+   "violations": 0
+  },
+  {
+   "seed": 6060,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6060,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 4,
+   "mean_reward": -0.08333333333333334,
+   "violations": 0
+  },
+  {
+   "seed": 6060,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 40,
+   "mean_reward": 0.01666666666666667,
+   "violations": 0
+  },
+  {
+   "seed": 6060,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 28,
+   "mean_reward": 0.05357142857142857,
+   "violations": 0
+  },
+  {
+   "seed": 6062,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.038461538461538464,
+   "violations": 0
+  },
+  {
+   "seed": 6062,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": -0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6062,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 40,
+   "mean_reward": 0.0125,
+   "violations": 0
+  },
+  {
+   "seed": 6062,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": -0.017543859649122803,
+   "violations": 0
+  },
+  {
+   "seed": 6064,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.11458333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6064,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 4,
+   "mean_reward": 0.16666666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6064,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 49,
+   "mean_reward": 0.061224489795918366,
+   "violations": 0
+  },
+  {
+   "seed": 6064,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": 0.0875,
+   "violations": 0
+  },
+  {
+   "seed": 6066,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": -0.019230769230769232,
+   "violations": 0
+  },
+  {
+   "seed": 6066,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.010416666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6066,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 29,
+   "mean_reward": 0.02586206896551724,
+   "violations": 0
+  },
+  {
+   "seed": 6066,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 21,
+   "mean_reward": 0.05952380952380952,
+   "violations": 0
+  },
+  {
+   "seed": 6068,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.019230769230769232,
+   "violations": 0
+  },
+  {
+   "seed": 6068,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": -0.03125,
+   "violations": 0
+  },
+  {
+   "seed": 6068,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 40,
+   "mean_reward": -0.025,
+   "violations": 0
+  },
+  {
+   "seed": 6068,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 22,
+   "mean_reward": 0.04166666666666667,
+   "violations": 0
+  },
+  {
+   "seed": 6070,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": -0.045454545454545456,
+   "violations": 0
+  },
+  {
+   "seed": 6070,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.047619047619047616,
+   "violations": 0
+  },
+  {
+   "seed": 6070,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 52,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6070,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 23,
+   "mean_reward": 0.05434782608695652,
+   "violations": 0
+  },
+  {
+   "seed": 6072,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.004385964912280704,
+   "violations": 0
+  },
+  {
+   "seed": 6072,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.05208333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6072,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 27,
+   "mean_reward": -0.012345679012345677,
+   "violations": 0
+  },
+  {
+   "seed": 6072,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6074,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 29,
+   "mean_reward": 0.017241379310344827,
+   "violations": 0
+  },
+  {
+   "seed": 6074,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.027777777777777776,
+   "violations": 0
+  },
+  {
+   "seed": 6074,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 46,
+   "mean_reward": 0.010869565217391304,
+   "violations": 0
+  },
+  {
+   "seed": 6074,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6076,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 41,
+   "mean_reward": 0.018292682926829267,
+   "violations": 0
+  },
+  {
+   "seed": 6076,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6076,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 48,
+   "mean_reward": 0.026041666666666668,
+   "violations": 0
+  },
+  {
+   "seed": 6076,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 17,
+   "mean_reward": 0.07843137254901962,
+   "violations": 0
+  },
+  {
+   "seed": 6078,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": -0.030303030303030307,
+   "violations": 0
+  },
+  {
+   "seed": 6078,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6078,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 47,
+   "mean_reward": -0.012411347517730499,
+   "violations": 0
+  },
+  {
+   "seed": 6078,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": 0.03703703703703704,
+   "violations": 0
+  },
+  {
+   "seed": 6080,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.03571428571428571,
+   "violations": 0
+  },
+  {
+   "seed": 6080,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": 0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6080,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 53,
+   "mean_reward": 0.026729559748427674,
+   "violations": 0
+  },
+  {
+   "seed": 6080,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": 0.14583333333333334,
+   "violations": 0
+  },
+  {
+   "seed": 6082,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": -0.015625,
+   "violations": 0
+  },
+  {
+   "seed": 6082,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": 0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6082,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 60,
+   "mean_reward": 0.029166666666666667,
+   "violations": 0
+  },
+  {
+   "seed": 6082,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 21,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6084,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": -0.057692307692307696,
+   "violations": 0
+  },
+  {
+   "seed": 6084,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.1111111111111111,
+   "violations": 0
+  },
+  {
+   "seed": 6084,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 37,
+   "mean_reward": -0.00900900900900901,
+   "violations": 0
+  },
+  {
+   "seed": 6084,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 33,
+   "mean_reward": 0.05555555555555555,
+   "violations": 0
+  },
+  {
+   "seed": 6086,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 29,
+   "mean_reward": -0.034482758620689655,
+   "violations": 0
+  },
+  {
+   "seed": 6086,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": 0.011111111111111108,
+   "violations": 0
+  },
+  {
+   "seed": 6086,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 50,
+   "mean_reward": 0.015,
+   "violations": 0
+  },
+  {
+   "seed": 6086,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 22,
+   "mean_reward": -0.015151515151515154,
+   "violations": 0
+  },
+  {
+   "seed": 6088,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": -0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6088,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.0625,
+   "violations": 0
+  },
+  {
+   "seed": 6088,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 33,
+   "mean_reward": -0.015151515151515152,
+   "violations": 0
+  },
+  {
+   "seed": 6088,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 34,
+   "mean_reward": -0.03921568627450981,
+   "violations": 0
+  },
+  {
+   "seed": 6090,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": -0.05,
+   "violations": 0
+  },
+  {
+   "seed": 6090,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.07142857142857142,
+   "violations": 0
+  },
+  {
+   "seed": 6090,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 37,
+   "mean_reward": 0.00900900900900901,
+   "violations": 0
+  },
+  {
+   "seed": 6090,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 25,
+   "mean_reward": 0.04,
+   "violations": 0
+  },
+  {
+   "seed": 6092,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 17,
+   "mean_reward": 0.04411764705882353,
+   "violations": 0
+  },
+  {
+   "seed": 6092,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.05208333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6092,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 48,
+   "mean_reward": 0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6092,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 34,
+   "mean_reward": 0.014705882352941176,
+   "violations": 0
+  },
+  {
+   "seed": 6094,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 17,
+   "mean_reward": -0.019607843137254905,
+   "violations": 0
+  },
+  {
+   "seed": 6094,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 4,
+   "mean_reward": -0.08333333333333334,
+   "violations": 0
+  },
+  {
+   "seed": 6094,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 40,
+   "mean_reward": -0.014583333333333334,
+   "violations": 0
+  },
+  {
+   "seed": 6094,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": -0.039473684210526314,
+   "violations": 0
+  },
+  {
+   "seed": 6096,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.057692307692307696,
+   "violations": 0
+  },
+  {
+   "seed": 6096,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.05555555555555555,
+   "violations": 0
+  },
+  {
+   "seed": 6096,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 51,
+   "mean_reward": 0.019607843137254898,
+   "violations": 0
+  },
+  {
+   "seed": 6096,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.06578947368421052,
+   "violations": 0
+  },
+  {
+   "seed": 6098,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": -0.03125,
+   "violations": 0
+  },
+  {
+   "seed": 6098,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.03703703703703704,
+   "violations": 0
+  },
+  {
+   "seed": 6098,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 31,
+   "mean_reward": -0.024193548387096774,
+   "violations": 0
+  },
+  {
+   "seed": 6098,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 26,
+   "mean_reward": 0.032051282051282055,
+   "violations": 0
+  },
+  {
+   "seed": 6100,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.057692307692307696,
+   "violations": 0
+  },
+  {
+   "seed": 6100,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6100,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 32,
+   "mean_reward": 0.0546875,
+   "violations": 0
+  },
+  {
+   "seed": 6100,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 17,
+   "mean_reward": 0.04901960784313725,
+   "violations": 0
+  },
+  {
+   "seed": 6102,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": -0.05,
+   "violations": 0
+  },
+  {
+   "seed": 6102,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.10416666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6102,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 38,
+   "mean_reward": -0.019736842105263164,
+   "violations": 0
+  },
+  {
+   "seed": 6102,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": 0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6104,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": -0.03333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6104,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6104,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 29,
+   "mean_reward": -0.028735632183908053,
+   "violations": 0
+  },
+  {
+   "seed": 6104,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 17,
+   "mean_reward": -0.014705882352941176,
+   "violations": 0
+  },
+  {
+   "seed": 6106,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": 0.0375,
+   "violations": 0
+  },
+  {
+   "seed": 6106,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6106,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 60,
+   "mean_reward": 0.004166666666666667,
+   "violations": 0
+  },
+  {
+   "seed": 6106,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 21,
+   "mean_reward": 0.03571428571428571,
+   "violations": 0
+  },
+  {
+   "seed": 6108,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.05555555555555555,
+   "violations": 0
+  },
+  {
+   "seed": 6108,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.09259259259259259,
+   "violations": 0
+  },
+  {
+   "seed": 6108,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 24,
+   "mean_reward": 0.052083333333333336,
+   "violations": 0
+  },
+  {
+   "seed": 6108,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 18,
+   "mean_reward": 0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6110,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 26,
+   "mean_reward": 0.019230769230769232,
+   "violations": 0
+  },
+  {
+   "seed": 6110,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.09615384615384616,
+   "violations": 0
+  },
+  {
+   "seed": 6110,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 40,
+   "mean_reward": 0.05,
+   "violations": 0
+  },
+  {
+   "seed": 6110,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": 0.1125,
+   "violations": 0
+  },
+  {
+   "seed": 6112,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.017857142857142856,
+   "violations": 0
+  },
+  {
+   "seed": 6112,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": 0.045454545454545456,
+   "violations": 0
+  },
+  {
+   "seed": 6112,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 31,
+   "mean_reward": 0.03494623655913978,
+   "violations": 0
+  },
+  {
+   "seed": 6112,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 21,
+   "mean_reward": 0.047619047619047616,
+   "violations": 0
+  },
+  {
+   "seed": 6114,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 28,
+   "mean_reward": -0.017857142857142853,
+   "violations": 0
+  },
+  {
+   "seed": 6114,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": -0.020833333333333332,
+   "violations": 0
+  },
+  {
+   "seed": 6114,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 43,
+   "mean_reward": 0.0019379844961240292,
+   "violations": 0
+  },
+  {
+   "seed": 6114,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 22,
+   "mean_reward": 0.0303030303030303,
+   "violations": 0
+  },
+  {
+   "seed": 6116,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": false,
+   "decisions": 24,
+   "mean_reward": 0.020833333333333332,
+   "violations": 0
+  },
+  {
+   "seed": 6116,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.07142857142857142,
+   "violations": 0
+  },
+  {
+   "seed": 6116,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 38,
+   "mean_reward": 0.04166666666666667,
+   "violations": 0
+  },
+  {
+   "seed": 6116,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 28,
+   "mean_reward": 0.08035714285714286,
+   "violations": 0
+  },
+  {
+   "seed": 6118,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 31,
+   "mean_reward": 0.010752688172043015,
+   "violations": 0
+  },
+  {
+   "seed": 6118,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": -0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6118,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 46,
+   "mean_reward": 0.007246376811594204,
+   "violations": 0
+  },
+  {
+   "seed": 6118,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": -0.017857142857142856,
+   "violations": 0
+  },
+  {
+   "seed": 6120,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": false,
+   "decisions": 24,
+   "mean_reward": -0.020833333333333332,
+   "violations": 0
+  },
+  {
+   "seed": 6120,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": -0.06481481481481483,
+   "violations": 0
+  },
+  {
+   "seed": 6120,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 55,
+   "mean_reward": -0.01818181818181818,
+   "violations": 0
+  },
+  {
+   "seed": 6120,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 26,
+   "mean_reward": -0.035256410256410256,
+   "violations": 0
+  },
+  {
+   "seed": 6122,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 29,
+   "mean_reward": 0.017241379310344827,
+   "violations": 0
+  },
+  {
+   "seed": 6122,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.05555555555555555,
+   "violations": 0
+  },
+  {
+   "seed": 6122,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 33,
+   "mean_reward": 0.0202020202020202,
+   "violations": 0
+  },
+  {
+   "seed": 6122,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 23,
+   "mean_reward": 0.043478260869565216,
+   "violations": 0
+  },
+  {
+   "seed": 6124,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": -0.046874999999999986,
+   "violations": 0
+  },
+  {
+   "seed": 6124,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": -0.04166666666666667,
+   "violations": 0
+  },
+  {
+   "seed": 6124,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 43,
+   "mean_reward": -0.01162790697674418,
+   "violations": 0
+  },
+  {
+   "seed": 6124,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": 0.015151515151515148,
+   "violations": 0
+  },
+  {
+   "seed": 6126,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": 0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6126,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": 0.006944444444444443,
+   "violations": 0
+  },
+  {
+   "seed": 6126,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 34,
+   "mean_reward": 0.019607843137254905,
+   "violations": 0
+  },
+  {
+   "seed": 6126,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 23,
+   "mean_reward": -0.007246376811594204,
+   "violations": 0
+  },
+  {
+   "seed": 6128,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 17,
+   "mean_reward": 0.058823529411764705,
+   "violations": 0
+  },
+  {
+   "seed": 6128,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": 0.061111111111111116,
+   "violations": 0
+  },
+  {
+   "seed": 6128,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 39,
+   "mean_reward": 0.04487179487179487,
+   "violations": 0
+  },
+  {
+   "seed": 6128,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 32,
+   "mean_reward": 0.0625,
+   "violations": 0
+  },
+  {
+   "seed": 6130,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6130,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": 0.03787878787878788,
+   "violations": 0
+  },
+  {
+   "seed": 6130,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 30,
+   "mean_reward": -0.016666666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6130,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 28,
+   "mean_reward": 0.05357142857142857,
+   "violations": 0
+  },
+  {
+   "seed": 6132,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 25,
+   "mean_reward": -0.01,
+   "violations": 0
+  },
+  {
+   "seed": 6132,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": 0.06666666666666667,
+   "violations": 0
+  },
+  {
+   "seed": 6132,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 46,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6132,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": 0.03124999999999999,
+   "violations": 0
+  },
+  {
+   "seed": 6134,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 21,
+   "mean_reward": 0.011904761904761904,
+   "violations": 0
+  },
+  {
+   "seed": 6134,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": 0.026041666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6134,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 39,
+   "mean_reward": -0.00641025641025641,
+   "violations": 0
+  },
+  {
+   "seed": 6134,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 31,
+   "mean_reward": 0.016129032258064516,
+   "violations": 0
+  },
+  {
+   "seed": 6136,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": 0.0875,
+   "violations": 0
+  },
+  {
+   "seed": 6136,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": 0.09848484848484848,
+   "violations": 0
+  },
+  {
+   "seed": 6136,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 42,
+   "mean_reward": 0.06944444444444445,
+   "violations": 0
+  },
+  {
+   "seed": 6136,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 24,
+   "mean_reward": 0.048611111111111105,
+   "violations": 0
+  },
+  {
+   "seed": 6138,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": 0.015625,
+   "violations": 0
+  },
+  {
+   "seed": 6138,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": 0.02083333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6138,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 26,
+   "mean_reward": 0.038461538461538464,
+   "violations": 0
+  },
+  {
+   "seed": 6138,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6140,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 26,
+   "mean_reward": 0.028846153846153848,
+   "violations": 0
+  },
+  {
+   "seed": 6140,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 5,
+   "mean_reward": 0.1,
+   "violations": 0
+  },
+  {
+   "seed": 6140,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 49,
+   "mean_reward": 0.03571428571428571,
+   "violations": 0
+  },
+  {
+   "seed": 6140,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 14,
+   "mean_reward": 0.10119047619047619,
+   "violations": 0
+  },
+  {
+   "seed": 6142,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": -0.057692307692307696,
+   "violations": 0
+  },
+  {
+   "seed": 6142,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6142,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 45,
+   "mean_reward": 0.011111111111111112,
+   "violations": 0
+  },
+  {
+   "seed": 6142,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 30,
+   "mean_reward": 0.05,
+   "violations": 0
+  },
+  {
+   "seed": 6144,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": false,
+   "decisions": 19,
+   "mean_reward": 0.09210526315789473,
+   "violations": 0
+  },
+  {
+   "seed": 6144,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.027777777777777776,
+   "violations": 0
+  },
+  {
+   "seed": 6144,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 29,
+   "mean_reward": 0.028735632183908042,
+   "violations": 0
+  },
+  {
+   "seed": 6144,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 26,
+   "mean_reward": -0.022435897435897436,
+   "violations": 0
+  },
+  {
+   "seed": 6146,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6146,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.07142857142857142,
+   "violations": 0
+  },
+  {
+   "seed": 6146,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 60,
+   "mean_reward": 0.0375,
+   "violations": 0
+  },
+  {
+   "seed": 6146,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 19,
+   "mean_reward": 0.043859649122807015,
+   "violations": 0
+  },
+  {
+   "seed": 6148,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 25,
+   "mean_reward": -0.05,
+   "violations": 0
+  },
+  {
+   "seed": 6148,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": -0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6148,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 62,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6148,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.02631578947368421,
+   "violations": 0
+  },
+  {
+   "seed": 6150,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": -0.015625,
+   "violations": 0
+  },
+  {
+   "seed": 6150,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6150,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 46,
+   "mean_reward": -0.016304347826086956,
+   "violations": 0
+  },
+  {
+   "seed": 6150,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": 0.0125,
+   "violations": 0
+  },
+  {
+   "seed": 6152,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": -0.05555555555555555,
+   "violations": 0
+  },
+  {
+   "seed": 6152,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": 0.025,
+   "violations": 0
+  },
+  {
+   "seed": 6152,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 23,
+   "mean_reward": -0.014492753623188408,
+   "violations": 0
+  },
+  {
+   "seed": 6152,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 24,
+   "mean_reward": 0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6154,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": 0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6154,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": -0.03125,
+   "violations": 0
+  },
+  {
+   "seed": 6154,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 37,
+   "mean_reward": 0.02027027027027027,
+   "violations": 0
+  },
+  {
+   "seed": 6154,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6156,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 21,
+   "mean_reward": 0.023809523809523808,
+   "violations": 0
+  },
+  {
+   "seed": 6156,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.05555555555555555,
+   "violations": 0
+  },
+  {
+   "seed": 6156,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 38,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6156,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6158,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": 0.015625,
+   "violations": 0
+  },
+  {
+   "seed": 6158,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": -0.03125,
+   "violations": 0
+  },
+  {
+   "seed": 6158,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 35,
+   "mean_reward": 0.03571428571428571,
+   "violations": 0
+  },
+  {
+   "seed": 6158,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": -0.05555555555555556,
+   "violations": 0
+  },
+  {
+   "seed": 6160,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 17,
+   "mean_reward": 0.08823529411764706,
+   "violations": 0
+  },
+  {
+   "seed": 6160,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": 0.0625,
+   "violations": 0
+  },
+  {
+   "seed": 6160,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 33,
+   "mean_reward": 0.022727272727272728,
+   "violations": 0
+  },
+  {
+   "seed": 6160,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 34,
+   "mean_reward": 0.051470588235294115,
+   "violations": 0
+  },
+  {
+   "seed": 6162,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": 0.009259259259259257,
+   "violations": 0
+  },
+  {
+   "seed": 6162,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": 0.06818181818181818,
+   "violations": 0
+  },
+  {
+   "seed": 6162,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 54,
+   "mean_reward": 0.015432098765432098,
+   "violations": 0
+  },
+  {
+   "seed": 6162,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": 0.06666666666666667,
+   "violations": 0
+  },
+  {
+   "seed": 6164,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": -0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6164,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.07142857142857142,
+   "violations": 0
+  },
+  {
+   "seed": 6164,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 26,
+   "mean_reward": -0.019230769230769232,
+   "violations": 0
+  },
+  {
+   "seed": 6164,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 19,
+   "mean_reward": 0.061403508771929814,
+   "violations": 0
+  },
+  {
+   "seed": 6166,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 27,
+   "mean_reward": -0.024691358024691353,
+   "violations": 0
+  },
+  {
+   "seed": 6166,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.018518518518518514,
+   "violations": 0
+  },
+  {
+   "seed": 6166,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 43,
+   "mean_reward": -0.011627906976744186,
+   "violations": 0
+  },
+  {
+   "seed": 6166,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 35,
+   "mean_reward": 0.016666666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6168,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 17,
+   "mean_reward": -0.03431372549019608,
+   "violations": 0
+  },
+  {
+   "seed": 6168,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": 0.022727272727272728,
+   "violations": 0
+  },
+  {
+   "seed": 6168,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 30,
+   "mean_reward": 0.005555555555555554,
+   "violations": 0
+  },
+  {
+   "seed": 6168,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 23,
+   "mean_reward": 0.06159420289855073,
+   "violations": 0
+  },
+  {
+   "seed": 6170,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 17,
+   "mean_reward": 0.029411764705882353,
+   "violations": 0
+  },
+  {
+   "seed": 6170,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": 0.046875,
+   "violations": 0
+  },
+  {
+   "seed": 6170,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 47,
+   "mean_reward": -0.005319148936170213,
+   "violations": 0
+  },
+  {
+   "seed": 6170,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 28,
+   "mean_reward": 0.056547619047619055,
+   "violations": 0
+  },
+  {
+   "seed": 6172,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.03205128205128205,
+   "violations": 0
+  },
+  {
+   "seed": 6172,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.07142857142857142,
+   "violations": 0
+  },
+  {
+   "seed": 6172,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 50,
+   "mean_reward": 0.02,
+   "violations": 0
+  },
+  {
+   "seed": 6172,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": 0.0625,
+   "violations": 0
+  },
+  {
+   "seed": 6174,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": 0.06666666666666667,
+   "violations": 0
+  },
+  {
+   "seed": 6174,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": 0.025,
+   "violations": 0
+  },
+  {
+   "seed": 6174,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 35,
+   "mean_reward": 0.02142857142857143,
+   "violations": 0
+  },
+  {
+   "seed": 6174,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 17,
+   "mean_reward": 0.0392156862745098,
+   "violations": 0
+  },
+  {
+   "seed": 6176,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": -0.016666666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6176,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": 0.125,
+   "violations": 0
+  },
+  {
+   "seed": 6176,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 32,
+   "mean_reward": 0.010416666666666671,
+   "violations": 0
+  },
+  {
+   "seed": 6176,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": 0.08333333333333334,
+   "violations": 0
+  },
+  {
+   "seed": 6178,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": -0.03571428571428571,
+   "violations": 0
+  },
+  {
+   "seed": 6178,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6178,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 29,
+   "mean_reward": -0.02586206896551724,
+   "violations": 0
+  },
+  {
+   "seed": 6178,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.02631578947368421,
+   "violations": 0
+  },
+  {
+   "seed": 6180,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 33,
+   "mean_reward": 0.015151515151515152,
+   "violations": 0
+  },
+  {
+   "seed": 6180,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": 0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6180,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 61,
+   "mean_reward": -0.004098360655737705,
+   "violations": 0
+  },
+  {
+   "seed": 6180,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.05263157894736842,
+   "violations": 0
+  },
+  {
+   "seed": 6182,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": -0.027777777777777776,
+   "violations": 0
+  },
+  {
+   "seed": 6182,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": -0.07692307692307693,
+   "violations": 0
+  },
+  {
+   "seed": 6182,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 47,
+   "mean_reward": -0.010638297872340425,
+   "violations": 0
+  },
+  {
+   "seed": 6182,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.08771929824561403,
+   "violations": 0
+  },
+  {
+   "seed": 6184,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.013157894736842105,
+   "violations": 0
+  },
+  {
+   "seed": 6184,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": 0.045454545454545456,
+   "violations": 0
+  },
+  {
+   "seed": 6184,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 45,
+   "mean_reward": 0.022222222222222223,
+   "violations": 0
+  },
+  {
+   "seed": 6184,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 24,
+   "mean_reward": 0.09375,
+   "violations": 0
+  },
+  {
+   "seed": 6186,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 27,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6186,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6186,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 57,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6186,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 20,
+   "mean_reward": 0.05,
+   "violations": 0
+  },
+  {
+   "seed": 6188,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": 0.03333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6188,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.07142857142857142,
+   "violations": 0
+  },
+  {
+   "seed": 6188,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 30,
+   "mean_reward": 0.025,
+   "violations": 0
+  },
+  {
+   "seed": 6188,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 22,
+   "mean_reward": 0.04545454545454545,
+   "violations": 0
+  },
+  {
+   "seed": 6190,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.03205128205128205,
+   "violations": 0
+  },
+  {
+   "seed": 6190,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": false,
+   "decisions": 11,
+   "mean_reward": 0.015151515151515148,
+   "violations": 0
+  },
+  {
+   "seed": 6190,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 43,
+   "mean_reward": 0.029069767441860465,
+   "violations": 0
+  },
+  {
+   "seed": 6190,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": 0.09027777777777778,
+   "violations": 0
+  },
+  {
+   "seed": 6192,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": -0.03125,
+   "violations": 0
+  },
+  {
+   "seed": 6192,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": 0.075,
+   "violations": 0
+  },
+  {
+   "seed": 6192,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 47,
+   "mean_reward": 0.02482269503546099,
+   "violations": 0
+  },
+  {
+   "seed": 6192,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 32,
+   "mean_reward": 0.03645833333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6194,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": 0.0375,
+   "violations": 0
+  },
+  {
+   "seed": 6194,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 5,
+   "mean_reward": 0.1,
+   "violations": 0
+  },
+  {
+   "seed": 6194,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 42,
+   "mean_reward": 0.05357142857142857,
+   "violations": 0
+  },
+  {
+   "seed": 6194,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 23,
+   "mean_reward": 0.06521739130434782,
+   "violations": 0
+  },
+  {
+   "seed": 6196,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": false,
+   "decisions": 17,
+   "mean_reward": 0.029411764705882353,
+   "violations": 0
+  },
+  {
+   "seed": 6196,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.11458333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6196,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 38,
+   "mean_reward": 0.013157894736842105,
+   "violations": 0
+  },
+  {
+   "seed": 6196,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 25,
+   "mean_reward": 0.08666666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6198,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 23,
+   "mean_reward": 0.010869565217391304,
+   "violations": 0
+  },
+  {
+   "seed": 6198,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 25,
+   "mean_reward": 0.03,
+   "violations": 0
+  },
+  {
+   "seed": 6198,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 50,
+   "mean_reward": -0.01,
+   "violations": 0
+  },
+  {
+   "seed": 6198,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 35,
+   "mean_reward": 0.033333333333333326,
+   "violations": 0
+  },
+  {
+   "seed": 6200,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": 0.06666666666666667,
+   "violations": 0
+  },
+  {
+   "seed": 6200,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6200,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 17,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6200,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": -0.004385964912280704,
+   "violations": 0
+  },
+  {
+   "seed": 6202,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": -0.015625,
+   "violations": 0
+  },
+  {
+   "seed": 6202,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": -0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6202,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 47,
+   "mean_reward": -0.015957446808510637,
+   "violations": 0
+  },
+  {
+   "seed": 6202,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": -0.027777777777777776,
+   "violations": 0
+  },
+  {
+   "seed": 6204,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.025641025641025637,
+   "violations": 0
+  },
+  {
+   "seed": 6204,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": 0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6204,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 53,
+   "mean_reward": 0.0047169811320754715,
+   "violations": 0
+  },
+  {
+   "seed": 6204,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": 0.020833333333333332,
+   "violations": 0
+  },
+  {
+   "seed": 6206,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6206,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": 0.0625,
+   "violations": 0
+  },
+  {
+   "seed": 6206,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 41,
+   "mean_reward": 0.012195121951219513,
+   "violations": 0
+  },
+  {
+   "seed": 6206,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 26,
+   "mean_reward": 0.07692307692307693,
+   "violations": 0
+  },
+  {
+   "seed": 6208,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": -0.013157894736842105,
+   "violations": 0
+  },
+  {
+   "seed": 6208,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": -0.022727272727272728,
+   "violations": 0
+  },
+  {
+   "seed": 6208,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 49,
+   "mean_reward": -0.0017006802721088443,
+   "violations": 0
+  },
+  {
+   "seed": 6208,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 22,
+   "mean_reward": -0.045454545454545456,
+   "violations": 0
+  },
+  {
+   "seed": 6210,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 24,
+   "mean_reward": -0.020833333333333332,
+   "violations": 0
+  },
+  {
+   "seed": 6210,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 4,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6210,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 54,
+   "mean_reward": -0.013888888888888888,
+   "violations": 0
+  },
+  {
+   "seed": 6210,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": -0.017857142857142856,
+   "violations": 0
+  },
+  {
+   "seed": 6212,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": 0.06818181818181818,
+   "violations": 0
+  },
+  {
+   "seed": 6212,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.05208333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6212,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 41,
+   "mean_reward": 0.012195121951219513,
+   "violations": 0
+  },
+  {
+   "seed": 6212,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.06578947368421052,
+   "violations": 0
+  },
+  {
+   "seed": 6214,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 27,
+   "mean_reward": 0.018518518518518517,
+   "violations": 0
+  },
+  {
+   "seed": 6214,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": -0.05,
+   "violations": 0
+  },
+  {
+   "seed": 6214,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 36,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6214,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": -0.019230769230769232,
+   "violations": 0
+  },
+  {
+   "seed": 6216,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": 0.045454545454545456,
+   "violations": 0
+  },
+  {
+   "seed": 6216,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": 0.09848484848484848,
+   "violations": 0
+  },
+  {
+   "seed": 6216,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 33,
+   "mean_reward": 0.022727272727272728,
+   "violations": 0
+  },
+  {
+   "seed": 6216,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 17,
+   "mean_reward": 0.07352941176470588,
+   "violations": 0
+  },
+  {
+   "seed": 6218,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 22,
+   "mean_reward": -0.022727272727272728,
+   "violations": 0
+  },
+  {
+   "seed": 6218,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.047619047619047616,
+   "violations": 0
+  },
+  {
+   "seed": 6218,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 44,
+   "mean_reward": -1.261617073437678e-18,
+   "violations": 0
+  },
+  {
+   "seed": 6218,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 21,
+   "mean_reward": -0.023809523809523808,
+   "violations": 0
+  },
+  {
+   "seed": 6220,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": -0.03571428571428571,
+   "violations": 0
+  },
+  {
+   "seed": 6220,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.07692307692307693,
+   "violations": 0
+  },
+  {
+   "seed": 6220,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 25,
+   "mean_reward": -0.013333333333333334,
+   "violations": 0
+  },
+  {
+   "seed": 6220,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": 0.05555555555555555,
+   "violations": 0
+  },
+  {
+   "seed": 6222,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": -0.020833333333333332,
+   "violations": 0
+  },
+  {
+   "seed": 6222,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6222,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 43,
+   "mean_reward": -0.009689922480620155,
+   "violations": 0
+  },
+  {
+   "seed": 6222,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 24,
+   "mean_reward": -0.03472222222222222,
+   "violations": 0
+  },
+  {
+   "seed": 6224,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": 0.027777777777777776,
+   "violations": 0
+  },
+  {
+   "seed": 6224,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.15740740740740738,
+   "violations": 0
+  },
+  {
+   "seed": 6224,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 53,
+   "mean_reward": 0.0047169811320754715,
+   "violations": 0
+  },
+  {
+   "seed": 6224,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 21,
+   "mean_reward": 0.023809523809523808,
+   "violations": 0
+  },
+  {
+   "seed": 6226,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": 0.05,
+   "violations": 0
+  },
+  {
+   "seed": 6226,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.011904761904761902,
+   "violations": 0
+  },
+  {
+   "seed": 6226,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 34,
+   "mean_reward": 0.0024509803921568623,
+   "violations": 0
+  },
+  {
+   "seed": 6226,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 23,
+   "mean_reward": 0.02536231884057971,
+   "violations": 0
+  },
+  {
+   "seed": 6228,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": 0.0125,
+   "violations": 0
+  },
+  {
+   "seed": 6228,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.02083333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6228,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 27,
+   "mean_reward": 0.06172839506172839,
+   "violations": 0
+  },
+  {
+   "seed": 6228,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 21,
+   "mean_reward": 0.07936507936507936,
+   "violations": 0
+  },
+  {
+   "seed": 6230,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": -0.0625,
+   "violations": 0
+  },
+  {
+   "seed": 6230,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.07142857142857142,
+   "violations": 0
+  },
+  {
+   "seed": 6230,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 56,
+   "mean_reward": -0.013392857142857139,
+   "violations": 0
+  },
+  {
+   "seed": 6230,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.04824561403508772,
+   "violations": 0
+  },
+  {
+   "seed": 6232,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": false,
+   "decisions": 16,
+   "mean_reward": -0.03125,
+   "violations": 0
+  },
+  {
+   "seed": 6232,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": -0.09375,
+   "violations": 0
+  },
+  {
+   "seed": 6232,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 53,
+   "mean_reward": 0.009433962264150943,
+   "violations": 0
+  },
+  {
+   "seed": 6232,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": -0.016666666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6234,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": 0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6234,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6234,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 36,
+   "mean_reward": 0.03009259259259259,
+   "violations": 0
+  },
+  {
+   "seed": 6234,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": 0.022727272727272728,
+   "violations": 0
+  },
+  {
+   "seed": 6236,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": -0.016666666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6236,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": -0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6236,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 26,
+   "mean_reward": -0.019230769230769232,
+   "violations": 0
+  },
+  {
+   "seed": 6236,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 28,
+   "mean_reward": 0.005952380952380955,
+   "violations": 0
+  },
+  {
+   "seed": 6238,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 32,
+   "mean_reward": 0.0078125,
+   "violations": 0
+  },
+  {
+   "seed": 6238,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": 0.025,
+   "violations": 0
+  },
+  {
+   "seed": 6238,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 47,
+   "mean_reward": 0.008865248226950355,
+   "violations": 0
+  },
+  {
+   "seed": 6238,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 26,
+   "mean_reward": 0.009615384615384616,
+   "violations": 0
+  },
+  {
+   "seed": 6240,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 29,
+   "mean_reward": 0.02586206896551724,
+   "violations": 0
+  },
+  {
+   "seed": 6240,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6240,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 35,
+   "mean_reward": 0.02857142857142857,
+   "violations": 0
+  },
+  {
+   "seed": 6240,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.017857142857142856,
+   "violations": 0
+  },
+  {
+   "seed": 6242,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 31,
+   "mean_reward": 0.024193548387096774,
+   "violations": 0
+  },
+  {
+   "seed": 6242,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.03571428571428571,
+   "violations": 0
+  },
+  {
+   "seed": 6242,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 42,
+   "mean_reward": 0.03571428571428571,
+   "violations": 0
+  },
+  {
+   "seed": 6242,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 19,
+   "mean_reward": 0.06578947368421052,
+   "violations": 0
+  },
+  {
+   "seed": 6244,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": -0.03333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6244,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6244,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 42,
+   "mean_reward": -0.011904761904761904,
+   "violations": 0
+  },
+  {
+   "seed": 6244,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.039473684210526314,
+   "violations": 0
+  },
+  {
+   "seed": 6246,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": -0.03333333333333334,
+   "violations": 0
+  },
+  {
+   "seed": 6246,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 4,
+   "mean_reward": 0.16666666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6246,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 37,
+   "mean_reward": 0.013513513513513514,
+   "violations": 0
+  },
+  {
+   "seed": 6246,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": 0.04166666666666667,
+   "violations": 0
+  },
+  {
+   "seed": 6248,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 17,
+   "mean_reward": 0.029411764705882353,
+   "violations": 0
+  },
+  {
+   "seed": 6248,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.10119047619047618,
+   "violations": 0
+  },
+  {
+   "seed": 6248,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 55,
+   "mean_reward": 0.013636363636363636,
+   "violations": 0
+  },
+  {
+   "seed": 6248,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 25,
+   "mean_reward": 0.07666666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6250,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": -0.0375,
+   "violations": 0
+  },
+  {
+   "seed": 6250,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": -0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6250,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 33,
+   "mean_reward": 0.0202020202020202,
+   "violations": 0
+  },
+  {
+   "seed": 6250,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 23,
+   "mean_reward": -0.010869565217391304,
+   "violations": 0
+  },
+  {
+   "seed": 6252,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": -0.016666666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6252,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.07142857142857142,
+   "violations": 0
+  },
+  {
+   "seed": 6252,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 31,
+   "mean_reward": 0.005376344086021501,
+   "violations": 0
+  },
+  {
+   "seed": 6252,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": 0.0625,
+   "violations": 0
+  },
+  {
+   "seed": 6254,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": 0.11363636363636363,
+   "violations": 0
+  },
+  {
+   "seed": 6254,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.07142857142857142,
+   "violations": 0
+  },
+  {
+   "seed": 6254,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 48,
+   "mean_reward": 0.020833333333333332,
+   "violations": 0
+  },
+  {
+   "seed": 6254,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": 0.06018518518518517,
+   "violations": 0
+  },
+  {
+   "seed": 6256,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.02631578947368421,
+   "violations": 0
+  },
+  {
+   "seed": 6256,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": 0.125,
+   "violations": 0
+  },
+  {
+   "seed": 6256,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 30,
+   "mean_reward": 0.005555555555555558,
+   "violations": 0
+  },
+  {
+   "seed": 6256,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.10897435897435896,
+   "violations": 0
+  },
+  {
+   "seed": 6258,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": -0.013157894736842105,
+   "violations": 0
+  },
+  {
+   "seed": 6258,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": 0.016666666666666656,
+   "violations": 0
+  },
+  {
+   "seed": 6258,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 40,
+   "mean_reward": -0.027083333333333338,
+   "violations": 0
+  },
+  {
+   "seed": 6258,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 24,
+   "mean_reward": -0.010416666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6260,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 33,
+   "mean_reward": -0.022727272727272728,
+   "violations": 0
+  },
+  {
+   "seed": 6260,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": false,
+   "decisions": 6,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6260,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 54,
+   "mean_reward": -0.013888888888888888,
+   "violations": 0
+  },
+  {
+   "seed": 6260,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 23,
+   "mean_reward": -0.014492753623188404,
+   "violations": 0
+  },
+  {
+   "seed": 6262,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": 0.03888888888888888,
+   "violations": 0
+  },
+  {
+   "seed": 6262,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": 0.0625,
+   "violations": 0
+  },
+  {
+   "seed": 6262,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 44,
+   "mean_reward": 0.022727272727272728,
+   "violations": 0
+  },
+  {
+   "seed": 6262,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 22,
+   "mean_reward": 0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6264,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 27,
+   "mean_reward": 0.046296296296296294,
+   "violations": 0
+  },
+  {
+   "seed": 6264,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.1388888888888889,
+   "violations": 0
+  },
+  {
+   "seed": 6264,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 47,
+   "mean_reward": 0.02127659574468085,
+   "violations": 0
+  },
+  {
+   "seed": 6264,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 23,
+   "mean_reward": 0.007246376811594204,
+   "violations": 0
+  },
+  {
+   "seed": 6266,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": -0.016666666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6266,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.019230769230769232,
+   "violations": 0
+  },
+  {
+   "seed": 6266,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 43,
+   "mean_reward": 0.03488372093023256,
+   "violations": 0
+  },
+  {
+   "seed": 6266,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 21,
+   "mean_reward": 0.027777777777777773,
+   "violations": 0
+  },
+  {
+   "seed": 6268,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": -0.03333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6268,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6268,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 37,
+   "mean_reward": -0.02702702702702703,
+   "violations": 0
+  },
+  {
+   "seed": 6268,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.039473684210526314,
+   "violations": 0
+  },
+  {
+   "seed": 6270,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": -0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6270,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": -0.0909090909090909,
+   "violations": 0
+  },
+  {
+   "seed": 6270,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 42,
+   "mean_reward": -0.02976190476190476,
+   "violations": 0
+  },
+  {
+   "seed": 6270,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": -0.0625,
+   "violations": 0
+  },
+  {
+   "seed": 6272,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": -0.020833333333333332,
+   "violations": 0
+  },
+  {
+   "seed": 6272,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6272,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 43,
+   "mean_reward": -0.0019379844961240318,
+   "violations": 0
+  },
+  {
+   "seed": 6272,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.019230769230769232,
+   "violations": 0
+  },
+  {
+   "seed": 6274,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.12037037037037036,
+   "violations": 0
+  },
+  {
+   "seed": 6274,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.09375,
+   "violations": 0
+  },
+  {
+   "seed": 6274,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 45,
+   "mean_reward": 0.011111111111111112,
+   "violations": 0
+  },
+  {
+   "seed": 6274,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 25,
+   "mean_reward": 0.016666666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6276,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": -0.05,
+   "violations": 0
+  },
+  {
+   "seed": 6276,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6276,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 33,
+   "mean_reward": -0.015151515151515152,
+   "violations": 0
+  },
+  {
+   "seed": 6276,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": 0.05,
+   "violations": 0
+  },
+  {
+   "seed": 6278,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 39,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6278,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": 0.05,
+   "violations": 0
+  },
+  {
+   "seed": 6278,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 26,
+   "mean_reward": 0.035256410256410256,
+   "violations": 0
+  },
+  {
+   "seed": 6278,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 23,
+   "mean_reward": 0.05434782608695652,
+   "violations": 0
+  },
+  {
+   "seed": 6280,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": -0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6280,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.027777777777777776,
+   "violations": 0
+  },
+  {
+   "seed": 6280,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 43,
+   "mean_reward": 0.005813953488372093,
+   "violations": 0
+  },
+  {
+   "seed": 6280,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 15,
+   "mean_reward": 0.06666666666666667,
+   "violations": 0
+  },
+  {
+   "seed": 6282,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 17,
+   "mean_reward": 0.014705882352941176,
+   "violations": 0
+  },
+  {
+   "seed": 6282,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.07142857142857142,
+   "violations": 0
+  },
+  {
+   "seed": 6282,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 52,
+   "mean_reward": 0.02403846153846154,
+   "violations": 0
+  },
+  {
+   "seed": 6282,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": 0.07222222222222222,
+   "violations": 0
+  },
+  {
+   "seed": 6284,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": -0.0625,
+   "violations": 0
+  },
+  {
+   "seed": 6284,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6284,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 46,
+   "mean_reward": -0.021739130434782608,
+   "violations": 0
+  },
+  {
+   "seed": 6284,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 31,
+   "mean_reward": 0.018817204301075266,
+   "violations": 0
+  },
+  {
+   "seed": 6286,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 22,
+   "mean_reward": -0.011363636363636364,
+   "violations": 0
+  },
+  {
+   "seed": 6286,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6286,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 42,
+   "mean_reward": -0.005952380952380952,
+   "violations": 0
+  },
+  {
+   "seed": 6286,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 27,
+   "mean_reward": 0.08024691358024692,
+   "violations": 0
+  },
+  {
+   "seed": 6288,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 37,
+   "mean_reward": 0.015765765765765764,
+   "violations": 0
+  },
+  {
+   "seed": 6288,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": 0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6288,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 44,
+   "mean_reward": 0.0018939393939393923,
+   "violations": 0
+  },
+  {
+   "seed": 6288,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 27,
+   "mean_reward": 0.07407407407407407,
+   "violations": 0
+  },
+  {
+   "seed": 6290,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 21,
+   "mean_reward": -0.047619047619047616,
+   "violations": 0
+  },
+  {
+   "seed": 6290,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.07142857142857142,
+   "violations": 0
+  },
+  {
+   "seed": 6290,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 71,
+   "mean_reward": -0.01995305164319248,
+   "violations": 0
+  },
+  {
+   "seed": 6290,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 22,
+   "mean_reward": 0.053030303030303025,
+   "violations": 0
+  },
+  {
+   "seed": 6292,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": -0.013888888888888888,
+   "violations": 0
+  },
+  {
+   "seed": 6292,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6292,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 36,
+   "mean_reward": -0.020833333333333332,
+   "violations": 0
+  },
+  {
+   "seed": 6292,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": -0.03240740740740741,
+   "violations": 0
+  },
+  {
+   "seed": 6294,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 24,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6294,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.03571428571428571,
+   "violations": 0
+  },
+  {
+   "seed": 6294,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 38,
+   "mean_reward": 0.019736842105263157,
+   "violations": 0
+  },
+  {
+   "seed": 6294,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 16,
+   "mean_reward": 0.03125,
+   "violations": 0
+  },
+  {
+   "seed": 6296,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 23,
+   "mean_reward": -0.021739130434782608,
+   "violations": 0
+  },
+  {
+   "seed": 6296,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6296,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 76,
+   "mean_reward": 0.003289473684210528,
+   "violations": 0
+  },
+  {
+   "seed": 6296,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": 0.0125,
+   "violations": 0
+  },
+  {
+   "seed": 6298,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.012820512820512822,
+   "violations": 0
+  },
+  {
+   "seed": 6298,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": -0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6298,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 17,
+   "mean_reward": 0.029411764705882353,
+   "violations": 0
+  },
+  {
+   "seed": 6298,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 23,
+   "mean_reward": -0.010869565217391304,
+   "violations": 0
+  },
+  {
+   "seed": 6300,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": -0.03571428571428571,
+   "violations": 0
+  },
+  {
+   "seed": 6300,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.0625,
+   "violations": 0
+  },
+  {
+   "seed": 6300,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 46,
+   "mean_reward": -0.0018115942028985516,
+   "violations": 0
+  },
+  {
+   "seed": 6300,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": 0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6302,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.02631578947368421,
+   "violations": 0
+  },
+  {
+   "seed": 6302,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6302,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 34,
+   "mean_reward": 0.051470588235294115,
+   "violations": 0
+  },
+  {
+   "seed": 6302,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": 0.07916666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6304,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 41,
+   "mean_reward": -0.012195121951219513,
+   "violations": 0
+  },
+  {
+   "seed": 6304,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 4,
+   "mean_reward": -0.08333333333333334,
+   "violations": 0
+  },
+  {
+   "seed": 6304,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 57,
+   "mean_reward": -0.013157894736842105,
+   "violations": 0
+  },
+  {
+   "seed": 6304,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 21,
+   "mean_reward": 0.007936507936507934,
+   "violations": 0
+  },
+  {
+   "seed": 6306,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": 0.027777777777777776,
+   "violations": 0
+  },
+  {
+   "seed": 6306,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": 0.015151515151515148,
+   "violations": 0
+  },
+  {
+   "seed": 6306,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 25,
+   "mean_reward": 0.01,
+   "violations": 0
+  },
+  {
+   "seed": 6306,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 29,
+   "mean_reward": 0.048850574712643674,
+   "violations": 0
+  },
+  {
+   "seed": 6308,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 21,
+   "mean_reward": 0.011904761904761904,
+   "violations": 0
+  },
+  {
+   "seed": 6308,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": -0.038461538461538464,
+   "violations": 0
+  },
+  {
+   "seed": 6308,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 53,
+   "mean_reward": 0.014150943396226415,
+   "violations": 0
+  },
+  {
+   "seed": 6308,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 18,
+   "mean_reward": -0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6310,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": -0.03125,
+   "violations": 0
+  },
+  {
+   "seed": 6310,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 4,
+   "mean_reward": 0.16666666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6310,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 29,
+   "mean_reward": -0.034482758620689655,
+   "violations": 0
+  },
+  {
+   "seed": 6310,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": 0.11805555555555554,
+   "violations": 0
+  },
+  {
+   "seed": 6312,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 17,
+   "mean_reward": 0.058823529411764705,
+   "violations": 0
+  },
+  {
+   "seed": 6312,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": 0.05416666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6312,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 32,
+   "mean_reward": 0.0234375,
+   "violations": 0
+  },
+  {
+   "seed": 6312,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 32,
+   "mean_reward": 0.036458333333333336,
+   "violations": 0
+  },
+  {
+   "seed": 6314,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 22,
+   "mean_reward": 0.06818181818181818,
+   "violations": 0
+  },
+  {
+   "seed": 6314,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": -0.015151515151515154,
+   "violations": 0
+  },
+  {
+   "seed": 6314,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 43,
+   "mean_reward": 0.011627906976744186,
+   "violations": 0
+  },
+  {
+   "seed": 6314,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 17,
+   "mean_reward": -3.2653618371328133e-18,
+   "violations": 0
+  },
+  {
+   "seed": 6316,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": 0.025,
+   "violations": 0
+  },
+  {
+   "seed": 6316,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6316,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 46,
+   "mean_reward": 0.021739130434782608,
+   "violations": 0
+  },
+  {
+   "seed": 6316,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": 0.048611111111111105,
+   "violations": 0
+  },
+  {
+   "seed": 6318,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6318,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": false,
+   "decisions": 8,
+   "mean_reward": 0.0625,
+   "violations": 0
+  },
+  {
+   "seed": 6318,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": -0.0125,
+   "violations": 0
+  },
+  {
+   "seed": 6318,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 14,
+   "mean_reward": 0.0773809523809524,
+   "violations": 0
+  },
+  {
+   "seed": 6320,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6320,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": -0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6320,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 33,
+   "mean_reward": 0.022727272727272728,
+   "violations": 0
+  },
+  {
+   "seed": 6320,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6322,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.05357142857142857,
+   "violations": 0
+  },
+  {
+   "seed": 6322,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6322,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 26,
+   "mean_reward": 0.057692307692307696,
+   "violations": 0
+  },
+  {
+   "seed": 6322,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 24,
+   "mean_reward": 0.020833333333333332,
+   "violations": 0
+  },
+  {
+   "seed": 6324,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.013157894736842105,
+   "violations": 0
+  },
+  {
+   "seed": 6324,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6324,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 57,
+   "mean_reward": 0.013157894736842105,
+   "violations": 0
+  },
+  {
+   "seed": 6324,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 20,
+   "mean_reward": 0.0375,
+   "violations": 0
+  },
+  {
+   "seed": 6326,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": 0.022727272727272728,
+   "violations": 0
+  },
+  {
+   "seed": 6326,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.012820512820512818,
+   "violations": 0
+  },
+  {
+   "seed": 6326,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 47,
+   "mean_reward": 0.026595744680851064,
+   "violations": 0
+  },
+  {
+   "seed": 6326,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 34,
+   "mean_reward": -0.004901960784313723,
+   "violations": 0
+  },
+  {
+   "seed": 6328,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 27,
+   "mean_reward": 0.018518518518518517,
+   "violations": 0
+  },
+  {
+   "seed": 6328,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": -0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6328,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 28,
+   "mean_reward": 0.026785714285714284,
+   "violations": 0
+  },
+  {
+   "seed": 6328,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 12,
+   "mean_reward": -0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6330,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": 0.045454545454545456,
+   "violations": 0
+  },
+  {
+   "seed": 6330,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": 0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6330,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 38,
+   "mean_reward": 0.013157894736842105,
+   "violations": 0
+  },
+  {
+   "seed": 6330,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.07142857142857142,
+   "violations": 0
+  },
+  {
+   "seed": 6332,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6332,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.03125,
+   "violations": 0
+  },
+  {
+   "seed": 6332,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 46,
+   "mean_reward": 0.019927536231884056,
+   "violations": 0
+  },
+  {
+   "seed": 6332,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6334,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": 0.16666666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6334,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.07142857142857142,
+   "violations": 0
+  },
+  {
+   "seed": 6334,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 64,
+   "mean_reward": 0.02734375,
+   "violations": 0
+  },
+  {
+   "seed": 6334,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 21,
+   "mean_reward": 0.03174603174603175,
+   "violations": 0
+  },
+  {
+   "seed": 6336,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 32,
+   "mean_reward": 0.015625,
+   "violations": 0
+  },
+  {
+   "seed": 6336,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6336,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 38,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6336,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.038461538461538464,
+   "violations": 0
+  },
+  {
+   "seed": 6338,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": false,
+   "decisions": 26,
+   "mean_reward": -0.019230769230769232,
+   "violations": 0
+  },
+  {
+   "seed": 6338,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": 0.05,
+   "violations": 0
+  },
+  {
+   "seed": 6338,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 36,
+   "mean_reward": -0.006944444444444444,
+   "violations": 0
+  },
+  {
+   "seed": 6338,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 24,
+   "mean_reward": 0.10416666666666667,
+   "violations": 0
+  },
+  {
+   "seed": 6340,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 22,
+   "mean_reward": -0.03409090909090909,
+   "violations": 0
+  },
+  {
+   "seed": 6340,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.038461538461538464,
+   "violations": 0
+  },
+  {
+   "seed": 6340,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 56,
+   "mean_reward": 0.026785714285714284,
+   "violations": 0
+  },
+  {
+   "seed": 6340,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 17,
+   "mean_reward": -0.0049019607843137246,
+   "violations": 0
+  },
+  {
+   "seed": 6342,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 30,
+   "mean_reward": 0.03333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6342,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": 0.020833333333333332,
+   "violations": 0
+  },
+  {
+   "seed": 6342,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 57,
+   "mean_reward": 0.0029239766081871317,
+   "violations": 0
+  },
+  {
+   "seed": 6342,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.039473684210526314,
+   "violations": 0
+  },
+  {
+   "seed": 6344,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 26,
+   "mean_reward": -0.028846153846153848,
+   "violations": 0
+  },
+  {
+   "seed": 6344,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.02380952380952381,
+   "violations": 0
+  },
+  {
+   "seed": 6344,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 80,
+   "mean_reward": -0.005208333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6344,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.017857142857142856,
+   "violations": 0
+  },
+  {
+   "seed": 6346,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 21,
+   "mean_reward": -0.047619047619047616,
+   "violations": 0
+  },
+  {
+   "seed": 6346,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.1388888888888889,
+   "violations": 0
+  },
+  {
+   "seed": 6346,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 66,
+   "mean_reward": 0.003787878787878789,
+   "violations": 0
+  },
+  {
+   "seed": 6346,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 14,
+   "mean_reward": 0.08928571428571429,
+   "violations": 0
+  },
+  {
+   "seed": 6348,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": -0.0625,
+   "violations": 0
+  },
+  {
+   "seed": 6348,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": -0.07692307692307693,
+   "violations": 0
+  },
+  {
+   "seed": 6348,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 31,
+   "mean_reward": -0.04838709677419355,
+   "violations": 0
+  },
+  {
+   "seed": 6348,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": -0.05,
+   "violations": 0
+  },
+  {
+   "seed": 6350,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": -0.046875,
+   "violations": 0
+  },
+  {
+   "seed": 6350,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6350,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 52,
+   "mean_reward": -0.019230769230769232,
+   "violations": 0
+  },
+  {
+   "seed": 6350,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 17,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6352,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": 0.027777777777777776,
+   "violations": 0
+  },
+  {
+   "seed": 6352,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6352,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 27,
+   "mean_reward": 0.05555555555555555,
+   "violations": 0
+  },
+  {
+   "seed": 6352,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.03571428571428571,
+   "violations": 0
+  },
+  {
+   "seed": 6354,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 26,
+   "mean_reward": -0.019230769230769232,
+   "violations": 0
+  },
+  {
+   "seed": 6354,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": -0.03125,
+   "violations": 0
+  },
+  {
+   "seed": 6354,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 55,
+   "mean_reward": -0.01818181818181818,
+   "violations": 0
+  },
+  {
+   "seed": 6354,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 17,
+   "mean_reward": -0.03921568627450981,
+   "violations": 0
+  },
+  {
+   "seed": 6356,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": -0.03333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6356,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": -0.020833333333333332,
+   "violations": 0
+  },
+  {
+   "seed": 6356,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 49,
+   "mean_reward": 0.003401360544217685,
+   "violations": 0
+  },
+  {
+   "seed": 6356,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 24,
+   "mean_reward": -0.010416666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6358,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 21,
+   "mean_reward": -0.011904761904761904,
+   "violations": 0
+  },
+  {
+   "seed": 6358,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6358,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 28,
+   "mean_reward": -0.017857142857142856,
+   "violations": 0
+  },
+  {
+   "seed": 6358,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6360,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.02631578947368421,
+   "violations": 0
+  },
+  {
+   "seed": 6360,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.041666666666666664,
+   "violations": 0
+  },
+  {
+   "seed": 6360,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 45,
+   "mean_reward": 0.022222222222222223,
+   "violations": 0
+  },
+  {
+   "seed": 6360,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 22,
+   "mean_reward": 0.07954545454545454,
+   "violations": 0
+  },
+  {
+   "seed": 6362,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": 0.016666666666666663,
+   "violations": 0
+  },
+  {
+   "seed": 6362,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": -0.013888888888888895,
+   "violations": 0
+  },
+  {
+   "seed": 6362,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 34,
+   "mean_reward": -0.009803921568627449,
+   "violations": 0
+  },
+  {
+   "seed": 6362,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 23,
+   "mean_reward": 0.018115942028985504,
+   "violations": 0
+  },
+  {
+   "seed": 6364,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 17,
+   "mean_reward": -0.014705882352941176,
+   "violations": 0
+  },
+  {
+   "seed": 6364,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6364,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 37,
+   "mean_reward": -0.018018018018018018,
+   "violations": 0
+  },
+  {
+   "seed": 6364,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": -0.04487179487179487,
+   "violations": 0
+  },
+  {
+   "seed": 6366,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": false,
+   "decisions": 20,
+   "mean_reward": 0.025,
+   "violations": 0
+  },
+  {
+   "seed": 6366,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": -0.1111111111111111,
+   "violations": 0
+  },
+  {
+   "seed": 6366,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 49,
+   "mean_reward": 0.0034013605442176887,
+   "violations": 0
+  },
+  {
+   "seed": 6366,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 14,
+   "mean_reward": -0.09523809523809525,
+   "violations": 0
+  },
+  {
+   "seed": 6368,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 17,
+   "mean_reward": -0.004901960784313721,
+   "violations": 0
+  },
+  {
+   "seed": 6368,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 8,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6368,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 31,
+   "mean_reward": -0.008064516129032258,
+   "violations": 0
+  },
+  {
+   "seed": 6368,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 11,
+   "mean_reward": 0.015151515151515148,
+   "violations": 0
+  },
+  {
+   "seed": 6370,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.013157894736842105,
+   "violations": 0
+  },
+  {
+   "seed": 6370,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": 0.1,
+   "violations": 0
+  },
+  {
+   "seed": 6370,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 55,
+   "mean_reward": 0.02878787878787879,
+   "violations": 0
+  },
+  {
+   "seed": 6370,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.07142857142857142,
+   "violations": 0
+  },
+  {
+   "seed": 6372,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 17,
+   "mean_reward": 0.0392156862745098,
+   "violations": 0
+  },
+  {
+   "seed": 6372,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": false,
+   "decisions": 16,
+   "mean_reward": 0.03125,
+   "violations": 0
+  },
+  {
+   "seed": 6372,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 41,
+   "mean_reward": 0.024390243902439025,
+   "violations": 0
+  },
+  {
+   "seed": 6372,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 32,
+   "mean_reward": 0.015625,
+   "violations": 0
+  },
+  {
+   "seed": 6374,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": -0.016666666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6374,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6374,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 41,
+   "mean_reward": 0.032520325203252036,
+   "violations": 0
+  },
+  {
+   "seed": 6374,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": 0.03888888888888888,
+   "violations": 0
+  },
+  {
+   "seed": 6376,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": -0.02631578947368421,
+   "violations": 0
+  },
+  {
+   "seed": 6376,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": -0.05555555555555555,
+   "violations": 0
+  },
+  {
+   "seed": 6376,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 35,
+   "mean_reward": 0.014285714285714285,
+   "violations": 0
+  },
+  {
+   "seed": 6376,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.030701754385964907,
+   "violations": 0
+  },
+  {
+   "seed": 6378,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 16,
+   "mean_reward": -0.03125,
+   "violations": 0
+  },
+  {
+   "seed": 6378,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": -0.08333333333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6378,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 53,
+   "mean_reward": 0.018867924528301886,
+   "violations": 0
+  },
+  {
+   "seed": 6378,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 21,
+   "mean_reward": 0.03571428571428571,
+   "violations": 0
+  },
+  {
+   "seed": 6380,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 24,
+   "mean_reward": -0.02083333333333334,
+   "violations": 0
+  },
+  {
+   "seed": 6380,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6380,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 72,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6380,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 22,
+   "mean_reward": 0.06439393939393939,
+   "violations": 0
+  },
+  {
+   "seed": 6382,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 18,
+   "mean_reward": -0.05555555555555555,
+   "violations": 0
+  },
+  {
+   "seed": 6382,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.07142857142857142,
+   "violations": 0
+  },
+  {
+   "seed": 6382,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 30,
+   "mean_reward": -0.016666666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6382,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 31,
+   "mean_reward": 0.06451612903225806,
+   "violations": 0
+  },
+  {
+   "seed": 6384,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.011904761904761902,
+   "violations": 0
+  },
+  {
+   "seed": 6384,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 4,
+   "mean_reward": 0.16666666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6384,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 59,
+   "mean_reward": 0.025423728813559324,
+   "violations": 0
+  },
+  {
+   "seed": 6384,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 10,
+   "mean_reward": 0.06666666666666667,
+   "violations": 0
+  },
+  {
+   "seed": 6386,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": false,
+   "decisions": 13,
+   "mean_reward": -0.019230769230769232,
+   "violations": 0
+  },
+  {
+   "seed": 6386,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 21,
+   "mean_reward": 0.047619047619047616,
+   "violations": 0
+  },
+  {
+   "seed": 6386,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 41,
+   "mean_reward": -0.012195121951219513,
+   "violations": 0
+  },
+  {
+   "seed": 6386,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 32,
+   "mean_reward": 0.04427083333333333,
+   "violations": 0
+  },
+  {
+   "seed": 6388,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6388,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 6,
+   "mean_reward": 0.125,
+   "violations": 0
+  },
+  {
+   "seed": 6388,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 25,
+   "mean_reward": -0.01,
+   "violations": 0
+  },
+  {
+   "seed": 6388,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 21,
+   "mean_reward": 0.05952380952380952,
+   "violations": 0
+  },
+  {
+   "seed": 6390,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": 0.06666666666666667,
+   "violations": 0
+  },
+  {
+   "seed": 6390,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 12,
+   "mean_reward": 0.027777777777777773,
+   "violations": 0
+  },
+  {
+   "seed": 6390,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 35,
+   "mean_reward": 0.05238095238095238,
+   "violations": 0
+  },
+  {
+   "seed": 6390,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 31,
+   "mean_reward": 0.051075268817204304,
+   "violations": 0
+  },
+  {
+   "seed": 6392,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 10,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6392,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 4,
+   "mean_reward": 0.16666666666666666,
+   "violations": 0
+  },
+  {
+   "seed": 6392,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 47,
+   "mean_reward": -0.015957446808510637,
+   "violations": 0
+  },
+  {
+   "seed": 6392,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 20,
+   "mean_reward": 0.024999999999999998,
+   "violations": 0
+  },
+  {
+   "seed": 6394,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 14,
+   "mean_reward": 0.05357142857142857,
+   "violations": 0
+  },
+  {
+   "seed": 6394,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 9,
+   "mean_reward": 0.046296296296296294,
+   "violations": 0
+  },
+  {
+   "seed": 6394,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 34,
+   "mean_reward": -0.019607843137254905,
+   "violations": 0
+  },
+  {
+   "seed": 6394,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 15,
+   "mean_reward": 0.08888888888888888,
+   "violations": 0
+  },
+  {
+   "seed": 6396,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": 0.039473684210526314,
+   "violations": 0
+  },
+  {
+   "seed": 6396,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 7,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6396,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 52,
+   "mean_reward": -0.009615384615384616,
+   "violations": 0
+  },
+  {
+   "seed": 6396,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 19,
+   "mean_reward": -0.017543859649122816,
+   "violations": 0
+  },
+  {
+   "seed": 6398,
+   "world": "S1",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 21,
+   "mean_reward": 0.03571428571428571,
+   "violations": 0
+  },
+  {
+   "seed": 6398,
+   "world": "S4",
+   "curriculum": "4-node",
+   "goal": true,
+   "decisions": 13,
+   "mean_reward": 0.0,
+   "violations": 0
+  },
+  {
+   "seed": 6398,
+   "world": "S1",
+   "curriculum": "8-node",
+   "goal": false,
+   "decisions": 49,
+   "mean_reward": 0.001700680272108842,
+   "violations": 0
+  },
+  {
+   "seed": 6398,
+   "world": "S4",
+   "curriculum": "8-node",
+   "goal": true,
+   "decisions": 22,
+   "mean_reward": 0.04545454545454546,
+   "violations": 0
+  }
+ ]
+}

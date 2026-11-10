@@ -10,6 +10,7 @@ Run from the repo root:  .venv/bin/python -m uvicorn frontend.api.app:app --port
 
 import functools
 import json
+import os
 import sys
 import time
 from dataclasses import dataclass, replace
@@ -22,6 +23,7 @@ from fastapi.staticfiles import StaticFiles
 
 from adaptengine.api import Engine
 from adaptengine.core.config import DEFAULT_CONFIG
+from adaptengine.core.profiles import list_profiles, load_profile
 from adaptengine.core.errors import ValidationError
 from adaptengine.core.validators import check_budget
 from adaptengine.core.schema import ActivityType, Event, EventType, PlanContext
@@ -30,11 +32,23 @@ from adaptengine.curriculum.loader import load_activities, load_curriculum
 from adaptengine.diagnostic import AdaptiveDiagnostic
 from adaptengine.learner.state import ExecutionLog, is_evidence_mastered
 from adaptengine.planner import serialize_plan
+from adaptengine.planner.plan import _expected_warning
 from adaptengine.replanner import compute_effective_context
 from adaptengine.session import serialize_log
 
 from . import store
 from .schemas import (
+    ApproveRequest,
+    DraftEdit,
+    DraftName,
+    DraftOut,
+    DraftRequest,
+    Health,
+    PolicyPreviewOut,
+    PolicyPreviewRequest,
+    ProposeOut,
+    ProposeRequest,
+    StrategyOut,
     ConceptInfo,
     CreateSession,
     CurriculumDetail,
@@ -56,7 +70,7 @@ MANIFEST = DATA / "review_manifest.json"
 RESULTS_DIR = REPO / "experiments" / "results"
 DIST = REPO / "frontend" / "web" / "dist"
 
-app = FastAPI(title="AdaptEngine demo API", version="0.1.0")
+app = FastAPI(title="AdaptEngine demo API", version="1.0.0")
 
 
 @app.exception_handler(ValidationError)
@@ -102,6 +116,17 @@ def _bundle(cid: str) -> Bundle:
     content_path = DATA / "content" / f"content_{cid}.json"
     content = dict(load_content(str(content_path), acts)) if content_path.exists() else None
     return Bundle(Engine(concepts, acts, DEFAULT_CONFIG), concepts, content)
+
+
+@functools.cache
+def _profile_engine(cid: str, profile: str) -> Engine:
+    """W8 B.1: the session's named profile (w7_default = the bundle's engine, bit-identical)."""
+    b = _bundle(cid)
+    if profile == "w7_default":
+        return b.engine
+    if profile not in list_profiles():
+        raise HTTPException(422, f"unknown profile {profile}")
+    return Engine(b.concepts, tuple(b.engine.activities.values()), load_profile(profile))
 
 
 @app.get("/api/curricula", response_model=list[CurriculumSummary])
@@ -258,6 +283,7 @@ def _diagnostic_view(engine: Engine, answers: list, sid: str) -> dict:
 def _open(sid: str):
     meta = store.load_meta(sid)
     b = _bundle(meta["curriculum"])
+    b = replace(b, engine=_profile_engine(meta["curriculum"], meta.get("profile", "w7_default")))
     state, log, ctx = store.load_state(sid, b.engine.graph.concepts())
     return b, state, log, ctx, meta
 
@@ -288,7 +314,24 @@ def _run_plan(engine: Engine, state, log, ctx, meta: dict) -> None:
     today, plan = engine.next_activities(state, log, ctx)
     meta["replan_ms"] = round((time.perf_counter() - t0) * 1000, 2)
     meta["plan"] = serialize_plan(plan, engine.config)
+    eff, _, _ = compute_effective_context(ctx, log)
+    if today is None and eff is not None:
+        # Leftover minutes fit nothing today (e.g. a remediation lesson was pushed out): serve the
+        # next planned day; COMPLETED events are stamped with today["day"], which rolls the day forward.
+        days = plan.days if plan.status.value == "FEASIBLE" else plan.best_effort_days
+        today = next((d for d in days if d.activities), None)
     meta["today"] = _day_dict(today)
+    meta["feasibility_warning"] = (
+        _expected_warning(
+            engine.graph,
+            engine.activities,
+            state,
+            eff,
+            {"cfg": engine.config, "done_ids": log.completed_ids(), "model": engine.model},
+        )
+        if eff is not None
+        else None
+    )
 
 
 def _view(b: Bundle, sid: str, state, log, ctx, meta: dict) -> dict:
@@ -316,6 +359,8 @@ def _view(b: Bundle, sid: str, state, log, ctx, meta: dict) -> dict:
         "today": meta.get("today"),
         "replan_ms": meta.get("replan_ms"),
         "events": serialize_log(log)["events"],
+        "profile": meta.get("profile", "w7_default"),
+        "feasibility_warning": meta.get("feasibility_warning"),
     }
 
 
@@ -333,13 +378,14 @@ def _grade(b: Bundle, activity_id: str, choice: Optional[int], correct: Optional
 @app.post("/api/sessions", response_model=SessionOut)
 def create_session(req: CreateSession):
     b = _bundle(req.curriculum)
+    b = replace(b, engine=_profile_engine(req.curriculum, req.profile))
     ctx = PlanContext(goal=req.goal, deadline_day=req.deadline_day, budget=req.budget)
     check_budget(ctx.budget, b.engine.config.allowed_budgets)  # config-driven since W7 T5.1
     if req.goal not in b.engine.graph.concepts():
         raise HTTPException(422, f"unknown goal concept {req.goal}")
     sid = store.new_id()
     state, log = b.engine.init_learner(), ExecutionLog()
-    meta = {"curriculum": req.curriculum, "diag_answers": []}
+    meta = {"curriculum": req.curriculum, "diag_answers": [], "profile": req.profile}
     store.save(sid, state, log, ctx, meta)
     return _view(b, sid, state, log, ctx, meta)
 
@@ -494,15 +540,33 @@ def simulate(req: SimulateRequest):
     from experiments.arms import get_scenario, run_episode
     from experiments.sim import PROFILES
 
-    eng = _bundle(req.curriculum).engine
+    b = _bundle(req.curriculum)
+    eng = b.engine
     if req.goal not in eng.graph.concepts():
         raise HTTPException(422, f"unknown goal concept {req.goal}")
-    sc = get_scenario(req.scenario, eng, eng.init_learner(), goal=req.goal, budget=req.budget)
+    horizon = "w7" if req.horizon is None else req.horizon
+    sc = get_scenario(
+        req.scenario, eng, eng.init_learner(), goal=req.goal, budget=req.budget, horizon=horizon
+    )
     if sc is None:
         return {"episodes": [], "note": f"{req.scenario} does not apply at budget {req.budget}"}
+    run_eng, run_arm = eng, req.arm
+    if req.arm in ("adapt_final", "adapt_final_dx"):
+        run_eng = Engine(
+            b.concepts, tuple(eng.activities.values()), _final_config(req.world, req.arm)
+        )
+        run_arm = "adapt_dx" if req.arm == "adapt_final_dx" else "adapt"
     episodes = []
     for seed in range(req.seed, req.seed + req.n_seeds):
-        ep = run_episode(eng, seed=seed, scenario=sc, arm=req.arm, profile=PROFILES[req.profile])
+        ep = run_episode(
+            run_eng,
+            seed=seed,
+            scenario=sc,
+            arm=run_arm,
+            profile=PROFILES[req.profile],
+            world=req.world,
+        )
+        ep["arm"] = req.arm
         ep["executed_minutes_per_day"] = {
             str(d): m for d, m in ep["executed_minutes_per_day"].items()
         }
@@ -515,6 +579,23 @@ def simulate(req: SimulateRequest):
         "events": [[d, k.value, v] for d, k, v in sc.events],
     }
     return {"scenario": scenario, "episodes": episodes}
+
+
+def _final_config(world: str, arm: str):
+    """adapt-final = the pre-registered B.3 winner + C.1/C.2 (W8 FINAL_A5 §4)."""
+    try:
+        sel = json.loads((RESULTS_DIR / "w8_calibration_select.json").read_text(encoding="utf-8"))
+        cand = sel["candidates"][sel["winner"]]
+        kind, ov = cand["profile"], dict(cand["overrides"])
+    except (OSError, ValueError, KeyError):
+        kind, ov = "w7_default", {}
+    prof = f"fitted_{world}" if kind == "fitted" else "w7_default"
+    if prof not in list_profiles():
+        prof = "w7_default"
+    extra = {"consolidation": True, "verification_probe": True}
+    if arm == "adapt_final_dx":
+        extra["diagnostic_scope"] = "goal_path"
+    return load_profile(prof, **ov, **extra)
 
 
 def _compact(x: Any) -> Any:
@@ -531,7 +612,8 @@ def _compact(x: Any) -> Any:
 
 @app.get("/api/evaluation", response_model=EvaluationOut)
 def evaluation():
-    names = ["evaluation_results.json", "replan_latency.json"]
+    names = ["final_grid.json", "evaluation_results.json", "replan_latency.json"]
+    names += sorted(p.name for p in RESULTS_DIR.glob("w8_*.json"))
     names += sorted(p.name for p in RESULTS_DIR.glob("w7_*.json"))
     files = []
     for name in names:
@@ -542,6 +624,263 @@ def evaluation():
         if isinstance(data, dict):
             files.append({"name": name, "data": _compact(data)})
     return {"files": files}
+
+
+# ------------------------------------------------------------------------- W8: health
+
+
+def _code_hash() -> str:
+    if str(REPO) not in sys.path:
+        sys.path.insert(0, str(REPO))
+    from experiments.provenance import code_hash
+
+    return code_hash(str(REPO))
+
+
+def _web_build() -> str:
+    src = REPO / "frontend" / "web" / "src"
+    if not (DIST / "index.html").exists():
+        return "missing"
+    newest = max((p.stat().st_mtime for p in src.rglob("*") if p.is_file()), default=0)
+    return "fresh" if (DIST / "index.html").stat().st_mtime >= newest else "stale"
+
+
+@app.get("/api/health", response_model=Health)
+def health():
+    manifest = json.loads(MANIFEST.read_text(encoding="utf-8")) if MANIFEST.exists() else {}
+    flags = {
+        k: getattr(DEFAULT_CONFIG, k)
+        for k in (
+            "consolidation", "verification_probe", "horizon_aware_mastery", "ranking_policy",
+            "mastery_model", "half_life_model", "scheduler", "diagnostic_scope",
+        )
+    }  # fmt: skip
+    return {
+        "status": "ok",
+        "engine_version": app.version,
+        "code_hash": _code_hash(),
+        "profiles": list_profiles(),
+        "default_profile": "w7_default",
+        "flags": flags,
+        "web_build": _web_build(),
+        "content_reviewer": manifest.get("data/content/content_8node.json", {}).get("reviewer"),
+    }
+
+
+# ---------------------------------------------------------------- W8: agentic layer (demo)
+
+
+def _agent_provider(kind: str):
+    """Demo providers: a cached live model if ADAPTENGINE_AGENT_PROVIDER is set and its replay
+    cache has the answer, else the offline stub. Returns (provider, label)."""
+    from adaptengine.authoring.providers import CachedProvider, StubProvider, make_provider
+
+    spec = os.environ.get("ADAPTENGINE_AGENT_PROVIDER")
+    if spec and kind == "live":
+        try:
+            p = make_provider(spec)
+            return CachedProvider(
+                p, str(RESULTS_DIR / "agent_cache" / "demo"), replay_only=True
+            ), spec
+        except Exception:  # noqa: BLE001 - optional extra missing: fall back to the stub
+            pass
+    return StubProvider(), "stub (no model connected)"
+
+
+@app.post("/api/sessions/{sid}/policy-preview", response_model=PolicyPreviewOut)
+def policy_preview(sid: str, req: PolicyPreviewRequest):
+    """Policy Lab: today's slice under a ranking policy, without changing the session."""
+    from adaptengine.authoring.providers import StubProvider
+    from adaptengine.policy import BanditPolicy
+    from adaptengine.policy.agent import AgentRankingPolicy
+
+    b, state, log, ctx, meta = _open(sid)
+    label = None
+    frozen = REPO / "config" / "policy_frozen.json"
+    if req.policy == "deterministic":
+        pol = None
+    elif req.policy == "random":
+        pol = BanditPolicy("random", seed=1)
+    elif req.policy in ("bandit_frozen", "bandit_updating"):
+        mode = req.policy.split("_")[1]
+        pol = BanditPolicy.load(str(frozen), mode=mode) if frozen.exists() else BanditPolicy(mode)
+    elif req.policy == "agent":
+        prov, label = _agent_provider("live")
+        if label.startswith("stub"):
+            prov = StubProvider({"rank": lambda p: json.dumps({
+                "ranking": list(reversed(p["candidates"])),
+                "rationale": "Stub agent: tries the last eligible candidate first to show a re-ranking.",
+            })})  # fmt: skip
+        pol = AgentRankingPolicy(prov)
+    else:  # agent_bad: forced invalid output -> engine rejects -> fallback
+        label = "stub (forced invalid output)"
+        pol = AgentRankingPolicy(
+            StubProvider({"rank": lambda p: json.dumps({"ranking": ["NOT-A-CANDIDATE"]})})
+        )
+    eng = Engine(b.concepts, tuple(b.engine.activities.values()), b.engine.config, policy=pol)
+    today, plan = eng.next_activities(state, log, ctx)
+    keep = ("POLICY_SELECTED", "POLICY_FALLBACK", "AGENT_FALLBACK")
+    decisions = [
+        {k: v for k, v in t.items() if k != "features"}
+        for t in plan.trace
+        if t.get("decision") in keep and (today is None or t.get("day") == today.day)
+    ]
+    days = plan.days if plan.days else plan.best_effort_days
+    return {
+        "policy": req.policy,
+        "today": _day_dict(today),
+        "days": [_day_dict(d) for d in days],
+        "decisions": decisions,
+        "agent_label": label,
+    }
+
+
+@app.post("/api/sessions/{sid}/propose-plan", response_model=ProposeOut)
+def propose(sid: str, req: ProposeRequest):
+    """A1 plan proposer: the engine validates the agent's plan; the session plan is unchanged."""
+    from adaptengine.agents.plan_proposer import propose_plan
+    from adaptengine.authoring.providers import StubProvider
+
+    b, state, log, ctx, meta = _open(sid)
+    if req.mode == "agent_bad":
+
+        def bad(payload):
+            days = [dict(d, activities=list(d["activities"])) for d in payload["reference_days"]]
+            if days:  # move the last activity (deepest concept) to the first day
+                last = days[-1]["activities"].pop()
+                days[0]["activities"].insert(0, last)
+            return json.dumps(
+                {"days": days, "rationale": "Start with the goal concept to save time."}
+            )
+
+        prov, label = StubProvider({"propose_plan": bad}), "stub (forced invalid plan)"
+    else:
+        prov, label = _agent_provider("live")
+    plan, res = propose_plan(b.engine, state, log, ctx, prov)
+    proposed = [_day_dict(d) for d in plan.days] if res["accepted"] else []
+    if not res["accepted"] and req.mode == "agent_bad":
+        proposed = json.loads(bad({"reference_days": res["reference_days"]}))["days"]
+    return {
+        "accepted": res["accepted"],
+        "violations": res["violations"],
+        "rationale": res["rationale"],
+        "proposed_days": proposed,
+        "reference_days": res["reference_days"],
+        "agent_label": label,
+    }
+
+
+@app.get("/api/sessions/{sid}/strategy", response_model=StrategyOut)
+def strategy(sid: str):
+    """A3 orchestrator: engine-generated closed option set and the chosen strategy."""
+    from adaptengine.agents.orchestrator import choose_option
+    from adaptengine.planner.options import build_options
+
+    b, state, log, ctx, meta = _open(sid)
+    eff, start, _ = compute_effective_context(ctx, log)
+    opts = build_options(b.engine.graph, state, ctx.goal, start, b.engine.config)
+    prov, label = _agent_provider("live")
+    left = (eff.budget - eff.minutes_used_today) if eff else 0
+    choice, info = choose_option(prov, opts, {"day": start, "goal": ctx.goal, "left": left})
+    return {
+        "options": opts,
+        "default": info["default"],
+        "choice": choice,
+        "source": f"{info['source']} · {label}",
+        "rationale": info.get("rationale"),
+    }
+
+
+# ---------------------------------------------------------------- W8: authoring studio
+
+
+def _authoring_root() -> Path:
+    return Path(os.environ.get("ADAPTENGINE_AUTHORING_ROOT", REPO))
+
+
+def _draft_out(name: str, attempts=None) -> dict:
+    from adaptengine.authoring.checks import validate_draft
+
+    d = _authoring_root() / "data" / "drafts" / name
+    if not (d / "draft_meta.json").exists():
+        raise HTTPException(404, f"unknown draft {name}")
+
+    def rd(f):
+        return json.loads((d / f).read_text(encoding="utf-8"))
+
+    return {
+        "name": name,
+        "meta": rd("draft_meta.json"),
+        "curriculum": rd(f"curriculum_{name}.json"),
+        "activities": rd(f"activities_{name}.json"),
+        "content": rd(f"content_{name}.json"),
+        "report": validate_draft(str(d), name).to_dict(),
+        "attempts": attempts or [],
+    }
+
+
+@app.post("/api/authoring/draft", response_model=DraftOut)
+def authoring_draft(req: DraftRequest):
+    from adaptengine.authoring.draft import generate_draft
+    from adaptengine.authoring.providers import ProviderError, StubProvider, make_provider
+
+    try:
+        prov = (
+            StubProvider()
+            if req.provider == "stub"
+            else make_provider(req.provider, cache_dir=str(RESULTS_DIR / "agent_cache" / "demo"))
+        )
+        res = generate_draft(
+            prov, name=req.name, topic=req.topic, n_concepts=req.n_concepts,
+            drafts_root=str(_authoring_root() / "data" / "drafts"),
+        )  # fmt: skip
+    except (ProviderError, ValueError) as e:
+        raise HTTPException(422, str(e))
+    return _draft_out(req.name, res["attempts"])
+
+
+@app.get("/api/authoring/drafts/{name}", response_model=DraftOut)
+def authoring_get(name: str):
+    DraftName(name=name)
+    return _draft_out(name)
+
+
+@app.post("/api/authoring/validate", response_model=DraftOut)
+def authoring_validate(req: DraftName):
+    return _draft_out(req.name)
+
+
+@app.put("/api/authoring/drafts/{name}", response_model=DraftOut)
+def authoring_edit(name: str, req: DraftEdit):
+    """Inline edit of the draft's content entries (activity_id -> entry); re-validated."""
+    DraftName(name=name)
+    path = _authoring_root() / "data" / "drafts" / name / f"content_{name}.json"
+    if not path.exists():
+        raise HTTPException(404, f"unknown draft {name}")
+    data = json.loads(path.read_text(encoding="utf-8"))
+    unknown = sorted(set(req.content) - set(data["activities"]))
+    if unknown:
+        raise HTTPException(422, f"unknown activity ids {unknown}")
+    data["activities"].update(req.content)
+    path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+    return _draft_out(name)
+
+
+@app.post("/api/authoring/approve")
+def authoring_approve(req: ApproveRequest):
+    """Human review gate (D54): only a named human can promote a draft (scripts/record_review.py)."""
+    if str(REPO / "scripts") not in sys.path:
+        sys.path.insert(0, str(REPO / "scripts"))
+    import record_review
+
+    out = _draft_out(req.name)
+    if not out["report"]["ok"]:
+        raise HTTPException(422, "the draft has validation errors; fix them before approval")
+    try:
+        recorded = record_review.promote_draft(req.name, req.reviewer, root=str(_authoring_root()))
+    except (record_review.ReviewRejected, FileNotFoundError) as e:
+        raise HTTPException(422, str(e))
+    return {"approved": True, "reviewer": req.reviewer.strip(), "recorded": recorded}
 
 
 if DIST.is_dir():  # serve the built web app (one-command demo); API routes take precedence

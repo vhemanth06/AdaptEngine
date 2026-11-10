@@ -2,25 +2,28 @@ import { useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { api } from "../api/client";
 import { DEMO_SETUP, type Ctx } from "../ctx";
-import { Button, Card, ErrorBox, StatusBadge } from "../components/ui";
+import { Button, Card, Chip, ErrorBox, Segmented, StatusBadge, fieldCls } from "../components/ui";
 
 export default function Setup({ session, sid, setSession, go }: Ctx) {
-  const [form, setForm] = useState(() => (session ? { curriculum: session.curriculum, ...session.context } : DEMO_SETUP));
+  const [form, setForm] = useState(() =>
+    session ? { curriculum: session.curriculum, profile: session.profile, ...session.context } : { ...DEMO_SETUP, profile: "w7_default" },
+  );
+  const health = useQuery({ queryKey: ["health"], queryFn: api.health, staleTime: 60_000 });
   const curricula = useQuery({ queryKey: ["curricula"], queryFn: api.curricula });
   const cur = useQuery({ queryKey: ["curriculum", form.curriculum], queryFn: () => api.curriculum(form.curriculum) });
-  const sameCurriculum = !!session && session.curriculum === form.curriculum;
+  const sameCurriculum = !!session && session.curriculum === form.curriculum && session.profile === form.profile;
   const ctx = { goal: form.goal, deadline_day: form.deadline_day, budget: form.budget };
 
   const run = useMutation({
     mutationFn: async () => {
-      const id = sameCurriculum ? sid! : (await api.createSession({ curriculum: form.curriculum, ...ctx })).session_id;
+      const id = sameCurriculum ? sid! : (await api.createSession({ curriculum: form.curriculum, profile: form.profile, ...ctx })).session_id;
       return api.plan(id, ctx);
     },
     onSuccess: setSession,
   });
 
   const plan = session?.plan;
-  const field = "rounded-lg border border-slate-400 bg-white px-3 py-2";
+  const field = fieldCls;
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       <Card title="Goal, deadline and daily time">
@@ -57,20 +60,30 @@ export default function Setup({ session, sid, setSession, go }: Ctx) {
             value={form.deadline_day}
             onChange={(e) => setForm({ ...form, deadline_day: Number(e.target.value) })}
           />
-          <label htmlFor="budget">Minutes per day</label>
-          <select
-            id="budget"
-            className={field}
-            value={form.budget}
-            onChange={(e) => setForm({ ...form, budget: Number(e.target.value) })}
-          >
-            {(cur.data?.allowed_budgets ?? [5, 10, 15, 30]).map((b) => (
-              <option key={b} value={b}>
-                {b} min
+          <span>Minutes per day</span>
+          <div>
+            <Segmented
+              label="Minutes per day"
+              value={form.budget}
+              options={cur.data?.allowed_budgets ?? [5, 10, 15, 30]}
+              onChange={(b) => setForm({ ...form, budget: b })}
+            />
+          </div>
+          <label htmlFor="profile">Learner model</label>
+          <select id="profile" className={field} value={form.profile} onChange={(e) => setForm({ ...form, profile: e.target.value })}>
+            {(health.data?.profiles ?? ["w7_default"]).map((p) => (
+              <option key={p} value={p}>
+                {p === "w7_default" ? "W7 default (D6 heuristics)" : p}
               </option>
             ))}
           </select>
         </div>
+        {cur.data && (
+          <p className="mt-3 text-sm text-[var(--text-muted)]">
+            {cur.data.concepts.find((c) => c.concept_id === form.goal)?.description} · prerequisites:{" "}
+            {cur.data.concepts.find((c) => c.concept_id === form.goal)?.prerequisites.join(", ") || "none"}
+          </p>
+        )}
         <div className="mt-4 flex gap-3">
           <Button testId="make-plan" onClick={() => run.mutate()} disabled={run.isPending}>
             {sameCurriculum ? "Re-plan" : "Start session and plan"}
@@ -85,6 +98,11 @@ export default function Setup({ session, sid, setSession, go }: Ctx) {
         ) : (
           <div className="space-y-3">
             <StatusBadge plan={plan} testId="setup-status" />
+            {session?.feasibility_warning && (
+              <p data-testid="feasibility-warning">
+                <Chip tone="remediation">⚠ Realistic estimate</Chip> {session.feasibility_warning}
+              </p>
+            )}
             {plan.status === "FEASIBLE" ? (
               <p>
                 Fits in {plan.days.length} study days. Planned in <b>{session?.replan_ms} ms</b>.

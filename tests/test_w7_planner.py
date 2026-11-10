@@ -149,7 +149,7 @@ def test_deadline_cut_episode_never_idle_t2_4():
     sc = get_scenario("deadline_cut", e, e.init_learner(), "C4", 5)
     for seed in range(100, 120):
         r = run_episode(e, seed, sc, "adapt", PROFILES["nominal"])
-        assert r["idle_days"] == 0 and r["executed_prereq_violations"] == 0
+        assert r["idle_days_unmastered"] == 0 and r["executed_prereq_violations"] == 0
 
 
 def test_allowed_budgets_from_config_t5_1():

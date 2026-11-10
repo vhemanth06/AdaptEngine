@@ -76,6 +76,10 @@ def compute_workload(
       the least-recently-attempted one. Off = W6 behaviour (completed exercises excluded).
     - T2.5 (cfg.projection_mode="expected"): pad to ceil(sum 1/P(correct)) exercises.
     - If exercises run out before reaching mastery: raises ContentInsufficientError.
+    - C.2 (cfg.verification_probe, D50): if more than probe_easy_share of a concept's exercise
+      evidence (completed + projected) is easy-class and none is hard-class, one hard exercise is
+      appended (trace VERIFICATION_PROBE); an evidence-mastered concept that needs the probe stays
+      required, so its dependents remain gated until the probe is answered.
 
     Returns:
         (workload_per_concept, trace_records, initial_projected_p)
@@ -88,12 +92,18 @@ def compute_workload(
     trace = []
     required_concepts: list[str] = []
 
+    acts_by_concept: dict[str, list[Activity]] = {}  # T6.1 index, catalogue order
+    for a in activities.values():
+        acts_by_concept.setdefault(a.target_concept, []).append(a)
+
     # Filter concepts in deterministic topological order
     for c in graph.topological_order():
         if c not in all_needed:
             continue
         c_state = state.concepts[c]
-        if is_evidence_mastered(c_state, cfg):
+        if is_evidence_mastered(c_state, cfg) and not (
+            cfg.verification_probe and _probe_item(c, acts_by_concept, done_ids, (), cfg)
+        ):
             trace.append(
                 {
                     "decision": "OMITTED",
@@ -107,10 +117,8 @@ def compute_workload(
             required_concepts.append(c)
 
     ids_by_concept: dict[str, set[str]] = {}
-    acts_by_concept: dict[str, list[Activity]] = {}  # T6.1 index, catalogue order
     for a in activities.values():
         ids_by_concept.setdefault(a.target_concept, set()).add(a.activity_id)
-        acts_by_concept.setdefault(a.target_concept, []).append(a)
     catalogue = (
         (
             graph.fingerprint,
@@ -240,6 +248,21 @@ def compute_workload(
                     break
                 take(select_exercise(pool, p, cfg.target_success, model, cfg))
 
+        if cfg.verification_probe:
+            probe = _probe_item(c, acts_by_concept, done_ids, concept_workload_list, cfg)
+            if probe is not None:
+                share = _easy_share(c, acts_by_concept, done_ids, concept_workload_list)
+                concept_workload_list.append(probe)
+                rec = {
+                    "decision": "INSERTED",
+                    "concept_id": c,
+                    "activity_id": probe.activity_id,
+                    "reason": "VERIFICATION_PROBE",
+                    "easy_share": round(share, 4),
+                }
+                this_concept_trace.append(rec)
+                trace.append(rec)
+
         concept_workload_tuple = tuple(concept_workload_list)
         workload[c] = concept_workload_tuple
         projected_p[c] = c_state.p
@@ -248,3 +271,39 @@ def compute_workload(
             cache.put(key, (concept_workload_tuple, tuple(this_concept_trace)))
 
     return workload, trace, projected_p
+
+
+def _difficulty_class(d: float) -> str:
+    return "easy" if d < 0.35 else "medium" if d < 0.65 else "hard"
+
+
+def _evidence(c, acts_by_concept, done_ids, planned) -> list[Activity]:
+    """Exercise evidence on c: completed (done_ids, with repeats) plus projected (planned)."""
+    exs = {a.activity_id: a for a in acts_by_concept.get(c, ()) if a.type == ActivityType.EXERCISE}
+    return [exs[x] for x in done_ids if x in exs] + [
+        a for a in planned if a.type == ActivityType.EXERCISE
+    ]
+
+
+def _easy_share(c, acts_by_concept, done_ids, planned) -> float:
+    ev = _evidence(c, acts_by_concept, done_ids, planned)
+    return sum(_difficulty_class(a.difficulty) == "easy" for a in ev) / len(ev) if ev else 0.0
+
+
+def _probe_item(c, acts_by_concept, done_ids, planned, cfg) -> Optional[Activity]:
+    """C.2: the hard exercise to schedule as a verification probe on c, or None if not needed."""
+    ev = _evidence(c, acts_by_concept, done_ids, planned)
+    if not ev or any(_difficulty_class(a.difficulty) == "hard" for a in ev):
+        return None
+    if _easy_share(c, acts_by_concept, done_ids, planned) <= cfg.probe_easy_share:
+        return None
+    hard = [
+        a
+        for a in acts_by_concept.get(c, ())
+        if a.type == ActivityType.EXERCISE and _difficulty_class(a.difficulty) == "hard"
+    ]
+    seen = set(done_ids)
+    # unseen first, then the hardest, then by id (deterministic)
+    return min(
+        hard, key=lambda a: (a.activity_id in seen, -a.difficulty, a.activity_id), default=None
+    )

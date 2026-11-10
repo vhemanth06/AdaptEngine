@@ -56,6 +56,7 @@ class CreateSession(BaseModel):
     goal: str = _id()
     deadline_day: int = Field(ge=1, le=365)
     budget: int = Field(ge=1, le=600)
+    profile: str = _id(default="w7_default")  # W8 B.1: named learner-model profile
 
 
 class PlanRequest(BaseModel):
@@ -86,9 +87,16 @@ class SimulateRequest(BaseModel):
     curriculum: str = _id()
     goal: str = _id()
     budget: int = Field(default=15, ge=1, le=600)
-    arm: Literal["adapt", "no_review", "no_replan", "static"] = "adapt"
-    scenario: Literal["calm", "missed_day", "budget_drop", "deadline_cut"] = "missed_day"
+    arm: Literal[
+        "adapt", "no_review", "no_replan", "static", "static_loop", "random_eligible",
+        "adapt_final", "adapt_final_dx",
+    ] = "adapt"  # fmt: skip
+    scenario: Literal[
+        "calm", "missed_day", "budget_drop", "deadline_cut", "missed_2days", "forgetting_21"
+    ] = "missed_day"
     profile: Literal["nominal", "high_slip", "fast_forgetter", "rapid_learner"] = "nominal"
+    world: Literal["S0", "S1", "S2", "S3", "S4"] = "S0"
+    horizon: Optional[int] = Field(default=None, ge=3, le=60)  # None = W7 rule
     seed: int = Field(default=100, ge=0, le=10**6)
     n_seeds: int = Field(default=1, ge=1, le=100)
 
@@ -107,6 +115,7 @@ class PlanOut(BaseModel):
     options: list[str]
     days: list[PlanDayOut]
     best_effort_days: list[PlanDayOut]
+    feasibility_warning: Optional[str] = None
     trace: list[dict[str, Any]]
 
 
@@ -173,6 +182,8 @@ class SessionOut(BaseModel):
     today: Optional[PlanDayOut] = None
     replan_ms: Optional[float] = None
     events: list[EventOut]
+    profile: str = "w7_default"
+    feasibility_warning: Optional[str] = None  # W8 F.1 (expected projection; display only)
 
 
 class PlanChange(BaseModel):
@@ -217,9 +228,17 @@ class SimEpisode(BaseModel):
     plan_prereq_violations: int
     executed_prereq_violations: int
     budget_violations: int
-    idle_days: int
+    idle_days_unmastered: int
+    idle_days_total: int
     minutes_used: int
+    minutes_available: int
+    minute_utilisation: float
+    believed_mastered: int
+    false_mastered: int
     total_activities_completed: int
+    final_p: dict[str, float] = {}
+    final_theta: dict[str, float] = {}
+    goal_theta_by_minutes: list[list[float]] = []
 
 
 class SimulateOut(BaseModel):
@@ -235,3 +254,81 @@ class EvaluationFile(BaseModel):
 
 class EvaluationOut(BaseModel):
     files: list[EvaluationFile]
+
+
+# ------------------------------------------------------------------------- W8 additions
+
+
+class Health(BaseModel):
+    status: str
+    engine_version: str
+    code_hash: str
+    profiles: list[str]
+    default_profile: str
+    flags: dict[str, Any]
+    web_build: str  # "fresh" | "stale" | "missing"
+    content_reviewer: Optional[str] = None
+
+
+class DraftRequest(BaseModel):
+    name: str = Field(pattern=r"^[a-z0-9][a-z0-9_]{0,40}$")
+    topic: str = Field(min_length=3, max_length=120)
+    n_concepts: int = Field(default=3, ge=2, le=8)
+    provider: Literal["stub", "anthropic", "ollama"] = "stub"
+
+
+class DraftName(BaseModel):
+    name: str = Field(pattern=r"^[a-z0-9][a-z0-9_]{0,40}$")
+
+
+class DraftEdit(BaseModel):
+    content: dict[str, dict[str, Any]]
+
+
+class ApproveRequest(DraftName):
+    reviewer: str = Field(max_length=80)
+
+
+class DraftOut(BaseModel):
+    name: str
+    meta: dict[str, Any]
+    curriculum: dict[str, Any]
+    activities: dict[str, Any]
+    content: dict[str, Any]
+    report: dict[str, Any]
+    attempts: list[dict[str, Any]] = []
+
+
+class PolicyPreviewRequest(BaseModel):
+    policy: Literal[
+        "deterministic", "bandit_frozen", "bandit_updating", "random", "agent", "agent_bad"
+    ] = "deterministic"
+
+
+class PolicyPreviewOut(BaseModel):
+    policy: str
+    today: Optional[PlanDayOut] = None
+    days: list[PlanDayOut]
+    decisions: list[dict[str, Any]]
+    agent_label: Optional[str] = None
+
+
+class ProposeRequest(BaseModel):
+    mode: Literal["agent", "agent_bad"] = "agent"
+
+
+class ProposeOut(BaseModel):
+    accepted: bool
+    violations: list[dict[str, Any]]
+    rationale: str
+    proposed_days: list[dict[str, Any]]
+    reference_days: list[dict[str, Any]]
+    agent_label: str
+
+
+class StrategyOut(BaseModel):
+    options: list[dict[str, Any]]
+    default: str
+    choice: str
+    source: str
+    rationale: Optional[str] = None

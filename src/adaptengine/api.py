@@ -14,7 +14,7 @@ from .core.schema import (
 from .curriculum.loader import load_curriculum, load_activities
 from .curriculum.graph import CurriculumGraph
 from .learner.state import LearnerState, ExecutionLog, initial_state
-from .learner.adapter import MasteryModel, CustomBKT
+from .learner.adapter import MasteryModel, make_model
 from .session import apply_response, apply_lesson
 from .core.errors import ValidationError, UnknownConceptError
 
@@ -26,11 +26,15 @@ class Engine:
         activities: tuple,
         config: EngineConfig = DEFAULT_CONFIG,
         model: Optional[MasteryModel] = None,
+        policy=None,
     ):
         self.graph = CurriculumGraph.from_concepts(curriculum)
         self.activities: Mapping[str, Activity] = {a.activity_id: a for a in activities}
         self.config = config
-        self.model = model if model is not None else CustomBKT(config)
+        self.model = model if model is not None else make_model(config)
+        # J.1: optional new-content ranking policy (None = deterministic W7 scheduler). The
+        # engine filters candidates and re-validates the policy's choice.
+        self.policy = policy
 
     @classmethod
     def from_files(
@@ -41,6 +45,7 @@ class Engine:
         config: EngineConfig = DEFAULT_CONFIG,
         allow_unreviewed: bool = False,
         model: Optional[MasteryModel] = None,
+        policy=None,
     ) -> "Engine":
         concepts = load_curriculum(
             curriculum_path, manifest_path, allow_unreviewed=allow_unreviewed
@@ -48,7 +53,7 @@ class Engine:
         activities = load_activities(
             activities_path, concepts, manifest_path, allow_unreviewed=allow_unreviewed, cfg=config
         )
-        return cls(concepts, activities, config, model=model)
+        return cls(concepts, activities, config, model=model, policy=policy)
 
     def init_learner(self) -> LearnerState:
         return initial_state(self.graph.concepts(), self.config)
@@ -64,6 +69,16 @@ class Engine:
         from .diagnostic import AdaptiveDiagnostic
 
         active_model = model if model is not None else self.model
+        if self.config.diagnostic_scope == "goal_path" and goal_concepts:
+            # E.1: only the goals' ancestor paths, skipping concepts already evidence-mastered
+            from .learner.state import is_evidence_mastered
+
+            path = set(goal_concepts)
+            for g in goal_concepts:
+                path |= self.graph.ancestors(g)
+            goal_concepts = [
+                c for c in sorted(path) if not is_evidence_mastered(state.concepts[c], self.config)
+            ] or list(goal_concepts)
         diagnostic = AdaptiveDiagnostic(
             self.graph, self.activities, self.config, model=active_model
         )
@@ -101,6 +116,7 @@ class Engine:
             model=active_model,
             cfg=self.config,
             workload_cache=workload_cache,
+            policy=self.policy,
         )
 
     def replan(
@@ -126,6 +142,7 @@ class Engine:
             model=active_model,
             cfg=self.config,
             workload_cache=workload_cache,
+            policy=self.policy,
         )
 
     def next_activities(

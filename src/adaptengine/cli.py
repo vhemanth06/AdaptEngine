@@ -210,7 +210,25 @@ def main(argv=None):
         help="Mastery model: 'custombkt' (default) or 'pybkt'",
     )
 
+    # W8 K.4: A0 authoring aid (drafts only; approval needs a human via record_review.py)
+    author = subparsers.add_parser("author", help="AI-assisted curriculum drafts (D54)")
+    author_sub = author.add_subparsers(dest="author_cmd", required=True)
+    a_draft = author_sub.add_parser("draft")
+    a_draft.add_argument("--name", required=True)
+    a_draft.add_argument("--topic", required=True)
+    a_draft.add_argument("--concepts", type=int, default=3)
+    a_draft.add_argument(
+        "--provider", default="stub", help="stub | anthropic[:model] | ollama[:model]"
+    )
+    a_draft.add_argument("--cache", help="response cache directory (replays offline)")
+    a_draft.add_argument("--drafts-root", default="data/drafts")
+    a_val = author_sub.add_parser("validate")
+    a_val.add_argument("--name", required=True)
+    a_val.add_argument("--drafts-root", default="data/drafts")
+
     args = parser.parse_args(argv)
+    if args.command == "author":
+        return _author(args)
 
     if args.allow_unreviewed:
         print("WARNING: authoring-only mode: allowing unreviewed content", file=sys.stderr)
@@ -599,6 +617,38 @@ def main(argv=None):
     except AdaptEngineError as e:
         print(f"error: {e}", file=sys.stderr)
         return 2
+
+
+def _author(args) -> int:
+    import os
+
+    from .authoring.checks import validate_draft
+    from .authoring.draft import generate_draft
+    from .authoring.providers import ProviderError, make_provider
+
+    if args.author_cmd == "validate":
+        rep = validate_draft(os.path.join(args.drafts_root, args.name), args.name).to_dict()
+        print(json.dumps(rep, indent=2))
+        return 0 if rep["ok"] else 1
+    try:
+        provider = make_provider(args.provider, cache_dir=args.cache)
+        res = generate_draft(
+            provider,
+            name=args.name,
+            topic=args.topic,
+            n_concepts=args.concepts,
+            drafts_root=args.drafts_root,
+        )
+    except (ProviderError, ValueError) as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 2
+    print(json.dumps(res, indent=2))
+    print(
+        "Draft written for review. Approve with: python scripts/record_review.py "
+        f"--promote-draft {args.name} --reviewer '<your name>'",
+        file=sys.stderr,
+    )
+    return 0 if res["report"]["ok"] else 1
 
 
 if __name__ == "__main__":

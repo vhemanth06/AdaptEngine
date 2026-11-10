@@ -1,0 +1,747 @@
+{
+ "O4": "not run: OR-Tools is not installed (optional [solver] extra)",
+ "cells": {
+  "D1|S0|synth-20|B10": {
+   "adapt": {
+    "all_required_rate": 0.0,
+    "auc": 0.5113,
+    "brier": 0.2649,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.0,
+    "mean_goal_theta": 0.1282,
+    "mean_retention": 0.3313,
+    "minute_utilisation": 0.877,
+    "n": 200
+   },
+   "adapt_cap": {
+    "all_required_rate": 0.0,
+    "auc": 0.5158,
+    "brier": 0.2634,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.0,
+    "mean_goal_theta": 0.1282,
+    "mean_retention": 0.3311,
+    "minute_utilisation": 0.8751,
+    "n": 200
+   },
+   "no_review": {
+    "all_required_rate": 0.0,
+    "auc": 0.5298,
+    "brier": 0.2587,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.0,
+    "mean_goal_theta": 0.1282,
+    "mean_retention": 0.3384,
+    "minute_utilisation": 0.8552,
+    "n": 200
+   },
+   "paired_vs_no_review": {
+    "adapt": {
+     "goal_mastery": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "diff": 0.0
+     },
+     "goal_theta": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "diff": 0.0
+     }
+    },
+    "adapt_cap": {
+     "goal_mastery": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "diff": 0.0
+     },
+     "goal_theta": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "diff": 0.0
+     }
+    }
+   }
+  },
+  "D1|S0|synth-20|B15": {
+   "adapt": {
+    "all_required_rate": 0.0,
+    "auc": 0.5049,
+    "brier": 0.2662,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.0,
+    "mean_goal_theta": 0.1475,
+    "mean_retention": 0.3612,
+    "minute_utilisation": 0.9224,
+    "n": 200
+   },
+   "adapt_cap": {
+    "all_required_rate": 0.0,
+    "auc": 0.5058,
+    "brier": 0.2659,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.0,
+    "mean_goal_theta": 0.1476,
+    "mean_retention": 0.3602,
+    "minute_utilisation": 0.9232,
+    "n": 200
+   },
+   "no_review": {
+    "all_required_rate": 0.0,
+    "auc": 0.5317,
+    "brier": 0.2588,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.005,
+    "mean_goal_theta": 0.2835,
+    "mean_retention": 0.3784,
+    "minute_utilisation": 0.8658,
+    "n": 200
+   },
+   "paired_vs_no_review": {
+    "adapt": {
+     "goal_mastery": {
+      "ci95": [
+       -0.015,
+       0.0
+      ],
+      "diff": -0.005
+     },
+     "goal_theta": {
+      "ci95": [
+       -0.1604,
+       -0.1113
+      ],
+      "diff": -0.1359
+     }
+    },
+    "adapt_cap": {
+     "goal_mastery": {
+      "ci95": [
+       -0.015,
+       0.0
+      ],
+      "diff": -0.005
+     },
+     "goal_theta": {
+      "ci95": [
+       -0.1606,
+       -0.1106
+      ],
+      "diff": -0.1359
+     }
+    }
+   }
+  },
+  "D1|S1|synth-20|B10": {
+   "adapt": {
+    "all_required_rate": 0.0,
+    "auc": 0.5701,
+    "brier": 0.2553,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.0,
+    "mean_goal_theta": 0.1282,
+    "mean_retention": 0.2479,
+    "minute_utilisation": 0.8802,
+    "n": 200
+   },
+   "adapt_cap": {
+    "all_required_rate": 0.0,
+    "auc": 0.5723,
+    "brier": 0.2543,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.0,
+    "mean_goal_theta": 0.1282,
+    "mean_retention": 0.249,
+    "minute_utilisation": 0.8798,
+    "n": 200
+   },
+   "no_review": {
+    "all_required_rate": 0.0,
+    "auc": 0.5849,
+    "brier": 0.2463,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.0,
+    "mean_goal_theta": 0.1282,
+    "mean_retention": 0.2535,
+    "minute_utilisation": 0.8615,
+    "n": 200
+   },
+   "paired_vs_no_review": {
+    "adapt": {
+     "goal_mastery": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "diff": 0.0
+     },
+     "goal_theta": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "diff": 0.0
+     }
+    },
+    "adapt_cap": {
+     "goal_mastery": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "diff": 0.0
+     },
+     "goal_theta": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "diff": 0.0
+     }
+    }
+   }
+  },
+  "D1|S1|synth-20|B15": {
+   "adapt": {
+    "all_required_rate": 0.0,
+    "auc": 0.5748,
+    "brier": 0.2544,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.0,
+    "mean_goal_theta": 0.1282,
+    "mean_retention": 0.2425,
+    "minute_utilisation": 0.9224,
+    "n": 200
+   },
+   "adapt_cap": {
+    "all_required_rate": 0.0,
+    "auc": 0.5767,
+    "brier": 0.2539,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.0,
+    "mean_goal_theta": 0.1282,
+    "mean_retention": 0.2428,
+    "minute_utilisation": 0.9238,
+    "n": 200
+   },
+   "no_review": {
+    "all_required_rate": 0.0,
+    "auc": 0.6055,
+    "brier": 0.2403,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.0,
+    "mean_goal_theta": 0.1282,
+    "mean_retention": 0.2477,
+    "minute_utilisation": 0.9015,
+    "n": 200
+   },
+   "paired_vs_no_review": {
+    "adapt": {
+     "goal_mastery": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "diff": 0.0
+     },
+     "goal_theta": {
+      "ci95": [
+       -0.0,
+       0.0
+      ],
+      "diff": -0.0
+     }
+    },
+    "adapt_cap": {
+     "goal_mastery": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "diff": 0.0
+     },
+     "goal_theta": {
+      "ci95": [
+       -0.0,
+       0.0
+      ],
+      "diff": -0.0
+     }
+    }
+   }
+  },
+  "O1|S0|4-node|B15": {
+   "bkt": {
+    "all_required_rate": 0.995,
+    "auc": 0.6369,
+    "brier": 0.2205,
+    "executed_violations": 0,
+    "goal_mastery_rate": 1.0,
+    "mean_goal_theta": 0.9052,
+    "mean_retention": 1.0,
+    "minute_utilisation": 0.9469,
+    "n": 200
+   },
+   "elo": {
+    "all_required_rate": 0.98,
+    "auc": 0.6747,
+    "brier": 0.2235,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.985,
+    "mean_goal_theta": 0.88,
+    "mean_retention": 1.0,
+    "minute_utilisation": 0.9669,
+    "n": 200
+   },
+   "paired_vs_bkt": {
+    "elo": {
+     "goal_mastery": {
+      "ci95": [
+       -0.035,
+       0.0
+      ],
+      "diff": -0.015
+     },
+     "goal_theta": {
+      "ci95": [
+       -0.0318,
+       -0.0188
+      ],
+      "diff": -0.0251
+     }
+    }
+   }
+  },
+  "O1|S1|4-node|B15": {
+   "bkt": {
+    "all_required_rate": 0.9,
+    "auc": 0.637,
+    "brier": 0.2242,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.95,
+    "mean_goal_theta": 0.8485,
+    "mean_retention": 1.0,
+    "minute_utilisation": 0.9468,
+    "n": 200
+   },
+   "elo": {
+    "all_required_rate": 0.795,
+    "auc": 0.6835,
+    "brier": 0.2162,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.805,
+    "mean_goal_theta": 0.791,
+    "mean_retention": 1.0,
+    "minute_utilisation": 0.9697,
+    "n": 200
+   },
+   "paired_vs_bkt": {
+    "elo": {
+     "goal_mastery": {
+      "ci95": [
+       -0.205,
+       -0.09
+      ],
+      "diff": -0.145
+     },
+     "goal_theta": {
+      "ci95": [
+       -0.0755,
+       -0.0401
+      ],
+      "diff": -0.0575
+     }
+    }
+   }
+  },
+  "O1|S4|4-node|B15": {
+   "bkt": {
+    "all_required_rate": 0.95,
+    "auc": 0.6558,
+    "brier": 0.202,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.96,
+    "mean_goal_theta": 0.96,
+    "mean_retention": 1.0,
+    "minute_utilisation": 0.9267,
+    "n": 200
+   },
+   "elo": {
+    "all_required_rate": 0.74,
+    "auc": 0.7075,
+    "brier": 0.2243,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.76,
+    "mean_goal_theta": 0.76,
+    "mean_retention": 1.0,
+    "minute_utilisation": 0.9614,
+    "n": 200
+   },
+   "paired_vs_bkt": {
+    "elo": {
+     "goal_mastery": {
+      "ci95": [
+       -0.255,
+       -0.145
+      ],
+      "diff": -0.2
+     },
+     "goal_theta": {
+      "ci95": [
+       -0.255,
+       -0.145
+      ],
+      "diff": -0.2
+     }
+    }
+   }
+  },
+  "O2|S0|4-node|B15": {
+   "fixed": {
+    "all_required_rate": 0.0,
+    "auc": 0.6629,
+    "brier": 0.2403,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.12,
+    "mean_goal_theta": 0.4447,
+    "mean_retention": 0.5868,
+    "minute_utilisation": 0.9553,
+    "n": 200
+   },
+   "hlr": {
+    "all_required_rate": 0.0,
+    "auc": 0.6358,
+    "brier": 0.2428,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.07,
+    "mean_goal_theta": 0.5094,
+    "mean_retention": 0.6362,
+    "minute_utilisation": 0.9569,
+    "n": 200
+   },
+   "no_review": {
+    "all_required_rate": 0.0,
+    "auc": 0.6618,
+    "brier": 0.2402,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.115,
+    "mean_goal_theta": 0.4425,
+    "mean_retention": 0.5869,
+    "minute_utilisation": 0.9554,
+    "n": 200
+   },
+   "paired_vs_no_review": {
+    "fixed": {
+     "goal_mastery": {
+      "ci95": [
+       -0.025,
+       0.035
+      ],
+      "diff": 0.005
+     },
+     "goal_theta": {
+      "ci95": [
+       -0.0059,
+       0.0104
+      ],
+      "diff": 0.0021
+     }
+    },
+    "hlr": {
+     "goal_mastery": {
+      "ci95": [
+       -0.1,
+       0.01
+      ],
+      "diff": -0.045
+     },
+     "goal_theta": {
+      "ci95": [
+       0.0421,
+       0.0913
+      ],
+      "diff": 0.0668
+     }
+    }
+   }
+  },
+  "O2|S0|8-node|B15": {
+   "fixed": {
+    "all_required_rate": 0.0,
+    "auc": 0.6579,
+    "brier": 0.2325,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.12,
+    "mean_goal_theta": 0.544,
+    "mean_retention": 0.4731,
+    "minute_utilisation": 0.9535,
+    "n": 200
+   },
+   "hlr": {
+    "all_required_rate": 0.0,
+    "auc": 0.6072,
+    "brier": 0.2442,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.005,
+    "mean_goal_theta": 0.2854,
+    "mean_retention": 0.5046,
+    "minute_utilisation": 0.9541,
+    "n": 200
+   },
+   "no_review": {
+    "all_required_rate": 0.0,
+    "auc": 0.6569,
+    "brier": 0.233,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.11,
+    "mean_goal_theta": 0.5288,
+    "mean_retention": 0.4956,
+    "minute_utilisation": 0.9523,
+    "n": 200
+   },
+   "paired_vs_no_review": {
+    "fixed": {
+     "goal_mastery": {
+      "ci95": [
+       -0.035,
+       0.055
+      ],
+      "diff": 0.01
+     },
+     "goal_theta": {
+      "ci95": [
+       -0.0017,
+       0.0303
+      ],
+      "diff": 0.0153
+     }
+    },
+    "hlr": {
+     "goal_mastery": {
+      "ci95": [
+       -0.155,
+       -0.065
+      ],
+      "diff": -0.105
+     },
+     "goal_theta": {
+      "ci95": [
+       -0.2799,
+       -0.2082
+      ],
+      "diff": -0.2434
+     }
+    }
+   }
+  },
+  "O2|S3|4-node|B15": {
+   "fixed": {
+    "all_required_rate": 0.0,
+    "auc": 0.6629,
+    "brier": 0.2403,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.12,
+    "mean_goal_theta": 0.4447,
+    "mean_retention": 0.5868,
+    "minute_utilisation": 0.9553,
+    "n": 200
+   },
+   "hlr": {
+    "all_required_rate": 0.0,
+    "auc": 0.6358,
+    "brier": 0.2428,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.07,
+    "mean_goal_theta": 0.5094,
+    "mean_retention": 0.6362,
+    "minute_utilisation": 0.9569,
+    "n": 200
+   },
+   "no_review": {
+    "all_required_rate": 0.0,
+    "auc": 0.6618,
+    "brier": 0.2402,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.115,
+    "mean_goal_theta": 0.4425,
+    "mean_retention": 0.5869,
+    "minute_utilisation": 0.9554,
+    "n": 200
+   },
+   "paired_vs_no_review": {
+    "fixed": {
+     "goal_mastery": {
+      "ci95": [
+       -0.025,
+       0.035
+      ],
+      "diff": 0.005
+     },
+     "goal_theta": {
+      "ci95": [
+       -0.0059,
+       0.0104
+      ],
+      "diff": 0.0021
+     }
+    },
+    "hlr": {
+     "goal_mastery": {
+      "ci95": [
+       -0.1,
+       0.01
+      ],
+      "diff": -0.045
+     },
+     "goal_theta": {
+      "ci95": [
+       0.0421,
+       0.0913
+      ],
+      "diff": 0.0668
+     }
+    }
+   }
+  },
+  "O2|S3|8-node|B15": {
+   "fixed": {
+    "all_required_rate": 0.0,
+    "auc": 0.6579,
+    "brier": 0.2325,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.12,
+    "mean_goal_theta": 0.544,
+    "mean_retention": 0.4731,
+    "minute_utilisation": 0.9535,
+    "n": 200
+   },
+   "hlr": {
+    "all_required_rate": 0.0,
+    "auc": 0.6072,
+    "brier": 0.2442,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.005,
+    "mean_goal_theta": 0.2854,
+    "mean_retention": 0.5046,
+    "minute_utilisation": 0.9541,
+    "n": 200
+   },
+   "no_review": {
+    "all_required_rate": 0.0,
+    "auc": 0.6569,
+    "brier": 0.233,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.11,
+    "mean_goal_theta": 0.5288,
+    "mean_retention": 0.4956,
+    "minute_utilisation": 0.9523,
+    "n": 200
+   },
+   "paired_vs_no_review": {
+    "fixed": {
+     "goal_mastery": {
+      "ci95": [
+       -0.035,
+       0.055
+      ],
+      "diff": 0.01
+     },
+     "goal_theta": {
+      "ci95": [
+       -0.0017,
+       0.0303
+      ],
+      "diff": 0.0153
+     }
+    },
+    "hlr": {
+     "goal_mastery": {
+      "ci95": [
+       -0.155,
+       -0.065
+      ],
+      "diff": -0.105
+     },
+     "goal_theta": {
+      "ci95": [
+       -0.2799,
+       -0.2082
+      ],
+      "diff": -0.2434
+     }
+    }
+   }
+  },
+  "O3|S3|4-node|B15": {
+   "forget": {
+    "all_required_rate": 0.0,
+    "auc": null,
+    "brier": null,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.0,
+    "mean_goal_theta": 0.1309,
+    "mean_retention": 0.4963,
+    "minute_utilisation": 0.0,
+    "n": 200
+   },
+   "no_forget": {
+    "all_required_rate": 0.0,
+    "auc": 0.6596,
+    "brier": 0.228,
+    "executed_violations": 0,
+    "goal_mastery_rate": 0.02,
+    "mean_goal_theta": 0.3725,
+    "mean_retention": 0.3476,
+    "minute_utilisation": 0.6045,
+    "n": 200
+   },
+   "paired_vs_no_forget": {
+    "forget": {
+     "goal_mastery": {
+      "ci95": [
+       -0.04,
+       -0.005
+      ],
+      "diff": -0.02
+     },
+     "goal_theta": {
+      "ci95": [
+       -0.2581,
+       -0.2251
+      ],
+      "diff": -0.2416
+     }
+    }
+   }
+  }
+ },
+ "hlr_fit": {
+  "baseline_brier_mean": 0.24147,
+  "brier": 0.26983,
+  "metadata": {
+   "code_hash": "f09fb8e2f6126c98c5a81cddf0a840a3936509111cbbbdb064fd2e8d5a881b66",
+   "n_observations": 48515,
+   "seeds": "even 8000-8398",
+   "timestamp_utc": "2026-11-09T21:46:50.255093+00:00"
+  },
+  "weights": [
+   1.75,
+   -0.25,
+   0.0
+  ]
+ },
+ "metadata": {
+  "code_hash": "f09fb8e2f6126c98c5a81cddf0a840a3936509111cbbbdb064fd2e8d5a881b66",
+  "preregistration": "docs/preregistration/FINAL_A5_2026-11-10.md \u00a77",
+  "runtime_s": 335.5,
+  "seeds": "odd 2001-2399",
+  "timestamp_utc": "2026-11-09T21:46:29.617785+00:00"
+ }
+}

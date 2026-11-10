@@ -66,6 +66,9 @@ These are recorded in `docs/DECISIONS.md` but have **not** been through the free
 | **D39** | Diagnostic split & selection rule | **Superseded by D44** (W6 rule overridden post hoc) | `experiments/results/w7_diag_selection.json` |
 | **D40** | Scheduler starvation bound | Implemented (W6); proposed | `tests/test_planner.py` |
 | **D41–D48** | Week 7 decisions | Proposed (W7) | `docs/DECISIONS.md` §7 |
+| **D49–D52** | Consolidation, verification probe, horizon-aware strictness, optional diagnostic | Implemented behind flags (W8); D49–D51 adopted in adapt-final by the pre-registered B.3 selection; proposed | `docs/DECISIONS.md` §8, `docs/FINAL_RESULTS.md` |
+| **D53–D58** | Agentic layer: bandit (only feedback-driven policy), authoring aid, LLM ranker, defaults off, plan proposer, orchestrator | Implemented, off by default (W8); proposed | `docs/POLICY_SPEC.md`, `docs/AGENTS.md`, `docs/AUTHORING.md` |
+| **D59–D60** | Elo/1PL measurement model, CP-SAT scheduler | Implemented behind flags (W8); not default; proposed | `docs/DECISIONS.md` §8 |
 
 ## 3. Milestone Acceptance Status
 

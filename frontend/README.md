@@ -1,60 +1,72 @@
-# AdaptEngine demo frontend (W7 WP8)
+# AdaptEngine demo frontend (W7 WP8, rebuilt in W8 WP-H)
 
 A thin web demo over the engine. The FastAPI adapter in `api/` only validates input, stores
 sessions and reshapes engine output. Every decision (diagnostic items, mastery, eligibility,
-plans, replans) comes from `adaptengine.api.Engine` (decision D45).
+plans, replans, policy checks) comes from `adaptengine` (decision D45).
 
-## Run the demo (one command after a one-time setup)
-
-One-time setup, from the repo root:
+## Run the demo: one command
 
 ```bash
-pip install -e ".[demo]"                 # or: uv pip install --python .venv/bin/python -e ".[demo]"
-(cd frontend/web && npm ci && npm run build)
+pip install -e ".[demo]"     # once
+make demo                    # builds web/dist if src/ is newer, starts uvicorn, prints the URL
 ```
 
-Run:
+`make demo` checks that FastAPI/uvicorn are installed, rebuilds the web app when needed
+(`npm ci` the first time) and serves everything from http://127.0.0.1:8000. `/api/health`
+reports the engine version, code hash, profiles, flags and whether the web build is stale; the
+footer shows the code hash and the honesty badge. Everything is local (no CDN), so it works
+offline. For hot reload: `make demo-api` and `make demo-web`, then http://localhost:5173.
 
-```bash
-make demo-api                            # http://127.0.0.1:8000 serves the API and the built app
-```
+Optional live agent (Policy Lab "LLM agent", plan proposer, strategy chip): set
+`ADAPTENGINE_AGENT_PROVIDER=anthropic` (or `ollama:<model>`) after populating the replay cache
+(`docs/AGENTS.md`). Without it the agent screens use the offline stub and say so.
 
-Everything is served locally (system fonts, bundled JS), so it works offline.
+## Design system and shell (W8 H.2–H.3)
 
-For UI development with hot reload, run `make demo-api` and `make demo-web` together and open
-http://localhost:5173 (Vite proxies `/api` to port 8000).
+- Tokens in `web/src/styles/tokens.css` (light and dark; Tailwind's neutral scale is remapped
+  so every screen follows the theme). Engine states: mastered emerald, in progress indigo,
+  remediation amber, locked zinc, violation rose, always with an icon and a label.
+- Sidebar groups: Learner (Overview, Setup, Diagnostic, Map, Plan, Study), Adaptation
+  (Disruptions, Policy Lab), Authoring (Authoring Studio), Evidence (Autopilot, Evaluation).
+- Top bar: session, plan status, day/deadline/budget chips, demo-mode switch, theme toggle,
+  Reset demo. ⌘K / Ctrl+K opens the command palette (jump to a screen, miss a day, reset).
+- Loading skeletons, empty states with a call to action, inline errors with Retry and
+  "Copy debug info", an error boundary per screen. React Flow and Recharts screens are
+  lazy-loaded (JS ≈ 255 kB gzipped in total).
+- The planned Radix/lucide/framer-motion packages were not installed (handover item); the
+  plan's fallback was used: tokens + Tailwind with the existing dependencies only.
 
 ## Tests
 
 ```bash
-make demo-test     # API TestClient tests + build + Playwright run of the 6-minute demo script
+make demo-test     # API TestClient tests + build + Playwright
 ```
 
-- `api/tests/test_api.py` has one test per route and an end-to-end session that checks the
-  API plan equals a direct `Engine.next_activities` call after every step. It skips when
-  `fastapi` is not installed.
-- `web/e2e/demo.spec.ts` runs the demo script below. First time only:
-  `cd frontend/web && npx playwright install chromium`.
+- `api/tests/test_api.py`: every route, including W8 health, profiles, simulate (new arms,
+  belief vs reality), policy preview, plan proposer, strategy and the authoring flow; the
+  end-to-end session checks the API plan equals a direct `Engine.next_activities` call.
+- `web/e2e/demo.spec.ts`: the 8-minute demo script below.
+- `web/e2e/screens.spec.ts`: every screen in light and dark (visual snapshots in
+  `e2e/screens.spec.ts-snapshots/`), an unknown stored session, and the API being down.
+  Refresh the snapshots after an intended UI change with `npx playwright test --update-snapshots`.
 
-## Screens and the 6-minute script (report §10.5)
+## Eight-minute demo script (final report R§3.6) and rehearsal checklist
 
-| Tab | What to show |
-|---|---|
-| 1 Setup | Goal C8, deadline 10, 10 min/day: FEASIBLE. Switch to 5 min/day: not feasible, with the shortfall, options and a best-effort schedule. Switch back. |
-| 2 Diagnostic | Answer with keys 1-4 (or "Demo learner answers"). Live p bars, then stop reasons per concept. |
-| 3 Map | DAG coloured by engine state: mastered (evidence), remediation, unlocked today, locked (later), not in plan. Colours are colour-blind safe and always carry a text label. |
-| 4 Plan + Why? | Day columns with budget bars. Click a card: the trace record, score components (review, unlock, fit) and the alternatives deferred that day. |
-| 5 Study | Answer wrong twice: p drops, remediation is flagged and the plan updates at once (closed loop via `next_activities`). |
-| 6 Disruptions | Missed day, budget change, deadline -2: old vs new plan, moved activities, replan time measured on the server. |
-| 7 Autopilot | Simulated learners (`experiments/arms.py`) through all four arms, fixed seeds. |
-| 8 Evaluation | Charts and tables from `experiments/results/*.json` (whatever exists). |
+| # | Screen | Do | What it shows |
+|---|---|---|---|
+| 1 | Overview → Setup | Goal C8, 10 min/day, deadline 10 → Feasible. 5 min/day → Not feasible with shortfall and a best-effort plan. Back to 10. | Instant feasibility; honest "no" |
+| 2 | Diagnostic | Answer 4–6 questions (keys 1–4) or "Skip → plan from the prior". | Belief bars move; the diagnostic is optional (D52) |
+| 3 | Plan + Why? | Click a card. | Score breakdown, deferred alternatives, raw trace |
+| 4 | Study | Answer wrong twice. | Remediation, instant replan toast, agent strategy chip |
+| 5 | Disruptions | "Missed yesterday". | Old vs new plan, replan time in ms |
+| 6 | Autopilot | 100 learners, S1, 14 days: adapt (final) vs adapt (W7) vs static_loop. | Belief vs reality: false mastery falls with the calibrated engine |
+| 7 | Policy Lab | Deterministic → Bandit frozen → LLM agent → "forced bad output". | Candidates and propensities; "rejected → fallback" |
+| 8 | Authoring Studio (optional) | Generate a 3-concept draft (stub), validate, approve with your name. | AI drafts, human approves, engine accepts only reviewed content |
+| 9 | Evaluation | Forest plot vs static_loop, violations (log), reliability. | 0 prerequisite violations; wins and losses stated honestly |
 
-Demo mode (on by default) adds the scripted demo learner buttons. The demo learner knows
-C1, C2, C3 and C6. "Reset demo" starts a fresh session. Seeds are fixed, so rehearsals and
-the live demo behave the same.
-
-The 4-node curriculum has no content file: the UI then shows "right / wrong" buttons
-instead of question text.
+Rehearsal checklist: `make demo` on the presentation laptop; Reset demo; theme as projected;
+run the script once end to end; `npx playwright test` green; screenshots in
+`docs/figures/demo_*.png`.
 
 ## Layout
 

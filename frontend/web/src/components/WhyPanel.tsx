@@ -9,6 +9,12 @@ const REASON: Record<string, string> = {
   ORACLE_ASSIGNED: "Placed by the exact packing solver because the greedy schedule overshot the deadline",
   DOES_NOT_FIT_REMAINING_TIME: "Did not fit in the minutes left that day",
   REPLAN_PRESERVED_COMPLETED: "Already done; kept out of the new plan",
+  CONSOLIDATION: "Verification practice: every required concept is believed mastered and time remains (D49)",
+  VERIFICATION_PROBE: "One hard item before unlocking dependents: the evidence came mostly from easy items (D50)",
+  HORIZON_AWARE_STRICT: "Plenty of slack before the deadline, so mastery needs more certainty (D51)",
+  REVIEW_CAP: "Review deferred: today's review share is used up while new content is pending",
+  CPSAT_ASSIGNED: "Placed by the CP-SAT exact scheduler (D60)",
+  AGENT_PROPOSED: "Placed by an agent-proposed plan that passed every engine check (D57)",
 };
 
 const COMPONENT_MAX: Record<string, number> = { review: 1, unlock: 7, fit: 1 };

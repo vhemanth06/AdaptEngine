@@ -1,0 +1,15 @@
+{
+ "metadata": {
+  "code_hash": "f09fb8e2f6126c98c5a81cddf0a840a3936509111cbbbdb064fd2e8d5a881b66",
+  "timestamp_utc": "2026-11-09T21:46:50.255093+00:00",
+  "seeds": "even 8000-8398",
+  "n_observations": 48515
+ },
+ "weights": [
+  1.75,
+  -0.25,
+  0.0
+ ],
+ "brier": 0.26983,
+ "baseline_brier_mean": 0.24147
+}

@@ -148,6 +148,22 @@ def test_events_remediation_diff_and_disruptions(client):
     assert client.post(f"/api/sessions/{sid}/diagnostic/answer", json=item).status_code == 409
 
 
+def test_study_never_stalls_when_leftover_minutes_fit_nothing(client):
+    # Remediation can push the repeat lesson past today's leftover minutes; the day must still advance.
+    sid = _new(client)["session_id"]
+    view = _run_diagnostic(client, sid)
+    for _ in range(12):
+        days = view["plan"]["days"] if view["plan"]["status"] == "FEASIBLE" else view["plan"]["best_effort_days"]
+        if not any(d["activities"] for d in days):
+            break
+        assert view["today"], f"stalled on day {view['effective']['current_day']} with work still planned"
+        aid = view["today"]["activities"][0]
+        body = {"kind": "COMPLETED", "activity_id": aid}
+        if aid.startswith("E-"):
+            body["correct"] = False
+        view = client.post(f"/api/sessions/{sid}/events", json=body).json()["session"]
+
+
 def test_trace_filters_one_activity(client):
     sid = _new(client)["session_id"]
     assert client.get(f"/api/sessions/{sid}/trace").status_code == 409
@@ -221,3 +237,106 @@ def test_end_to_end_plan_matches_direct_engine(client, engine):
     view = client.post(f"/api/sessions/{sid}/events", json={"kind": "MISSED"}).json()["session"]
     state, log = engine.record(state, log, Event(day=day, kind=EventType.MISSED))
     check(view)
+
+
+# ----------------------------------------------------------------------------- W8 endpoints
+
+
+def test_health(client):
+    h = client.get("/api/health").json()
+    assert h["status"] == "ok" and len(h["code_hash"]) == 64
+    assert "w7_default" in h["profiles"] and h["flags"]["ranking_policy"] == "deterministic"
+    assert h["web_build"] in ("fresh", "stale", "missing")
+
+
+def test_profile_session_and_feasibility_warning(client):
+    v = _new(client, profile="fitted_S1")
+    assert v["profile"] == "fitted_S1"
+    assert client.post("/api/sessions", json={"curriculum": "8node", "goal": "C8", "deadline_day": 10,
+                                               "budget": 10, "profile": "nope"}).status_code == 422  # fmt: skip
+    sid = _new(client, deadline_day=4, budget=15)["session_id"]
+    view = client.post(f"/api/sessions/{sid}/plan", json={}).json()
+    assert "feasibility_warning" in view
+
+
+def test_simulate_w8_arms_and_belief_vs_reality(client):
+    body = {
+        "curriculum": "4node",
+        "goal": "C4",
+        "budget": 15,
+        "n_seeds": 2,
+        "world": "S1",
+        "horizon": 14,
+        "scenario": "calm",
+    }
+    for arm in ("static_loop", "random_eligible", "adapt_final"):
+        eps = client.post("/api/simulate", json={**body, "arm": arm}).json()["episodes"]
+        assert len(eps) == 2 and all(e["arm"] == arm for e in eps)
+        assert set(eps[0]["final_p"]) == set(eps[0]["final_theta"]) == {"C1", "C2", "C3", "C4"}
+        assert 0 <= eps[0]["minute_utilisation"] <= 1
+
+
+def test_policy_lab_preview_and_agent_fallback(client):
+    sid = _new(client, deadline_day=20)["session_id"]
+    client.post(f"/api/sessions/{sid}/plan", json={})
+    det = client.post(
+        f"/api/sessions/{sid}/policy-preview", json={"policy": "deterministic"}
+    ).json()
+    assert det["decisions"] == [] and det["today"]
+    for pol in ("random", "bandit_frozen", "agent"):
+        out = client.post(f"/api/sessions/{sid}/policy-preview", json={"policy": pol}).json()
+        assert out["today"]["activities"]
+        assert {d["decision"] for d in out["decisions"]} <= {"POLICY_SELECTED", "POLICY_FALLBACK"}
+    bad = client.post(f"/api/sessions/{sid}/policy-preview", json={"policy": "agent_bad"}).json()
+    assert any(d["decision"] == "AGENT_FALLBACK" for d in bad["decisions"])
+    assert bad["today"] == det["today"]  # rejected -> deterministic fallback
+    assert client.get(f"/api/sessions/{sid}").json()["plan"]  # session unchanged
+
+
+def test_propose_plan_accept_and_reject(client):
+    sid = _new(client, deadline_day=20)["session_id"]
+    ok = client.post(f"/api/sessions/{sid}/propose-plan", json={"mode": "agent"}).json()
+    assert ok["accepted"] and ok["proposed_days"]
+    bad = client.post(f"/api/sessions/{sid}/propose-plan", json={"mode": "agent_bad"}).json()
+    assert not bad["accepted"] and "PREREQUISITE_ORDER" in {v["rule"] for v in bad["violations"]}
+
+
+def test_strategy_closed_option_set(client):
+    sid = _new(client)["session_id"]
+    out = client.get(f"/api/sessions/{sid}/strategy").json()
+    assert out["choice"] in [o["id"] for o in out["options"]] and out["default"] == "continue"
+
+
+def test_authoring_studio_flow(client, tmp_path, monkeypatch):
+    monkeypatch.setenv("ADAPTENGINE_AUTHORING_ROOT", str(tmp_path))
+    r = client.post(
+        "/api/authoring/draft", json={"name": "sets", "topic": "Python sets", "n_concepts": 3}
+    )
+    assert r.status_code == 200, r.text
+    d = r.json()
+    assert d["meta"]["reviewer"] == "PENDING_HUMAN_REVIEW" and d["report"]["ok"]
+    e = client.put(
+        "/api/authoring/drafts/sets",
+        json={
+            "content": {"E-K1-0.2": {**d["content"]["activities"]["E-K1-0.2"], "prompt": "Edited?"}}
+        },
+    )
+    assert e.json()["content"]["activities"]["E-K1-0.2"]["prompt"] == "Edited?"
+    assert client.put("/api/authoring/drafts/sets", json={"content": {"X": {}}}).status_code == 422
+    for who in ("AI", "PENDING_HUMAN_REVIEW", "Claude", ""):
+        assert (
+            client.post(
+                "/api/authoring/approve", json={"name": "sets", "reviewer": who}
+            ).status_code
+            == 422
+        )
+    assert not (tmp_path / "data" / "curriculum").exists()
+    ok = client.post(
+        "/api/authoring/approve", json={"name": "sets", "reviewer": "Hemanth V"}
+    ).json()
+    assert ok["approved"] and len(ok["recorded"]) == 3
+    assert client.get("/api/authoring/drafts/nope").status_code == 404
+    assert (
+        client.post("/api/authoring/draft", json={"name": "../x", "topic": "abc"}).status_code
+        == 422
+    )

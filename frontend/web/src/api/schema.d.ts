@@ -174,6 +174,158 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/health": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Health */
+        get: operations["health_api_health_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/sessions/{sid}/policy-preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Policy Preview
+         * @description Policy Lab: today's slice under a ranking policy, without changing the session.
+         */
+        post: operations["policy_preview_api_sessions__sid__policy_preview_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/sessions/{sid}/propose-plan": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Propose
+         * @description A1 plan proposer: the engine validates the agent's plan; the session plan is unchanged.
+         */
+        post: operations["propose_api_sessions__sid__propose_plan_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/sessions/{sid}/strategy": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Strategy
+         * @description A3 orchestrator: engine-generated closed option set and the chosen strategy.
+         */
+        get: operations["strategy_api_sessions__sid__strategy_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/authoring/draft": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Authoring Draft */
+        post: operations["authoring_draft_api_authoring_draft_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/authoring/drafts/{name}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Authoring Get */
+        get: operations["authoring_get_api_authoring_drafts__name__get"];
+        /**
+         * Authoring Edit
+         * @description Inline edit of the draft's content entries (activity_id -> entry); re-validated.
+         */
+        put: operations["authoring_edit_api_authoring_drafts__name__put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/authoring/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Authoring Validate */
+        post: operations["authoring_validate_api_authoring_validate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/authoring/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Authoring Approve
+         * @description Human review gate (D54): only a named human can promote a draft (scripts/record_review.py).
+         */
+        post: operations["authoring_approve_api_authoring_approve_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -193,6 +345,13 @@ export interface components {
             duration: number;
             /** Difficulty */
             difficulty?: number | null;
+        };
+        /** ApproveRequest */
+        ApproveRequest: {
+            /** Name */
+            name: string;
+            /** Reviewer */
+            reviewer: string;
         };
         /** ConceptInfo */
         ConceptInfo: {
@@ -279,6 +438,11 @@ export interface components {
             deadline_day: number;
             /** Budget */
             budget: number;
+            /**
+             * Profile
+             * @default w7_default
+             */
+            profile: string;
         };
         /** CurriculumDetail */
         CurriculumDetail: {
@@ -357,6 +521,70 @@ export interface components {
              */
             concept_results: components["schemas"]["ConceptResult"][];
         };
+        /** DraftEdit */
+        DraftEdit: {
+            /** Content */
+            content: {
+                [key: string]: {
+                    [key: string]: unknown;
+                };
+            };
+        };
+        /** DraftName */
+        DraftName: {
+            /** Name */
+            name: string;
+        };
+        /** DraftOut */
+        DraftOut: {
+            /** Name */
+            name: string;
+            /** Meta */
+            meta: {
+                [key: string]: unknown;
+            };
+            /** Curriculum */
+            curriculum: {
+                [key: string]: unknown;
+            };
+            /** Activities */
+            activities: {
+                [key: string]: unknown;
+            };
+            /** Content */
+            content: {
+                [key: string]: unknown;
+            };
+            /** Report */
+            report: {
+                [key: string]: unknown;
+            };
+            /**
+             * Attempts
+             * @default []
+             */
+            attempts: {
+                [key: string]: unknown;
+            }[];
+        };
+        /** DraftRequest */
+        DraftRequest: {
+            /** Name */
+            name: string;
+            /** Topic */
+            topic: string;
+            /**
+             * N Concepts
+             * @default 3
+             */
+            n_concepts: number;
+            /**
+             * Provider
+             * @default stub
+             * @enum {string}
+             */
+            provider: "stub" | "anthropic" | "ollama";
+        };
         /** EvaluationFile */
         EvaluationFile: {
             /** Name */
@@ -423,6 +651,27 @@ export interface components {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
         };
+        /** Health */
+        Health: {
+            /** Status */
+            status: string;
+            /** Engine Version */
+            engine_version: string;
+            /** Code Hash */
+            code_hash: string;
+            /** Profiles */
+            profiles: string[];
+            /** Default Profile */
+            default_profile: string;
+            /** Flags */
+            flags: {
+                [key: string]: unknown;
+            };
+            /** Web Build */
+            web_build: string;
+            /** Content Reviewer */
+            content_reviewer?: string | null;
+        };
         /** PlanChange */
         PlanChange: {
             /** Activity Id */
@@ -460,6 +709,8 @@ export interface components {
             days: components["schemas"]["PlanDayOut"][];
             /** Best Effort Days */
             best_effort_days: components["schemas"]["PlanDayOut"][];
+            /** Feasibility Warning */
+            feasibility_warning?: string | null;
             /** Trace */
             trace: {
                 [key: string]: unknown;
@@ -476,6 +727,59 @@ export interface components {
             deadline_day?: number | null;
             /** Budget */
             budget?: number | null;
+        };
+        /** PolicyPreviewOut */
+        PolicyPreviewOut: {
+            /** Policy */
+            policy: string;
+            today?: components["schemas"]["PlanDayOut"] | null;
+            /** Days */
+            days: components["schemas"]["PlanDayOut"][];
+            /** Decisions */
+            decisions: {
+                [key: string]: unknown;
+            }[];
+            /** Agent Label */
+            agent_label?: string | null;
+        };
+        /** PolicyPreviewRequest */
+        PolicyPreviewRequest: {
+            /**
+             * Policy
+             * @default deterministic
+             * @enum {string}
+             */
+            policy: "deterministic" | "bandit_frozen" | "bandit_updating" | "random" | "agent" | "agent_bad";
+        };
+        /** ProposeOut */
+        ProposeOut: {
+            /** Accepted */
+            accepted: boolean;
+            /** Violations */
+            violations: {
+                [key: string]: unknown;
+            }[];
+            /** Rationale */
+            rationale: string;
+            /** Proposed Days */
+            proposed_days: {
+                [key: string]: unknown;
+            }[];
+            /** Reference Days */
+            reference_days: {
+                [key: string]: unknown;
+            }[];
+            /** Agent Label */
+            agent_label: string;
+        };
+        /** ProposeRequest */
+        ProposeRequest: {
+            /**
+             * Mode
+             * @default agent
+             * @enum {string}
+             */
+            mode: "agent" | "agent_bad";
         };
         /** SessionOut */
         SessionOut: {
@@ -494,6 +798,13 @@ export interface components {
             replan_ms?: number | null;
             /** Events */
             events: components["schemas"]["EventOut"][];
+            /**
+             * Profile
+             * @default w7_default
+             */
+            profile: string;
+            /** Feasibility Warning */
+            feasibility_warning?: string | null;
         };
         /** SimEpisode */
         SimEpisode: {
@@ -523,12 +834,41 @@ export interface components {
             executed_prereq_violations: number;
             /** Budget Violations */
             budget_violations: number;
-            /** Idle Days */
-            idle_days: number;
+            /** Idle Days Unmastered */
+            idle_days_unmastered: number;
+            /** Idle Days Total */
+            idle_days_total: number;
             /** Minutes Used */
             minutes_used: number;
+            /** Minutes Available */
+            minutes_available: number;
+            /** Minute Utilisation */
+            minute_utilisation: number;
+            /** Believed Mastered */
+            believed_mastered: number;
+            /** False Mastered */
+            false_mastered: number;
             /** Total Activities Completed */
             total_activities_completed: number;
+            /**
+             * Final P
+             * @default {}
+             */
+            final_p: {
+                [key: string]: number;
+            };
+            /**
+             * Final Theta
+             * @default {}
+             */
+            final_theta: {
+                [key: string]: number;
+            };
+            /**
+             * Goal Theta By Minutes
+             * @default []
+             */
+            goal_theta_by_minutes: number[][];
         };
         /** SimulateOut */
         SimulateOut: {
@@ -557,19 +897,27 @@ export interface components {
              * @default adapt
              * @enum {string}
              */
-            arm: "adapt" | "no_review" | "no_replan" | "static";
+            arm: "adapt" | "no_review" | "no_replan" | "static" | "static_loop" | "random_eligible" | "adapt_final" | "adapt_final_dx";
             /**
              * Scenario
              * @default missed_day
              * @enum {string}
              */
-            scenario: "calm" | "missed_day" | "budget_drop" | "deadline_cut";
+            scenario: "calm" | "missed_day" | "budget_drop" | "deadline_cut" | "missed_2days" | "forgetting_21";
             /**
              * Profile
              * @default nominal
              * @enum {string}
              */
             profile: "nominal" | "high_slip" | "fast_forgetter" | "rapid_learner";
+            /**
+             * World
+             * @default S0
+             * @enum {string}
+             */
+            world: "S0" | "S1" | "S2" | "S3" | "S4";
+            /** Horizon */
+            horizon?: number | null;
             /**
              * Seed
              * @default 100
@@ -580,6 +928,21 @@ export interface components {
              * @default 1
              */
             n_seeds: number;
+        };
+        /** StrategyOut */
+        StrategyOut: {
+            /** Options */
+            options: {
+                [key: string]: unknown;
+            }[];
+            /** Default */
+            default: string;
+            /** Choice */
+            choice: string;
+            /** Source */
+            source: string;
+            /** Rationale */
+            rationale?: string | null;
         };
         /** TraceOut */
         TraceOut: {
@@ -918,6 +1281,292 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["EvaluationOut"];
+                };
+            };
+        };
+    };
+    health_api_health_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Health"];
+                };
+            };
+        };
+    };
+    policy_preview_api_sessions__sid__policy_preview_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sid: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PolicyPreviewRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PolicyPreviewOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    propose_api_sessions__sid__propose_plan_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sid: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProposeRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProposeOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    strategy_api_sessions__sid__strategy_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StrategyOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    authoring_draft_api_authoring_draft_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DraftRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DraftOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    authoring_get_api_authoring_drafts__name__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                name: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DraftOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    authoring_edit_api_authoring_drafts__name__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                name: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DraftEdit"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DraftOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    authoring_validate_api_authoring_validate_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DraftName"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DraftOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    authoring_approve_api_authoring_approve_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApproveRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

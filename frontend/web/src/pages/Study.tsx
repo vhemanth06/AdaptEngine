@@ -1,7 +1,8 @@
 import { useCallback, useState } from "react";
-import { contentOf } from "../api/client";
+import { useQuery } from "@tanstack/react-query";
+import { api, contentOf } from "../api/client";
 import { useDigitKeys, type Ctx } from "../ctx";
-import { Button, C, Card, ErrorBox, Markdown, PBar, conceptName, inline } from "../components/ui";
+import { Button, C, Card, Chip, ErrorBox, Markdown, PBar, conceptName, inline } from "../components/ui";
 import NoSession from "./NoSession";
 
 export default function Study({ session, cur, demo, sendEvent, lastEvent, go }: Ctx) {
@@ -41,6 +42,7 @@ export default function Study({ session, cur, demo, sendEvent, lastEvent, go }: 
   const up = fb?.update;
   return (
     <div className="grid gap-4 lg:grid-cols-2">
+      <StrategyChip sid={session.session_id} version={session.events.length} />
       <Card title={act ? `Day ${session.today?.day} · ${act.type === "LESSON" ? "Lesson" : "Question"}` : "Study"} testId="study-card">
         {!act ? (
           <p data-testid="nothing-today">
@@ -152,6 +154,23 @@ export default function Study({ session, cur, demo, sendEvent, lastEvent, go }: 
           </div>
         )}
       </Card>
+    </div>
+  );
+}
+
+// N.3: the A3 orchestrator's choice from the engine's closed option set (stub unless a model is connected)
+function StrategyChip({ sid, version }: { sid: string; version: number }) {
+  const q = useQuery({ queryKey: ["strategy", sid, version], queryFn: () => api.strategy(sid) });
+  if (!q.data) return <div className="lg:col-span-2" />;
+  const s = q.data;
+  return (
+    <div className="flex flex-wrap items-center gap-2 lg:col-span-2" data-testid="strategy">
+      <Chip tone="accent" title={s.rationale ?? undefined}>
+        Agent strategy: {s.choice}
+      </Chip>
+      <span className="text-sm text-[var(--text-muted)]">
+        chosen from {s.options.map((o) => String(o.id)).join(" · ")} ({s.source}; engine default {s.default})
+      </span>
     </div>
   );
 }

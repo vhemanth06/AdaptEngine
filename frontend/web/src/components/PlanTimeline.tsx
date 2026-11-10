@@ -5,6 +5,8 @@ const TAG: Record<string, [string, string]> = {
   REMEDIATION_INSERTED: ["Remediation", C.vermillion],
   REVIEW_DUE: ["Review", C.purple],
   ORACLE_ASSIGNED: ["Solver", C.orange],
+  CONSOLIDATION: ["Verify", "#0d9488"],
+  CPSAT_ASSIGNED: ["CP-SAT", C.orange],
 };
 
 export default function PlanTimeline({
@@ -39,7 +41,7 @@ export default function PlanTimeline({
       )}
       <div className="flex gap-3 overflow-x-auto pb-2">
         {days.map((d) => (
-          <div key={d.day} className="w-52 shrink-0 rounded-lg border border-slate-300 bg-slate-50 p-2">
+          <div key={d.day} className="w-52 shrink-0 rounded-[var(--radius)] border border-[var(--border)] bg-[var(--surface-2)] p-2">
             <div className="flex justify-between font-semibold">
               <span>Day {d.day}</span>
               <span className="font-mono">
@@ -63,8 +65,8 @@ export default function PlanTimeline({
                       type="button"
                       data-testid={`card-${aid}`}
                       onClick={() => onSelect?.(aid)}
-                      className={`w-full rounded-md border bg-white px-2 py-1 text-left text-base ${
-                        sel ? "border-4 border-slate-900" : "border-slate-300"
+                      className={`w-full rounded-md border bg-[var(--surface)] px-2 py-1 text-left text-sm transition-colors hover:border-[var(--accent)] ${
+                        sel ? "border-2 border-[var(--accent)]" : "border-[var(--border)]"
                       } ${highlight?.has(aid) ? "ring-4 ring-[#E69F00]" : ""}`}
                     >
                       <div className="flex justify-between">

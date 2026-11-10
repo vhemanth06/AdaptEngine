@@ -1,0 +1,279 @@
+Date : 2026-11-09 22:49:01
+Directory : /home/vhemanth06/Documents/AdaptEngine
+Total : 199 files,  562657 codes, 1925 comments, 3813 blanks, all 568395 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |         41 |    541,314 |          0 |         23 |    541,337 |
+| Python             |         99 |     14,344 |      1,653 |      2,511 |     18,508 |
+| Markdown           |         31 |      4,432 |          0 |      1,136 |      5,568 |
+| TypeScript JSX     |         14 |      1,472 |          5 |         70 |      1,547 |
+| TypeScript         |          6 |        879 |        257 |         29 |      1,165 |
+| YAML               |          1 |         89 |          1 |          7 |         97 |
+| Makefile           |          1 |         36 |          1 |         20 |         57 |
+| Shell Script       |          1 |         30 |          5 |         10 |         45 |
+| JSON with Comments |          1 |         17 |          0 |          1 |         18 |
+| JavaScript         |          1 |         16 |          2 |          2 |         20 |
+| PostCSS            |          1 |         15 |          1 |          2 |         18 |
+| HTML               |          1 |         12 |          0 |          1 |         13 |
+| pip requirements   |          1 |          1 |          0 |          1 |          2 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                      | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                         |        199 |    562,657 |      1,925 |      3,813 |    568,395 |
+| . (Files)                                                                                 |          3 |        688 |          1 |        158 |        847 |
+| .github                                                                                   |          1 |         89 |          1 |          7 |         97 |
+| .github/workflows                                                                         |          1 |         89 |          1 |          7 |         97 |
+| config                                                                                    |          2 |        133 |          0 |          0 |        133 |
+| data                                                                                      |          8 |      1,232 |          0 |         23 |      1,255 |
+| data (Files)                                                                              |          2 |         74 |          0 |          2 |         76 |
+| data/content                                                                              |          2 |        531 |          0 |         17 |        548 |
+| data/curriculum                                                                           |          4 |        627 |          0 |          4 |        631 |
+| docs                                                                                      |         28 |      3,670 |          0 |        964 |      4,634 |
+| docs (Files)                                                                              |         26 |      3,622 |          0 |        938 |      4,560 |
+| docs/preregistration                                                                      |          2 |         48 |          0 |         26 |         74 |
+| examples                                                                                  |          1 |         31 |          6 |          8 |         45 |
+| experiments                                                                               |         35 |    538,445 |        370 |        573 |    539,388 |
+| experiments (Files)                                                                       |         20 |      3,580 |        370 |        573 |      4,523 |
+| experiments/results                                                                       |         15 |    534,865 |          0 |          0 |    534,865 |
+| frontend                                                                                  |         35 |      8,281 |        303 |        320 |      8,904 |
+| frontend (Files)                                                                          |          2 |         51 |          0 |         20 |         71 |
+| frontend/api                                                                              |          6 |        841 |         38 |        192 |      1,071 |
+| frontend/api (Files)                                                                      |          4 |        658 |         34 |        154 |        846 |
+| frontend/api/tests                                                                        |          2 |        183 |          4 |         38 |        225 |
+| frontend/web                                                                              |         27 |      7,389 |        265 |        108 |      7,762 |
+| frontend/web (Files)                                                                      |          7 |      5,035 |          1 |         11 |      5,047 |
+| frontend/web/e2e                                                                          |          1 |         62 |          9 |          9 |         80 |
+| frontend/web/scripts                                                                      |          1 |         16 |          2 |          2 |         20 |
+| frontend/web/src                                                                          |         18 |      2,276 |        253 |         86 |      2,615 |
+| frontend/web/src (Files)                                                                  |          4 |        199 |          4 |         20 |        223 |
+| frontend/web/src/api                                                                      |          2 |        734 |        244 |          7 |        985 |
+| frontend/web/src/components                                                               |          3 |        339 |          4 |         19 |        362 |
+| frontend/web/src/pages                                                                    |          9 |      1,004 |          1 |         40 |      1,045 |
+| scripts                                                                                   |          9 |      1,891 |        305 |        270 |      2,466 |
+| src                                                                                       |         35 |      3,975 |        377 |        634 |      4,986 |
+| src/adaptengine                                                                           |         35 |      3,975 |        377 |        634 |      4,986 |
+| src/adaptengine (Files)                                                                   |          5 |      1,190 |         42 |        149 |      1,381 |
+| src/adaptengine/core                                                                      |          6 |        456 |         24 |         88 |        568 |
+| src/adaptengine/curriculum                                                                |          4 |        283 |         15 |         66 |        364 |
+| src/adaptengine/diagnostic                                                                |          4 |        495 |         38 |         66 |        599 |
+| src/adaptengine/learner                                                                   |          5 |        422 |         74 |         93 |        589 |
+| src/adaptengine/planner                                                                   |          7 |        968 |        148 |        141 |      1,257 |
+| src/adaptengine/replanner                                                                 |          2 |        106 |         20 |         16 |        142 |
+| src/adaptengine/review                                                                    |          2 |         55 |         16 |         15 |         86 |
+| tests                                                                                     |         42 |      4,222 |        562 |        856 |      5,640 |
+| tests (Files)                                                                             |         28 |      4,056 |        562 |        843 |      5,461 |
+| tests/fixtures                                                                            |         14 |        166 |          0 |         13 |        179 |
+| tests/fixtures/invalid                                                                    |         14 |        166 |          0 |         13 |        179 |
++-------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                  | language           | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| /home/vhemanth06/Documents/AdaptEngine/.github/workflows/ci.yml                           | YAML               |         89 |          1 |          7 |         97 |
+| /home/vhemanth06/Documents/AdaptEngine/Makefile                                           | Makefile           |         36 |          1 |         20 |         57 |
+| /home/vhemanth06/Documents/AdaptEngine/README.md                                          | Markdown           |        651 |          0 |        137 |        788 |
+| /home/vhemanth06/Documents/AdaptEngine/config/fitted_assist09.json                        | JSON               |        101 |          0 |          0 |        101 |
+| /home/vhemanth06/Documents/AdaptEngine/config/fitted_sim.json                             | JSON               |         32 |          0 |          0 |         32 |
+| /home/vhemanth06/Documents/AdaptEngine/data/content/README.md                             | Markdown           |         60 |          0 |         16 |         76 |
+| /home/vhemanth06/Documents/AdaptEngine/data/content/content_8node.json                    | JSON               |        471 |          0 |          1 |        472 |
+| /home/vhemanth06/Documents/AdaptEngine/data/curriculum/activities_4node.json              | JSON               |        181 |          0 |          1 |        182 |
+| /home/vhemanth06/Documents/AdaptEngine/data/curriculum/activities_8node.json              | JSON               |        357 |          0 |          1 |        358 |
+| /home/vhemanth06/Documents/AdaptEngine/data/curriculum/curriculum_4node.json              | JSON               |         30 |          0 |          1 |         31 |
+| /home/vhemanth06/Documents/AdaptEngine/data/curriculum/curriculum_8node.json              | JSON               |         59 |          0 |          1 |         60 |
+| /home/vhemanth06/Documents/AdaptEngine/data/learner_novice.json                           | JSON               |         37 |          0 |          1 |         38 |
+| /home/vhemanth06/Documents/AdaptEngine/data/review_manifest.json                          | JSON               |         37 |          0 |          1 |         38 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/AI_USE.md                                     | Markdown           |         60 |          0 |         21 |         81 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/API_REFERENCE.md                              | Markdown           |        491 |          0 |        133 |        624 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/ARCHITECTURE.md                               | Markdown           |        123 |          0 |         29 |        152 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/DECISIONS.md                                  | Markdown           |         84 |          0 |         25 |        109 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/DIAGNOSTIC.md                                 | Markdown           |         79 |          0 |         22 |        101 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/EVALUATION_PROTOCOL.md                        | Markdown           |         77 |          0 |         36 |        113 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/FREEZE_RECORD.md                              | Markdown           |         66 |          0 |         14 |         80 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/IMPLEMENTATION_PLAN.md                        | Markdown           |         30 |          0 |         11 |         41 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/MASTERY_MODEL.md                              | Markdown           |         76 |          0 |         30 |        106 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/README.md                                     | Markdown           |         14 |          0 |          5 |         19 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/TECHNICAL_FEASIBILITY.md                      | Markdown           |         39 |          0 |         17 |         56 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/TEST_SUITE.md                                 | Markdown           |        342 |          0 |        107 |        449 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/TRACEABILITY.md                               | Markdown           |         27 |          0 |          3 |         30 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/W3_AUDIT.md                                   | Markdown           |         57 |          0 |         13 |         70 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/W3_PROGRESS.md                                | Markdown           |         73 |          0 |         16 |         89 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/WEEK4_WEEK5_REPORT_PREP.md                    | Markdown           |        312 |          0 |         73 |        385 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/WEEK6_REPORT.md                               | Markdown           |        260 |          0 |         59 |        319 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/WEEK6_REPORT_NOTES.md                         | Markdown           |        370 |          0 |         82 |        452 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/WEEK7_REPORT.md                               | Markdown           |         59 |          0 |         31 |         90 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/WEEK7_REPORT_NOTES.md                         | Markdown           |        349 |          0 |         74 |        423 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/WEEK7_RESULTS.md                              | Markdown           |        374 |          0 |         60 |        434 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/data_manifest.md                              | Markdown           |         67 |          0 |         12 |         79 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/model_spec.md                                 | Markdown           |         12 |          0 |          4 |         16 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/preregistration/W7_T3.3_2026-11-08.md         | Markdown           |         28 |          0 |         12 |         40 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/preregistration/W7_T4.1_2026-11-08.md         | Markdown           |         20 |          0 |         14 |         34 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/reuse_inventory.md                            | Markdown           |         32 |          0 |         10 |         42 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/schema.md                                     | Markdown           |         11 |          0 |          3 |         14 |
+| /home/vhemanth06/Documents/AdaptEngine/docs/verification_guide.md                         | Markdown           |        138 |          0 |         48 |        186 |
+| /home/vhemanth06/Documents/AdaptEngine/examples/api_quickstart.py                         | Python             |         31 |          6 |          8 |         45 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/arms.py                                | Python             |        315 |         27 |         37 |        379 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/cat_baseline.py                        | Python             |         44 |          7 |         13 |         64 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/checks.py                              | Python             |         55 |         19 |         12 |         86 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/diag_eval.py                           | Python             |        314 |         43 |         54 |        411 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/fit_bkt.py                             | Python             |        629 |         52 |        110 |        791 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/fit_bkt_sim.py                         | Python             |         92 |          9 |         19 |        120 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/make_w7_results.py                     | Python             |        391 |         17 |         32 |        440 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/provenance.py                          | Python             |         22 |          5 |         10 |         37 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/results/bkt_fit_assist09.json          | JSON               |      2,585 |          0 |          0 |      2,585 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/results/bkt_fit_ct.json                | JSON               |      1,359 |          0 |          0 |      1,359 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/results/bkt_fit_ct_pybkt.json          | JSON               |        214 |          0 |          0 |        214 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/results/bkt_fit_sim.json               | JSON               |        487 |          0 |          0 |        487 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/results/evaluation_results.json        | JSON               |     70,497 |          0 |          0 |     70,497 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/results/replan_latency.json            | JSON               |        103 |          0 |          0 |        103 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/results/w6_baseline.json               | JSON               |     21,938 |          0 |          0 |     21,938 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/results/w7_diag_matrix.json            | JSON               |      1,075 |          0 |          0 |      1,075 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/results/w7_diag_selection.json         | JSON               |      7,320 |          0 |          0 |      7,320 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/results/w7_grid.json                   | JSON               |    141,825 |          0 |          0 |    141,825 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/results/w7_grid_fix1.json              | JSON               |    141,825 |          0 |          0 |    141,825 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/results/w7_grid_prereg.json            | JSON               |    141,825 |          0 |          0 |    141,825 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/results/w7_latency.json                | JSON               |        122 |          0 |          0 |        122 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/results/w7_s4_fitted.json              | JSON               |         91 |          0 |          0 |         91 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/results/w7_sensitivity.json            | JSON               |      3,599 |          0 |          0 |      3,599 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/run_diag_matrix.py                     | Python             |        127 |          9 |         22 |        158 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/run_diag_selection.py                  | Python             |        123 |          7 |         23 |        153 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/run_evaluation.py                      | Python             |        352 |         42 |         54 |        448 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/run_replan_latency.py                  | Python             |        190 |         11 |         35 |        236 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/run_s4_fitted.py                       | Python             |         58 |          6 |         10 |         74 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/run_sensitivity.py                     | Python             |        125 |          9 |         16 |        150 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/run_smoke.py                           | Python             |         58 |          4 |         10 |         72 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/run_w7_grid.py                         | Python             |        216 |          9 |         29 |        254 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/run_w7_latency.py                      | Python             |        117 |         11 |         19 |        147 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/sim.py                                 | Python             |        147 |         33 |         26 |        206 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/stats.py                               | Python             |        114 |         31 |         27 |        172 |
+| /home/vhemanth06/Documents/AdaptEngine/experiments/synth_curriculum.py                    | Python             |         91 |         19 |         15 |        125 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/README.md                                 | Markdown           |         51 |          0 |         19 |         70 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/__init__.py                               | Python             |          0 |          0 |          1 |          1 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/api/__init__.py                           | Python             |          0 |          0 |          1 |          1 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/api/app.py                                | Python             |        453 |         20 |         76 |        549 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/api/schemas.py                            | Python             |        170 |          9 |         59 |        238 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/api/store.py                              | Python             |         35 |          5 |         18 |         58 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/api/tests/__init__.py                     | Python             |          0 |          0 |          1 |          1 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/api/tests/test_api.py                     | Python             |        183 |          4 |         37 |        224 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/e2e/demo.spec.ts                      | TypeScript         |         62 |          9 |          9 |         80 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/index.html                            | HTML               |         12 |          0 |          1 |         13 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/openapi.json                          | JSON               |      1,710 |          0 |          1 |      1,711 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/package-lock.json                     | JSON               |      3,237 |          0 |          1 |      3,238 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/package.json                          | JSON               |         31 |          0 |          1 |         32 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/playwright.config.ts                  | TypeScript         |         18 |          1 |          3 |         22 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/scripts/gen-types.mjs                 | JavaScript         |         16 |          2 |          2 |         20 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/src/App.tsx                           | TypeScript JSX     |        115 |          0 |          8 |        123 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/src/api/client.ts                     | TypeScript         |         52 |          2 |          5 |         59 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/src/api/schema.d.ts                   | TypeScript         |        682 |        242 |          2 |        926 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/src/components/PlanTimeline.tsx       | TypeScript JSX     |         90 |          0 |          3 |         93 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/src/components/WhyPanel.tsx           | TypeScript JSX     |         96 |          0 |          5 |        101 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/src/components/ui.tsx                 | TypeScript JSX     |        153 |          4 |         11 |        168 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/src/ctx.ts                            | TypeScript         |         55 |          3 |          7 |         65 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/src/index.css                         | PostCSS            |         15 |          1 |          2 |         18 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/src/main.tsx                          | TypeScript JSX     |         14 |          0 |          3 |         17 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/src/pages/Autopilot.tsx               | TypeScript JSX     |        171 |          0 |          5 |        176 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/src/pages/CurriculumMap.tsx           | TypeScript JSX     |         80 |          0 |          4 |         84 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/src/pages/Diagnostic.tsx              | TypeScript JSX     |        144 |          0 |          6 |        150 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/src/pages/Disruptions.tsx             | TypeScript JSX     |        122 |          0 |          5 |        127 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/src/pages/Evaluation.tsx              | TypeScript JSX     |        164 |          1 |          6 |        171 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/src/pages/NoSession.tsx               | TypeScript JSX     |         10 |          0 |          2 |         12 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/src/pages/PlanPage.tsx                | TypeScript JSX     |         39 |          0 |          2 |         41 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/src/pages/Setup.tsx                   | TypeScript JSX     |        121 |          0 |          5 |        126 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/src/pages/Study.tsx                   | TypeScript JSX     |        153 |          0 |          5 |        158 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/tsconfig.json                         | JSON with Comments |         17 |          0 |          1 |         18 |
+| /home/vhemanth06/Documents/AdaptEngine/frontend/web/vite.config.ts                        | TypeScript         |         10 |          0 |          3 |         13 |
+| /home/vhemanth06/Documents/AdaptEngine/requirements.txt                                   | pip requirements   |          1 |          0 |          1 |          2 |
+| /home/vhemanth06/Documents/AdaptEngine/scripts/download_data.py                           | Python             |         65 |         11 |         16 |         92 |
+| /home/vhemanth06/Documents/AdaptEngine/scripts/make_fixtures.py                           | Python             |        217 |         14 |         22 |        253 |
+| /home/vhemanth06/Documents/AdaptEngine/scripts/poc_demo.py                                | Python             |        247 |         50 |         34 |        331 |
+| /home/vhemanth06/Documents/AdaptEngine/scripts/record_review.py                           | Python             |         45 |          1 |         16 |         62 |
+| /home/vhemanth06/Documents/AdaptEngine/scripts/run_w3.py                                  | Python             |        297 |         51 |         46 |        394 |
+| /home/vhemanth06/Documents/AdaptEngine/scripts/run_w4.py                                  | Python             |        301 |         63 |         40 |        404 |
+| /home/vhemanth06/Documents/AdaptEngine/scripts/run_w5.py                                  | Python             |        441 |         70 |         43 |        554 |
+| /home/vhemanth06/Documents/AdaptEngine/scripts/run_w6.py                                  | Python             |        248 |         40 |         43 |        331 |
+| /home/vhemanth06/Documents/AdaptEngine/scripts/verify_clean_checkout.sh                   | Shell Script       |         30 |          5 |         10 |         45 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/__init__.py                        | Python             |          0 |          1 |          1 |          2 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/__main__.py                        | Python             |          4 |          0 |          2 |          6 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/api.py                             | Python             |        243 |         15 |         29 |        287 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/cli.py                             | Python             |        539 |         14 |         53 |        606 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/core/__init__.py                   | Python             |          0 |          1 |          1 |          2 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/core/config.py                     | Python             |        144 |         10 |         14 |        168 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/core/constants.py                  | Python             |         10 |          0 |          1 |         11 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/core/errors.py                     | Python             |         14 |          0 |         13 |         27 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/core/schema.py                     | Python             |        229 |          4 |         40 |        273 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/core/validators.py                 | Python             |         59 |          9 |         19 |         87 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/curriculum/__init__.py             | Python             |          0 |          1 |          1 |          2 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/curriculum/content.py              | Python             |         53 |          5 |         11 |         69 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/curriculum/graph.py                | Python             |         59 |          2 |         17 |         78 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/curriculum/loader.py               | Python             |        171 |          7 |         37 |        215 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/diagnostic/__init__.py             | Python             |         17 |          0 |          2 |         19 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/diagnostic/engine.py               | Python             |        306 |         16 |         40 |        362 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/diagnostic/scoring.py              | Python             |         23 |         12 |          8 |         43 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/diagnostic/state_space.py          | Python             |        149 |         10 |         16 |        175 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/learner/__init__.py                | Python             |         30 |          1 |          3 |         34 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/learner/adapter.py                 | Python             |        137 |         21 |         32 |        190 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/learner/evidence.py                | Python             |         47 |         12 |         10 |         69 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/learner/mastery.py                 | Python             |         42 |         29 |         13 |         84 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/learner/state.py                   | Python             |        166 |         11 |         35 |        212 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/planner/__init__.py                | Python             |         19 |          1 |          3 |         23 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/planner/difficulty.py              | Python             |         30 |          7 |          7 |         44 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/planner/feasibility.py             | Python             |         94 |         17 |         16 |        127 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/planner/oracle.py                  | Python             |         86 |         25 |         26 |        137 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/planner/plan.py                    | Python             |        288 |         33 |         30 |        351 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/planner/schedule.py                | Python             |        263 |         36 |         25 |        324 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/planner/workload.py                | Python             |        188 |         29 |         34 |        251 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/replanner/__init__.py              | Python             |          2 |          0 |          2 |          4 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/replanner/replan.py                | Python             |        104 |         20 |         14 |        138 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/review/__init__.py                 | Python             |         12 |          0 |          2 |         14 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/review/forgetting.py               | Python             |         43 |         16 |         13 |         72 |
+| /home/vhemanth06/Documents/AdaptEngine/src/adaptengine/session.py                         | Python             |        404 |         12 |         64 |        480 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/conftest.py                                  | Python             |          0 |          0 |          1 |          1 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/fixtures/invalid/bad_duration.json           | JSON               |         11 |          0 |          1 |         12 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/fixtures/invalid/bad_schema_version.json     | JSON               |          4 |          0 |          1 |          5 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/fixtures/invalid/cycle.json                  | JSON               |         19 |          0 |          1 |         20 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/fixtures/invalid/cycle_activities.json       | JSON               |         17 |          0 |          1 |         18 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/fixtures/invalid/difficulty_high.json        | JSON               |         12 |          0 |          1 |         13 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/fixtures/invalid/difficulty_low.json         | JSON               |         12 |          0 |          1 |         13 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/fixtures/invalid/duplicate_activity.json     | JSON               |         17 |          0 |          1 |         18 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/fixtures/invalid/duplicate_concept.json      | JSON               |         15 |          0 |          1 |         16 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/fixtures/invalid/exercise_no_difficulty.json | JSON               |         11 |          0 |          1 |         12 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/fixtures/invalid/lesson_with_difficulty.json | JSON               |         12 |          0 |          1 |         13 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/fixtures/invalid/malformed.json              | JSON               |          1 |          0 |          0 |          1 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/fixtures/invalid/self_loop.json              | JSON               |         12 |          0 |          1 |         13 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/fixtures/invalid/unknown_prereq.json         | JSON               |         12 |          0 |          1 |         13 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/fixtures/invalid/unknown_target.json         | JSON               |         11 |          0 |          1 |         12 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_adapter.py                              | Python             |         63 |         13 |         20 |         96 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_api.py                                  | Python             |        104 |          8 |         26 |        138 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_architecture.py                         | Python             |        109 |         16 |         22 |        147 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_arms.py                                 | Python             |         44 |          4 |         17 |         65 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_cli.py                                  | Python             |        292 |         10 |         25 |        327 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_content.py                              | Python             |         71 |          1 |         18 |         90 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_defects_repro.py                        | Python             |        132 |         23 |         36 |        191 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_diag_eval.py                            | Python             |         80 |         12 |         23 |        115 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_diagnostic.py                           | Python             |        184 |         31 |         53 |        268 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_eval_checks.py                          | Python             |         84 |         12 |         21 |        117 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_evaluation.py                           | Python             |         41 |         17 |         15 |         73 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_feedback_fixes.py                       | Python             |        654 |        110 |         86 |        850 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_fit_bkt.py                              | Python             |        112 |          3 |         25 |        140 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_graph.py                                | Python             |         57 |          3 |         23 |         83 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_loader_review_gate.py                   | Python             |        138 |          1 |         22 |        161 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_mastery.py                              | Python             |         99 |          5 |         23 |        127 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_planner.py                              | Python             |        476 |        101 |        103 |        680 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_poc_demo.py                             | Python             |         51 |         17 |         12 |         80 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_quickstart.py                           | Python             |         18 |          1 |          5 |         24 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_replan_frontier.py                      | Python             |        187 |         16 |         28 |        231 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_review.py                               | Python             |         78 |         17 |         26 |        121 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_schema.py                               | Python             |        103 |         16 |         26 |        145 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_sim.py                                  | Python             |        117 |          6 |         31 |        154 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_state_session.py                        | Python             |        143 |         11 |         36 |        190 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_stats.py                                | Python             |         81 |         13 |         16 |        110 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_w5.py                                   | Python             |        366 |         82 |         67 |        515 |
+| /home/vhemanth06/Documents/AdaptEngine/tests/test_w7_planner.py                           | Python             |        172 |         13 |         37 |        222 |
+| Total                                                                                     |                    |    562,657 |      1,925 |      3,813 |    568,395 |
++-------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

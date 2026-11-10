@@ -1,0 +1,31 @@
+{
+  "name": "fitted_S1",
+  "source": "simulated S1 fit cohort: static_loop + random_eligible, 4-node + 8-node, B=15, calm, 14 days",
+  "code_hash": "f09fb8e2f6126c98c5a81cddf0a840a3936509111cbbbdb064fd2e8d5a881b66",
+  "timestamp_utc": "2026-11-09T21:01:11.315742+00:00",
+  "fit_seeds": "even 2000-2398",
+  "preregistration": "docs/preregistration/FINAL_A5_2026-11-10.md",
+  "p0": 0.17146575833012484,
+  "t_lesson": 0.29372429897010555,
+  "t_exercise": 0.05677225370127487,
+  "class_params": {
+    "easy": {
+      "guess": 0.6161605356516621,
+      "slip": 0.12343331031852336
+    },
+    "medium": {
+      "guess": 0.4259029673020356,
+      "slip": 0.2645100214648042
+    },
+    "hard": {
+      "guess": 0.21904426056697546,
+      "slip": 0.4654993920402411
+    }
+  },
+  "constraint_warnings": {
+    "easy": [
+      "guess>0.5"
+    ]
+  },
+  "loglik": -52226.22928986722
+}

@@ -27,3 +27,19 @@ This document tracks all 23 verification scenarios (the authoritative Assignment
 | **TC7.1** | M7 | Every decision traceable to state, applied constraints, and score components | **W5** | `tests/test_w5.py::test_tc7_1_comprehensive_traceability_and_serialization`, `tests/test_planner.py::test_oracle_path_trace_natural_case_t1_4` (exactly one SELECTED per planned activity, W7 T1.4) | **Verified** |
 | **TC8.1** | M8 | Identical random seeds and configuration produce bitwise identical raw results | **W6** | `tests/test_evaluation.py::test_evaluation_reproducibility_tc8_1`, `experiments/run_evaluation.py` | **Verified** |
 | **TC8.2** | M8 | Frontier vs full replanning produces identical decisions with runtime latency measured | **W6** | `tests/test_replan_frontier.py`, `experiments/run_replan_latency.py`, `experiments/results/replan_latency.json` | **Verified** |
+
+## Week 8 additions (final week): new tests linked to the 23-ID register
+
+| TC-ID | W8 test evidence |
+|---|---|
+| TC1.2 | Review gate for AI drafts: `tests/test_authoring.py::test_review_gate_rejects_ai_and_pending`, `::test_promote_draft_requires_human_and_records_manifest`, `::test_unreviewed_draft_rejected_by_live_loader`; profile validation `tests/test_w8_engine.py::test_invalid_profile_rejected` |
+| TC2.1 / TC2.2 | Goal-path diagnostic scope: `tests/test_w8_engine.py::test_goal_path_diagnostic_skips_mastered_and_off_path_concepts` |
+| TC3.1 | Executed safety with every W8 flag, policy and agent: `tests/test_w8_engine.py::test_all_flags_on_keep_executed_safety`, `::test_probe_flag_keeps_executed_safety`, `tests/test_policy.py::test_bandit_candidates_subset_of_eligible_and_zero_violations`, `tests/test_agent_policy.py::test_adversarial_output_falls_back_with_zero_violations`, `tests/test_orchestrator.py::test_orchestrated_episodes_have_zero_violations`, `tests/test_arms.py::test_random_eligible_has_no_executed_violations`; proposal rule `tests/test_plan_proposer.py` (PREREQUISITE_ORDER) |
+| TC3.2 | Budget with consolidation, review cap and proposals: `tests/test_w8_engine.py::test_consolidation_only_after_all_required_work`, `::test_review_cap_limits_review_minutes_while_new_content_pending`, `tests/test_plan_proposer.py` (OVER_BUDGET), `tests/test_arms.py::test_adapt_dx_charges_diagnostic_minutes_to_day_one` |
+| TC4.1 | Profiles and models: `tests/test_w8_engine.py::test_profile_loads_class_params_into_guess_and_slip`, `::test_forget_transition`, `::test_elo_model_is_a_mastery_model`; EM recovery `tests/test_bkt_lessons.py` |
+| TC5.1–TC5.3 | Review cap, goal path, HLR: `tests/test_w8_engine.py::test_review_goal_path_only`, `::test_hlr_half_life_counts_and_scheduler_use` |
+| TC7.1 | Policy/agent decisions logged with candidates, propensities and fallbacks: `tests/test_policy.py::test_policy_failure_falls_back_to_deterministic`, `tests/test_agent_policy.py::test_valid_agent_answer_is_used_and_logged`; accepted proposals carry one SELECTED per activity (`tests/test_plan_proposer.py::test_valid_proposal_accepted`) |
+| TC8.1 | New arms deterministic: `tests/test_arms.py::test_w8_arms_deterministic`; metrics `::test_w8_episode_metrics_are_consistent`; KM `tests/test_stats.py::test_kaplan_meier_hand_computed`; OPE `tests/test_ope.py` |
+| TC8.2 | W8 flags off = W7 (all W7 tests unchanged); DeterministicPolicy bit-identical plans `tests/test_policy.py::test_deterministic_policy_gives_bit_identical_plans`; default profile `tests/test_w8_engine.py::test_default_profile_is_w7_config`; frontier equivalence `tests/test_replan_frontier.py` |
+| Architecture (no TC) | `tests/test_architecture.py::test_core_never_imports_agentic_layer_or_providers`, `::test_agentic_layer_is_off_by_default` |
+| Frontend (no TC) | `frontend/api/tests/test_api.py` (16 tests, every route); `frontend/web/e2e/demo.spec.ts`, `e2e/screens.spec.ts` (Playwright: demo script, 11 screens × light/dark snapshots, failure states) |

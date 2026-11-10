@@ -2,17 +2,22 @@ import { useEffect } from "react";
 import type { Curriculum, EventResult, Plan, Session } from "./api/client";
 import type { components } from "./api/schema";
 
+// W8 H.3: screens grouped in the sidebar (Learner / Adaptation / Authoring / Evidence).
 export const TABS = [
-  ["setup", "1 Setup"],
-  ["diagnostic", "2 Diagnostic"],
-  ["map", "3 Map"],
-  ["plan", "4 Plan + Why?"],
-  ["study", "5 Study"],
-  ["disruptions", "6 Disruptions"],
-  ["autopilot", "7 Autopilot"],
-  ["evaluation", "8 Evaluation"],
+  ["overview", "Overview", "Learner"],
+  ["setup", "Setup", "Learner"],
+  ["diagnostic", "Diagnostic", "Learner"],
+  ["map", "Curriculum map", "Learner"],
+  ["plan", "Plan + Why?", "Learner"],
+  ["study", "Study", "Learner"],
+  ["disruptions", "Disruptions", "Adaptation"],
+  ["policy", "Policy Lab", "Adaptation"],
+  ["authoring", "Authoring Studio", "Authoring"],
+  ["autopilot", "Autopilot", "Evidence"],
+  ["evaluation", "Evaluation", "Evidence"],
 ] as const;
 export type Tab = (typeof TABS)[number][0];
+export const GROUPS = ["Learner", "Adaptation", "Authoring", "Evidence"] as const;
 
 export type LastEvent = { result: EventResult; oldPlan?: Plan | null; label: string };
 
@@ -36,7 +41,13 @@ export function useDigitKeys(active: boolean, handler: (i: number) => void) {
   useEffect(() => {
     if (!active) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement) return;
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLSelectElement ||
+        e.target instanceof HTMLTextAreaElement
+      )
+        return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
       const n = Number(e.key);
       if (n >= 1 && n <= 4) handler(n - 1);
     };

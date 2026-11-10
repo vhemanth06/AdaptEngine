@@ -1,17 +1,59 @@
 @import "tailwindcss";
+@import "./styles/tokens.css";
 
-/* Projector-size type; system fonts only (offline-safe, no CDN). */
+/* W8 H.2: product UI type (15 px), tokens everywhere, local fonts only (offline-safe). */
 html {
-  font-size: 19px;
+  font-size: 15px;
+  color-scheme: light;
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
 }
 body {
-  @apply bg-slate-50 text-slate-900;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+}
+code,
+pre,
+.font-mono {
+  font-family: var(--font-mono);
+}
+.tabular {
+  font-variant-numeric: tabular-nums;
 }
 button {
-  @apply cursor-pointer;
+  cursor: pointer;
 }
 :focus-visible {
-  outline: 3px solid #0072b2;
+  outline: 2px solid var(--focus);
   outline-offset: 2px;
+  border-radius: 4px;
+}
+select,
+input,
+textarea {
+  background: var(--surface);
+  color: var(--text);
+}
+@keyframes ae-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+.ae-skeleton {
+  background: var(--surface-3);
+  border-radius: var(--radius-sm);
+  animation: ae-pulse 1.4s ease-in-out infinite;
+}
+@keyframes ae-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+.ae-in {
+  animation: ae-in var(--dur) var(--ease);
 }

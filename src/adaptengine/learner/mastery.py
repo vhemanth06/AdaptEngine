@@ -4,27 +4,38 @@ from ..core.config import DEFAULT_CONFIG, EngineConfig
 from ..core.validators import check_probability, check_transition, check_bool
 
 
-def guess(d: float, cfg: EngineConfig = DEFAULT_CONFIG) -> float:
-    """Calculate probability of guessing correctly given item difficulty d.
-
-    g(d) = guess_coef * (1 - d)
-    """
+def _check_d(d: float, cfg: EngineConfig) -> None:
     if not isinstance(d, (int, float)) or isinstance(d, bool) or not math.isfinite(d):
         raise ValidationError(f"Invalid d: {d}")
     if not (cfg.d_min <= d <= cfg.d_max):
         raise ValidationError(f"Difficulty {d} outside [{cfg.d_min}, {cfg.d_max}]")
+
+
+def _class_param(d: float, cfg: EngineConfig, idx: int) -> float:
+    """B.1 profile value (1 = guess, 2 = slip) for d's D6 class (easy < 0.35 <= medium < 0.65)."""
+    name = "easy" if d < 0.35 else "medium" if d < 0.65 else "hard"
+    return next(c[idx] for c in cfg.class_params if c[0] == name)
+
+
+def guess(d: float, cfg: EngineConfig = DEFAULT_CONFIG) -> float:
+    """Calculate probability of guessing correctly given item difficulty d.
+
+    g(d) = guess_coef * (1 - d), or the profile's per-class guess when cfg.class_params is set.
+    """
+    _check_d(d, cfg)
+    if cfg.class_params is not None:
+        return _class_param(d, cfg, 1)
     return cfg.guess_coef * (1.0 - d)
 
 
 def slip(d: float, cfg: EngineConfig = DEFAULT_CONFIG) -> float:
     """Calculate probability of slipping given item difficulty d.
 
-    s(d) = slip_base + slip_coef * d
+    s(d) = slip_base + slip_coef * d, or the profile's per-class slip when cfg.class_params is set.
     """
-    if not isinstance(d, (int, float)) or isinstance(d, bool) or not math.isfinite(d):
-        raise ValidationError(f"Invalid d: {d}")
-    if not (cfg.d_min <= d <= cfg.d_max):
-        raise ValidationError(f"Difficulty {d} outside [{cfg.d_min}, {cfg.d_max}]")
+    _check_d(d, cfg)
+    if cfg.class_params is not None:
+        return _class_param(d, cfg, 2)
     return cfg.slip_base + cfg.slip_coef * d
 
 
@@ -62,8 +73,14 @@ def learn(p: float, T: float) -> float:
 def update_mastery(
     p: float, d: float, correct: bool, T: float, cfg: EngineConfig = DEFAULT_CONFIG
 ) -> float:
-    """Full BKT step: Bayesian observation update followed by learning transition."""
+    """Full BKT step: Bayesian observation update followed by learning transition.
+
+    O.3: with cfg.forget = F > 0 the transition is p'' = p'(1 - F) + (1 - p') T (BKT forgets).
+    """
     p_bayes = bayes_update(p, d, correct, cfg)
+    if cfg.forget > 0.0:
+        t_val = check_transition(T, "T")
+        return p_bayes * (1.0 - cfg.forget) + (1.0 - p_bayes) * t_val
     return learn(p_bayes, T)
 
 

@@ -14,13 +14,23 @@ export type SimulateOut = S["SimulateOut"];
 export type SimulateRequest = S["SimulateRequest"];
 export type Evaluation = S["EvaluationOut"];
 export type TraceRecord = Record<string, unknown>;
+export type Health = S["Health"];
+export type DraftOut = S["DraftOut"];
+export type PolicyPreview = S["PolicyPreviewOut"];
+export type Propose = S["ProposeOut"];
+export type Strategy = S["StrategyOut"];
 
-async function req<T>(path: string, body?: unknown): Promise<T> {
-  const res = await fetch(`/api${path}`, {
-    method: body === undefined ? "GET" : "POST",
-    headers: body === undefined ? undefined : { "Content-Type": "application/json" },
-    body: body === undefined ? undefined : JSON.stringify(body),
-  });
+async function req<T>(path: string, body?: unknown, method?: string): Promise<T> {
+  let res: Response;
+  try {
+    res = await fetch(`/api${path}`, {
+      method: method ?? (body === undefined ? "GET" : "POST"),
+      headers: body === undefined ? undefined : { "Content-Type": "application/json" },
+      body: body === undefined ? undefined : JSON.stringify(body),
+    });
+  } catch {
+    throw new Error("The API is not reachable. Start it with `make demo` (or `make demo-api`).");
+  }
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
     const d = (data as { detail?: unknown }).detail;
@@ -42,6 +52,17 @@ export const api = {
   simulate: (b: Partial<SimulateRequest> & Pick<SimulateRequest, "curriculum" | "goal">) =>
     req<SimulateOut>("/simulate", b),
   evaluation: () => req<Evaluation>("/evaluation"),
+  health: () => req<Health>("/health"),
+  policyPreview: (sid: string, policy: S["PolicyPreviewRequest"]["policy"]) =>
+    req<PolicyPreview>(`/sessions/${sid}/policy-preview`, { policy }),
+  propose: (sid: string, mode: S["ProposeRequest"]["mode"]) => req<Propose>(`/sessions/${sid}/propose-plan`, { mode }),
+  strategy: (sid: string) => req<Strategy>(`/sessions/${sid}/strategy`),
+  draft: (b: S["DraftRequest"]) => req<DraftOut>("/authoring/draft", b),
+  getDraft: (name: string) => req<DraftOut>(`/authoring/drafts/${encodeURIComponent(name)}`),
+  editDraft: (name: string, content: Record<string, Record<string, unknown>>) =>
+    req<DraftOut>(`/authoring/drafts/${encodeURIComponent(name)}`, { content }, "PUT"),
+  approve: (name: string, reviewer: string) =>
+    req<{ approved: boolean; reviewer: string; recorded: string[] }>("/authoring/approve", { name, reviewer }),
 };
 
 // Content entries follow data/content/README.md; absent for curricula without a content file.

@@ -242,6 +242,8 @@ class Plan:
     trace: tuple[dict[str, Any], ...] = ()
     # D42: when the goal can't be planned, a schedule toward the deepest reachable concept
     best_effort_days: tuple[PlanDay, ...] = ()
+    # W8 F.1: expected-projection deadline warning (informational; never changes the schedule)
+    feasibility_warning: Optional[str] = None
 
     def __post_init__(self):
         if not isinstance(self.status, PlanStatus):

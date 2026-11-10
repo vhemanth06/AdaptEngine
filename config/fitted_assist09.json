@@ -2,8 +2,8 @@
   "profile": "fitted_assist09",
   "source": "ASSISTments 2009-10 skill-builder (as.csv, original==1), multigs by D6 difficulty class, shared prior/learn across 81 skills",
   "source_results": "experiments/results/bkt_fit_assist09.json",
-  "code_hash": "e3e519c08e13ce39e4fbf1e530199abd9bac391232d1561f7d5e011b4aa69733",
-  "timestamp_utc": "2026-11-08T17:40:03.608532+00:00",
+  "code_hash": "f09fb8e2f6126c98c5a81cddf0a840a3936509111cbbbdb064fd2e8d5a881b66",
+  "timestamp_utc": "2026-11-09T21:53:30.644453+00:00",
   "caveat": "Fitted on middle-school MATHS data, not Python programming. Use for realistic ranges/shapes and as a calibration benchmark only; the D6 heuristic stays the engine default until held-out results on own learners favour this.",
   "ci95": {
     "prior": {

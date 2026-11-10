@@ -169,3 +169,37 @@ def paired_summary(a: Sequence[float], b: Sequence[float]) -> dict:
     """Mean of per-unit differences a - b with a paired bootstrap 95% CI."""
     d = [x - y for x, y in zip(a, b)]
     return {"diff": round(sum(d) / len(d), 4) if d else 0.0, "ci95": list(paired_bootstrap_ci(d))}
+
+
+def kaplan_meier(times: Sequence[float], events: Sequence[bool]) -> list[Tuple[float, float]]:
+    """Kaplan-Meier survival curve [(t, S(t)), ...] at each distinct event time (W8 A.3).
+
+    times[i] is the event time (events[i] True) or the censoring time (False). At tied times
+    events are counted before censorings (the usual convention).
+    """
+    n_at_risk = len(times)
+    s = 1.0
+    curve: list[Tuple[float, float]] = [(0.0, 1.0)]
+    for t in sorted(set(times)):
+        d = sum(1 for x, e in zip(times, events) if x == t and e)
+        if d:
+            s *= 1.0 - d / n_at_risk
+            curve.append((float(t), s))
+        n_at_risk -= sum(1 for x in times if x == t)
+    return curve
+
+
+def km_median(times: Sequence[float], events: Sequence[bool]) -> Optional[float]:
+    """Smallest time with S(t) <= 0.5; None if the curve never reaches 0.5 (censored median)."""
+    return next((t for t, s in kaplan_meier(times, events) if s <= 0.5), None)
+
+
+def km_rmst(times: Sequence[float], events: Sequence[bool], tau: float) -> float:
+    """Restricted mean time to event up to tau: the area under the KM curve on [0, tau]."""
+    area, prev_t, prev_s = 0.0, 0.0, 1.0
+    for t, s in kaplan_meier(times, events)[1:]:
+        if t >= tau:
+            break
+        area += (t - prev_t) * prev_s
+        prev_t, prev_s = t, s
+    return round(area + (tau - prev_t) * prev_s, 4)

@@ -41,6 +41,15 @@ class CustomBKT:
         return update_mastery(p, d, correct, transition, self.cfg)
 
 
+def make_model(cfg: EngineConfig = DEFAULT_CONFIG) -> "MasteryModel":
+    """O.1 (D59): the configured measurement model behind the MasteryModel interface."""
+    if cfg.mastery_model == "elo":
+        from .elo import EloModel
+
+        return EloModel(cfg)
+    return CustomBKT(cfg)
+
+
 def derive_class_params(cfg: EngineConfig = DEFAULT_CONFIG) -> dict[str, dict[str, float]]:
     """Derive discrete item class parameters from continuous heuristics at class-representative difficulties."""
     rep_d = {"easy": 0.20, "medium": 0.50, "hard": 0.80}

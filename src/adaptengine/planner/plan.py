@@ -1,5 +1,6 @@
+import math
 from dataclasses import replace
-from typing import Mapping, Sequence, Optional
+from typing import Any, Mapping, Sequence, Optional
 from ..core.config import EngineConfig, DEFAULT_CONFIG
 from ..core.errors import ValidationError, UnknownConceptError
 from ..core.validators import check_budget
@@ -24,25 +25,100 @@ def plan(
     model: Optional[MasteryModel] = None,
     cfg: EngineConfig = DEFAULT_CONFIG,
     workload_cache: Optional[WorkloadCache] = None,
+    policy: Any = None,
 ) -> Plan:
     """Plan toward ctx.goal (see _plan_goal). If the goal can't be planned (INFEASIBLE/UNKNOWN),
-    the verdict, shortfall and options are kept and best_effort_days is added (D42)."""
+    the verdict, shortfall and options are kept and best_effort_days is added (D42).
+
+    W8: C.3 horizon-aware strictness (cfg.horizon_aware_mastery) may tighten the mastery
+    criterion for this call; F.1 (cfg.feasibility_warning) attaches an expected-projection
+    warning; `policy` (J.1) re-ranks new-content candidates."""
+    head: list[dict] = []
+    if cfg.horizon_aware_mastery:
+        cfg, head = _strictness(graph, activities, state, ctx, done_ids, model, cfg, workload_cache)
     kw = dict(
         done_ids=done_ids,
         review_urgency=review_urgency,
         model=model,
         cfg=cfg,
         workload_cache=workload_cache,
+        policy=policy,
     )
     result = _plan_goal(graph, activities, state, ctx, **kw)
+    if head:
+        result = replace(result, trace=tuple(head) + result.trace)
+    if cfg.feasibility_warning:
+        result = replace(
+            result, feasibility_warning=_expected_warning(graph, activities, state, ctx, kw)
+        )
     if result.status == PlanStatus.FEASIBLE:
         return result
     days, trace = _best_effort(graph, activities, state, ctx, **kw)
     return replace(result, best_effort_days=days, trace=result.trace + tuple(trace))
 
 
+def _days_needed(workload, ctx) -> int:
+    minutes = sum(a.duration for acts in workload.values() for a in acts)
+    return math.ceil((minutes + ctx.minutes_used_today) / ctx.budget) if minutes else 0
+
+
+def _strictness(graph, activities, state, ctx, done_ids, model, cfg, cache):
+    """C.3 (D51): slack = 1 - days needed (optimistic workload) / days left. Above
+    cfg.strict_slack the two-part criterion with k = strict_k and H <= strict_max_entropy is used
+    for this plan; otherwise the configured criterion (W7 decisions when slack is small)."""
+    try:
+        workload, _, _ = compute_workload(
+            graph, activities, state, ctx.goal, done_ids=done_ids, model=model, cfg=cfg, cache=cache
+        )
+    except ContentInsufficientError:
+        return cfg, []
+    days_left = ctx.deadline_day - ctx.current_day + 1
+    slack = 1.0 - _days_needed(workload, ctx) / days_left if days_left > 0 else 0.0
+    if slack <= cfg.strict_slack:
+        return cfg, []
+    strict = replace(
+        cfg,
+        mastery_criterion="two_threshold",
+        k_responses=max(cfg.k_responses, cfg.strict_k),
+        certainty_max_entropy=min(cfg.certainty_max_entropy, cfg.strict_max_entropy),
+        horizon_aware_mastery=False,
+    )
+    rec = {
+        "decision": "MASTERY_CRITERION",
+        "reason": "HORIZON_AWARE_STRICT",
+        "slack": round(slack, 4),
+        "k_responses": strict.k_responses,
+        "max_entropy": strict.certainty_max_entropy,
+    }
+    return strict, [rec]
+
+
+def _expected_warning(graph, activities, state, ctx, kw) -> Optional[str]:
+    """F.1: the expected projection (sum of 1/P(correct)) is used for this warning only."""
+    exp_cfg = replace(kw["cfg"], projection_mode="expected")
+    try:
+        workload, _, _ = compute_workload(
+            graph,
+            activities,
+            state,
+            ctx.goal,
+            done_ids=kw["done_ids"],
+            model=kw["model"],
+            cfg=exp_cfg,
+        )
+    except ContentInsufficientError:
+        return None
+    need, left = _days_needed(workload, ctx), ctx.deadline_day - ctx.current_day + 1
+    if need <= left:
+        return None
+    return (
+        f"With realistic error rates the remaining work needs about {need} study days "
+        f"at {ctx.budget} min/day; {left} remain before the deadline."
+    )
+
+
 def _best_effort(
-    graph, activities, state, ctx, *, done_ids, review_urgency, model, cfg, workload_cache
+    graph, activities, state, ctx, *, done_ids, review_urgency, model, cfg, workload_cache, policy
 ):
     """D42: the deepest concept on the goal's path whose workload can be built is planned with the
     greedy scheduler and truncated at the deadline, so the learner keeps progressing."""
@@ -73,6 +149,8 @@ def _best_effort(
             state=state,
             activities=activities,
             review_urgency_override=review_urgency,
+            done_ids=done_ids,
+            policy=policy,
         )
         days = tuple(d for d in days if d.day <= ctx.deadline_day)
         if not days:
@@ -98,6 +176,7 @@ def _plan_goal(
     model: Optional[MasteryModel] = None,
     cfg: EngineConfig = DEFAULT_CONFIG,
     workload_cache: Optional[WorkloadCache] = None,
+    policy: Any = None,
 ) -> Plan:
     """Deterministic, time-budgeted path planner with feasibility oracle (M3).
 
@@ -144,6 +223,27 @@ def _plan_goal(
         )
 
     all_activities = [a for acts in workload.values() for a in acts]
+    greedy_kw = dict(
+        model=model,
+        cfg=cfg,
+        state=state,
+        activities=activities,
+        review_urgency_override=review_urgency,
+        done_ids=done_ids,
+        policy=policy,
+    )
+    if not all_activities and cfg.consolidation:
+        # C.1: every required concept is believed mastered; spend the remaining time verifying
+        days, trace = run_greedy_schedule(graph, {}, initial_projected_p, ctx, **greedy_kw)
+        if days:
+            return Plan(
+                status=PlanStatus.FEASIBLE,
+                days=days,
+                reason="CONSOLIDATION",
+                shortfall_days=0,
+                options=(),
+                trace=tuple(init_trace) + tuple(trace),
+            )
     if not all_activities:
         # All required concepts are already evidence-mastered
         return Plan(
@@ -167,19 +267,19 @@ def _plan_goal(
             trace=tuple(init_trace),
         )
 
+    # O.4 (D60): exact CP-SAT packing when configured and OR-Tools is installed
+    cpsat_note: list[dict] = []
+    if cfg.scheduler == "cpsat":
+        res = _cpsat_plan(graph, activities, workload, ctx, init_trace)
+        if isinstance(res, Plan):
+            return res
+        cpsat_note = [res]
+
     # 3. Run greedy day packing
     greedy_days, greedy_trace = run_greedy_schedule(
-        graph,
-        workload,
-        initial_projected_p,
-        ctx,
-        model=model,
-        cfg=cfg,
-        state=state,
-        activities=activities,
-        review_urgency_override=review_urgency,
+        graph, workload, initial_projected_p, ctx, **greedy_kw
     )
-    full_trace = list(init_trace) + list(greedy_trace)
+    full_trace = list(init_trace) + cpsat_note + list(greedy_trace)
 
     last_day = greedy_days[-1].day if greedy_days else ctx.current_day
     greedy_days_count = len(greedy_days)
@@ -312,6 +412,76 @@ def _plan_goal(
     )
 
 
+def _occurrence_tokens(workload, graph):
+    """Unique occurrence tokens per workload item and their precedence (shared by oracle/CP-SAT)."""
+    token_aid: dict[str, str] = {}
+    concept_tokens: dict[str, list[str]] = {}
+    for c, acts in workload.items():
+        for i, a in enumerate(acts):
+            tok = f"{a.activity_id}#{c}#{i}"
+            token_aid[tok] = a.activity_id
+            concept_tokens.setdefault(c, []).append(tok)
+    preds: dict[str, list[str]] = {t: [] for t in token_aid}
+    for toks in concept_tokens.values():
+        for i in range(len(toks) - 1):
+            preds[toks[i + 1]].append(toks[i])
+    for c, toks in concept_tokens.items():
+        for pred_c in graph.prerequisites(c):
+            if concept_tokens.get(pred_c):
+                preds[toks[0]].append(concept_tokens[pred_c][-1])
+    return token_aid, preds
+
+
+def _cpsat_plan(graph, activities, workload, ctx, init_trace):
+    """O.4: a FEASIBLE CP-SAT plan, or a trace note explaining why greedy + oracle is used."""
+    from . import cpsat
+
+    if not cpsat.available():
+        return {"decision": "SCHEDULER", "reason": "CPSAT_UNAVAILABLE_USING_GREEDY"}
+    token_aid, preds = _occurrence_tokens(workload, graph)
+    acts = [OracleActivity(t, activities[aid].duration) for t, aid in token_aid.items()]
+    status, assignment, info = cpsat.solve_cpsat(
+        acts,
+        preds,
+        ctx.budget,
+        ctx.deadline_day - ctx.current_day + 1,
+        used_first_day=ctx.minutes_used_today,
+    )
+    if status != PlanStatus.FEASIBLE or assignment is None:
+        return {"decision": "SCHEDULER", "reason": f"CPSAT_{status.value}_USING_GREEDY", **info}
+    days, trace = [], list(init_trace)
+    for i, toks in enumerate(assignment):
+        if not toks:
+            continue
+        aids = [token_aid[t] for t in toks]
+        d = ctx.current_day + i
+        days.append(
+            PlanDay(
+                day=d, activities=tuple(aids), duration=sum(activities[a].duration for a in aids)
+            )
+        )
+        for a in aids:
+            trace.append(
+                {
+                    "decision": "SELECTED",
+                    "activity_id": a,
+                    "target_concept": activities[a].target_concept,
+                    "day": d,
+                    "duration": activities[a].duration,
+                    "reason": "CPSAT_ASSIGNED",
+                }
+            )
+    trace.append({"decision": "SCHEDULER", "reason": "CPSAT_OPTIMAL_PACKING", **info})
+    return Plan(
+        status=PlanStatus.FEASIBLE,
+        days=tuple(days),
+        reason="CPSAT_ASSIGNMENT",
+        shortfall_days=0,
+        options=(),
+        trace=tuple(trace),
+    )
+
+
 def _supersede(greedy_trace) -> list:
     """Re-tag an abandoned greedy schedule's SELECTED/DEFERRED records (T1.4 / TC7.1)."""
     return [
@@ -346,5 +516,6 @@ def serialize_plan(plan: Plan, cfg: EngineConfig = DEFAULT_CONFIG) -> dict:
             {"day": d.day, "activities": list(d.activities), "duration": d.duration}
             for d in plan.best_effort_days
         ],
+        "feasibility_warning": plan.feasibility_warning,
         "trace": list(plan.trace),
     }

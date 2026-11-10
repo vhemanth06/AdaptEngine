@@ -107,3 +107,15 @@ def test_audit_plan_trace_coverage():
         ),
     )
     assert audit_plan_trace_coverage(plan_oracle) == 1.0
+
+
+def test_kaplan_meier_hand_computed():
+    from experiments.stats import kaplan_meier, km_median, km_rmst
+
+    t, e = [2, 3, 3, 5, 7], [True, True, False, True, False]
+    curve = kaplan_meier(t, e)
+    assert [(x, round(s, 6)) for x, s in curve] == [(0.0, 1.0), (2.0, 0.8), (3.0, 0.6), (5.0, 0.3)]
+    assert km_median(t, e) == 5.0
+    assert km_rmst(t, e, tau=6) == 4.3  # 2*1 + 1*0.8 + 2*0.6 + 1*0.3
+    assert km_median([4, 9], [False, False]) is None  # all censored: no median
+    assert km_rmst([4, 9], [False, False], tau=10) == 10.0

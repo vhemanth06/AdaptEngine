@@ -1,0 +1,116 @@
+{
+ "calibration_probe": {
+  "S0": {
+   "deadline_days": 8,
+   "false_mastery_rate": 0.393,
+   "goal_believed_mastered": 199,
+   "goal_truly_mastered": 132,
+   "mean_idle_days": 3.77,
+   "mean_minutes_used": 52.7,
+   "mean_true_goal_theta_at_first_declared": 0.735,
+   "minutes_available": 120,
+   "share_below_cutoff_at_first_declared": 0.342
+  },
+  "S1": {
+   "deadline_days": 8,
+   "false_mastery_rate": 0.5089,
+   "goal_believed_mastered": 189,
+   "goal_truly_mastered": 74,
+   "mean_idle_days": 3.29,
+   "mean_minutes_used": 59.8,
+   "mean_true_goal_theta_at_first_declared": 0.627,
+   "minutes_available": 120,
+   "share_below_cutoff_at_first_declared": 0.614
+  }
+ },
+ "metadata": {
+  "budget": 15,
+  "code_hash": "c3cbb8f066c6cc843e611d19149d7f543c91c65afe652df6181b4fa22ca9f0a5",
+  "curriculum": "4-node",
+  "seeds": [
+   100,
+   299
+  ],
+  "timestamp_utc": "2026-11-09T20:32:42.766714+00:00"
+ },
+ "static_loop": {
+  "S0_4d": {
+   "adapt_goal_mastery": 0.495,
+   "all_required_adapt": 0.06,
+   "all_required_static_loop": 0.08,
+   "ci95": [
+    -0.05,
+    0.075
+   ],
+   "delta": 0.015,
+   "mean_minutes_adapt": 45.2,
+   "static_loop_goal_mastery": 0.48,
+   "violations_adapt": 0,
+   "violations_static_loop": 1815
+  },
+  "S0_8d": {
+   "adapt_goal_mastery": 0.66,
+   "all_required_adapt": 0.11,
+   "all_required_static_loop": 0.78,
+   "ci95": [
+    -0.34,
+    -0.205
+   ],
+   "delta": -0.275,
+   "mean_minutes_adapt": 52.7,
+   "static_loop_goal_mastery": 0.935,
+   "violations_adapt": 0,
+   "violations_static_loop": 2992
+  },
+  "S1_4d": {
+   "adapt_goal_mastery": 0.33,
+   "all_required_adapt": 0.04,
+   "all_required_static_loop": 0.025,
+   "ci95": [
+    -0.04,
+    0.025
+   ],
+   "delta": -0.005,
+   "mean_minutes_adapt": 46.7,
+   "static_loop_goal_mastery": 0.335,
+   "violations_adapt": 0,
+   "violations_static_loop": 1923
+  },
+  "S1_8d": {
+   "adapt_goal_mastery": 0.37,
+   "all_required_adapt": 0.06,
+   "all_required_static_loop": 0.29,
+   "ci95": [
+    -0.125,
+    -0.04
+   ],
+   "delta": -0.08,
+   "mean_minutes_adapt": 59.8,
+   "static_loop_goal_mastery": 0.45,
+   "violations_adapt": 0,
+   "violations_static_loop": 3556
+  }
+ },
+ "sweep_best": {
+  "S1_8d": {
+   "adapt_goal_mastery": 0.535,
+   "all_required_adapt": 0.305,
+   "all_required_static_loop": 0.29,
+   "ci95": [
+    0.03,
+    0.14
+   ],
+   "delta": 0.085,
+   "mean_minutes_adapt": 95.8,
+   "static_loop_goal_mastery": 0.45,
+   "violations_adapt": 0,
+   "violations_static_loop": 3556
+  },
+  "config": {
+   "guess_coef": 0.55,
+   "k_responses": 3,
+   "t_exercise": 0.02,
+   "t_lesson": 0.05
+  }
+ }
+}

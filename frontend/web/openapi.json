@@ -2,7 +2,7 @@
  "openapi": "3.1.0",
  "info": {
   "title": "AdaptEngine demo API",
-  "version": "0.1.0"
+  "version": "1.0.0"
  },
  "paths": {
   "/api/curricula": {
@@ -400,6 +400,364 @@
      }
     }
    }
+  },
+  "/api/health": {
+   "get": {
+    "summary": "Health",
+    "operationId": "health_api_health_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Health"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/sessions/{sid}/policy-preview": {
+   "post": {
+    "summary": "Policy Preview",
+    "description": "Policy Lab: today's slice under a ranking policy, without changing the session.",
+    "operationId": "policy_preview_api_sessions__sid__policy_preview_post",
+    "parameters": [
+     {
+      "name": "sid",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Sid"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PolicyPreviewRequest"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/PolicyPreviewOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/sessions/{sid}/propose-plan": {
+   "post": {
+    "summary": "Propose",
+    "description": "A1 plan proposer: the engine validates the agent's plan; the session plan is unchanged.",
+    "operationId": "propose_api_sessions__sid__propose_plan_post",
+    "parameters": [
+     {
+      "name": "sid",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Sid"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ProposeRequest"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ProposeOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/sessions/{sid}/strategy": {
+   "get": {
+    "summary": "Strategy",
+    "description": "A3 orchestrator: engine-generated closed option set and the chosen strategy.",
+    "operationId": "strategy_api_sessions__sid__strategy_get",
+    "parameters": [
+     {
+      "name": "sid",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Sid"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/StrategyOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/authoring/draft": {
+   "post": {
+    "summary": "Authoring Draft",
+    "operationId": "authoring_draft_api_authoring_draft_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DraftRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/DraftOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/authoring/drafts/{name}": {
+   "get": {
+    "summary": "Authoring Get",
+    "operationId": "authoring_get_api_authoring_drafts__name__get",
+    "parameters": [
+     {
+      "name": "name",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Name"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/DraftOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "put": {
+    "summary": "Authoring Edit",
+    "description": "Inline edit of the draft's content entries (activity_id -> entry); re-validated.",
+    "operationId": "authoring_edit_api_authoring_drafts__name__put",
+    "parameters": [
+     {
+      "name": "name",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Name"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DraftEdit"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/DraftOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/authoring/validate": {
+   "post": {
+    "summary": "Authoring Validate",
+    "operationId": "authoring_validate_api_authoring_validate_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DraftName"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/DraftOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/authoring/approve": {
+   "post": {
+    "summary": "Authoring Approve",
+    "description": "Human review gate (D54): only a named human can promote a draft (scripts/record_review.py).",
+    "operationId": "authoring_approve_api_authoring_approve_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ApproveRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
   }
  },
  "components": {
@@ -446,6 +804,26 @@
      "duration"
     ],
     "title": "ActivityInfo"
+   },
+   "ApproveRequest": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_]{0,40}$",
+      "title": "Name"
+     },
+     "reviewer": {
+      "type": "string",
+      "maxLength": 80,
+      "title": "Reviewer"
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "reviewer"
+    ],
+    "title": "ApproveRequest"
    },
    "ConceptInfo": {
     "properties": {
@@ -660,6 +1038,12 @@
       "maximum": 600.0,
       "minimum": 1.0,
       "title": "Budget"
+     },
+     "profile": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.\\-]{1,64}$",
+      "title": "Profile",
+      "default": "w7_default"
      }
     },
     "type": "object",
@@ -930,6 +1314,127 @@
     ],
     "title": "DiagnosticOut"
    },
+   "DraftEdit": {
+    "properties": {
+     "content": {
+      "additionalProperties": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "object",
+      "title": "Content"
+     }
+    },
+    "type": "object",
+    "required": [
+     "content"
+    ],
+    "title": "DraftEdit"
+   },
+   "DraftName": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_]{0,40}$",
+      "title": "Name"
+     }
+    },
+    "type": "object",
+    "required": [
+     "name"
+    ],
+    "title": "DraftName"
+   },
+   "DraftOut": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "meta": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Meta"
+     },
+     "curriculum": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Curriculum"
+     },
+     "activities": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Activities"
+     },
+     "content": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Content"
+     },
+     "report": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Report"
+     },
+     "attempts": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array",
+      "title": "Attempts",
+      "default": []
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "meta",
+     "curriculum",
+     "activities",
+     "content",
+     "report"
+    ],
+    "title": "DraftOut"
+   },
+   "DraftRequest": {
+    "properties": {
+     "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_]{0,40}$",
+      "title": "Name"
+     },
+     "topic": {
+      "type": "string",
+      "maxLength": 120,
+      "minLength": 3,
+      "title": "Topic"
+     },
+     "n_concepts": {
+      "type": "integer",
+      "maximum": 8.0,
+      "minimum": 2.0,
+      "title": "N Concepts",
+      "default": 3
+     },
+     "provider": {
+      "type": "string",
+      "enum": [
+       "stub",
+       "anthropic",
+       "ollama"
+      ],
+      "title": "Provider",
+      "default": "stub"
+     }
+    },
+    "type": "object",
+    "required": [
+     "name",
+     "topic"
+    ],
+    "title": "DraftRequest"
+   },
    "EvaluationFile": {
     "properties": {
      "name": {
@@ -1168,6 +1673,64 @@
     "type": "object",
     "title": "HTTPValidationError"
    },
+   "Health": {
+    "properties": {
+     "status": {
+      "type": "string",
+      "title": "Status"
+     },
+     "engine_version": {
+      "type": "string",
+      "title": "Engine Version"
+     },
+     "code_hash": {
+      "type": "string",
+      "title": "Code Hash"
+     },
+     "profiles": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Profiles"
+     },
+     "default_profile": {
+      "type": "string",
+      "title": "Default Profile"
+     },
+     "flags": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Flags"
+     },
+     "web_build": {
+      "type": "string",
+      "title": "Web Build"
+     },
+     "content_reviewer": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Content Reviewer"
+     }
+    },
+    "type": "object",
+    "required": [
+     "status",
+     "engine_version",
+     "code_hash",
+     "profiles",
+     "default_profile",
+     "flags",
+     "web_build"
+    ],
+    "title": "Health"
+   },
    "PlanChange": {
     "properties": {
      "activity_id": {
@@ -1280,6 +1843,17 @@
       "type": "array",
       "title": "Best Effort Days"
      },
+     "feasibility_warning": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Feasibility Warning"
+     },
      "trace": {
       "items": {
        "additionalProperties": true,
@@ -1345,6 +1919,141 @@
     "type": "object",
     "title": "PlanRequest",
     "description": "Optional overrides of the session's base context (Setup screen)."
+   },
+   "PolicyPreviewOut": {
+    "properties": {
+     "policy": {
+      "type": "string",
+      "title": "Policy"
+     },
+     "today": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/PlanDayOut"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "days": {
+      "items": {
+       "$ref": "#/components/schemas/PlanDayOut"
+      },
+      "type": "array",
+      "title": "Days"
+     },
+     "decisions": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array",
+      "title": "Decisions"
+     },
+     "agent_label": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Agent Label"
+     }
+    },
+    "type": "object",
+    "required": [
+     "policy",
+     "days",
+     "decisions"
+    ],
+    "title": "PolicyPreviewOut"
+   },
+   "PolicyPreviewRequest": {
+    "properties": {
+     "policy": {
+      "type": "string",
+      "enum": [
+       "deterministic",
+       "bandit_frozen",
+       "bandit_updating",
+       "random",
+       "agent",
+       "agent_bad"
+      ],
+      "title": "Policy",
+      "default": "deterministic"
+     }
+    },
+    "type": "object",
+    "title": "PolicyPreviewRequest"
+   },
+   "ProposeOut": {
+    "properties": {
+     "accepted": {
+      "type": "boolean",
+      "title": "Accepted"
+     },
+     "violations": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array",
+      "title": "Violations"
+     },
+     "rationale": {
+      "type": "string",
+      "title": "Rationale"
+     },
+     "proposed_days": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array",
+      "title": "Proposed Days"
+     },
+     "reference_days": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array",
+      "title": "Reference Days"
+     },
+     "agent_label": {
+      "type": "string",
+      "title": "Agent Label"
+     }
+    },
+    "type": "object",
+    "required": [
+     "accepted",
+     "violations",
+     "rationale",
+     "proposed_days",
+     "reference_days",
+     "agent_label"
+    ],
+    "title": "ProposeOut"
+   },
+   "ProposeRequest": {
+    "properties": {
+     "mode": {
+      "type": "string",
+      "enum": [
+       "agent",
+       "agent_bad"
+      ],
+      "title": "Mode",
+      "default": "agent"
+     }
+    },
+    "type": "object",
+    "title": "ProposeRequest"
    },
    "SessionOut": {
     "properties": {
@@ -1416,6 +2125,22 @@
       },
       "type": "array",
       "title": "Events"
+     },
+     "profile": {
+      "type": "string",
+      "title": "Profile",
+      "default": "w7_default"
+     },
+     "feasibility_warning": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Feasibility Warning"
      }
     },
     "type": "object",
@@ -1482,17 +2207,64 @@
       "type": "integer",
       "title": "Budget Violations"
      },
-     "idle_days": {
+     "idle_days_unmastered": {
       "type": "integer",
-      "title": "Idle Days"
+      "title": "Idle Days Unmastered"
+     },
+     "idle_days_total": {
+      "type": "integer",
+      "title": "Idle Days Total"
      },
      "minutes_used": {
       "type": "integer",
       "title": "Minutes Used"
      },
+     "minutes_available": {
+      "type": "integer",
+      "title": "Minutes Available"
+     },
+     "minute_utilisation": {
+      "type": "number",
+      "title": "Minute Utilisation"
+     },
+     "believed_mastered": {
+      "type": "integer",
+      "title": "Believed Mastered"
+     },
+     "false_mastered": {
+      "type": "integer",
+      "title": "False Mastered"
+     },
      "total_activities_completed": {
       "type": "integer",
       "title": "Total Activities Completed"
+     },
+     "final_p": {
+      "additionalProperties": {
+       "type": "number"
+      },
+      "type": "object",
+      "title": "Final P",
+      "default": {}
+     },
+     "final_theta": {
+      "additionalProperties": {
+       "type": "number"
+      },
+      "type": "object",
+      "title": "Final Theta",
+      "default": {}
+     },
+     "goal_theta_by_minutes": {
+      "items": {
+       "items": {
+        "type": "number"
+       },
+       "type": "array"
+      },
+      "type": "array",
+      "title": "Goal Theta By Minutes",
+      "default": []
      }
     },
     "type": "object",
@@ -1509,8 +2281,13 @@
      "plan_prereq_violations",
      "executed_prereq_violations",
      "budget_violations",
-     "idle_days",
+     "idle_days_unmastered",
+     "idle_days_total",
      "minutes_used",
+     "minutes_available",
+     "minute_utilisation",
+     "believed_mastered",
+     "false_mastered",
      "total_activities_completed"
     ],
     "title": "SimEpisode"
@@ -1579,7 +2356,11 @@
        "adapt",
        "no_review",
        "no_replan",
-       "static"
+       "static",
+       "static_loop",
+       "random_eligible",
+       "adapt_final",
+       "adapt_final_dx"
       ],
       "title": "Arm",
       "default": "adapt"
@@ -1590,7 +2371,9 @@
        "calm",
        "missed_day",
        "budget_drop",
-       "deadline_cut"
+       "deadline_cut",
+       "missed_2days",
+       "forgetting_21"
       ],
       "title": "Scenario",
       "default": "missed_day"
@@ -1605,6 +2388,31 @@
       ],
       "title": "Profile",
       "default": "nominal"
+     },
+     "world": {
+      "type": "string",
+      "enum": [
+       "S0",
+       "S1",
+       "S2",
+       "S3",
+       "S4"
+      ],
+      "title": "World",
+      "default": "S0"
+     },
+     "horizon": {
+      "anyOf": [
+       {
+        "type": "integer",
+        "maximum": 60.0,
+        "minimum": 3.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Horizon"
      },
      "seed": {
       "type": "integer",
@@ -1627,6 +2435,49 @@
      "goal"
     ],
     "title": "SimulateRequest"
+   },
+   "StrategyOut": {
+    "properties": {
+     "options": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array",
+      "title": "Options"
+     },
+     "default": {
+      "type": "string",
+      "title": "Default"
+     },
+     "choice": {
+      "type": "string",
+      "title": "Choice"
+     },
+     "source": {
+      "type": "string",
+      "title": "Source"
+     },
+     "rationale": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Rationale"
+     }
+    },
+    "type": "object",
+    "required": [
+     "options",
+     "default",
+     "choice",
+     "source"
+    ],
+    "title": "StrategyOut"
    },
    "TraceOut": {
     "properties": {

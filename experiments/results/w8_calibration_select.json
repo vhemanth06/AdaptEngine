@@ -1,0 +1,590 @@
+{
+ "candidates": {
+  "C0": {
+   "cells": {
+    "S0|4-node": {
+     "auc": 0.4758,
+     "brier": 0.2763,
+     "executed_violations": 0,
+     "goal_mastery": 0.995,
+     "utilisation": 0.926,
+     "vs_static_loop": {
+      "ci95": [
+       -0.015,
+       0.0
+      ],
+      "diff": -0.005
+     }
+    },
+    "S0|8-node": {
+     "auc": 0.4352,
+     "brier": 0.2717,
+     "executed_violations": 0,
+     "goal_mastery": 0.895,
+     "utilisation": 0.9235,
+     "vs_static_loop": {
+      "ci95": [
+       -0.11,
+       -0.005
+      ],
+      "diff": -0.055
+     }
+    },
+    "S1|4-node": {
+     "auc": 0.4819,
+     "brier": 0.2832,
+     "executed_violations": 0,
+     "goal_mastery": 0.775,
+     "utilisation": 0.925,
+     "vs_static_loop": {
+      "ci95": [
+       -0.02,
+       0.05
+      ],
+      "diff": 0.015
+     }
+    },
+    "S1|8-node": {
+     "auc": 0.4724,
+     "brier": 0.2711,
+     "executed_violations": 0,
+     "goal_mastery": 0.53,
+     "utilisation": 0.9173,
+     "vs_static_loop": {
+      "ci95": [
+       -0.015,
+       0.085
+      ],
+      "diff": 0.035
+     }
+    },
+    "S4|4-node": {
+     "auc": 0.6512,
+     "brier": 0.2029,
+     "executed_violations": 0,
+     "goal_mastery": 0.99,
+     "utilisation": 0.9199,
+     "vs_static_loop": {
+      "ci95": [
+       0.085,
+       0.18
+      ],
+      "diff": 0.13
+     }
+    },
+    "S4|8-node": {
+     "auc": 0.6826,
+     "brier": 0.2212,
+     "executed_violations": 0,
+     "goal_mastery": 0.77,
+     "utilisation": 0.909,
+     "vs_static_loop": {
+      "ci95": [
+       0.015,
+       0.155
+      ],
+      "diff": 0.085
+     }
+    }
+   },
+   "overrides": {
+    "k_responses": 2,
+    "theta": 0.85
+   },
+   "primary_mean_brier": 0.2544,
+   "profile": "w7_default",
+   "secondary_mean_diff_vs_static_loop": 0.03417
+  },
+  "F1": {
+   "cells": {
+    "S0|4-node": {
+     "auc": 0.6183,
+     "brier": 0.2283,
+     "executed_violations": 0,
+     "goal_mastery": 1.0,
+     "utilisation": 0.9461,
+     "vs_static_loop": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "diff": 0.0
+     }
+    },
+    "S0|8-node": {
+     "auc": 0.6517,
+     "brier": 0.2167,
+     "executed_violations": 0,
+     "goal_mastery": 0.93,
+     "utilisation": 0.9524,
+     "vs_static_loop": {
+      "ci95": [
+       -0.07,
+       0.03
+      ],
+      "diff": -0.02
+     }
+    },
+    "S1|4-node": {
+     "auc": 0.6284,
+     "brier": 0.2312,
+     "executed_violations": 0,
+     "goal_mastery": 0.83,
+     "utilisation": 0.9417,
+     "vs_static_loop": {
+      "ci95": [
+       0.025,
+       0.115
+      ],
+      "diff": 0.07
+     }
+    },
+    "S1|8-node": {
+     "auc": 0.6539,
+     "brier": 0.2229,
+     "executed_violations": 0,
+     "goal_mastery": 0.555,
+     "utilisation": 0.9458,
+     "vs_static_loop": {
+      "ci95": [
+       0.01,
+       0.115
+      ],
+      "diff": 0.06
+     }
+    },
+    "S4|4-node": {
+     "auc": 0.651,
+     "brier": 0.2027,
+     "executed_violations": 0,
+     "goal_mastery": 0.99,
+     "utilisation": 0.9212,
+     "vs_static_loop": {
+      "ci95": [
+       0.085,
+       0.18
+      ],
+      "diff": 0.13
+     }
+    },
+    "S4|8-node": {
+     "auc": 0.6873,
+     "brier": 0.2198,
+     "executed_violations": 0,
+     "goal_mastery": 0.77,
+     "utilisation": 0.9111,
+     "vs_static_loop": {
+      "ci95": [
+       0.015,
+       0.155
+      ],
+      "diff": 0.085
+     }
+    }
+   },
+   "overrides": {
+    "k_responses": 2,
+    "theta": 0.85
+   },
+   "primary_mean_brier": 0.22027,
+   "profile": "fitted",
+   "secondary_mean_diff_vs_static_loop": 0.05417
+  },
+  "F2": {
+   "cells": {
+    "S0|4-node": {
+     "auc": 0.6183,
+     "brier": 0.2283,
+     "executed_violations": 0,
+     "goal_mastery": 1.0,
+     "utilisation": 0.9461,
+     "vs_static_loop": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "diff": 0.0
+     }
+    },
+    "S0|8-node": {
+     "auc": 0.6517,
+     "brier": 0.2167,
+     "executed_violations": 0,
+     "goal_mastery": 0.93,
+     "utilisation": 0.9524,
+     "vs_static_loop": {
+      "ci95": [
+       -0.07,
+       0.03
+      ],
+      "diff": -0.02
+     }
+    },
+    "S1|4-node": {
+     "auc": 0.6284,
+     "brier": 0.2312,
+     "executed_violations": 0,
+     "goal_mastery": 0.83,
+     "utilisation": 0.9417,
+     "vs_static_loop": {
+      "ci95": [
+       0.025,
+       0.115
+      ],
+      "diff": 0.07
+     }
+    },
+    "S1|8-node": {
+     "auc": 0.6539,
+     "brier": 0.2229,
+     "executed_violations": 0,
+     "goal_mastery": 0.555,
+     "utilisation": 0.9458,
+     "vs_static_loop": {
+      "ci95": [
+       0.01,
+       0.115
+      ],
+      "diff": 0.06
+     }
+    },
+    "S4|4-node": {
+     "auc": 0.6506,
+     "brier": 0.2027,
+     "executed_violations": 0,
+     "goal_mastery": 0.99,
+     "utilisation": 0.9229,
+     "vs_static_loop": {
+      "ci95": [
+       0.085,
+       0.18
+      ],
+      "diff": 0.13
+     }
+    },
+    "S4|8-node": {
+     "auc": 0.6851,
+     "brier": 0.2196,
+     "executed_violations": 0,
+     "goal_mastery": 0.755,
+     "utilisation": 0.9189,
+     "vs_static_loop": {
+      "ci95": [
+       0.0,
+       0.145
+      ],
+      "diff": 0.07
+     }
+    }
+   },
+   "overrides": {
+    "k_responses": 3,
+    "theta": 0.85
+   },
+   "primary_mean_brier": 0.22023,
+   "profile": "fitted",
+   "secondary_mean_diff_vs_static_loop": 0.05167
+  },
+  "F3": {
+   "cells": {
+    "S0|4-node": {
+     "auc": 0.6376,
+     "brier": 0.2178,
+     "executed_violations": 0,
+     "goal_mastery": 1.0,
+     "utilisation": 0.9479,
+     "vs_static_loop": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "diff": 0.0
+     }
+    },
+    "S0|8-node": {
+     "auc": 0.6584,
+     "brier": 0.2061,
+     "executed_violations": 0,
+     "goal_mastery": 0.695,
+     "utilisation": 0.9533,
+     "vs_static_loop": {
+      "ci95": [
+       -0.325,
+       -0.19
+      ],
+      "diff": -0.255
+     }
+    },
+    "S1|4-node": {
+     "auc": 0.6446,
+     "brier": 0.2204,
+     "executed_violations": 0,
+     "goal_mastery": 0.945,
+     "utilisation": 0.9462,
+     "vs_static_loop": {
+      "ci95": [
+       0.13,
+       0.24
+      ],
+      "diff": 0.185
+     }
+    },
+    "S1|8-node": {
+     "auc": 0.6593,
+     "brier": 0.2135,
+     "executed_violations": 0,
+     "goal_mastery": 0.505,
+     "utilisation": 0.9501,
+     "vs_static_loop": {
+      "ci95": [
+       -0.055,
+       0.075
+      ],
+      "diff": 0.01
+     }
+    },
+    "S4|4-node": {
+     "auc": 0.65,
+     "brier": 0.2006,
+     "executed_violations": 0,
+     "goal_mastery": 0.985,
+     "utilisation": 0.9297,
+     "vs_static_loop": {
+      "ci95": [
+       0.08,
+       0.17
+      ],
+      "diff": 0.125
+     }
+    },
+    "S4|8-node": {
+     "auc": 0.6886,
+     "brier": 0.217,
+     "executed_violations": 0,
+     "goal_mastery": 0.675,
+     "utilisation": 0.9287,
+     "vs_static_loop": {
+      "ci95": [
+       -0.085,
+       0.065
+      ],
+      "diff": -0.01
+     }
+    }
+   },
+   "overrides": {
+    "k_responses": 2,
+    "theta": 0.95
+   },
+   "primary_mean_brier": 0.21257,
+   "profile": "fitted",
+   "secondary_mean_diff_vs_static_loop": 0.00917
+  },
+  "F4": {
+   "cells": {
+    "S0|4-node": {
+     "auc": 0.6376,
+     "brier": 0.2178,
+     "executed_violations": 0,
+     "goal_mastery": 1.0,
+     "utilisation": 0.9479,
+     "vs_static_loop": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "diff": 0.0
+     }
+    },
+    "S0|8-node": {
+     "auc": 0.6584,
+     "brier": 0.2061,
+     "executed_violations": 0,
+     "goal_mastery": 0.695,
+     "utilisation": 0.9533,
+     "vs_static_loop": {
+      "ci95": [
+       -0.325,
+       -0.19
+      ],
+      "diff": -0.255
+     }
+    },
+    "S1|4-node": {
+     "auc": 0.6446,
+     "brier": 0.2204,
+     "executed_violations": 0,
+     "goal_mastery": 0.945,
+     "utilisation": 0.9462,
+     "vs_static_loop": {
+      "ci95": [
+       0.13,
+       0.24
+      ],
+      "diff": 0.185
+     }
+    },
+    "S1|8-node": {
+     "auc": 0.6593,
+     "brier": 0.2135,
+     "executed_violations": 0,
+     "goal_mastery": 0.505,
+     "utilisation": 0.9501,
+     "vs_static_loop": {
+      "ci95": [
+       -0.055,
+       0.075
+      ],
+      "diff": 0.01
+     }
+    },
+    "S4|4-node": {
+     "auc": 0.65,
+     "brier": 0.2006,
+     "executed_violations": 0,
+     "goal_mastery": 0.985,
+     "utilisation": 0.9297,
+     "vs_static_loop": {
+      "ci95": [
+       0.08,
+       0.17
+      ],
+      "diff": 0.125
+     }
+    },
+    "S4|8-node": {
+     "auc": 0.6886,
+     "brier": 0.217,
+     "executed_violations": 0,
+     "goal_mastery": 0.675,
+     "utilisation": 0.9287,
+     "vs_static_loop": {
+      "ci95": [
+       -0.085,
+       0.065
+      ],
+      "diff": -0.01
+     }
+    }
+   },
+   "overrides": {
+    "k_responses": 3,
+    "theta": 0.95
+   },
+   "primary_mean_brier": 0.21257,
+   "profile": "fitted",
+   "secondary_mean_diff_vs_static_loop": 0.00917
+  },
+  "F5": {
+   "cells": {
+    "S0|4-node": {
+     "auc": 0.6344,
+     "brier": 0.22,
+     "executed_violations": 0,
+     "goal_mastery": 1.0,
+     "utilisation": 0.946,
+     "vs_static_loop": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "diff": 0.0
+     }
+    },
+    "S0|8-node": {
+     "auc": 0.6566,
+     "brier": 0.2091,
+     "executed_violations": 0,
+     "goal_mastery": 0.87,
+     "utilisation": 0.9508,
+     "vs_static_loop": {
+      "ci95": [
+       -0.13,
+       -0.03
+      ],
+      "diff": -0.08
+     }
+    },
+    "S1|4-node": {
+     "auc": 0.6403,
+     "brier": 0.2233,
+     "executed_violations": 0,
+     "goal_mastery": 0.94,
+     "utilisation": 0.947,
+     "vs_static_loop": {
+      "ci95": [
+       0.13,
+       0.235
+      ],
+      "diff": 0.18
+     }
+    },
+    "S1|8-node": {
+     "auc": 0.657,
+     "brier": 0.2165,
+     "executed_violations": 0,
+     "goal_mastery": 0.565,
+     "utilisation": 0.9502,
+     "vs_static_loop": {
+      "ci95": [
+       0.015,
+       0.13
+      ],
+      "diff": 0.07
+     }
+    },
+    "S4|4-node": {
+     "auc": 0.651,
+     "brier": 0.2009,
+     "executed_violations": 0,
+     "goal_mastery": 0.985,
+     "utilisation": 0.9284,
+     "vs_static_loop": {
+      "ci95": [
+       0.08,
+       0.17
+      ],
+      "diff": 0.125
+     }
+    },
+    "S4|8-node": {
+     "auc": 0.689,
+     "brier": 0.2175,
+     "executed_violations": 0,
+     "goal_mastery": 0.71,
+     "utilisation": 0.9267,
+     "vs_static_loop": {
+      "ci95": [
+       -0.05,
+       0.1
+      ],
+      "diff": 0.025
+     }
+    }
+   },
+   "overrides": {
+    "horizon_aware_mastery": true,
+    "k_responses": 2,
+    "theta": 0.85
+   },
+   "primary_mean_brier": 0.21455,
+   "profile": "fitted",
+   "secondary_mean_diff_vs_static_loop": 0.05333
+  }
+ },
+ "metadata": {
+  "code_hash": "f09fb8e2f6126c98c5a81cddf0a840a3936509111cbbbdb064fd2e8d5a881b66",
+  "preregistration": "docs/preregistration/FINAL_A5_2026-11-10.md \u00a73",
+  "runtime_s": 129.7,
+  "seeds": "even 4000-4398",
+  "timestamp_utc": "2026-11-09T21:03:40.414859+00:00"
+ },
+ "min_primary": 0.21257,
+ "rule": "min mean in-loop Brier; within 0.002 -> max mean paired goal-mastery diff vs static_loop; then table order",
+ "tied_within_margin": [
+  "F3",
+  "F4",
+  "F5"
+ ],
+ "winner": "F5"
+}

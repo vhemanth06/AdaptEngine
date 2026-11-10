@@ -1,0 +1,54 @@
+{
+  "code_hash": "f09fb8e2f6126c98c5a81cddf0a840a3936509111cbbbdb064fd2e8d5a881b66",
+  "repeats": 20,
+  "results": {
+    "4-node": {
+      "frontier_replan_ms": [
+        2.117,
+        0.1
+      ],
+      "full_plan_ms": [
+        2.181,
+        0.067
+      ]
+    },
+    "8-node": {
+      "frontier_replan_ms": [
+        3.626,
+        0.253
+      ],
+      "full_plan_ms": [
+        3.683,
+        0.199
+      ]
+    },
+    "synth-20": {
+      "frontier_replan_ms": [
+        8.853,
+        0.295
+      ],
+      "full_plan_ms": [
+        9.133,
+        0.334
+      ]
+    },
+    "synth-50": {
+      "frontier_replan_ms": [
+        28.24,
+        0.64
+      ],
+      "full_plan_ms": [
+        28.668,
+        0.534
+      ]
+    },
+    "synth-50_oracle_b10_d58": {
+      "plan_ms": [
+        11.546,
+        0.349
+      ],
+      "reason": "ORACLE_ASSIGNMENT"
+    }
+  },
+  "timestamp_utc": "2026-11-09T21:53:27.180714+00:00"
+}

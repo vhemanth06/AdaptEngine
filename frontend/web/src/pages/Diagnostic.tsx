@@ -21,6 +21,14 @@ export default function Diagnostic(ctx: Ctx) {
   const entry = item ? contentOf(cur, item.activity_id) : undefined;
   const closed = !!session?.events.length;
 
+  // E.2 / D52: the diagnostic adds little decision value in the held-out grid, so it is optional
+  const skip = useMutation({
+    mutationFn: () => api.plan(sid!, {}),
+    onSuccess: (s) => {
+      setSession(s);
+      go("plan");
+    },
+  });
   const answer = useMutation({
     mutationFn: (b: { choice?: number; correct?: boolean }) => api.answer(sid!, { activity_id: item!.activity_id, ...b }),
     onSuccess: setSession,
@@ -42,6 +50,17 @@ export default function Diagnostic(ctx: Ctx) {
       <Card title={diag.done ? "Diagnostic finished" : `Question ${diag.items.length + 1}`} testId="diag-question">
         {closed && !diag.done && <p>The diagnostic is closed because study has started.</p>}
         {item && !closed && (
+          <div className="mb-3 flex flex-wrap items-center gap-3 text-sm text-[var(--text-muted)]">
+            <span className="tabular">Item {diag.items.length + 1} of ≤ 6</span>
+            <div className="h-1.5 flex-1 rounded-full bg-[var(--surface-3)]">
+              <div className="h-1.5 rounded-full bg-[var(--accent)] transition-all" style={{ width: `${Math.min(100, (diag.items.length / 6) * 100)}%` }} />
+            </div>
+            <Button size="sm" kind="ghost" testId="skip-diagnostic" onClick={() => skip.mutate()} disabled={skip.isPending}>
+              Skip → plan from the prior
+            </Button>
+          </div>
+        )}
+        {item && !closed && (
           <div className="space-y-4">
             <p className="text-slate-600">
               Concept <b>{conceptName(cur, item.concept_id)}</b> · item <code data-testid="diag-item-id">{item.activity_id}</code> (chosen by the
@@ -56,9 +75,9 @@ export default function Diagnostic(ctx: Ctx) {
                       <button
                         type="button"
                         onClick={() => onDigit(i)}
-                        className="w-full rounded-lg border border-slate-400 bg-white px-4 py-2 text-left hover:bg-slate-100"
+                        className="w-full rounded-[var(--radius)] border border-[var(--border-strong)] bg-[var(--surface)] px-4 py-2 text-left transition-colors hover:border-[var(--accent)] hover:bg-[var(--accent-soft)]"
                       >
-                        <kbd className="mr-3 rounded bg-slate-200 px-2 font-mono">{i + 1}</kbd>
+                        <kbd className="mr-3 rounded bg-[var(--surface-3)] px-2 font-mono text-sm">{i + 1}</kbd>
                         {inline(o)}
                       </button>
                     </li>

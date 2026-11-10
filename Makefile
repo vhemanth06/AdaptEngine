@@ -3,7 +3,7 @@ PYTHON = $(if $(wildcard $(VENV)/bin/python),$(VENV)/bin/python,python3)
 PYTEST = $(if $(wildcard $(VENV)/bin/pytest),$(VENV)/bin/pytest,pytest)
 RUFF = $(if $(wildcard $(VENV)/bin/ruff),$(VENV)/bin/ruff,ruff)
 
-.PHONY: all w3 w4 w5 w6 poc eval eval-quick test lint format check demo-api demo-web demo-test
+.PHONY: all w3 w4 w5 w6 poc eval eval-quick test lint format check demo demo-api demo-web demo-test final
 
 all: check w3 w4 w5 w6 poc eval
 
@@ -43,6 +43,14 @@ format:
 
 check: lint test
 
+
+# W8 H.1: one command (builds web/dist if src is newer, starts uvicorn, prints the URL)
+demo:
+	$(PYTHON) scripts/demo.py
+
+# W8 I.4: every gate + final-week runs + figures (see docs/WEEK8_REPORT_NOTES.md §15)
+final:
+	$(PYTHON) scripts/run_final.py
 
 # Demo frontend (W7 WP8). Needs: pip install -e ".[demo]" and npm ci in frontend/web.
 demo-api:

@@ -1,0 +1,34 @@
+{
+  "name": "fitted_S3",
+  "source": "simulated S3 fit cohort: static_loop + random_eligible, 4-node + 8-node, forgetting_21 (fast_forgetter)",
+  "code_hash": "f09fb8e2f6126c98c5a81cddf0a840a3936509111cbbbdb064fd2e8d5a881b66",
+  "timestamp_utc": "2026-11-09T21:01:11.315742+00:00",
+  "fit_seeds": "even 2000-2398",
+  "preregistration": "docs/preregistration/FINAL_A5_2026-11-10.md",
+  "p0": 0.11183686850333022,
+  "t_lesson": 0.318113601503354,
+  "t_exercise": 0.00043080389332534507,
+  "class_params": {
+    "easy": {
+      "guess": 0.6695809889650942,
+      "slip": 0.24484868005310068
+    },
+    "medium": {
+      "guess": 0.4276122456198754,
+      "slip": 0.433902629483313
+    },
+    "hard": {
+      "guess": 0.2610080033091805,
+      "slip": 0.6565378065156717
+    }
+  },
+  "constraint_warnings": {
+    "easy": [
+      "guess>0.5"
+    ],
+    "hard": [
+      "slip>0.5"
+    ]
+  },
+  "loglik": -86134.81416097043
+}
