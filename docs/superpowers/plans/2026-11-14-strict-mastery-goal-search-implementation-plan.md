@@ -4,7 +4,7 @@
 
 **Goal:** Add 10-exercise versions of both curricula and ship a product configuration with strict mastery (θ = 0.95, k = 4), `fitted_S1` as the default learner model, and a goal-search diagnostic whose budget scales with curriculum size and passes estimates along prerequisites — without changing W7/W8 defaults — then measure it in a pre-registered run.
 
-**Architecture:** New `EngineConfig` fields default to today's behaviour. A `diagnostic_budget()` helper replaces raw `n_max` checks. A new `selection_scope="goal_search"` loop in `AdaptiveDiagnostic` picks the concept that guarantees the most settled concepts, floors ancestors' p at the result, and settles them as `INFERRED` when p ≥ `known_threshold`. A `PRODUCT_OVERRIDES` dict in `core/profiles.py` is applied on top of any learner-model profile by the frontend and the W9 evaluation arms. The planner is unchanged.
+**Architecture:** New `EngineConfig` fields default to today's behaviour. A `diagnostic_budget()` helper replaces raw `n_max` checks. A new `selection_scope="goal_search"` loop in `AdaptiveDiagnostic` picks the concept that guarantees the most settled concepts, floors ancestors' p at the result, and settles them as `INFERRED` when p ≥ `known_threshold`. A `PRODUCT_OVERRIDES` dict in `core/profiles.py` is applied on top of any learner-model profile by the frontend and the W8 evaluation arms. The planner is unchanged.
 
 **Tech Stack:** Python 3.11 (frozen dataclasses, pytest), FastAPI + pydantic (frontend/api), React + TypeScript + Vite (frontend/web).
 
@@ -37,7 +37,7 @@
 **Files:**
 - Create: `data/drafts/4node_x10/curriculum_4node_x10.json`, `activities_4node_x10.json`, `content_4node_x10.json`, `draft_meta.json`
 - Create: `data/drafts/8node_x10/curriculum_8node_x10.json`, `activities_8node_x10.json`, `content_8node_x10.json`, `draft_meta.json`
-- Test: `tests/test_w9_content.py` (new)
+- Test: `tests/test_w8_content.py` (new)
 
 **Interfaces:**
 - Produces: curriculum ids `4node_x10`, `8node_x10` (after the owner promotes them, Step 5). Each concept has 1 lesson and **10 exercises** with ids `E-<concept>-<d>` and difficulties `0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.85, 0.9` (3 easy, 3 medium, 4 hard by `planner/workload._difficulty_class`). Concepts and prerequisites are copied unchanged from `curriculum_4node.json` / `curriculum_8node.json`. The existing activity ids, durations and the existing `content_8node.json` entries are kept verbatim; only the 6 new exercises per concept are added.
@@ -74,14 +74,14 @@ def test_x10_drafts(name, base):
 
 - [ ] **Step 2: Run to verify failure**
 
-Run: `pytest tests/test_w9_content.py -v`
+Run: `pytest tests/test_w8_content.py -v`
 Expected: FAIL — files not found.
 
 - [ ] **Step 3: Write the drafts.** Follow the schema of `data/curriculum/*` and `data/content/content_8node.json` (see `data/content/README.md`) and the layout of `data/drafts/py_dicts/`. New exercises are Python multiple-choice questions on the concept, written to their difficulty; new lessons for `4node_x10` follow the `content_8node.json` lesson style. `draft_meta.json` states `"ai_assisted": true` and that a human review is pending. Then run the authoring checks on the new content (`adaptengine.authoring` `check_duplicates`, `check_answer_position`, `check_difficulty_spread`) and fix what they flag.
 
 - [ ] **Step 4: Run tests**
 
-Run: `pytest tests/test_w9_content.py -v`
+Run: `pytest tests/test_w8_content.py -v`
 Expected: PASS.
 
 - [ ] **Step 5: OWNER STEP — human review and promotion (no agent runs this).** The owner reviews both drafts and runs `python scripts/record_review.py --promote-draft 4node_x10 --reviewer <name>` and the same for `8node_x10`. This copies the files into `data/curriculum/` and `data/content/` and records them in `data/review_manifest.json`. Agents must not run `record_review.py`, edit `data/review_manifest.json`, or write a reviewer name. Task 6 Step 4 and Task 8 need this step done; Tasks 2–5 and 7 do not (Task 7's smoke run uses the old 4-node files).
@@ -94,7 +94,7 @@ Expected: PASS.
 - Modify: `src/adaptengine/core/config.py` (fields after `selection_scope` ~line 34; validation ~lines 123–135)
 - Modify: `src/adaptengine/diagnostic/engine.py` (sweep `run()` ~lines 236–326; `_run_frontier` ~lines 148–174)
 - Modify: `src/adaptengine/diagnostic/__init__.py` (export `diagnostic_budget`)
-- Test: `tests/test_w9_diagnostic.py` (new)
+- Test: `tests/test_w8_diagnostic.py` (new)
 
 **Interfaces:**
 - Produces: `EngineConfig.known_threshold: float = 0.70`, `EngineConfig.diag_budget_min: int = 6`, `EngineConfig.diag_budget_per_concept: float = 0.0`; `"goal_search"` accepted by `selection_scope` validation; `diagnostic_budget(cfg: EngineConfig, n_concepts: int) -> int` in `adaptengine.diagnostic.engine`, re-exported from `adaptengine.diagnostic`.
@@ -141,7 +141,7 @@ def test_sweep_uses_scaled_budget():
 
 - [ ] **Step 2: Run to verify failure**
 
-Run: `pytest tests/test_w9_diagnostic.py -v`
+Run: `pytest tests/test_w8_diagnostic.py -v`
 Expected: FAIL — `ImportError: cannot import name 'diagnostic_budget'`.
 
 - [ ] **Step 3: Implement**
@@ -150,7 +150,7 @@ Expected: FAIL — `ImportError: cannot import name 'diagnostic_budget'`.
 
 - [ ] **Step 4: Run tests**
 
-Run: `pytest tests/test_w9_diagnostic.py tests/test_diagnostic.py -v`
+Run: `pytest tests/test_w8_diagnostic.py tests/test_diagnostic.py -v`
 Expected: all PASS (existing diagnostic tests unchanged).
 
 ---
@@ -159,13 +159,13 @@ Expected: all PASS (existing diagnostic tests unchanged).
 
 **Files:**
 - Modify: `src/adaptengine/diagnostic/engine.py` (`StopReason`, `ConceptDiagnosticResult`, new `_run_goal_search`, dispatch in `run()` next to the `frontier` branch ~line 213)
-- Test: `tests/test_w9_diagnostic.py`
+- Test: `tests/test_w8_diagnostic.py`
 
 **Interfaces:**
 - Consumes: `diagnostic_budget`, `EngineConfig.known_threshold` (Task 2).
 - Produces: `StopReason.INFERRED = "INFERRED"`; `ConceptDiagnosticResult.inferred_from: Optional[str] = None` (last field, default keeps existing constructors valid); `AdaptiveDiagnostic._run_goal_search(self, ordered, goal_set, concepts, response_provider, model, sid, budget) -> DiagnosticResult`.
 
-- [ ] **Step 1: Write the failing tests** (append to `tests/test_w9_diagnostic.py`)
+- [ ] **Step 1: Write the failing tests** (append to `tests/test_w8_diagnostic.py`)
 
 ```python
 from adaptengine.core.profiles import load_profile
@@ -249,7 +249,7 @@ def test_goal_search_leaves_out_of_set_concepts_untouched():
 
 - [ ] **Step 2: Run to verify failure**
 
-Run: `pytest tests/test_w9_diagnostic.py -k goal_search -v`
+Run: `pytest tests/test_w8_diagnostic.py -k goal_search -v`
 Expected: FAIL — `AttributeError: INFERRED` / validation passes but the sweep runs instead.
 
 - [ ] **Step 3: Implement `_run_goal_search`** in `engine.py`, reusing `_ask`, `_prune`, `compute_eig`, `candidate_sort_key`, and the exercise index pattern from `_run_frontier`. Selection and settling (the part the tests do not fully determine):
@@ -275,7 +275,7 @@ Dispatch in `run()`: `if self.config.selection_scope == "goal_search": return se
 
 - [ ] **Step 4: Run tests**
 
-Run: `pytest tests/test_w9_diagnostic.py tests/test_diagnostic.py -v`
+Run: `pytest tests/test_w8_diagnostic.py tests/test_diagnostic.py -v`
 Expected: all PASS.
 
 ---
@@ -284,7 +284,7 @@ Expected: all PASS.
 
 **Files:**
 - Modify: `src/adaptengine/core/profiles.py`
-- Test: `tests/test_w9_product.py` (new)
+- Test: `tests/test_w8_product.py` (new)
 
 **Interfaces:**
 - Produces in `adaptengine.core.profiles`: `STRICT_MASTERY: dict` (`theta`, `k_responses`, `horizon_aware_mastery`), `GOAL_SEARCH_DIAGNOSTIC: dict` (`selection_scope`, `concept_cap`, `n_max`, `diag_budget_min`, `diag_budget_per_concept`), `PRODUCT_OVERRIDES: dict = {**STRICT_MASTERY, **GOAL_SEARCH_DIAGNOSTIC, "consolidation": True, "verification_probe": True, "feasibility_warning": True}`, `PRODUCT_PROFILE = "fitted_S1"`, `product_config(profile: str = PRODUCT_PROFILE) -> EngineConfig` = `load_profile(profile, **PRODUCT_OVERRIDES)`.
@@ -317,14 +317,14 @@ def test_defaults_untouched():
 
 - [ ] **Step 2: Run to verify failure**
 
-Run: `pytest tests/test_w9_product.py -v`
+Run: `pytest tests/test_w8_product.py -v`
 Expected: FAIL — `ImportError: cannot import name 'product_config'`.
 
 - [ ] **Step 3: Add the dicts and `product_config` to `profiles.py`** with the values from Global Constraints.
 
 - [ ] **Step 4: Run tests**
 
-Run: `pytest tests/test_w9_product.py -v && pytest -q`
+Run: `pytest tests/test_w8_product.py -v && pytest -q`
 Expected: new tests PASS; full suite PASS (no existing test changes).
 
 ---
@@ -417,12 +417,12 @@ Expected: `tsc` and `vite build` succeed with no errors.
 
 **Files:**
 - Modify: `experiments/run_final_grid.py` (`arm_engine` lines 49–59; `main` uses `ARMS` line 192; CLI ~303)
-- Create: `experiments/run_w9_diag.py`
-- Test: `tests/test_w9_eval.py` (new)
+- Create: `experiments/run_w8_diag.py`
+- Test: `tests/test_w8_eval.py` (new)
 
 **Interfaces:**
 - Consumes: `STRICT_MASTERY`, `GOAL_SEARCH_DIAGNOSTIC` (Task 4); `experiments.w8_common.curriculum_paths` (supports `synth-N`); `experiments.diag_eval.binary_score`; `experiments.sim.make_sim`, `PROFILES`.
-- Produces: arms `adapt_strict_dx` (= `adapt_final_dx` overrides + `STRICT_MASTERY`) and `adapt_strict_gs` (+ `GOAL_SEARCH_DIAGNOSTIC`), both run as `"adapt_dx"`; CLI `--arms` (default `ARMS`, unchanged); `run_w9_diag.main(out_path: str, n: int, curricula: list[str]) -> dict` with arms `prior_only`, `w6_shipped`, `default_t33`, `goal_search` (= `GOAL_SEARCH_DIAGNOSTIC` on `DEFAULT_CONFIG` numbers) per world S0/S2/S4 per curriculum. Curriculum names resolve through `curriculum_paths` (`4node_x10` → `data/curriculum/curriculum_4node_x10.json`).
+- Produces: arms `adapt_strict_dx` (= `adapt_final_dx` overrides + `STRICT_MASTERY`) and `adapt_strict_gs` (+ `GOAL_SEARCH_DIAGNOSTIC`), both run as `"adapt_dx"`; CLI `--arms` (default `ARMS`, unchanged); `run_w8_diag.main(out_path: str, n: int, curricula: list[str]) -> dict` with arms `prior_only`, `w6_shipped`, `default_t33`, `goal_search` (= `GOAL_SEARCH_DIAGNOSTIC` on `DEFAULT_CONFIG` numbers) per world S0/S2/S4 per curriculum. Curriculum names resolve through `curriculum_paths` (`4node_x10` → `data/curriculum/curriculum_4node_x10.json`).
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -438,23 +438,23 @@ def test_strict_arms_config():
     e2, _ = arm_engine("adapt_strict_dx", "S1", "4-node", spec)
     assert e2.config.selection_scope == "concept_sweep" and e2.config.theta == 0.95
 
-def test_w9_diag_smoke(tmp_path):
-    from experiments.run_w9_diag import main
+def test_w8_diag_smoke(tmp_path):
+    from experiments.run_w8_diag import main
     r = main(str(tmp_path / "d.json"), n=3, curricula=["4-node", "synth-20"])
     assert set(r["curricula"]["synth-20"]["S0"]) >= {"prior_only", "goal_search"}
 ```
 
 - [ ] **Step 2: Run to verify failure**
 
-Run: `pytest tests/test_w9_eval.py -v`
+Run: `pytest tests/test_w8_eval.py -v`
 Expected: FAIL.
 
-- [ ] **Step 3: Implement** the two `arm_engine` branches and `--arms`; write `run_w9_diag.py` following `run_diag_matrix.run_world` (same odd seeds `range(101, 101 + 2n, 2)`, same scoring and `paired_summary` vs `prior_only` and `w6_shipped`, `stamp()` metadata), looping over `curricula`. Default output `experiments/results/w9_diag_matrix.json`.
+- [ ] **Step 3: Implement** the two `arm_engine` branches and `--arms`; write `run_w8_diag.py` following `run_diag_matrix.run_world` (same odd seeds `range(101, 101 + 2n, 2)`, same scoring and `paired_summary` vs `prior_only` and `w6_shipped`, `stamp()` metadata), looping over `curricula`. Default output `experiments/results/w8_diag_matrix.json`.
 
 - [ ] **Step 4: Run tests and a grid smoke**
 
-Run: `pytest tests/test_w9_eval.py -v && python experiments/run_final_grid.py --smoke --arms adapt_final_dx adapt_strict_dx adapt_strict_gs static_loop --out experiments/results/w9_grid.json --checkpoint experiments/results/w9_grid.ckpt.jsonl`
-Expected: tests PASS; smoke writes `w9_grid_smoke.json` with 0 executed violations in every arm.
+Run: `pytest tests/test_w8_eval.py -v && python experiments/run_final_grid.py --smoke --arms adapt_final_dx adapt_strict_dx adapt_strict_gs static_loop --out experiments/results/w8_grid.json --checkpoint experiments/results/w8_grid.ckpt.jsonl`
+Expected: tests PASS; smoke writes `w8_grid_smoke.json` with 0 executed violations in every arm.
 
 ---
 
@@ -462,15 +462,15 @@ Expected: tests PASS; smoke writes `w9_grid_smoke.json` with 0 executed violatio
 
 **Files:**
 - Modify: `docs/DECISIONS.md` (append D61–D63, wording from spec §5.6)
-- Create: `docs/preregistration/W9_STRICT_GOALSEARCH_2026-11-14.md`
-- Create (by running): `experiments/results/w9_grid.json`, `experiments/results/w9_diag_matrix.json`
-- Modify: next report notes file (a "W9" section)
+- Create: `docs/preregistration/W8_STRICT_GOALSEARCH_2026-11-14.md`
+- Create (by running): `experiments/results/w8_grid.json`, `experiments/results/w8_diag_matrix.json`
+- Modify: next report notes file (a "W8" section)
 
 - [ ] **Step 1: Write D61–D63** in `docs/DECISIONS.md`, each with rationale and the caveats from spec §4.1–4.2.
 - [ ] **Step 2: Write the pre-registration** (before running anything; Task 1 Step 5 must be done) — arms, cells, seeds, metrics from spec §6, the curricula `4node_x10`/`8node_x10` (10 exercises per concept; W8 used 4, so W8 numbers are not directly comparable and the W8 reference arms are re-run here), the statement that the run measures and does not select, and the code hash from `python experiments/provenance.py`.
 - [ ] **Step 3: Run**
 
-Run: `python experiments/run_final_grid.py --arms adapt_final adapt_final_dx adapt_strict_dx adapt_strict_gs static_loop --curricula 4node_x10 8node_x10 --out experiments/results/w9_grid.json --checkpoint experiments/results/w9_grid.ckpt.jsonl && python experiments/run_w9_diag.py --curricula 4node_x10 8node_x10 synth-20 synth-50`
+Run: `python experiments/run_final_grid.py --arms adapt_final adapt_final_dx adapt_strict_dx adapt_strict_gs static_loop --curricula 4node_x10 8node_x10 --out experiments/results/w8_grid.json --checkpoint experiments/results/w8_grid.ckpt.jsonl && python experiments/run_w8_diag.py --curricula 4node_x10 8node_x10 synth-20 synth-50`
 Expected: both files written; `code_hash` in their metadata equals the pre-registered hash; 0 executed violations.
 
 - [ ] **Step 4: Report** goal mastery, false-mastery rate, items per mastered concept, diagnostic items, utilisation per arm, and the diagnostic matrix, as measured, in the report notes.

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""W9: goal-search diagnostic vs prior-only / W6 shipped / T3.3 default, per curriculum and world.
-Writes experiments/results/w9_diag_matrix.json."""
+"""W8: goal-search diagnostic vs prior-only / W6 shipped / T3.3 default, per curriculum and world.
+Writes experiments/results/w8_diag_matrix.json."""
 
 from __future__ import annotations
 
@@ -65,7 +65,7 @@ def main(out_path: str, n: int, curricula: list[str]) -> dict:
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--out", default=os.path.join(repo_root, "experiments/results/w9_diag_matrix.json"))
+    ap.add_argument("--out", default=os.path.join(repo_root, "experiments/results/w8_diag_matrix.json"))
     ap.add_argument("--n", type=int, default=250)
     ap.add_argument("--curricula", nargs="*", default=["4-node", "8-node"])
     a = ap.parse_args()

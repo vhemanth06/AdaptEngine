@@ -180,7 +180,7 @@ existing activity verbatim, and add 6 exercises per concept at d = 0.1, 0.3, 0.5
 0.9 (3 easy, 3 medium, 4 hard). The old files are untouched so W7/W8 results stay
 reproducible. The drafts go through the existing human review gate (`data/drafts/`, then the
 owner runs `scripts/record_review.py --promote-draft`). The web app's default curriculum and the
-W9 evaluation use the `_x10` curricula.
+W8 evaluation use the `_x10` curricula.
 
 ### 5.5 Reporting and UI
 
@@ -200,7 +200,7 @@ W9 evaluation use the `_x10` curricula.
 
 ## 6. Evaluation (pre-registered, measurement only)
 
-Register `docs/preregistration/W9_STRICT_GOALSEARCH_<date>.md` with the code hash
+Register `docs/preregistration/W8_STRICT_GOALSEARCH_<date>.md` with the code hash
 (`python experiments/provenance.py`) before running. Odd report seeds, 200 per cell (FINAL_A5).
 
 **Full grid** — FINAL_A5 final-grid cells (worlds S0/S1/S4/S4F, curricula `4node_x10`/`8node_x10`
@@ -212,13 +212,13 @@ instead of 4-node/8-node, B 10/15, calm/missed_day/missed_2days, horizons w7/7/1
 
 Metrics: goal mastery (true), false-mastery rate, items per mastered concept, diagnostic items,
 utilisation, executed prerequisite violations (must be 0). Output
-`experiments/results/w9_grid.json`.
+`experiments/results/w8_grid.json`.
 
 **Diagnostic-only** (`experiments/run_diag_matrix.py`): new `goal_search` arm (product
 diagnostic settings), curricula `4node_x10`, `8node_x10`, synth-20, synth-50; Brier/AUC vs `prior_only`
-and `w6_shipped`; items used. Output `experiments/results/w9_diag_matrix.json`.
+and `w6_shipped`; items used. Output `experiments/results/w8_diag_matrix.json`.
 
 ## 7. Left to the builder
 
 - Internal structure of the goal-search loop (new method beside `_run_frontier`).
-- How `run_final_grid.py` is parameterised for the W9 arms and output path.
+- How `run_final_grid.py` is parameterised for the W8 arms and output path.

@@ -411,7 +411,7 @@ def evaluate_diagnostic_binary(
 
 
 def summarize(rows: Mapping[str, list], items: Mapping[str, list]) -> dict:
-    """Per-arm matrix summary of binary_score rows (shared by the W7 and W9 diag matrices)."""
+    """Per-arm matrix summary of binary_score rows (shared by the W7 and W8 diag matrices)."""
 
     def br(name):
         return [r["brier"] for r in rows[name]]
