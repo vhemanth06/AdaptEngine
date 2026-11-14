@@ -6,7 +6,7 @@ def test_product_config_values():
     c = product_config()
     assert (c.theta, c.k_responses, c.horizon_aware_mastery) == (0.95, 1, False)
     assert (c.selection_scope, c.concept_cap, c.n_max, c.diag_budget_min, c.diag_budget_per_concept) == ("goal_search", 4, 25, 12, 1.0)
-    assert c.consolidation and c.verification_probe and c.feasibility_warning
+    assert not c.consolidation and c.verification_probe and c.feasibility_warning
     assert c.diagnostic_scope == "goal_path"
     assert c.class_params == load_profile("fitted_S1").class_params and PRODUCT_PROFILE == "fitted_S1"
 

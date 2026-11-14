@@ -100,7 +100,7 @@ behaviour. The product settings are one dict, applied on top of any learner-mode
 ```python
 PRODUCT_OVERRIDES = {
     "theta": 0.95, "k_responses": 1, "horizon_aware_mastery": False,
-    "consolidation": True, "verification_probe": True, "feasibility_warning": True,
+    "consolidation": False, "verification_probe": True, "feasibility_warning": True,
     "selection_scope": "goal_search", "concept_cap": 4, "diagnostic_scope": "goal_path",
     "n_max": 25, "diag_budget_min": 12, "diag_budget_per_concept": 1.0,
 }

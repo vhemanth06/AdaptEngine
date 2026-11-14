@@ -94,7 +94,7 @@ GOAL_SEARCH_DIAGNOSTIC = {
 PRODUCT_OVERRIDES = {
     **STRICT_MASTERY,
     **GOAL_SEARCH_DIAGNOSTIC,
-    "consolidation": True,
+    "consolidation": False,  # owner: once the goal is mastered the plan ends (no post-mastery "Verify" days)
     "verification_probe": True,
     "feasibility_warning": True,
     "diagnostic_scope": "goal_path",  # only the goal and its prerequisites are worth asking about
