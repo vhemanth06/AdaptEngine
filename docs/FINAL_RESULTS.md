@@ -220,7 +220,34 @@ HLR-lite fit: weights [1.75, -0.25, 0.0], Brier 0.26983 vs constant-rate baselin
 | O3|S3|4-node|B15 | forget | 0.000 | 0.131 | 0.496 | — | — | 0 | -0.020 [-0.040, -0.005] |
 | O3|S3|4-node|B15 | no_forget | 0.020 | 0.372 | 0.348 | 0.228 | 0.660 | 0 | (reference) |
 
-O.4 CP-SAT: not run: OR-Tools is not installed (optional [solver] extra).
+O.4 CP-SAT (`w8_cpsat_eval.json`, OR-Tools 9.14.6206, maintenance reviews off in both arms): 24 cells, same status in 22; CP-SAT plan used in 16, timed out (5 s) and fell back in 3. Audit violations: default 0, CP-SAT 0. Both feasible in 18: CP-SAT shorter in 11, longer in 0. Same workload (fair packing) in 13: shorter in 7, by at most 19 day(s); in 5 cells the CP-SAT plan is shorter partly because it omits in-plan reviews. Median planning time where CP-SAT was used: 592.48 ms vs 2.6 ms default.
+
+| Cell | Default reason | Default last day | Default min | Default ms | CP-SAT reason | CP-SAT last day | CP-SAT min | CP-SAT ms |
+|---|---|---|---|---|---|---|---|---|
+| synth-20\|b10\|greedy | GREEDY_FEASIBLE | 17 | 133 | 1.814 | CPSAT_ASSIGNMENT | 12 | 119 | 335.007 |
+| synth-20\|b10\|loose | GREEDY_FEASIBLE | 17 | 133 | 1.414 | CPSAT_ASSIGNMENT | 12 | 119 | 811.377 |
+| synth-20\|b10\|tight | ORACLE_ASSIGNMENT | 16 | 119 | 2.242 | CPSAT_ASSIGNMENT | 12 | 119 | 590.478 |
+| synth-20\|b15\|greedy | GREEDY_FEASIBLE | 9 | 119 | 1.203 | CPSAT_ASSIGNMENT | 8 | 119 | 142.33 |
+| synth-20\|b15\|loose | GREEDY_FEASIBLE | 9 | 119 | 1.176 | CPSAT_ASSIGNMENT | 8 | 119 | 594.491 |
+| synth-20\|b15\|tight | ORACLE_LIMIT_EXCEEDED | 8 | 112 | 4.592 | CPSAT_ASSIGNMENT | 8 | 119 | 73.331 |
+| synth-20\|b30\|greedy | GREEDY_FEASIBLE | 5 | 119 | 1.138 | CPSAT_ASSIGNMENT | 4 | 119 | 29.464 |
+| synth-20\|b30\|loose | GREEDY_FEASIBLE | 5 | 119 | 1.126 | CPSAT_ASSIGNMENT | 4 | 119 | 167.008 |
+| synth-20\|b30\|tight | ORACLE_LIMIT_EXCEEDED | 4 | 112 | 4.263 | CPSAT_ASSIGNMENT | 4 | 119 | 33.996 |
+| synth-20\|b5\|greedy | GREEDY_FEASIBLE | 46 | 177 | 2.537 | CPSAT_ASSIGNMENT | 26 | 119 | 2103.96 |
+| synth-20\|b5\|loose | GREEDY_FEASIBLE | 46 | 177 | 2.658 | CPSAT_ASSIGNMENT | 26 | 119 | 3208.945 |
+| synth-20\|b5\|tight | ORACLE_ASSIGNMENT | 45 | 119 | 2.954 | CPSAT_ASSIGNMENT | 26 | 119 | 2972.696 |
+| synth-50\|b10\|greedy | GREEDY_FEASIBLE | 74 | 646 | 9.859 | GREEDY_FEASIBLE | 74 | 646 | 5089.341 |
+| synth-50\|b10\|loose | GREEDY_FEASIBLE | 74 | 646 | 10.35 | GREEDY_FEASIBLE | 74 | 646 | 5129.373 |
+| synth-50\|b10\|tight | ORACLE_ASSIGNMENT | 73 | 280 | 13.724 | ORACLE_ASSIGNMENT | 73 | 280 | 5101.505 |
+| synth-50\|b15\|greedy | GREEDY_FEASIBLE | 27 | 382 | 5.327 | CPSAT_ASSIGNMENT | 27 | 280 | 5030.464 |
+| synth-50\|b15\|loose | GREEDY_FEASIBLE | 27 | 382 | 5.182 | GREEDY_FEASIBLE | 27 | 382 | 5047.796 |
+| synth-50\|b15\|tight | ORACLE_ASSIGNMENT | 26 | 280 | 6.105 | CPSAT_ASSIGNMENT | 24 | 280 | 5032.047 |
+| synth-50\|b30\|greedy | GREEDY_FEASIBLE | 10 | 280 | 3.422 | CPSAT_ASSIGNMENT | 10 | 280 | 318.109 |
+| synth-50\|b30\|loose | GREEDY_FEASIBLE | 10 | 280 | 3.447 | CPSAT_ASSIGNMENT | 10 | 280 | 1415.783 |
+| synth-50\|b30\|tight | INSUFFICIENT_TIME_BUDGET | 9 | 252 | 4.457 | INSUFFICIENT_TIME_BUDGET | 9 | 252 | 4.265 |
+| synth-50\|b5\|greedy | INSUFFICIENT_TIME_BUDGET | 46 | 177 | 5.824 | INSUFFICIENT_TIME_BUDGET | 46 | 177 | 5.889 |
+| synth-50\|b5\|loose | INSUFFICIENT_TIME_BUDGET | 46 | 177 | 5.611 | INSUFFICIENT_TIME_BUDGET | 46 | 177 | 5.641 |
+| synth-50\|b5\|tight | INSUFFICIENT_TIME_BUDGET | 45 | 174 | 6.059 | INSUFFICIENT_TIME_BUDGET | 45 | 174 | 5.757 |
 
 ## 5. Agents (w8_agent_eval_stub.json): stub plumbing run: not an agent evaluation
 

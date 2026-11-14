@@ -1,0 +1,942 @@
+{
+ "cells": {
+  "synth-20|b10|greedy": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 12,
+    "minutes": 119,
+    "n_activities": 51,
+    "n_days_used": 12,
+    "plan_ms_mean": 335.007,
+    "plan_ms_sd": 18.675,
+    "prereq_violations": 0,
+    "reason": "CPSAT_ASSIGNMENT",
+    "solver_note": {
+     "decision": "SCHEDULER",
+     "reason": "CPSAT_OPTIMAL_PACKING",
+     "status": "OPTIMAL",
+     "wall_s": 0.3241
+    },
+    "status": "FEASIBLE"
+   },
+   "cpsat_days_saved": 5,
+   "deadline_day": 17,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 17,
+    "minutes": 133,
+    "n_activities": 58,
+    "n_days_used": 17,
+    "plan_ms_mean": 1.814,
+    "plan_ms_sd": 0.495,
+    "prereq_violations": 0,
+    "reason": "GREEDY_FEASIBLE",
+    "solver_note": null,
+    "status": "FEASIBLE"
+   },
+   "greedy_last_day_loose": 17,
+   "same_status": true
+  },
+  "synth-20|b10|loose": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 12,
+    "minutes": 119,
+    "n_activities": 51,
+    "n_days_used": 12,
+    "plan_ms_mean": 811.377,
+    "plan_ms_sd": 14.47,
+    "prereq_violations": 0,
+    "reason": "CPSAT_ASSIGNMENT",
+    "solver_note": {
+     "decision": "SCHEDULER",
+     "reason": "CPSAT_OPTIMAL_PACKING",
+     "status": "OPTIMAL",
+     "wall_s": 0.791
+    },
+    "status": "FEASIBLE"
+   },
+   "cpsat_days_saved": 5,
+   "deadline_day": 24,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 17,
+    "minutes": 133,
+    "n_activities": 58,
+    "n_days_used": 17,
+    "plan_ms_mean": 1.414,
+    "plan_ms_sd": 0.022,
+    "prereq_violations": 0,
+    "reason": "GREEDY_FEASIBLE",
+    "solver_note": null,
+    "status": "FEASIBLE"
+   },
+   "greedy_last_day_loose": 17,
+   "same_status": true
+  },
+  "synth-20|b10|tight": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 12,
+    "minutes": 119,
+    "n_activities": 51,
+    "n_days_used": 12,
+    "plan_ms_mean": 590.478,
+    "plan_ms_sd": 20.178,
+    "prereq_violations": 0,
+    "reason": "CPSAT_ASSIGNMENT",
+    "solver_note": {
+     "decision": "SCHEDULER",
+     "reason": "CPSAT_OPTIMAL_PACKING",
+     "status": "OPTIMAL",
+     "wall_s": 0.5951
+    },
+    "status": "FEASIBLE"
+   },
+   "cpsat_days_saved": 4,
+   "deadline_day": 16,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 16,
+    "minutes": 119,
+    "n_activities": 51,
+    "n_days_used": 16,
+    "plan_ms_mean": 2.242,
+    "plan_ms_sd": 0.334,
+    "prereq_violations": 0,
+    "reason": "ORACLE_ASSIGNMENT",
+    "solver_note": null,
+    "status": "FEASIBLE"
+   },
+   "greedy_last_day_loose": 17,
+   "same_status": true
+  },
+  "synth-20|b15|greedy": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 8,
+    "minutes": 119,
+    "n_activities": 51,
+    "n_days_used": 8,
+    "plan_ms_mean": 142.33,
+    "plan_ms_sd": 9.028,
+    "prereq_violations": 0,
+    "reason": "CPSAT_ASSIGNMENT",
+    "solver_note": {
+     "decision": "SCHEDULER",
+     "reason": "CPSAT_OPTIMAL_PACKING",
+     "status": "OPTIMAL",
+     "wall_s": 0.1351
+    },
+    "status": "FEASIBLE"
+   },
+   "cpsat_days_saved": 1,
+   "deadline_day": 9,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 9,
+    "minutes": 119,
+    "n_activities": 51,
+    "n_days_used": 9,
+    "plan_ms_mean": 1.203,
+    "plan_ms_sd": 0.045,
+    "prereq_violations": 0,
+    "reason": "GREEDY_FEASIBLE",
+    "solver_note": null,
+    "status": "FEASIBLE"
+   },
+   "greedy_last_day_loose": 9,
+   "same_status": true
+  },
+  "synth-20|b15|loose": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 8,
+    "minutes": 119,
+    "n_activities": 51,
+    "n_days_used": 8,
+    "plan_ms_mean": 594.491,
+    "plan_ms_sd": 21.722,
+    "prereq_violations": 0,
+    "reason": "CPSAT_ASSIGNMENT",
+    "solver_note": {
+     "decision": "SCHEDULER",
+     "reason": "CPSAT_OPTIMAL_PACKING",
+     "status": "OPTIMAL",
+     "wall_s": 0.5914
+    },
+    "status": "FEASIBLE"
+   },
+   "cpsat_days_saved": 1,
+   "deadline_day": 16,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 9,
+    "minutes": 119,
+    "n_activities": 51,
+    "n_days_used": 9,
+    "plan_ms_mean": 1.176,
+    "plan_ms_sd": 0.01,
+    "prereq_violations": 0,
+    "reason": "GREEDY_FEASIBLE",
+    "solver_note": null,
+    "status": "FEASIBLE"
+   },
+   "greedy_last_day_loose": 9,
+   "same_status": true
+  },
+  "synth-20|b15|tight": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 8,
+    "minutes": 119,
+    "n_activities": 51,
+    "n_days_used": 8,
+    "plan_ms_mean": 73.331,
+    "plan_ms_sd": 1.412,
+    "prereq_violations": 0,
+    "reason": "CPSAT_ASSIGNMENT",
+    "solver_note": {
+     "decision": "SCHEDULER",
+     "reason": "CPSAT_OPTIMAL_PACKING",
+     "status": "OPTIMAL",
+     "wall_s": 0.0684
+    },
+    "status": "FEASIBLE"
+   },
+   "cpsat_days_saved": null,
+   "deadline_day": 8,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 8,
+    "minutes": 112,
+    "n_activities": 48,
+    "n_days_used": 8,
+    "plan_ms_mean": 4.592,
+    "plan_ms_sd": 0.096,
+    "prereq_violations": 0,
+    "reason": "ORACLE_LIMIT_EXCEEDED",
+    "solver_note": null,
+    "status": "UNKNOWN"
+   },
+   "greedy_last_day_loose": 9,
+   "same_status": false
+  },
+  "synth-20|b30|greedy": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 4,
+    "minutes": 119,
+    "n_activities": 51,
+    "n_days_used": 4,
+    "plan_ms_mean": 29.464,
+    "plan_ms_sd": 1.309,
+    "prereq_violations": 0,
+    "reason": "CPSAT_ASSIGNMENT",
+    "solver_note": {
+     "decision": "SCHEDULER",
+     "reason": "CPSAT_OPTIMAL_PACKING",
+     "status": "OPTIMAL",
+     "wall_s": 0.0242
+    },
+    "status": "FEASIBLE"
+   },
+   "cpsat_days_saved": 1,
+   "deadline_day": 5,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 5,
+    "minutes": 119,
+    "n_activities": 51,
+    "n_days_used": 5,
+    "plan_ms_mean": 1.138,
+    "plan_ms_sd": 0.029,
+    "prereq_violations": 0,
+    "reason": "GREEDY_FEASIBLE",
+    "solver_note": null,
+    "status": "FEASIBLE"
+   },
+   "greedy_last_day_loose": 5,
+   "same_status": true
+  },
+  "synth-20|b30|loose": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 4,
+    "minutes": 119,
+    "n_activities": 51,
+    "n_days_used": 4,
+    "plan_ms_mean": 167.008,
+    "plan_ms_sd": 4.537,
+    "prereq_violations": 0,
+    "reason": "CPSAT_ASSIGNMENT",
+    "solver_note": {
+     "decision": "SCHEDULER",
+     "reason": "CPSAT_OPTIMAL_PACKING",
+     "status": "OPTIMAL",
+     "wall_s": 0.1521
+    },
+    "status": "FEASIBLE"
+   },
+   "cpsat_days_saved": 1,
+   "deadline_day": 12,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 5,
+    "minutes": 119,
+    "n_activities": 51,
+    "n_days_used": 5,
+    "plan_ms_mean": 1.126,
+    "plan_ms_sd": 0.018,
+    "prereq_violations": 0,
+    "reason": "GREEDY_FEASIBLE",
+    "solver_note": null,
+    "status": "FEASIBLE"
+   },
+   "greedy_last_day_loose": 5,
+   "same_status": true
+  },
+  "synth-20|b30|tight": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 4,
+    "minutes": 119,
+    "n_activities": 51,
+    "n_days_used": 4,
+    "plan_ms_mean": 33.996,
+    "plan_ms_sd": 0.557,
+    "prereq_violations": 0,
+    "reason": "CPSAT_ASSIGNMENT",
+    "solver_note": {
+     "decision": "SCHEDULER",
+     "reason": "CPSAT_OPTIMAL_PACKING",
+     "status": "OPTIMAL",
+     "wall_s": 0.0291
+    },
+    "status": "FEASIBLE"
+   },
+   "cpsat_days_saved": null,
+   "deadline_day": 4,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 4,
+    "minutes": 112,
+    "n_activities": 48,
+    "n_days_used": 4,
+    "plan_ms_mean": 4.263,
+    "plan_ms_sd": 0.563,
+    "prereq_violations": 0,
+    "reason": "ORACLE_LIMIT_EXCEEDED",
+    "solver_note": null,
+    "status": "UNKNOWN"
+   },
+   "greedy_last_day_loose": 5,
+   "same_status": false
+  },
+  "synth-20|b5|greedy": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 26,
+    "minutes": 119,
+    "n_activities": 51,
+    "n_days_used": 26,
+    "plan_ms_mean": 2103.96,
+    "plan_ms_sd": 34.647,
+    "prereq_violations": 0,
+    "reason": "CPSAT_ASSIGNMENT",
+    "solver_note": {
+     "decision": "SCHEDULER",
+     "reason": "CPSAT_OPTIMAL_PACKING",
+     "status": "OPTIMAL",
+     "wall_s": 2.0438
+    },
+    "status": "FEASIBLE"
+   },
+   "cpsat_days_saved": 20,
+   "deadline_day": 46,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 10,
+    "last_day": 46,
+    "minutes": 177,
+    "n_activities": 72,
+    "n_days_used": 46,
+    "plan_ms_mean": 2.537,
+    "plan_ms_sd": 0.082,
+    "prereq_violations": 0,
+    "reason": "GREEDY_FEASIBLE",
+    "solver_note": null,
+    "status": "FEASIBLE"
+   },
+   "greedy_last_day_loose": 46,
+   "same_status": true
+  },
+  "synth-20|b5|loose": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 26,
+    "minutes": 119,
+    "n_activities": 51,
+    "n_days_used": 26,
+    "plan_ms_mean": 3208.945,
+    "plan_ms_sd": 63.437,
+    "prereq_violations": 0,
+    "reason": "CPSAT_ASSIGNMENT",
+    "solver_note": {
+     "decision": "SCHEDULER",
+     "reason": "CPSAT_OPTIMAL_PACKING",
+     "status": "OPTIMAL",
+     "wall_s": 3.2701
+    },
+    "status": "FEASIBLE"
+   },
+   "cpsat_days_saved": 20,
+   "deadline_day": 53,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 10,
+    "last_day": 46,
+    "minutes": 177,
+    "n_activities": 72,
+    "n_days_used": 46,
+    "plan_ms_mean": 2.658,
+    "plan_ms_sd": 0.238,
+    "prereq_violations": 0,
+    "reason": "GREEDY_FEASIBLE",
+    "solver_note": null,
+    "status": "FEASIBLE"
+   },
+   "greedy_last_day_loose": 46,
+   "same_status": true
+  },
+  "synth-20|b5|tight": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 26,
+    "minutes": 119,
+    "n_activities": 51,
+    "n_days_used": 26,
+    "plan_ms_mean": 2972.696,
+    "plan_ms_sd": 81.874,
+    "prereq_violations": 0,
+    "reason": "CPSAT_ASSIGNMENT",
+    "solver_note": {
+     "decision": "SCHEDULER",
+     "reason": "CPSAT_OPTIMAL_PACKING",
+     "status": "OPTIMAL",
+     "wall_s": 2.8513
+    },
+    "status": "FEASIBLE"
+   },
+   "cpsat_days_saved": 19,
+   "deadline_day": 45,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 45,
+    "minutes": 119,
+    "n_activities": 51,
+    "n_days_used": 45,
+    "plan_ms_mean": 2.954,
+    "plan_ms_sd": 0.045,
+    "prereq_violations": 0,
+    "reason": "ORACLE_ASSIGNMENT",
+    "solver_note": null,
+    "status": "FEASIBLE"
+   },
+   "greedy_last_day_loose": 46,
+   "same_status": true
+  },
+  "synth-50|b10|greedy": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 94,
+    "last_day": 74,
+    "minutes": 646,
+    "n_activities": 246,
+    "n_days_used": 74,
+    "plan_ms_mean": 5089.341,
+    "plan_ms_sd": 10.249,
+    "prereq_violations": 0,
+    "reason": "GREEDY_FEASIBLE",
+    "solver_note": {
+     "decision": "SCHEDULER",
+     "reason": "CPSAT_UNKNOWN_USING_GREEDY",
+     "status": "UNKNOWN",
+     "wall_s": 5.001
+    },
+    "status": "FEASIBLE"
+   },
+   "cpsat_days_saved": 0,
+   "deadline_day": 74,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 94,
+    "last_day": 74,
+    "minutes": 646,
+    "n_activities": 246,
+    "n_days_used": 74,
+    "plan_ms_mean": 9.859,
+    "plan_ms_sd": 0.048,
+    "prereq_violations": 0,
+    "reason": "GREEDY_FEASIBLE",
+    "solver_note": null,
+    "status": "FEASIBLE"
+   },
+   "greedy_last_day_loose": 74,
+   "same_status": true
+  },
+  "synth-50|b10|loose": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 94,
+    "last_day": 74,
+    "minutes": 646,
+    "n_activities": 246,
+    "n_days_used": 74,
+    "plan_ms_mean": 5129.373,
+    "plan_ms_sd": 37.277,
+    "prereq_violations": 0,
+    "reason": "GREEDY_FEASIBLE",
+    "solver_note": {
+     "decision": "SCHEDULER",
+     "reason": "CPSAT_UNKNOWN_USING_GREEDY",
+     "status": "UNKNOWN",
+     "wall_s": 5.017
+    },
+    "status": "FEASIBLE"
+   },
+   "cpsat_days_saved": 0,
+   "deadline_day": 81,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 94,
+    "last_day": 74,
+    "minutes": 646,
+    "n_activities": 246,
+    "n_days_used": 74,
+    "plan_ms_mean": 10.35,
+    "plan_ms_sd": 0.441,
+    "prereq_violations": 0,
+    "reason": "GREEDY_FEASIBLE",
+    "solver_note": null,
+    "status": "FEASIBLE"
+   },
+   "greedy_last_day_loose": 74,
+   "same_status": true
+  },
+  "synth-50|b10|tight": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 73,
+    "minutes": 280,
+    "n_activities": 120,
+    "n_days_used": 73,
+    "plan_ms_mean": 5101.505,
+    "plan_ms_sd": 7.893,
+    "prereq_violations": 0,
+    "reason": "ORACLE_ASSIGNMENT",
+    "solver_note": null,
+    "status": "FEASIBLE"
+   },
+   "cpsat_days_saved": 0,
+   "deadline_day": 73,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 73,
+    "minutes": 280,
+    "n_activities": 120,
+    "n_days_used": 73,
+    "plan_ms_mean": 13.724,
+    "plan_ms_sd": 6.744,
+    "prereq_violations": 0,
+    "reason": "ORACLE_ASSIGNMENT",
+    "solver_note": null,
+    "status": "FEASIBLE"
+   },
+   "greedy_last_day_loose": 74,
+   "same_status": true
+  },
+  "synth-50|b15|greedy": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 27,
+    "minutes": 280,
+    "n_activities": 120,
+    "n_days_used": 24,
+    "plan_ms_mean": 5030.464,
+    "plan_ms_sd": 1.068,
+    "prereq_violations": 0,
+    "reason": "CPSAT_ASSIGNMENT",
+    "solver_note": {
+     "decision": "SCHEDULER",
+     "reason": "CPSAT_OPTIMAL_PACKING",
+     "status": "FEASIBLE",
+     "wall_s": 5.0002
+    },
+    "status": "FEASIBLE"
+   },
+   "cpsat_days_saved": 0,
+   "deadline_day": 27,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 27,
+    "minutes": 382,
+    "n_activities": 164,
+    "n_days_used": 27,
+    "plan_ms_mean": 5.327,
+    "plan_ms_sd": 0.259,
+    "prereq_violations": 0,
+    "reason": "GREEDY_FEASIBLE",
+    "solver_note": null,
+    "status": "FEASIBLE"
+   },
+   "greedy_last_day_loose": 27,
+   "same_status": true
+  },
+  "synth-50|b15|loose": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 27,
+    "minutes": 382,
+    "n_activities": 164,
+    "n_days_used": 27,
+    "plan_ms_mean": 5047.796,
+    "plan_ms_sd": 8.684,
+    "prereq_violations": 0,
+    "reason": "GREEDY_FEASIBLE",
+    "solver_note": {
+     "decision": "SCHEDULER",
+     "reason": "CPSAT_UNKNOWN_USING_GREEDY",
+     "status": "UNKNOWN",
+     "wall_s": 4.9997
+    },
+    "status": "FEASIBLE"
+   },
+   "cpsat_days_saved": 0,
+   "deadline_day": 34,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 27,
+    "minutes": 382,
+    "n_activities": 164,
+    "n_days_used": 27,
+    "plan_ms_mean": 5.182,
+    "plan_ms_sd": 0.175,
+    "prereq_violations": 0,
+    "reason": "GREEDY_FEASIBLE",
+    "solver_note": null,
+    "status": "FEASIBLE"
+   },
+   "greedy_last_day_loose": 27,
+   "same_status": true
+  },
+  "synth-50|b15|tight": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 24,
+    "minutes": 280,
+    "n_activities": 120,
+    "n_days_used": 22,
+    "plan_ms_mean": 5032.047,
+    "plan_ms_sd": 1.805,
+    "prereq_violations": 0,
+    "reason": "CPSAT_ASSIGNMENT",
+    "solver_note": {
+     "decision": "SCHEDULER",
+     "reason": "CPSAT_OPTIMAL_PACKING",
+     "status": "FEASIBLE",
+     "wall_s": 5.0007
+    },
+    "status": "FEASIBLE"
+   },
+   "cpsat_days_saved": 2,
+   "deadline_day": 26,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 26,
+    "minutes": 280,
+    "n_activities": 120,
+    "n_days_used": 26,
+    "plan_ms_mean": 6.105,
+    "plan_ms_sd": 0.597,
+    "prereq_violations": 0,
+    "reason": "ORACLE_ASSIGNMENT",
+    "solver_note": null,
+    "status": "FEASIBLE"
+   },
+   "greedy_last_day_loose": 27,
+   "same_status": true
+  },
+  "synth-50|b30|greedy": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 10,
+    "minutes": 280,
+    "n_activities": 120,
+    "n_days_used": 10,
+    "plan_ms_mean": 318.109,
+    "plan_ms_sd": 6.242,
+    "prereq_violations": 0,
+    "reason": "CPSAT_ASSIGNMENT",
+    "solver_note": {
+     "decision": "SCHEDULER",
+     "reason": "CPSAT_OPTIMAL_PACKING",
+     "status": "OPTIMAL",
+     "wall_s": 0.3071
+    },
+    "status": "FEASIBLE"
+   },
+   "cpsat_days_saved": 0,
+   "deadline_day": 10,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 10,
+    "minutes": 280,
+    "n_activities": 120,
+    "n_days_used": 10,
+    "plan_ms_mean": 3.422,
+    "plan_ms_sd": 0.256,
+    "prereq_violations": 0,
+    "reason": "GREEDY_FEASIBLE",
+    "solver_note": null,
+    "status": "FEASIBLE"
+   },
+   "greedy_last_day_loose": 10,
+   "same_status": true
+  },
+  "synth-50|b30|loose": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 10,
+    "minutes": 280,
+    "n_activities": 120,
+    "n_days_used": 10,
+    "plan_ms_mean": 1415.783,
+    "plan_ms_sd": 29.369,
+    "prereq_violations": 0,
+    "reason": "CPSAT_ASSIGNMENT",
+    "solver_note": {
+     "decision": "SCHEDULER",
+     "reason": "CPSAT_OPTIMAL_PACKING",
+     "status": "OPTIMAL",
+     "wall_s": 1.4497
+    },
+    "status": "FEASIBLE"
+   },
+   "cpsat_days_saved": 0,
+   "deadline_day": 17,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 10,
+    "minutes": 280,
+    "n_activities": 120,
+    "n_days_used": 10,
+    "plan_ms_mean": 3.447,
+    "plan_ms_sd": 0.192,
+    "prereq_violations": 0,
+    "reason": "GREEDY_FEASIBLE",
+    "solver_note": null,
+    "status": "FEASIBLE"
+   },
+   "greedy_last_day_loose": 10,
+   "same_status": true
+  },
+  "synth-50|b30|tight": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 9,
+    "minutes": 252,
+    "n_activities": 108,
+    "n_days_used": 9,
+    "plan_ms_mean": 4.265,
+    "plan_ms_sd": 0.04,
+    "prereq_violations": 0,
+    "reason": "INSUFFICIENT_TIME_BUDGET",
+    "solver_note": null,
+    "status": "INFEASIBLE"
+   },
+   "cpsat_days_saved": null,
+   "deadline_day": 9,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 0,
+    "last_day": 9,
+    "minutes": 252,
+    "n_activities": 108,
+    "n_days_used": 9,
+    "plan_ms_mean": 4.457,
+    "plan_ms_sd": 0.274,
+    "prereq_violations": 0,
+    "reason": "INSUFFICIENT_TIME_BUDGET",
+    "solver_note": null,
+    "status": "INFEASIBLE"
+   },
+   "greedy_last_day_loose": 10,
+   "same_status": true
+  },
+  "synth-50|b5|greedy": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 9,
+    "last_day": 46,
+    "minutes": 177,
+    "n_activities": 72,
+    "n_days_used": 46,
+    "plan_ms_mean": 5.889,
+    "plan_ms_sd": 0.543,
+    "prereq_violations": 0,
+    "reason": "INSUFFICIENT_TIME_BUDGET",
+    "solver_note": null,
+    "status": "INFEASIBLE"
+   },
+   "cpsat_days_saved": null,
+   "deadline_day": 46,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 9,
+    "last_day": 46,
+    "minutes": 177,
+    "n_activities": 72,
+    "n_days_used": 46,
+    "plan_ms_mean": 5.824,
+    "plan_ms_sd": 0.527,
+    "prereq_violations": 0,
+    "reason": "INSUFFICIENT_TIME_BUDGET",
+    "solver_note": null,
+    "status": "INFEASIBLE"
+   },
+   "greedy_last_day_loose": 46,
+   "same_status": true
+  },
+  "synth-50|b5|loose": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 9,
+    "last_day": 46,
+    "minutes": 177,
+    "n_activities": 72,
+    "n_days_used": 46,
+    "plan_ms_mean": 5.641,
+    "plan_ms_sd": 0.274,
+    "prereq_violations": 0,
+    "reason": "INSUFFICIENT_TIME_BUDGET",
+    "solver_note": null,
+    "status": "INFEASIBLE"
+   },
+   "cpsat_days_saved": null,
+   "deadline_day": 53,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 9,
+    "last_day": 46,
+    "minutes": 177,
+    "n_activities": 72,
+    "n_days_used": 46,
+    "plan_ms_mean": 5.611,
+    "plan_ms_sd": 0.346,
+    "prereq_violations": 0,
+    "reason": "INSUFFICIENT_TIME_BUDGET",
+    "solver_note": null,
+    "status": "INFEASIBLE"
+   },
+   "greedy_last_day_loose": 46,
+   "same_status": true
+  },
+  "synth-50|b5|tight": {
+   "cpsat": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 8,
+    "last_day": 45,
+    "minutes": 174,
+    "n_activities": 71,
+    "n_days_used": 45,
+    "plan_ms_mean": 5.757,
+    "plan_ms_sd": 0.424,
+    "prereq_violations": 0,
+    "reason": "INSUFFICIENT_TIME_BUDGET",
+    "solver_note": null,
+    "status": "INFEASIBLE"
+   },
+   "cpsat_days_saved": null,
+   "deadline_day": 45,
+   "default": {
+    "budget_violations": 0,
+    "duplicate_occurrences": 8,
+    "last_day": 45,
+    "minutes": 174,
+    "n_activities": 71,
+    "n_days_used": 45,
+    "plan_ms_mean": 6.059,
+    "plan_ms_sd": 0.455,
+    "prereq_violations": 0,
+    "reason": "INSUFFICIENT_TIME_BUDGET",
+    "solver_note": null,
+    "status": "INFEASIBLE"
+   },
+   "greedy_last_day_loose": 46,
+   "same_status": true
+  }
+ },
+ "headline": {
+  "audit_violations_cpsat": 0,
+  "audit_violations_default": 0,
+  "both_feasible": 18,
+  "cells": 24,
+  "cpsat_dropped_review_minutes_cells": 5,
+  "cpsat_longer": 0,
+  "cpsat_shorter": 11,
+  "cpsat_timeouts_fell_back": 3,
+  "cpsat_used": 16,
+  "max_days_saved": 20,
+  "median_ms_cpsat_when_used": 592.48,
+  "median_ms_default_when_cpsat_used": 2.6,
+  "same_workload_cells": 13,
+  "same_workload_cpsat_shorter": 7,
+  "same_workload_max_days_saved": 19,
+  "status_agreement": 22
+ },
+ "metadata": {
+  "code_hash": "f09fb8e2f6126c98c5a81cddf0a840a3936509111cbbbdb064fd2e8d5a881b66",
+  "maintenance_reviews": false,
+  "ortools": "9.14.6206",
+  "protocol": "FINAL_A5 \u00a77 O.4: plan length and latency vs greedy/oracle on synth-20/50, same audits",
+  "repeats": 5,
+  "runtime_s": 260.2,
+  "timestamp_utc": "2026-11-14T12:27:02.369552+00:00"
+ }
+}

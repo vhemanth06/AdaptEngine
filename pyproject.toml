@@ -28,7 +28,8 @@ agents = [
     "anthropic",
 ]
 solver = [
-    "ortools>=9.10",
+    # <9.15: OR-Tools 9.15 needs numpy 2, which breaks pyBKT 1.4.3 (pinned to numpy 1.26.4)
+    "ortools>=9.10,<9.15",
 ]
 figures = [
     "matplotlib>=3.8",

@@ -2,7 +2,7 @@
 """W8 G.3 / B.4: build docs/FINAL_RESULTS.md and docs/figures/final_*.png from results files only.
 
 Inputs (experiments/results/): final_grid.json, w8_calibration_select.json, w8_fits.json,
-w8_policy_eval.json, w8_extensions.json, w8_probe_baseline.json, w8_agent_eval_*.json.
+w8_policy_eval.json, w8_extensions.json, w8_cpsat_eval.json, w8_probe_baseline.json, w8_agent_eval_*.json.
 Every number in the output is read from those files.
 """
 
@@ -435,7 +435,32 @@ def other_sections(L):
                 L.append(
                     f"| {cell} | {arm} | {f3(x['goal_mastery_rate'])} | {f3(x['mean_goal_theta'])} | {f3(x['mean_retention'])} | {f3(x['brier'])} | {f3(x['auc'])} | {x['executed_violations']} | {ci(p['goal_mastery']) if p else '(reference)'} |"
                 )
-        L.append(f"\nO.4 CP-SAT: {ex['O4']}.")
+        cs = load("w8_cpsat_eval.json")
+        if not cs:
+            L.append(f"\nO.4 CP-SAT: {ex['O4']}.")
+        else:
+            h, m = cs["headline"], cs["metadata"]
+            L += [
+                "",
+                f"O.4 CP-SAT (`w8_cpsat_eval.json`, OR-Tools {m['ortools']}, maintenance reviews off in both arms): "
+                f"{h['cells']} cells, same status in {h['status_agreement']}; CP-SAT plan used in {h['cpsat_used']}, "
+                f"timed out (5 s) and fell back in {h['cpsat_timeouts_fell_back']}. Audit violations: default "
+                f"{h['audit_violations_default']}, CP-SAT {h['audit_violations_cpsat']}. Both feasible in "
+                f"{h['both_feasible']}: CP-SAT shorter in {h['cpsat_shorter']}, longer in {h['cpsat_longer']}. "
+                f"Same workload (fair packing) in {h['same_workload_cells']}: shorter in "
+                f"{h['same_workload_cpsat_shorter']}, by at most {h['same_workload_max_days_saved']} day(s); in "
+                f"{h['cpsat_dropped_review_minutes_cells']} cells the CP-SAT plan is shorter partly because it omits "
+                f"in-plan reviews. Median planning time where CP-SAT was used: {h['median_ms_cpsat_when_used']} ms "
+                f"vs {h['median_ms_default_when_cpsat_used']} ms default.",
+                "",
+                "| Cell | Default reason | Default last day | Default min | Default ms | CP-SAT reason | CP-SAT last day | CP-SAT min | CP-SAT ms |",
+                "|---|---|---|---|---|---|---|---|---|",
+            ]  # fmt: skip
+            for cell, v in cs["cells"].items():
+                d, c = v["default"], v["cpsat"]
+                L.append(
+                    f"| {cell.replace('|', chr(92) + '|')} | {d['reason']} | {d['last_day']} | {d['minutes']} | {d['plan_ms_mean']} | {c['reason']} | {c['last_day']} | {c['minutes']} | {c['plan_ms_mean']} |"
+                )
     for path in sorted(glob.glob(os.path.join(RES, "w8_agent_eval_*.json"))):
         a = json.load(open(path))
         L += [
