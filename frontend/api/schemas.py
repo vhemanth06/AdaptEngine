@@ -56,7 +56,8 @@ class CreateSession(BaseModel):
     goal: str = _id()
     deadline_day: int = Field(ge=1, le=365)
     budget: int = Field(ge=1, le=600)
-    profile: str = _id(default="w7_default")  # W8 B.1: named learner-model profile
+    profile: str = _id(default="fitted_S1")  # named learner-model profile
+    rules: Literal["product", "legacy"] = "product"
 
 
 class PlanRequest(BaseModel):
@@ -150,6 +151,7 @@ class ConceptResult(BaseModel):
     p: float
     n_items: int
     stop_reason: str
+    inferred_from: Optional[str] = None
 
 
 class DiagnosticOut(BaseModel):
@@ -183,6 +185,9 @@ class SessionOut(BaseModel):
     replan_ms: Optional[float] = None
     events: list[EventOut]
     profile: str = "w7_default"
+    rules: str = "legacy"
+    theta: float
+    k_responses: int
     feasibility_warning: Optional[str] = None  # W8 F.1 (expected projection; display only)
 
 

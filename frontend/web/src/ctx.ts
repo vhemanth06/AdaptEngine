@@ -33,7 +33,6 @@ export type Ctx = {
 };
 
 // Scripted demo learner (deterministic demo mode): knows these concepts, nothing else.
-export const DEMO_KNOWN = new Set(["C1", "C2", "C3", "C6"]);
 export const DEMO_SETUP = { curriculum: "8node", goal: "C8", deadline_day: 10, budget: 10 };
 
 // Keyboard answering: digits 1-4 call handler(0..3) while active.

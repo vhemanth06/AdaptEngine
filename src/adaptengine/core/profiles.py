@@ -81,3 +81,27 @@ def list_profiles(config_dir: str = CONFIG_DIR) -> list[str]:
             if f.endswith(".json") and not f.startswith("policy_")
         )
     return names
+
+
+STRICT_MASTERY = {"theta": 0.95, "k_responses": 1, "horizon_aware_mastery": False}
+GOAL_SEARCH_DIAGNOSTIC = {
+    "selection_scope": "goal_search",
+    "concept_cap": 4,
+    "n_max": 25,
+    "diag_budget_min": 12,
+    "diag_budget_per_concept": 1.0,
+}
+PRODUCT_OVERRIDES = {
+    **STRICT_MASTERY,
+    **GOAL_SEARCH_DIAGNOSTIC,
+    "consolidation": True,
+    "verification_probe": True,
+    "feasibility_warning": True,
+    "diagnostic_scope": "goal_path",  # only the goal and its prerequisites are worth asking about
+}
+PRODUCT_PROFILE = "fitted_S1"
+
+
+def product_config(profile: str = PRODUCT_PROFILE) -> EngineConfig:
+    """The product preset: strict mastery + goal-search diagnostic on any learner profile."""
+    return load_profile(profile, **PRODUCT_OVERRIDES)

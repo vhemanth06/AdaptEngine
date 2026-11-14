@@ -13,6 +13,15 @@ from ..learner.evidence import update_concept_evidence
 from .scoring import compute_eig, candidate_sort_key
 
 
+def diagnostic_budget(cfg: EngineConfig, n_concepts: int) -> int:
+    """Item budget: n_max when diag_budget_per_concept == 0, else scaled with concept count,
+    floored at diag_budget_min and always capped by n_max."""
+    if cfg.diag_budget_per_concept == 0:
+        return cfg.n_max
+    scaled = max(cfg.diag_budget_min, round(cfg.diag_budget_per_concept * n_concepts))
+    return min(cfg.n_max, scaled)
+
+
 class StopReason(str, Enum):
     ENTROPY = "ENTROPY"
     CONCEPT_CAP = "CONCEPT_CAP"
@@ -20,6 +29,7 @@ class StopReason(str, Enum):
     NO_ITEMS = "NO_ITEMS"
     SKIPPED_ANCESTOR_UNMASTERED = "SKIPPED_ANCESTOR_UNMASTERED"
     NOT_REACHED = "NOT_REACHED"
+    INFERRED = "INFERRED"
 
 
 @dataclass(frozen=True)
@@ -41,6 +51,7 @@ class ConceptDiagnosticResult:
     status: ConceptStatus
     n_items: int
     stop_reason: StopReason
+    inferred_from: Optional[str] = None  # set only for StopReason.INFERRED
 
 
 @dataclass(frozen=True)
@@ -107,7 +118,7 @@ class AdaptiveDiagnostic:
         )
         return new_c, log
 
-    def _run_frontier(self, ordered, goal_set, concepts, response_provider, model, sid):
+    def _run_frontier(self, ordered, goal_set, concepts, response_provider, model, sid, budget):
         """T3.2 selection_scope="frontier": each step picks the max-EIG unasked item over every
         open concept whose in-goal prerequisites are finished; per-concept stops still apply."""
         cfg = self.config
@@ -146,7 +157,7 @@ class AdaptiveDiagnostic:
                 if c not in results
                 and all(q in results for q in self.graph.prerequisites(c) if q in goal_set)
             ]
-            if not open_c or total >= cfg.n_max:
+            if not open_c or total >= budget:
                 break
             scored = []
             for c in open_c:
@@ -171,7 +182,100 @@ class AdaptiveDiagnostic:
 
         for c in ordered:
             if c not in results:
-                finish(c, StopReason.GLOBAL_CAP if total >= cfg.n_max else StopReason.NOT_REACHED)
+                finish(c, StopReason.GLOBAL_CAP if total >= budget else StopReason.NOT_REACHED)
+        return DiagnosticResult(
+            state=LearnerState(concepts=concepts),
+            concept_results=MappingProxyType(dict(results)),
+            item_log=tuple(item_log),
+            total_items=total,
+        )
+
+    def _run_goal_search(self, ordered, goal_set, concepts, response_provider, model, sid, budget):
+        """selection_scope="goal_search" (spec 5.3): ask the open concept that splits the open
+        set most evenly, min(open ancestors + 1, open descendants + 1); a high result floors and
+        (p >= known_threshold) infers its open ancestors, a low one prunes descendants as usual."""
+        cfg = self.config
+        results: dict[str, ConceptDiagnosticResult] = {}
+        skipped: set[str] = set()
+        n_items = {c: 0 for c in ordered}
+        asked: set[str] = set()
+        item_log: list[DiagnosticItemLog] = []
+        total = 0
+        topo_index = {c: i for i, c in enumerate(ordered)}
+        exercises = {
+            c: [
+                a
+                for a in self.activities.values()
+                if a.target_concept == c and a.type == ActivityType.EXERCISE
+            ]
+            for c in ordered
+        }
+
+        def unasked(c):
+            return [a for a in exercises[c] if a.activity_id not in asked]
+
+        def record(c, reason, inferred_from=None):
+            fc = concepts[c]
+            results[c] = ConceptDiagnosticResult(
+                c, fc.p, fc.uncertainty, fc.status, n_items[c], reason, inferred_from
+            )
+
+        while True:
+            for c in ordered:  # settle skipped and item-less concepts (no evidence, no propagation)
+                if c not in results and c in skipped:
+                    record(c, StopReason.SKIPPED_ANCESTOR_UNMASTERED)
+                elif c not in results and not unasked(c):
+                    record(c, StopReason.NO_ITEMS)
+            open_c = [c for c in ordered if c not in results]
+            if not open_c or total >= budget:
+                break
+            open_set = set(open_c)
+
+            def split_key(c):
+                up = len(open_set & self.graph.ancestors(c)) + 1
+                down = len(open_set & self.graph.descendants(c)) + 1
+                return (-min(up, down), topo_index[c], c)
+
+            c = min(open_c, key=split_key)
+            reason = None
+            while reason is None:
+                scored = []
+                for act in unasked(c):
+                    eig = compute_eig(concepts[c].p, act, cfg, model=model)
+                    scored.append((candidate_sort_key(eig, act.difficulty, act.activity_id), eig, act))
+                scored.sort(key=lambda x: x[0])
+                _, eig, act = scored[0]
+                asked.add(act.activity_id)
+                concepts[c], rec = self._ask(
+                    c, concepts[c], act, eig, n_items[c], response_provider, model, sid
+                )
+                item_log.append(rec)
+                n_items[c] += 1
+                total += 1
+                if n_items[c] >= cfg.min_items_per_concept and concepts[c].uncertainty <= cfg.h_stop:
+                    reason = StopReason.ENTROPY
+                elif n_items[c] >= cfg.concept_cap:
+                    reason = StopReason.CONCEPT_CAP
+                elif not unasked(c):
+                    reason = StopReason.NO_ITEMS
+                elif total >= budget:
+                    reason = StopReason.GLOBAL_CAP
+            record(c, reason)
+            if reason == StopReason.GLOBAL_CAP:
+                break  # cut off by the budget: still open (spec 5.3), so nothing propagates
+            p_c = concepts[c].p
+            anc = self.graph.ancestors(c)
+            for a in ordered:  # upward: floor open in-set ancestors, infer them if p_c is high
+                if a in results or a not in anc:
+                    continue
+                concepts[a] = replace(concepts[a], p=max(concepts[a].p, p_c))
+                if p_c >= cfg.known_threshold:
+                    record(a, StopReason.INFERRED, inferred_from=c)
+            self._prune(c, p_c, goal_set, results, skipped, concepts)
+
+        for c in ordered:
+            if c not in results:
+                record(c, StopReason.GLOBAL_CAP if total >= budget else StopReason.NOT_REACHED)
         return DiagnosticResult(
             state=LearnerState(concepts=concepts),
             concept_results=MappingProxyType(dict(results)),
@@ -210,9 +314,16 @@ class AdaptiveDiagnostic:
                 uc = updated_concepts[c]
                 if uc.responses == 0 and uc.p == self.config.p0:
                     updated_concepts[c] = replace(uc, p=self.config.population_p0)
+        budget = diagnostic_budget(self.config, len(ordered_concepts))
         if self.config.selection_scope == "frontier":
             return self._run_frontier(
-                ordered_concepts, goal_set, updated_concepts, response_provider, active_model, sid
+                ordered_concepts, goal_set, updated_concepts, response_provider, active_model, sid,
+                budget,
+            )
+        if self.config.selection_scope == "goal_search":
+            return self._run_goal_search(
+                ordered_concepts, goal_set, updated_concepts, response_provider, active_model, sid,
+                budget,
             )
         concept_results: dict[str, ConceptDiagnosticResult] = {}
         item_log: list[DiagnosticItemLog] = []
@@ -234,7 +345,7 @@ class AdaptiveDiagnostic:
                 )
                 continue
 
-            if total_items >= self.config.n_max:
+            if total_items >= budget:
                 concept_results[concept_id] = ConceptDiagnosticResult(
                     concept_id=concept_id,
                     p=current_c.p,
@@ -255,7 +366,7 @@ class AdaptiveDiagnostic:
             ]
 
             while c_stop_reason is None and n_concept_items < self.config.concept_cap:
-                if total_items >= self.config.n_max:
+                if total_items >= budget:
                     c_stop_reason = StopReason.GLOBAL_CAP
                     break
 
@@ -320,7 +431,7 @@ class AdaptiveDiagnostic:
             if c_stop_reason is None:
                 if n_concept_items >= self.config.concept_cap:
                     c_stop_reason = StopReason.CONCEPT_CAP
-                elif total_items >= self.config.n_max:
+                elif total_items >= budget:
                     c_stop_reason = StopReason.GLOBAL_CAP
                 else:
                     c_stop_reason = StopReason.NO_ITEMS

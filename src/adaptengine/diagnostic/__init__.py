@@ -4,6 +4,7 @@ from .engine import (
     StopReason,
     ConceptDiagnosticResult,
     DiagnosticItemLog,
+    diagnostic_budget,
 )
 from .scoring import compute_eig, candidate_sort_key
 
@@ -13,6 +14,7 @@ __all__ = [
     "StopReason",
     "ConceptDiagnosticResult",
     "DiagnosticItemLog",
+    "diagnostic_budget",
     "compute_eig",
     "candidate_sort_key",
 ]

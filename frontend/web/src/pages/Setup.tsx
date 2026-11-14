@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { api } from "../api/client";
 import { DEMO_SETUP, type Ctx } from "../ctx";
@@ -6,17 +6,23 @@ import { Button, Card, Chip, ErrorBox, Segmented, StatusBadge, fieldCls } from "
 
 export default function Setup({ session, sid, setSession, go }: Ctx) {
   const [form, setForm] = useState(() =>
-    session ? { curriculum: session.curriculum, profile: session.profile, ...session.context } : { ...DEMO_SETUP, profile: "w7_default" },
+    session
+      ? { curriculum: session.curriculum, profile: session.profile, rules: "product" as "product" | "legacy", ...session.context } // new rules by default, even when a pre-change (legacy) session is open
+      : { ...DEMO_SETUP, profile: "fitted_S1", rules: "product" as "product" | "legacy" },
   );
   const health = useQuery({ queryKey: ["health"], queryFn: api.health, staleTime: 60_000 });
   const curricula = useQuery({ queryKey: ["curricula"], queryFn: api.curricula });
+  // 8node_x10 is the default once promoted; until then the demo keeps 8node.
+  useEffect(() => {
+    if (!session && curricula.data?.some((c) => c.id === "8node_x10")) setForm((f) => (f.curriculum === "8node" ? { ...f, curriculum: "8node_x10" } : f));
+  }, [session, curricula.data]);
   const cur = useQuery({ queryKey: ["curriculum", form.curriculum], queryFn: () => api.curriculum(form.curriculum) });
-  const sameCurriculum = !!session && session.curriculum === form.curriculum && session.profile === form.profile;
+  const sameCurriculum = !!session && session.curriculum === form.curriculum && session.profile === form.profile && session.rules === form.rules;
   const ctx = { goal: form.goal, deadline_day: form.deadline_day, budget: form.budget };
 
   const run = useMutation({
     mutationFn: async () => {
-      const id = sameCurriculum ? sid! : (await api.createSession({ curriculum: form.curriculum, profile: form.profile, ...ctx })).session_id;
+      const id = sameCurriculum ? sid! : (await api.createSession({ curriculum: form.curriculum, profile: form.profile, rules: form.rules, ...ctx })).session_id;
       return api.plan(id, ctx);
     },
     onSuccess: setSession,
@@ -69,9 +75,14 @@ export default function Setup({ session, sid, setSession, go }: Ctx) {
               onChange={(b) => setForm({ ...form, budget: b })}
             />
           </div>
+          <span>Rules</span>
+          <div>
+            <Segmented label="Rules" value={form.rules} options={["product", "legacy"] as const} onChange={(r) => setForm({ ...form, rules: r })} />
+            <span className="ml-2 text-sm text-[var(--text-muted)]">legacy = W7 behaviour</span>
+          </div>
           <label htmlFor="profile">Learner model</label>
           <select id="profile" className={field} value={form.profile} onChange={(e) => setForm({ ...form, profile: e.target.value })}>
-            {(health.data?.profiles ?? ["w7_default"]).map((p) => (
+            {(health.data?.profiles ?? [health.data?.default_profile ?? "fitted_S1"]).map((p) => (
               <option key={p} value={p}>
                 {p === "w7_default" ? "W7 default (D6 heuristics)" : p}
               </option>

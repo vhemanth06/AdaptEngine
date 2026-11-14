@@ -408,3 +408,25 @@ def evaluate_diagnostic_binary(
         "[Pelanek 2015]; kept for comparison with W6 only",
         "arms": table,
     }
+
+
+def summarize(rows: Mapping[str, list], items: Mapping[str, list]) -> dict:
+    """Per-arm matrix summary of binary_score rows (shared by the W7 and W9 diag matrices)."""
+
+    def br(name):
+        return [r["brier"] for r in rows[name]]
+
+    out = {}
+    for name, rs in rows.items():
+        pairs = [x for r in rs for x in r["pairs"]]
+        out[name] = {
+            "brier": round(sum(br(name)) / len(rs), 4),
+            "log_loss": log_loss(pairs),
+            "auc": roc_auc(pairs),
+            "next_response_brier": round(sum(r["next_brier"] for r in rs) / len(rs), 4),
+            "items": round(sum(items[name]) / len(items[name]), 3),
+            "decomposition": brier_decomposition(pairs),
+            "vs_prior_only": paired_summary(br(name), br("prior_only")),
+            "vs_w6_shipped": paired_summary(br(name), br("w6_shipped")),
+        }
+    return out

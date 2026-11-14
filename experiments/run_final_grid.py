@@ -20,6 +20,7 @@ from multiprocessing import Pool
 repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path[:0] = [p for p in (repo_root, os.path.join(repo_root, "src")) if p not in sys.path]
 
+from adaptengine.core.profiles import GOAL_SEARCH_DIAGNOSTIC, STRICT_MASTERY  # noqa: E402
 from experiments.arms import get_scenario, run_episode  # noqa: E402
 from experiments.provenance import stamp  # noqa: E402
 from experiments.sim import PROFILES, s4_fitted_params  # noqa: E402
@@ -40,6 +41,13 @@ SELECT = os.path.join(repo_root, "experiments/results/w8_calibration_select.json
 N_BINS = 20  # calibration histogram bins (Brier exact via sums; AUC from bins)
 
 
+def smoke_name(path):
+    """Insert _smoke before the first dot of the basename: final_grid.ckpt.jsonl -> final_grid_smoke.ckpt.jsonl."""
+    d, b = os.path.split(path)
+    stem, dot, ext = b.partition(".")
+    return os.path.join(d, f"{stem}_smoke{dot}{ext}")
+
+
 def winner_spec(profile_override=None):
     sel = json.load(open(SELECT))
     c = sel["candidates"][sel["winner"]]
@@ -54,6 +62,11 @@ def arm_engine(arm, world, cur, spec):
         return engine(cur, prof, **{**ov, **FINAL_FLAGS, **extra}), (
             "adapt_dx" if arm == "adapt_final_dx" else "adapt"
         )
+    if arm in ("adapt_strict_dx", "adapt_strict_gs"):
+        extra = GOAL_SEARCH_DIAGNOSTIC if arm == "adapt_strict_gs" else {}
+        return engine(
+            cur, prof, **{**ov, **FINAL_FLAGS, "diagnostic_scope": "goal_path", **STRICT_MASTERY, **extra}
+        ), "adapt_dx"
     if arm == "adapt_cal":
         return engine(cur, prof, **ov), "adapt"
     return engine(cur), ("adapt" if arm == "adapt_w7" else arm)
@@ -189,7 +202,7 @@ def main(a):
         seeds = HEADLINE_SEEDS if (w, cur, b, scen, h) == HEADLINE else REPORT_SEEDS
         if a.smoke:
             seeds = seeds[:20]
-        for arm in ARMS:
+        for arm in a.arms:
             for i in range(0, len(seeds), 50):
                 units.append((w, cur, b, scen, h, arm, seeds[i : i + 50], spec))
     done = {}
@@ -283,7 +296,7 @@ def main(a):
             "budgets": list(a.budgets),
             "scenarios": list(SCENARIOS) + ["forgetting_21"],
             "horizons": [str(h) for h in horizons],
-            "arms": list(ARMS),
+            "arms": list(a.arms),
             "n_per_cell": 20 if a.smoke else len(REPORT_SEEDS),
             "headline_cell": "|".join(map(str, HEADLINE)),
             "n_headline": 20 if a.smoke else len(HEADLINE_SEEDS),
@@ -311,10 +324,10 @@ if __name__ == "__main__":
     ap.add_argument("--horizons", nargs="*", default=[str(h) for h in HORIZONS])
     ap.add_argument("--profile", default=None)
     ap.add_argument("--procs", type=int, default=max(1, (os.cpu_count() or 2) - 1))
+    ap.add_argument("--arms", nargs="*", choices=ARMS + ("adapt_strict_dx", "adapt_strict_gs"), default=list(ARMS))
     ap.add_argument("--smoke", action="store_true")
     a = ap.parse_args()
     if a.smoke:
         a.worlds, a.curricula, a.budgets, a.horizons = ["S1"], ["4-node"], [15], ["14"]
-        a.out = a.out.replace("final_grid.json", "final_grid_smoke.json")
-        a.checkpoint = a.checkpoint.replace("final_grid.ckpt", "final_grid_smoke.ckpt")
+        a.out, a.checkpoint = smoke_name(a.out), smoke_name(a.checkpoint)
     main(a)

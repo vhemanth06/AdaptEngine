@@ -118,7 +118,7 @@ export default function Study({ session, cur, demo, sendEvent, lastEvent, go }: 
             {up.explanation && <Markdown text={up.explanation} />}
             <div>
               {conceptName(cur, up.concept_id)}: p {up.p_before.toFixed(2)} → {up.p_after.toFixed(2)}
-              <PBar p={up.p_after} theta={cur?.theta} />
+              <PBar p={up.p_after} theta={session?.theta ?? cur?.theta} />
             </div>
             {up.correct === false && (
               <p className="text-base text-slate-600">

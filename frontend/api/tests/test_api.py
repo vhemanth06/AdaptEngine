@@ -92,7 +92,7 @@ def test_plan_feasible_then_not_with_best_effort(client):
 
 
 def test_diagnostic_stepwise_equals_engine_diagnose(client, engine):
-    sid = _new(client)["session_id"]
+    sid = _new(client, profile="w7_default", rules="legacy")["session_id"]
     first = client.get(f"/api/sessions/{sid}").json()["diagnostic"]["next_item"]
     wrong = {"activity_id": "E-C8-0.2", "correct": True}
     assert client.post(f"/api/sessions/{sid}/diagnostic/answer", json=wrong).status_code == 409
@@ -116,7 +116,7 @@ def test_diagnostic_stepwise_equals_engine_diagnose(client, engine):
 
 
 def test_events_remediation_diff_and_disruptions(client):
-    sid = _new(client)["session_id"]
+    sid = _new(client, profile="w7_default", rules="legacy")["session_id"]
     view = _run_diagnostic(client, sid)
     for _ in range(6):  # do today's work, answering every exercise wrong
         aid = view["today"]["activities"][0]
@@ -200,7 +200,7 @@ def test_evaluation_tolerates_missing_and_broken_files(client, tmp_path, monkeyp
 
 def test_end_to_end_plan_matches_direct_engine(client, engine):
     """create -> diagnose -> plan -> answer -> disrupt; the API plan equals a direct Engine call."""
-    sid = _new(client)["session_id"]
+    sid = _new(client, profile="w7_default", rules="legacy")["session_id"]
     view = _run_diagnostic(client, sid)
     direct = engine.diagnose(
         engine.init_learner(), lambda a: a.target_concept in KNOWN, session_id=sid
@@ -294,7 +294,7 @@ def test_policy_lab_preview_and_agent_fallback(client):
 
 
 def test_propose_plan_accept_and_reject(client):
-    sid = _new(client, deadline_day=20)["session_id"]
+    sid = _new(client, deadline_day=20, profile="w7_default", rules="legacy")["session_id"]
     ok = client.post(f"/api/sessions/{sid}/propose-plan", json={"mode": "agent"}).json()
     assert ok["accepted"] and ok["proposed_days"]
     bad = client.post(f"/api/sessions/{sid}/propose-plan", json={"mode": "agent_bad"}).json()
@@ -340,3 +340,56 @@ def test_authoring_studio_flow(client, tmp_path, monkeypatch):
         client.post("/api/authoring/draft", json={"name": "../x", "topic": "abc"}).status_code
         == 422
     )
+
+
+def test_new_session_defaults_to_product_rules(client):
+    v = _new(client)  # no profile / rules given
+    assert v["profile"] == "fitted_S1" and v["rules"] == "product"
+    assert client.get("/api/health").json()["default_profile"] == "fitted_S1"
+
+
+def test_product_engine_config(client):
+    e = app_module._profile_engine("8node", "fitted_S1", "product")
+    assert (e.config.theta, e.config.k_responses, e.config.selection_scope) == (0.95, 1, "goal_search")
+
+
+def test_legacy_rules_keep_w7_engine(client):
+    e = app_module._profile_engine("8node", "w7_default", "legacy")
+    assert e.config == app_module._bundle("8node").engine.config
+
+
+def test_legacy_session_replays_unchanged(client):
+    # a session written before this change: meta without "rules"
+    v = _new(client, profile="w7_default", rules="legacy")
+    sid = v["session_id"]
+    after = _run_diagnostic(client, sid)
+    meta_path = app_module.store._paths(sid)[1]
+    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    del meta["rules"]
+    meta_path.write_text(json.dumps(meta), encoding="utf-8")
+    reloaded = client.get(f"/api/sessions/{sid}").json()
+    assert reloaded["diagnostic"] == after["diagnostic"] and reloaded["rules"] == "legacy"
+
+
+def test_session_reports_its_mastery_rule(client):
+    p = _new(client)
+    assert (p["theta"], p["k_responses"]) == (0.95, 1)
+    w = _new(client, profile="w7_default", rules="legacy")
+    assert (w["theta"], w["k_responses"]) == (0.85, 2)
+
+
+def test_product_diagnostic_only_searches_goal_path(client):
+    v = _new(client)  # product rules, goal C8 (C4 is not a prerequisite of C8)
+    sid = v["session_id"]
+    asked = []
+    while not v["diagnostic"]["done"]:
+        item = v["diagnostic"]["next_item"]
+        asked.append(item["concept_id"])
+        body = {"activity_id": item["activity_id"], "correct": item["concept_id"] != "C8"}
+        v = client.post(f"/api/sessions/{sid}/diagnostic/answer", json=body).json()
+    assert "C4" not in asked and "C8" in asked
+    rows = {r["concept_id"]: r for r in v["diagnostic"]["concept_results"]}
+    assert "C4" not in rows and rows["C8"]["p"] < 0.40
+    # a later goal change must not break replay of the recorded answers
+    assert client.post(f"/api/sessions/{sid}/plan", json={"goal": "C4"}).status_code == 200
+    assert client.get(f"/api/sessions/{sid}").json()["diagnostic"] == v["diagnostic"]

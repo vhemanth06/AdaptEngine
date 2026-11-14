@@ -157,14 +157,14 @@ function ConceptDrawer({ id, ctx, onClose }: { id: string; ctx: Pick<Ctx, "sessi
     <Card title={`${c.concept_id} · ${c.description}`} actions={<button className="text-[var(--text-muted)]" onClick={onClose} aria-label="Close details">✕</button>} testId="concept-drawer">
       <div className="space-y-3">
         <Chip tone={status.key === "mastered" ? "mastered" : status.key === "remediation" ? "remediation" : status.key === "unlocked" ? "progress" : "locked"}>{status.label}</Chip>
-        <PBar p={st.p} theta={cur.theta} />
+        <PBar p={st.p} theta={session.theta} />
         <p className="text-sm text-[var(--text-muted)]">
           {st.responses} responses · {st.lessons_done} lessons done · {st.status}
         </p>
         <div>
           <h3 className="mb-1 font-medium">Why {status.key === "mastered" ? "it is done" : firstDay ? `it starts on day ${firstDay}` : "it is not scheduled"}</h3>
           {status.key === "mastered" ? (
-            <p>p ≥ θ = {cur.theta} with at least {cur.k_responses} responses.</p>
+            <p>p ≥ θ = {session.theta} with at least {session.k_responses} response{session.k_responses === 1 ? "" : "s"}.</p>
           ) : blocking.length ? (
             <p>Locked until its prerequisites are mastered: {blocking.map((b) => `${b.concept_id} (p ${b.p.toFixed(2)})`).join(", ")}.</p>
           ) : (

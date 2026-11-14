@@ -31,7 +31,10 @@ class EngineConfig:
     # concept_cap=3, n_max=8, other flags as below.
     min_items_per_concept: int = 1  # responses required before an entropy stop
     pruning_mode: str = "hard"  # "hard" skip | "soft" cap descendants' prior | "none"
-    selection_scope: str = "concept_sweep"  # "concept_sweep" | "frontier" (global EIG)
+    selection_scope: str = "concept_sweep"  # "concept_sweep" | "frontier" (global EIG) | "goal_search"
+    known_threshold: float = 0.70
+    diag_budget_min: int = 6
+    diag_budget_per_concept: float = 0.0  # 0 -> budget is plain n_max
     prior_mode: str = "population"  # "flat" (state p) | "population" (population_p0)
     population_p0: float = 0.24  # S0 tuning-cohort base rate of 1[theta >= 0.70]
     # M3/M4 Planner settings
@@ -128,9 +131,19 @@ class EngineConfig:
         if not (0.0 <= self.skip_threshold <= 1.0) or not math.isfinite(self.skip_threshold):
             raise ValidationError(f"skip_threshold must be in [0, 1], got {self.skip_threshold}")
         check_positive_int(self.min_items_per_concept, "min_items_per_concept")
+        if not (self.skip_threshold < self.known_threshold < 1.0):
+            raise ValidationError(
+                f"need skip_threshold < known_threshold < 1, got {self.skip_threshold}, "
+                f"{self.known_threshold}"
+            )
+        check_positive_int(self.diag_budget_min, "diag_budget_min")
+        if not math.isfinite(self.diag_budget_per_concept) or self.diag_budget_per_concept < 0:
+            raise ValidationError(
+                f"diag_budget_per_concept must be finite and >= 0, got {self.diag_budget_per_concept}"
+            )
         for name, val, allowed in (
             ("pruning_mode", self.pruning_mode, ("hard", "soft", "none")),
-            ("selection_scope", self.selection_scope, ("concept_sweep", "frontier")),
+            ("selection_scope", self.selection_scope, ("concept_sweep", "frontier", "goal_search")),
             ("prior_mode", self.prior_mode, ("flat", "population")),
         ):
             if val not in allowed:

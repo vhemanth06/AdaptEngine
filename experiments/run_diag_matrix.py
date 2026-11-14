@@ -26,11 +26,11 @@ from experiments.cat_baseline import irt_cat  # noqa: E402
 from experiments.diag_eval import (  # noqa: E402
     W6_DIAGNOSTIC,
     binary_score,
+    summarize,
     run_fixed_diagnostic,
 )
 from experiments.provenance import stamp  # noqa: E402
 from experiments.sim import PROFILES, make_sim  # noqa: E402
-from experiments.stats import brier_decomposition, log_loss, paired_summary, roc_auc  # noqa: E402
 
 CUR, ACT = "data/curriculum/curriculum_4node.json", "data/curriculum/activities_4node.json"
 FITTED_SIM = os.path.join(repo_root, "config", "fitted_sim.json")
@@ -101,23 +101,7 @@ def run_world(world: str, seeds, prof) -> dict:
         st, k = irt_cat(base, make_sim(base, s, prof, world), 8, a=prof.a, per_concept=True)
         add("irt_cat_per_concept@8", base, st, k, s)
 
-    def br(name):
-        return [r["brier"] for r in rows[name]]
-
-    out = {}
-    for name, rs in rows.items():
-        pairs = [x for r in rs for x in r["pairs"]]
-        out[name] = {
-            "brier": round(sum(br(name)) / len(rs), 4),
-            "log_loss": log_loss(pairs),
-            "auc": roc_auc(pairs),
-            "next_response_brier": round(sum(r["next_brier"] for r in rs) / len(rs), 4),
-            "items": round(sum(items[name]) / len(items[name]), 3),
-            "decomposition": brier_decomposition(pairs),
-            "vs_prior_only": paired_summary(br(name), br("prior_only")),
-            "vs_w6_shipped": paired_summary(br(name), br("w6_shipped")),
-        }
-    return out
+    return summarize(rows, items)
 
 
 def main(out_path: str, n: int) -> dict:

@@ -374,6 +374,8 @@ export interface components {
             n_items: number;
             /** Stop Reason */
             stop_reason: string;
+            /** Inferred From */
+            inferred_from?: string | null;
         };
         /** ConceptState */
         ConceptState: {
@@ -440,9 +442,15 @@ export interface components {
             budget: number;
             /**
              * Profile
-             * @default w7_default
+             * @default fitted_S1
              */
             profile: string;
+            /**
+             * Rules
+             * @default product
+             * @enum {string}
+             */
+            rules: "product" | "legacy";
         };
         /** CurriculumDetail */
         CurriculumDetail: {
@@ -803,6 +811,15 @@ export interface components {
              * @default w7_default
              */
             profile: string;
+            /**
+             * Rules
+             * @default legacy
+             */
+            rules: string;
+            /** Theta */
+            theta: number;
+            /** K Responses */
+            k_responses: number;
             /** Feasibility Warning */
             feasibility_warning?: string | null;
         };

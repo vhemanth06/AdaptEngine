@@ -23,7 +23,7 @@ from fastapi.staticfiles import StaticFiles
 
 from adaptengine.api import Engine
 from adaptengine.core.config import DEFAULT_CONFIG
-from adaptengine.core.profiles import list_profiles, load_profile
+from adaptengine.core.profiles import PRODUCT_PROFILE, list_profiles, load_profile, product_config
 from adaptengine.core.errors import ValidationError
 from adaptengine.core.validators import check_budget
 from adaptengine.core.schema import ActivityType, Event, EventType, PlanContext
@@ -119,14 +119,15 @@ def _bundle(cid: str) -> Bundle:
 
 
 @functools.cache
-def _profile_engine(cid: str, profile: str) -> Engine:
+def _profile_engine(cid: str, profile: str, rules: str) -> Engine:
     """W8 B.1: the session's named profile (w7_default = the bundle's engine, bit-identical)."""
     b = _bundle(cid)
-    if profile == "w7_default":
+    if rules == "legacy" and profile == "w7_default":
         return b.engine
     if profile not in list_profiles():
         raise HTTPException(422, f"unknown profile {profile}")
-    return Engine(b.concepts, tuple(b.engine.activities.values()), load_profile(profile))
+    cfg = load_profile(profile) if rules == "legacy" else product_config(profile)
+    return Engine(b.concepts, tuple(b.engine.activities.values()), cfg)
 
 
 @app.get("/api/curricula", response_model=list[CurriculumSummary])
@@ -194,13 +195,19 @@ class NeedAnswer(Exception):
         self.activity = activity
 
 
-def _replay(engine: Engine, answers: list, sid: str, n_max: Optional[int] = None):
+def _replay(engine: Engine, answers: list, sid: str, n_max: Optional[int] = None, goal: Optional[str] = None):
     """Re-run the deterministic diagnostic from the initial state with the recorded answers.
 
     Returns (DiagnosticResult | None, pending activity | None). With n_max, the engine's
     diagnostic stops after that many items, giving the exact state after a prefix of answers.
     """
     queue = list(answers)
+    # goal_path: search only the session goal and its prerequisites (same set Engine.diagnose builds for a fresh learner)
+    goals = (
+        sorted({goal} | engine.graph.ancestors(goal))
+        if goal and engine.config.diagnostic_scope == "goal_path"
+        else None
+    )
 
     def provider(activity):
         if not queue:
@@ -212,10 +219,10 @@ def _replay(engine: Engine, answers: list, sid: str, n_max: Optional[int] = None
 
     try:
         if n_max is None:
-            return engine.diagnose(engine.init_learner(), provider, session_id=sid), None
+            return engine.diagnose(engine.init_learner(), provider, goal_concepts=goals, session_id=sid), None
         cfg = replace(engine.config, n_max=n_max)
         diag = AdaptiveDiagnostic(engine.graph, engine.activities, cfg, model=engine.model)
-        return diag.run(engine.init_learner(), provider, session_id=sid), None
+        return diag.run(engine.init_learner(), provider, goal_concepts=goals, session_id=sid), None
     except NeedAnswer as e:
         return None, e.activity
 
@@ -233,8 +240,8 @@ def _item_rows(result) -> list[dict]:
     ]
 
 
-def _diagnostic_view(engine: Engine, answers: list, sid: str) -> dict:
-    result, pending = _replay(engine, answers, sid)
+def _diagnostic_view(engine: Engine, answers: list, sid: str, goal: Optional[str] = None) -> dict:
+    result, pending = _replay(engine, answers, sid, goal=goal)
     if result is not None:
         return {
             "done": True,
@@ -246,8 +253,10 @@ def _diagnostic_view(engine: Engine, answers: list, sid: str) -> dict:
                     "p": r.p,
                     "n_items": r.n_items,
                     "stop_reason": r.stop_reason.value,
+                    "inferred_from": r.inferred_from,
                 }
-                for c, r in result.concept_results.items()
+                for c in engine.graph.topological_order()
+                if (r := result.concept_results.get(c)) is not None
             ],
         }
     view = {
@@ -265,7 +274,7 @@ def _diagnostic_view(engine: Engine, answers: list, sid: str) -> dict:
     }
     if answers:
         try:
-            prefix, _ = _replay(engine, answers, sid, n_max=len(answers))
+            prefix, _ = _replay(engine, answers, sid, n_max=len(answers), goal=goal)
         except (RuntimeError, ValidationError):
             prefix = None  # the engine's stop rules differ for a truncated run: no live bars
         rows = _item_rows(prefix) if prefix is not None else []
@@ -283,7 +292,7 @@ def _diagnostic_view(engine: Engine, answers: list, sid: str) -> dict:
 def _open(sid: str):
     meta = store.load_meta(sid)
     b = _bundle(meta["curriculum"])
-    b = replace(b, engine=_profile_engine(meta["curriculum"], meta.get("profile", "w7_default")))
+    b = replace(b, engine=_profile_engine(meta["curriculum"], meta.get("profile", "w7_default"), meta.get("rules", "legacy")))
     state, log, ctx = store.load_state(sid, b.engine.graph.concepts())
     return b, state, log, ctx, meta
 
@@ -354,12 +363,15 @@ def _view(b: Bundle, sid: str, state, log, ctx, meta: dict) -> dict:
             }
             for cid, c in state.concepts.items()
         ],
-        "diagnostic": _diagnostic_view(b.engine, meta["diag_answers"], sid),
+        "diagnostic": _diagnostic_view(b.engine, meta["diag_answers"], sid, meta.get("diag_goal")),
         "plan": meta.get("plan"),
         "today": meta.get("today"),
         "replan_ms": meta.get("replan_ms"),
         "events": serialize_log(log)["events"],
         "profile": meta.get("profile", "w7_default"),
+        "rules": meta.get("rules", "legacy"),
+        "theta": cfg.theta,
+        "k_responses": cfg.k_responses,
         "feasibility_warning": meta.get("feasibility_warning"),
     }
 
@@ -378,14 +390,15 @@ def _grade(b: Bundle, activity_id: str, choice: Optional[int], correct: Optional
 @app.post("/api/sessions", response_model=SessionOut)
 def create_session(req: CreateSession):
     b = _bundle(req.curriculum)
-    b = replace(b, engine=_profile_engine(req.curriculum, req.profile))
+    b = replace(b, engine=_profile_engine(req.curriculum, req.profile, req.rules))
     ctx = PlanContext(goal=req.goal, deadline_day=req.deadline_day, budget=req.budget)
     check_budget(ctx.budget, b.engine.config.allowed_budgets)  # config-driven since W7 T5.1
     if req.goal not in b.engine.graph.concepts():
         raise HTTPException(422, f"unknown goal concept {req.goal}")
     sid = store.new_id()
     state, log = b.engine.init_learner(), ExecutionLog()
-    meta = {"curriculum": req.curriculum, "diag_answers": [], "profile": req.profile}
+    meta = {"curriculum": req.curriculum, "diag_answers": [], "profile": req.profile, "rules": req.rules}
+    meta["diag_goal"] = req.goal  # fixed at creation so a later goal change cannot break replay of recorded answers
     store.save(sid, state, log, ctx, meta)
     return _view(b, sid, state, log, ctx, meta)
 
@@ -402,7 +415,7 @@ def diagnostic_answer(sid: str, req: DiagnosticAnswer):
     if log.events:
         raise HTTPException(409, "diagnostic must run before any study events")
     answers = [tuple(a) for a in meta["diag_answers"]]
-    result, pending = _replay(b.engine, answers, sid)
+    result, pending = _replay(b.engine, answers, sid, goal=meta.get("diag_goal"))
     if result is not None:
         raise HTTPException(409, "diagnostic already finished")
     if req.activity_id != pending.activity_id:
@@ -412,7 +425,7 @@ def diagnostic_answer(sid: str, req: DiagnosticAnswer):
         raise HTTPException(422, "choice or correct is required")
     answers.append((req.activity_id, correct))
     meta["diag_answers"] = answers
-    result, _ = _replay(b.engine, answers, sid)
+    result, _ = _replay(b.engine, answers, sid, goal=meta.get("diag_goal"))
     if result is not None:
         state = result.state
         _run_plan(b.engine, state, log, ctx, meta)
@@ -660,7 +673,7 @@ def health():
         "engine_version": app.version,
         "code_hash": _code_hash(),
         "profiles": list_profiles(),
-        "default_profile": "w7_default",
+        "default_profile": PRODUCT_PROFILE,
         "flags": flags,
         "web_build": _web_build(),
         "content_reviewer": manifest.get("data/content/content_8node.json", {}).get("reviewer"),

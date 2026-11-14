@@ -873,6 +873,17 @@
      "stop_reason": {
       "type": "string",
       "title": "Stop Reason"
+     },
+     "inferred_from": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Inferred From"
      }
     },
     "type": "object",
@@ -1043,7 +1054,16 @@
       "type": "string",
       "pattern": "^[A-Za-z0-9_.\\-]{1,64}$",
       "title": "Profile",
-      "default": "w7_default"
+      "default": "fitted_S1"
+     },
+     "rules": {
+      "type": "string",
+      "enum": [
+       "product",
+       "legacy"
+      ],
+      "title": "Rules",
+      "default": "product"
      }
     },
     "type": "object",
@@ -2131,6 +2151,19 @@
       "title": "Profile",
       "default": "w7_default"
      },
+     "rules": {
+      "type": "string",
+      "title": "Rules",
+      "default": "legacy"
+     },
+     "theta": {
+      "type": "number",
+      "title": "Theta"
+     },
+     "k_responses": {
+      "type": "integer",
+      "title": "K Responses"
+     },
      "feasibility_warning": {
       "anyOf": [
        {
@@ -2150,7 +2183,9 @@
      "context",
      "concepts",
      "diagnostic",
-     "events"
+     "events",
+     "theta",
+     "k_responses"
     ],
     "title": "SessionOut"
    },

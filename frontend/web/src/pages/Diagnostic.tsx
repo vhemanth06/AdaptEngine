@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { api, contentOf } from "../api/client";
-import { DEMO_KNOWN, useDigitKeys, type Ctx } from "../ctx";
+import { useDigitKeys, type Ctx } from "../ctx";
 import { Button, Card, ErrorBox, Markdown, PBar, conceptName, inline } from "../components/ui";
 import NoSession from "./NoSession";
 
@@ -11,6 +11,7 @@ const STOP_TEXT: Record<string, string> = {
   GLOBAL_CAP: "global item cap reached",
   NO_ITEMS: "no unasked items",
   SKIPPED_ANCESTOR_UNMASTERED: "skipped: a prerequisite looks unknown",
+  INFERRED: "inferred from a later concept",
   NOT_REACHED: "not reached",
 };
 
@@ -44,7 +45,7 @@ export default function Diagnostic(ctx: Ctx) {
   useDigitKeys(!!item && !closed, onDigit);
 
   if (!session || !diag) return <NoSession go={go} />;
-  const theta = cur?.theta ?? 0.85;
+  const theta = session?.theta ?? cur?.theta ?? 0.85;
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       <Card title={diag.done ? "Diagnostic finished" : `Question ${diag.items.length + 1}`} testId="diag-question">
@@ -94,14 +95,14 @@ export default function Diagnostic(ctx: Ctx) {
               </div>
             )}
             {demo && (
-              <Button
-                kind="secondary"
-                testId="demo-answer"
-                disabled={answer.isPending}
-                onClick={() => answer.mutate({ correct: DEMO_KNOWN.has(item.concept_id) })}
-              >
-                Demo learner answers ({DEMO_KNOWN.has(item.concept_id) ? "right" : "wrong"})
-              </Button>
+              <div className="flex flex-wrap gap-3">
+                <Button kind="secondary" testId="demo-right" disabled={answer.isPending} onClick={() => answer.mutate({ correct: true })}>
+                  Demo: answer right
+                </Button>
+                <Button kind="secondary" testId="demo-wrong" disabled={answer.isPending} onClick={() => answer.mutate({ correct: false })}>
+                  Demo: answer wrong
+                </Button>
+              </div>
             )}
             <ErrorBox error={answer.error} />
           </div>
@@ -116,6 +117,7 @@ export default function Diagnostic(ctx: Ctx) {
                 <tr className="border-b">
                   <th>Concept</th>
                   <th>p</th>
+                  <th>Level</th>
                   <th>Items</th>
                   <th>Stop reason</th>
                 </tr>
@@ -125,8 +127,12 @@ export default function Diagnostic(ctx: Ctx) {
                   <tr key={r.concept_id} className="border-b border-slate-200">
                     <td>{conceptName(cur, r.concept_id)}</td>
                     <td className="font-mono">{r.p.toFixed(2)}</td>
+                    <td>{r.p >= 0.7 ? "Known" : r.p < 0.4 ? "Unknown" : "Uncertain"}</td>
                     <td>{r.n_items}</td>
-                    <td>{STOP_TEXT[r.stop_reason] ?? r.stop_reason}</td>
+                    <td>
+                      {STOP_TEXT[r.stop_reason] ?? r.stop_reason}
+                      {r.inferred_from ? ` (${r.inferred_from})` : ""}
+                    </td>
                   </tr>
                 ))}
               </tbody>

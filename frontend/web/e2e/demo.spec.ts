@@ -30,15 +30,19 @@ test("8-minute demo script", async ({ page, request }) => {
   await page.keyboard.press(String(content[aid].correct + 1));
   await expect(page.getByTestId("diag-items").locator("li")).toHaveCount(1);
   await expect(page.getByTestId("diag-items")).toContainText("right");
-  for (let i = 0; i < 12 && (await page.getByTestId("demo-answer").isVisible()); i++) {
-    await page.getByTestId("demo-answer").click();
+  const known = new Set(["C1", "C2", "C3", "C6"]); // scripted demo learner
+  for (let i = 0; i < 12 && (await page.getByTestId("demo-right").isVisible()); i++) {
+    const id = (await page.getByTestId("diag-item-id").textContent())!; // e.g. E-C3-0.8
+    await page.getByTestId(known.has(id.split("-")[1]) ? "demo-right" : "demo-wrong").click();
     await expect(page.getByTestId("diag-items").locator("li")).toHaveCount(i + 2);
   }
   // Stop reasons come from the engine (which concepts get skipped depends on its current rules).
-  await expect(page.getByTestId("stop-reasons").locator("tr")).toHaveCount(8);
+  await expect(page.getByTestId("stop-reasons").locator("tr")).toHaveCount(7); // goal C8's path: C4 is not diagnosed
+
+  await expect(page.getByTestId("stop-reasons")).toContainText("inferred from a later concept");
 
   await page.getByTestId("tab-map").click();
-  await expect(page.getByTestId("node-C1")).toHaveAttribute("data-status", "mastered");
+  await expect(page.getByTestId("node-C1")).not.toHaveAttribute("data-status", "mastered");
   await expect(page.getByTestId("node-C8")).toBeVisible();
 
   // 3. Plan -> click a card -> "Why?" shows score components.
