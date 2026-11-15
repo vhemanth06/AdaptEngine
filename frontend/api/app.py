@@ -30,6 +30,7 @@ from adaptengine.core.schema import ActivityType, Event, EventType, PlanContext
 from adaptengine.curriculum.content import load_content
 from adaptengine.curriculum.loader import load_activities, load_curriculum
 from adaptengine.diagnostic import AdaptiveDiagnostic
+from adaptengine.learner.mastery import entropy
 from adaptengine.learner.state import ExecutionLog, is_evidence_mastered
 from adaptengine.planner import serialize_plan
 from adaptengine.planner.plan import _expected_warning
@@ -119,15 +120,39 @@ def _bundle(cid: str) -> Bundle:
     return Bundle(Engine(concepts, acts, DEFAULT_CONFIG), concepts, content)
 
 
+# Every new web diagnostic starts each concept at p = 0.2 (owner, 2026-11-15). Web-only, so src/ and the
+# PRODUCT_RERUN registration hash stay valid; sessions saved without "diag_prior" keep the engine's prior (replay).
+WEB_DIAG_PRIOR = 0.2
+# New web diagnostics stop a concept as soon as it is classified: H(p) <= H(known_threshold) <=> p >= 0.70 or
+# p <= 0.30 (owner, 2026-11-15). Sessions saved without "diag_stop" keep the engine's h_stop (replay).
+WEB_DIAG_STOP = "known"
+# New web plans end once the goal is mastered: no D43 maintenance reviews after the goal content (owner,
+# 2026-11-15). Sessions saved without "maintenance_reviews" keep the engine's setting (replay).
+WEB_MAINTENANCE_REVIEWS = False
+
+
 @functools.cache
-def _profile_engine(cid: str, profile: str, rules: str) -> Engine:
+def _profile_engine(
+    cid: str,
+    profile: str,
+    rules: str,
+    diag_prior: Optional[float] = None,
+    diag_stop: Optional[str] = None,
+    maintenance_reviews: Optional[bool] = None,
+) -> Engine:
     """W8 B.1: the session's named profile (w7_default = the bundle's engine, bit-identical)."""
     b = _bundle(cid)
-    if rules == "legacy" and profile == "w7_default":
+    if rules == "legacy" and profile == "w7_default" and (diag_prior, diag_stop, maintenance_reviews) == (None,) * 3:
         return b.engine
     if profile not in list_profiles():
         raise HTTPException(422, f"unknown profile {profile}")
     cfg = load_profile(profile) if rules == "legacy" else product_config(profile)
+    if diag_prior is not None:
+        cfg = replace(cfg, prior_mode="population", population_p0=diag_prior)
+    if diag_stop == "known":
+        cfg = replace(cfg, h_stop=entropy(cfg.known_threshold))
+    if maintenance_reviews is not None:
+        cfg = replace(cfg, maintenance_reviews=maintenance_reviews)
     return Engine(b.concepts, tuple(b.engine.activities.values()), cfg)
 
 
@@ -293,7 +318,10 @@ def _diagnostic_view(engine: Engine, answers: list, sid: str, goal: Optional[str
 def _open(sid: str):
     meta = store.load_meta(sid)
     b = _bundle(meta["curriculum"])
-    b = replace(b, engine=_profile_engine(meta["curriculum"], meta.get("profile", "w7_default"), meta.get("rules", "legacy")))
+    b = replace(b, engine=_profile_engine(
+        meta["curriculum"], meta.get("profile", "w7_default"), meta.get("rules", "legacy"),
+        meta.get("diag_prior"), meta.get("diag_stop"), meta.get("maintenance_reviews"),
+    ))
     state, log, ctx = store.load_state(sid, b.engine.graph.concepts())
     return b, state, log, ctx, meta
 
@@ -391,7 +419,9 @@ def _grade(b: Bundle, activity_id: str, choice: Optional[int], correct: Optional
 @app.post("/api/sessions", response_model=SessionOut)
 def create_session(req: CreateSession):
     b = _bundle(req.curriculum)
-    b = replace(b, engine=_profile_engine(req.curriculum, req.profile, req.rules))
+    b = replace(b, engine=_profile_engine(
+        req.curriculum, req.profile, req.rules, WEB_DIAG_PRIOR, WEB_DIAG_STOP, WEB_MAINTENANCE_REVIEWS
+    ))
     ctx = PlanContext(goal=req.goal, deadline_day=req.deadline_day, budget=req.budget)
     check_budget(ctx.budget, b.engine.config.allowed_budgets)  # config-driven since W7 T5.1
     if req.goal not in b.engine.graph.concepts():
@@ -399,6 +429,8 @@ def create_session(req: CreateSession):
     sid = store.new_id()
     state, log = b.engine.init_learner(), ExecutionLog()
     meta = {"curriculum": req.curriculum, "diag_answers": [], "profile": req.profile, "rules": req.rules}
+    meta["diag_prior"], meta["diag_stop"] = WEB_DIAG_PRIOR, WEB_DIAG_STOP
+    meta["maintenance_reviews"] = WEB_MAINTENANCE_REVIEWS
     meta["diag_goal"] = req.goal  # fixed at creation so a later goal change cannot break replay of recorded answers
     store.save(sid, state, log, ctx, meta)
     return _view(b, sid, state, log, ctx, meta)

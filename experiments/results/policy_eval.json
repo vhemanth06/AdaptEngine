@@ -1,0 +1,520 @@
+{
+  "meta": {
+    "seeds": "REPORT_SEEDS[:200]",
+    "runtime_s": 73.6,
+    "code_hash": "6c55d4f99dc1af50871f35ae113c9bacc11cade68936a579b0cab76bd43b836a",
+    "experiment_hash": "24eabf602925b8f5b0f4e0ff63087612ff6b8dc956e78257eb3fc780f0426715",
+    "timestamp_utc": "2026-11-14T23:04:57.088138+00:00",
+    "engine": "product"
+  },
+  "cells": {
+    "S1|4node_x10": {
+      "deterministic": {
+        "n": 200,
+        "goal_mastery_rate": 0.82,
+        "all_required_rate": 0.62,
+        "executed_violations": 0,
+        "budget_violations": 0,
+        "km_median_minutes_to_mastery": 105.0,
+        "km_rmst_minutes_to_mastery": 88.0258,
+        "decisions": 0,
+        "mean_learning_progress": null,
+        "agreement_with_deterministic": 0.0
+      },
+      "frozen": {
+        "n": 200,
+        "goal_mastery_rate": 0.82,
+        "all_required_rate": 0.62,
+        "executed_violations": 0,
+        "budget_violations": 0,
+        "km_median_minutes_to_mastery": 105.0,
+        "km_rmst_minutes_to_mastery": 87.9829,
+        "decisions": 4082,
+        "mean_learning_progress": 0.00802,
+        "agreement_with_deterministic": 0.56,
+        "vs_deterministic": {
+          "goal_mastery": {
+            "diff": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ]
+          },
+          "all_required": {
+            "diff": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "updating": {
+        "n": 200,
+        "goal_mastery_rate": 0.82,
+        "all_required_rate": 0.62,
+        "executed_violations": 0,
+        "budget_violations": 0,
+        "km_median_minutes_to_mastery": 105.0,
+        "km_rmst_minutes_to_mastery": 87.9829,
+        "decisions": 4082,
+        "mean_learning_progress": 0.00802,
+        "agreement_with_deterministic": 0.56,
+        "vs_deterministic": {
+          "goal_mastery": {
+            "diff": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ]
+          },
+          "all_required": {
+            "diff": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "random": {
+        "n": 200,
+        "goal_mastery_rate": 0.82,
+        "all_required_rate": 0.62,
+        "executed_violations": 0,
+        "budget_violations": 0,
+        "km_median_minutes_to_mastery": 105.0,
+        "km_rmst_minutes_to_mastery": 87.9829,
+        "decisions": 4047,
+        "mean_learning_progress": 0.00544,
+        "agreement_with_deterministic": 0.5125,
+        "vs_deterministic": {
+          "goal_mastery": {
+            "diff": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ]
+          },
+          "all_required": {
+            "diff": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "ope_frozen": {
+        "simulated_value": 0.00802,
+        "from_random": {
+          "n": 4047,
+          "ips": 0.014791321705055632,
+          "snips": 0.014645845216302618,
+          "dr": 0.013411256149605628,
+          "mean_weight": 1.009932952766091,
+          "max_weight": 1.8078804828275425,
+          "abs_error": {
+            "ips": 0.00677,
+            "snips": 0.00663,
+            "dr": 0.00539
+          }
+        },
+        "from_updating": {
+          "n": 4082,
+          "ips": 0.008022024143543952,
+          "snips": 0.008022027381886626,
+          "dr": 0.00708531940603099,
+          "mean_weight": 0.9999995963186713,
+          "max_weight": 1.0048139680156893,
+          "abs_error": {
+            "ips": 0.0,
+            "snips": 0.0,
+            "dr": 0.00093
+          }
+        }
+      }
+    },
+    "S4|4node_x10": {
+      "deterministic": {
+        "n": 200,
+        "goal_mastery_rate": 0.97,
+        "all_required_rate": 0.97,
+        "executed_violations": 0,
+        "budget_violations": 0,
+        "km_median_minutes_to_mastery": 97.0,
+        "km_rmst_minutes_to_mastery": 91.5036,
+        "decisions": 0,
+        "mean_learning_progress": null,
+        "agreement_with_deterministic": 0.0
+      },
+      "frozen": {
+        "n": 200,
+        "goal_mastery_rate": 0.97,
+        "all_required_rate": 0.97,
+        "executed_violations": 0,
+        "budget_violations": 0,
+        "km_median_minutes_to_mastery": 97.0,
+        "km_rmst_minutes_to_mastery": 91.5821,
+        "decisions": 3476,
+        "mean_learning_progress": 0.02647,
+        "agreement_with_deterministic": 0.563,
+        "vs_deterministic": {
+          "goal_mastery": {
+            "diff": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ]
+          },
+          "all_required": {
+            "diff": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "updating": {
+        "n": 200,
+        "goal_mastery_rate": 0.97,
+        "all_required_rate": 0.97,
+        "executed_violations": 0,
+        "budget_violations": 0,
+        "km_median_minutes_to_mastery": 97.0,
+        "km_rmst_minutes_to_mastery": 91.5821,
+        "decisions": 3478,
+        "mean_learning_progress": 0.02652,
+        "agreement_with_deterministic": 0.563,
+        "vs_deterministic": {
+          "goal_mastery": {
+            "diff": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ]
+          },
+          "all_required": {
+            "diff": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "random": {
+        "n": 200,
+        "goal_mastery_rate": 0.97,
+        "all_required_rate": 0.97,
+        "executed_violations": 0,
+        "budget_violations": 0,
+        "km_median_minutes_to_mastery": 97.0,
+        "km_rmst_minutes_to_mastery": 91.5619,
+        "decisions": 3317,
+        "mean_learning_progress": 0.02558,
+        "agreement_with_deterministic": 0.5191,
+        "vs_deterministic": {
+          "goal_mastery": {
+            "diff": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ]
+          },
+          "all_required": {
+            "diff": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "ope_frozen": {
+        "simulated_value": 0.02647,
+        "from_random": {
+          "n": 3317,
+          "ips": 0.02907434473234473,
+          "snips": 0.028950371159566623,
+          "dr": 0.028678360639741118,
+          "mean_weight": 1.00428227921828,
+          "max_weight": 1.7543148362223795,
+          "abs_error": {
+            "ips": 0.0026,
+            "snips": 0.00248,
+            "dr": 0.00221
+          }
+        },
+        "from_updating": {
+          "n": 3478,
+          "ips": 0.026526964315710534,
+          "snips": 0.026527063256208787,
+          "dr": 0.026234514070817703,
+          "mean_weight": 0.9999962702053636,
+          "max_weight": 1.00319778037803,
+          "abs_error": {
+            "ips": 6e-05,
+            "snips": 6e-05,
+            "dr": 0.00024
+          }
+        }
+      }
+    },
+    "S1|8node_x10": {
+      "deterministic": {
+        "n": 200,
+        "goal_mastery_rate": 0.425,
+        "all_required_rate": 0.185,
+        "executed_violations": 0,
+        "budget_violations": 0,
+        "km_median_minutes_to_mastery": null,
+        "km_rmst_minutes_to_mastery": 152.4346,
+        "decisions": 0,
+        "mean_learning_progress": null,
+        "agreement_with_deterministic": 0.0
+      },
+      "frozen": {
+        "n": 200,
+        "goal_mastery_rate": 0.445,
+        "all_required_rate": 0.21,
+        "executed_violations": 0,
+        "budget_violations": 0,
+        "km_median_minutes_to_mastery": null,
+        "km_rmst_minutes_to_mastery": 152.1055,
+        "decisions": 9985,
+        "mean_learning_progress": 0.00815,
+        "agreement_with_deterministic": 0.5023,
+        "vs_deterministic": {
+          "goal_mastery": {
+            "diff": 0.02,
+            "ci95": [
+              0.005,
+              0.04
+            ]
+          },
+          "all_required": {
+            "diff": 0.025,
+            "ci95": [
+              0.005,
+              0.05
+            ]
+          }
+        }
+      },
+      "updating": {
+        "n": 200,
+        "goal_mastery_rate": 0.445,
+        "all_required_rate": 0.21,
+        "executed_violations": 0,
+        "budget_violations": 0,
+        "km_median_minutes_to_mastery": null,
+        "km_rmst_minutes_to_mastery": 152.1055,
+        "decisions": 9987,
+        "mean_learning_progress": 0.00813,
+        "agreement_with_deterministic": 0.5022,
+        "vs_deterministic": {
+          "goal_mastery": {
+            "diff": 0.02,
+            "ci95": [
+              0.005,
+              0.04
+            ]
+          },
+          "all_required": {
+            "diff": 0.025,
+            "ci95": [
+              0.005,
+              0.05
+            ]
+          }
+        }
+      },
+      "random": {
+        "n": 200,
+        "goal_mastery_rate": 0.445,
+        "all_required_rate": 0.215,
+        "executed_violations": 0,
+        "budget_violations": 0,
+        "km_median_minutes_to_mastery": null,
+        "km_rmst_minutes_to_mastery": 152.1562,
+        "decisions": 9684,
+        "mean_learning_progress": 0.00683,
+        "agreement_with_deterministic": 0.4999,
+        "vs_deterministic": {
+          "goal_mastery": {
+            "diff": 0.02,
+            "ci95": [
+              0.0,
+              0.045
+            ]
+          },
+          "all_required": {
+            "diff": 0.03,
+            "ci95": [
+              0.01,
+              0.055
+            ]
+          }
+        }
+      },
+      "ope_frozen": {
+        "simulated_value": 0.00815,
+        "from_random": {
+          "n": 9684,
+          "ips": 0.018688834591574416,
+          "snips": 0.01869009568129078,
+          "dr": 0.0187626860077578,
+          "mean_weight": 0.9999325263103053,
+          "max_weight": 1.8214689200927958,
+          "abs_error": {
+            "ips": 0.01054,
+            "snips": 0.01054,
+            "dr": 0.01061
+          }
+        },
+        "from_updating": {
+          "n": 9987,
+          "ips": 0.008130748520640973,
+          "snips": 0.008130690556739303,
+          "dr": 0.007424728708369302,
+          "mean_weight": 1.000007129025667,
+          "max_weight": 1.0165741842947502,
+          "abs_error": {
+            "ips": 2e-05,
+            "snips": 2e-05,
+            "dr": 0.00073
+          }
+        }
+      }
+    },
+    "S4|8node_x10": {
+      "deterministic": {
+        "n": 200,
+        "goal_mastery_rate": 0.535,
+        "all_required_rate": 0.45,
+        "executed_violations": 0,
+        "budget_violations": 0,
+        "km_median_minutes_to_mastery": 193.0,
+        "km_rmst_minutes_to_mastery": 149.2294,
+        "decisions": 0,
+        "mean_learning_progress": null,
+        "agreement_with_deterministic": 0.0
+      },
+      "frozen": {
+        "n": 200,
+        "goal_mastery_rate": 0.555,
+        "all_required_rate": 0.475,
+        "executed_violations": 0,
+        "budget_violations": 0,
+        "km_median_minutes_to_mastery": 191.0,
+        "km_rmst_minutes_to_mastery": 149.7545,
+        "decisions": 7585,
+        "mean_learning_progress": 0.02897,
+        "agreement_with_deterministic": 0.5189,
+        "vs_deterministic": {
+          "goal_mastery": {
+            "diff": 0.02,
+            "ci95": [
+              -0.005,
+              0.05
+            ]
+          },
+          "all_required": {
+            "diff": 0.025,
+            "ci95": [
+              0.0,
+              0.055
+            ]
+          }
+        }
+      },
+      "updating": {
+        "n": 200,
+        "goal_mastery_rate": 0.555,
+        "all_required_rate": 0.475,
+        "executed_violations": 0,
+        "budget_violations": 0,
+        "km_median_minutes_to_mastery": 191.0,
+        "km_rmst_minutes_to_mastery": 149.7545,
+        "decisions": 7585,
+        "mean_learning_progress": 0.029,
+        "agreement_with_deterministic": 0.5188,
+        "vs_deterministic": {
+          "goal_mastery": {
+            "diff": 0.02,
+            "ci95": [
+              -0.005,
+              0.05
+            ]
+          },
+          "all_required": {
+            "diff": 0.025,
+            "ci95": [
+              0.0,
+              0.055
+            ]
+          }
+        }
+      },
+      "random": {
+        "n": 200,
+        "goal_mastery_rate": 0.555,
+        "all_required_rate": 0.475,
+        "executed_violations": 0,
+        "budget_violations": 0,
+        "km_median_minutes_to_mastery": 192.0,
+        "km_rmst_minutes_to_mastery": 149.7268,
+        "decisions": 7271,
+        "mean_learning_progress": 0.02642,
+        "agreement_with_deterministic": 0.5135,
+        "vs_deterministic": {
+          "goal_mastery": {
+            "diff": 0.02,
+            "ci95": [
+              -0.005,
+              0.05
+            ]
+          },
+          "all_required": {
+            "diff": 0.025,
+            "ci95": [
+              0.0,
+              0.055
+            ]
+          }
+        }
+      },
+      "ope_frozen": {
+        "simulated_value": 0.02897,
+        "from_random": {
+          "n": 7271,
+          "ips": 0.030314537354898946,
+          "snips": 0.030271092880895967,
+          "dr": 0.030285573159356524,
+          "mean_weight": 1.0014351802286727,
+          "max_weight": 1.7959348214015618,
+          "abs_error": {
+            "ips": 0.00134,
+            "snips": 0.0013,
+            "dr": 0.00132
+          }
+        },
+        "from_updating": {
+          "n": 7585,
+          "ips": 0.029007213908535456,
+          "snips": 0.029007178601343164,
+          "dr": 0.028895182574129014,
+          "mean_weight": 1.0000012171880892,
+          "max_weight": 1.009009479739692,
+          "abs_error": {
+            "ips": 4e-05,
+            "snips": 4e-05,
+            "dr": 7e-05
+          }
+        }
+      }
+    }
+  }
+}

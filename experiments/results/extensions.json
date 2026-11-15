@@ -1,0 +1,3509 @@
+{
+  "review_cap": {
+    "meta": {
+      "smoke": false,
+      "n_seeds": 200,
+      "episodes_executed": 2400,
+      "runtime_s": 436.3
+    },
+    "cells": {
+      "S0|synth-20-x10|B10|forgetting_21|h21": {
+        "name": "S0|B10",
+        "arms": {
+          "product_nodx": {
+            "n": 200,
+            "goal_mastery_rate": 0.0,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 1.0,
+            "minute_utilisation": 0.9276,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": 1036.4375,
+            "reach_rate": 0.23,
+            "km_median_minutes": null,
+            "km_rmst_minutes": 161.7,
+            "km_tau": 210,
+            "brier": 0.2299,
+            "auc": 0.6769,
+            "n_attempts": 14385,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 1144,
+                "mean_p": 0.3783,
+                "freq": 0.34
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 2782,
+                "mean_p": 0.4585,
+                "freq": 0.348
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 1491,
+                "mean_p": 0.5432,
+                "freq": 0.4641
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 3096,
+                "mean_p": 0.6502,
+                "freq": 0.5675
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 4337,
+                "mean_p": 0.7453,
+                "freq": 0.6878
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 1535,
+                "mean_p": 0.8333,
+                "freq": 0.7577
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.3368
+          },
+          "capped": {
+            "n": 200,
+            "goal_mastery_rate": 0.0,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 1.0,
+            "minute_utilisation": 0.9276,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": 1036.4375,
+            "reach_rate": 0.23,
+            "km_median_minutes": null,
+            "km_rmst_minutes": 161.7,
+            "km_tau": 210,
+            "brier": 0.2299,
+            "auc": 0.6769,
+            "n_attempts": 14385,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 1144,
+                "mean_p": 0.3783,
+                "freq": 0.34
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 2782,
+                "mean_p": 0.4585,
+                "freq": 0.348
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 1491,
+                "mean_p": 0.5432,
+                "freq": 0.4641
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 3096,
+                "mean_p": 0.6502,
+                "freq": 0.5675
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 4337,
+                "mean_p": 0.7453,
+                "freq": 0.6878
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 1535,
+                "mean_p": 0.8333,
+                "freq": 0.7577
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.3368
+          },
+          "product_norev": {
+            "n": 200,
+            "goal_mastery_rate": 0.0,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 1.0,
+            "minute_utilisation": 0.931,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": 720.5217,
+            "reach_rate": 0.23,
+            "km_median_minutes": null,
+            "km_rmst_minutes": 161.7,
+            "km_tau": 210,
+            "brier": 0.2282,
+            "auc": 0.6789,
+            "n_attempts": 14258,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 1165,
+                "mean_p": 0.3783,
+                "freq": 0.3511
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 2808,
+                "mean_p": 0.4583,
+                "freq": 0.3547
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 1448,
+                "mean_p": 0.5446,
+                "freq": 0.4682
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 3199,
+                "mean_p": 0.6497,
+                "freq": 0.5677
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 4149,
+                "mean_p": 0.747,
+                "freq": 0.6963
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 1489,
+                "mean_p": 0.833,
+                "freq": 0.7743
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.3427
+          }
+        },
+        "paired_vs_product_norev": {
+          "product_nodx": {
+            "goal_mastery": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            },
+            "all_required": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            }
+          },
+          "capped": {
+            "goal_mastery": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            },
+            "all_required": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            }
+          }
+        },
+        "capped_vs_no_review": {
+          "diff": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "n": 200
+        },
+        "pass": true
+      },
+      "S0|synth-20-x10|B15|forgetting_21|h21": {
+        "name": "S0|B15",
+        "arms": {
+          "product_nodx": {
+            "n": 200,
+            "goal_mastery_rate": 0.0,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 0.9902,
+            "minute_utilisation": 0.9394,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": 421.4167,
+            "reach_rate": 0.23,
+            "km_median_minutes": null,
+            "km_rmst_minutes": 242.55,
+            "km_tau": 315,
+            "brier": 0.2278,
+            "auc": 0.6695,
+            "n_attempts": 22065,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 1585,
+                "mean_p": 0.3777,
+                "freq": 0.3748
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 4289,
+                "mean_p": 0.4591,
+                "freq": 0.3742
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 2292,
+                "mean_p": 0.5391,
+                "freq": 0.4738
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 4817,
+                "mean_p": 0.6507,
+                "freq": 0.5887
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 6642,
+                "mean_p": 0.7444,
+                "freq": 0.6914
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 2440,
+                "mean_p": 0.8347,
+                "freq": 0.7709
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.3939
+          },
+          "capped": {
+            "n": 200,
+            "goal_mastery_rate": 0.0,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 0.9902,
+            "minute_utilisation": 0.9394,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": 421.4167,
+            "reach_rate": 0.23,
+            "km_median_minutes": null,
+            "km_rmst_minutes": 242.55,
+            "km_tau": 315,
+            "brier": 0.2278,
+            "auc": 0.6695,
+            "n_attempts": 22065,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 1585,
+                "mean_p": 0.3777,
+                "freq": 0.3748
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 4289,
+                "mean_p": 0.4591,
+                "freq": 0.3742
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 2292,
+                "mean_p": 0.5391,
+                "freq": 0.4738
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 4817,
+                "mean_p": 0.6507,
+                "freq": 0.5887
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 6642,
+                "mean_p": 0.7444,
+                "freq": 0.6914
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 2440,
+                "mean_p": 0.8347,
+                "freq": 0.7709
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.3939
+          },
+          "product_norev": {
+            "n": 200,
+            "goal_mastery_rate": 0.0,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 0.9867,
+            "minute_utilisation": 0.9331,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": 328.4737,
+            "reach_rate": 0.23,
+            "km_median_minutes": null,
+            "km_rmst_minutes": 242.55,
+            "km_tau": 315,
+            "brier": 0.2261,
+            "auc": 0.6695,
+            "n_attempts": 21515,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 1620,
+                "mean_p": 0.3775,
+                "freq": 0.3877
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 4213,
+                "mean_p": 0.4587,
+                "freq": 0.3886
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 2217,
+                "mean_p": 0.5413,
+                "freq": 0.4935
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 4854,
+                "mean_p": 0.6501,
+                "freq": 0.5838
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 6274,
+                "mean_p": 0.7459,
+                "freq": 0.6988
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 2337,
+                "mean_p": 0.8345,
+                "freq": 0.795
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.4006
+          }
+        },
+        "paired_vs_product_norev": {
+          "product_nodx": {
+            "goal_mastery": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            },
+            "all_required": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            }
+          },
+          "capped": {
+            "goal_mastery": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            },
+            "all_required": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            }
+          }
+        },
+        "capped_vs_no_review": {
+          "diff": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "n": 200
+        },
+        "pass": true
+      },
+      "S1|synth-20-x10|B10|forgetting_21|h21": {
+        "name": "S1|B10",
+        "arms": {
+          "product_nodx": {
+            "n": 200,
+            "goal_mastery_rate": 0.0,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 1.0,
+            "minute_utilisation": 0.9304,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": 8055.0,
+            "reach_rate": 0.23,
+            "km_median_minutes": null,
+            "km_rmst_minutes": 161.7,
+            "km_tau": 210,
+            "brier": 0.2434,
+            "auc": 0.6877,
+            "n_attempts": 13529,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 1646,
+                "mean_p": 0.3769,
+                "freq": 0.2296
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 2482,
+                "mean_p": 0.4553,
+                "freq": 0.2865
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 1514,
+                "mean_p": 0.5546,
+                "freq": 0.389
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 2725,
+                "mean_p": 0.647,
+                "freq": 0.5017
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 3960,
+                "mean_p": 0.7475,
+                "freq": 0.6306
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 1202,
+                "mean_p": 0.8316,
+                "freq": 0.6905
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.2764
+          },
+          "capped": {
+            "n": 200,
+            "goal_mastery_rate": 0.0,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 1.0,
+            "minute_utilisation": 0.9304,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": 8055.0,
+            "reach_rate": 0.23,
+            "km_median_minutes": null,
+            "km_rmst_minutes": 161.7,
+            "km_tau": 210,
+            "brier": 0.2434,
+            "auc": 0.6877,
+            "n_attempts": 13529,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 1646,
+                "mean_p": 0.3769,
+                "freq": 0.2296
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 2482,
+                "mean_p": 0.4553,
+                "freq": 0.2865
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 1514,
+                "mean_p": 0.5546,
+                "freq": 0.389
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 2725,
+                "mean_p": 0.647,
+                "freq": 0.5017
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 3960,
+                "mean_p": 0.7475,
+                "freq": 0.6306
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 1202,
+                "mean_p": 0.8316,
+                "freq": 0.6905
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.2764
+          },
+          "product_norev": {
+            "n": 200,
+            "goal_mastery_rate": 0.0,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 1.0,
+            "minute_utilisation": 0.9345,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": 16216.0,
+            "reach_rate": 0.23,
+            "km_median_minutes": null,
+            "km_rmst_minutes": 161.7,
+            "km_tau": 210,
+            "brier": 0.2405,
+            "auc": 0.6859,
+            "n_attempts": 13655,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 1655,
+                "mean_p": 0.3771,
+                "freq": 0.2532
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 2602,
+                "mean_p": 0.4549,
+                "freq": 0.2967
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 1449,
+                "mean_p": 0.5548,
+                "freq": 0.4148
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 2861,
+                "mean_p": 0.6473,
+                "freq": 0.5086
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 3867,
+                "mean_p": 0.749,
+                "freq": 0.6462
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 1221,
+                "mean_p": 0.831,
+                "freq": 0.7076
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.287
+          }
+        },
+        "paired_vs_product_norev": {
+          "product_nodx": {
+            "goal_mastery": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            },
+            "all_required": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            }
+          },
+          "capped": {
+            "goal_mastery": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            },
+            "all_required": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            }
+          }
+        },
+        "capped_vs_no_review": {
+          "diff": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "n": 200
+        },
+        "pass": true
+      },
+      "S1|synth-20-x10|B15|forgetting_21|h21": {
+        "name": "S1|B15",
+        "arms": {
+          "product_nodx": {
+            "n": 200,
+            "goal_mastery_rate": 0.0,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 0.9962,
+            "minute_utilisation": 0.9385,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": 2736.5556,
+            "reach_rate": 0.23,
+            "km_median_minutes": null,
+            "km_rmst_minutes": 242.55,
+            "km_tau": 315,
+            "brier": 0.2406,
+            "auc": 0.6833,
+            "n_attempts": 20965,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 2290,
+                "mean_p": 0.3768,
+                "freq": 0.2533
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 3942,
+                "mean_p": 0.4557,
+                "freq": 0.3067
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 2312,
+                "mean_p": 0.5511,
+                "freq": 0.4074
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 4297,
+                "mean_p": 0.6481,
+                "freq": 0.5155
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 6116,
+                "mean_p": 0.747,
+                "freq": 0.6475
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 2008,
+                "mean_p": 0.8318,
+                "freq": 0.7037
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.2834
+          },
+          "capped": {
+            "n": 200,
+            "goal_mastery_rate": 0.0,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 0.9962,
+            "minute_utilisation": 0.9385,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": 2736.5556,
+            "reach_rate": 0.23,
+            "km_median_minutes": null,
+            "km_rmst_minutes": 242.55,
+            "km_tau": 315,
+            "brier": 0.2406,
+            "auc": 0.6833,
+            "n_attempts": 20965,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 2290,
+                "mean_p": 0.3768,
+                "freq": 0.2533
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 3942,
+                "mean_p": 0.4557,
+                "freq": 0.3067
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 2312,
+                "mean_p": 0.5511,
+                "freq": 0.4074
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 4297,
+                "mean_p": 0.6481,
+                "freq": 0.5155
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 6116,
+                "mean_p": 0.747,
+                "freq": 0.6475
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 2008,
+                "mean_p": 0.8318,
+                "freq": 0.7037
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.2834
+          },
+          "product_norev": {
+            "n": 200,
+            "goal_mastery_rate": 0.0,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 0.9945,
+            "minute_utilisation": 0.9326,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": 1362.3889,
+            "reach_rate": 0.23,
+            "km_median_minutes": null,
+            "km_rmst_minutes": 242.55,
+            "km_tau": 315,
+            "brier": 0.2363,
+            "auc": 0.6811,
+            "n_attempts": 20883,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 2210,
+                "mean_p": 0.3771,
+                "freq": 0.2837
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 4049,
+                "mean_p": 0.4561,
+                "freq": 0.3347
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 2220,
+                "mean_p": 0.5503,
+                "freq": 0.432
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 4482,
+                "mean_p": 0.6481,
+                "freq": 0.5234
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 5856,
+                "mean_p": 0.7483,
+                "freq": 0.6672
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 2066,
+                "mean_p": 0.8322,
+                "freq": 0.7396
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.3157
+          }
+        },
+        "paired_vs_product_norev": {
+          "product_nodx": {
+            "goal_mastery": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            },
+            "all_required": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            }
+          },
+          "capped": {
+            "goal_mastery": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            },
+            "all_required": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            }
+          }
+        },
+        "capped_vs_no_review": {
+          "diff": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "n": 200
+        },
+        "pass": true
+      }
+    }
+  },
+  "meta": {
+    "code_hash": "6c55d4f99dc1af50871f35ae113c9bacc11cade68936a579b0cab76bd43b836a",
+    "experiment_hash": "24eabf602925b8f5b0f4e0ff63087612ff6b8dc956e78257eb3fc780f0426715",
+    "timestamp_utc": "2026-11-14T23:16:25.228525+00:00",
+    "engine": "product"
+  },
+  "elo": {
+    "meta": {
+      "smoke": false,
+      "n_seeds": 200,
+      "episodes_executed": 1200,
+      "runtime_s": 29.3
+    },
+    "cells": {
+      "S0|4node_x10|B15|calm|h14": {
+        "name": "S0",
+        "arms": {
+          "bkt": {
+            "n": 200,
+            "goal_mastery_rate": 0.895,
+            "all_required_rate": 0.695,
+            "false_mastery_rate": 0.0827,
+            "minute_utilisation": 0.5871,
+            "mean_dx_minutes": 18.8,
+            "mean_dx_items": 9.4,
+            "items_per_mastered_concept": 15.7449,
+            "reach_rate": 0.895,
+            "km_median_minutes": 106.0,
+            "km_rmst_minutes": 84.9629,
+            "km_tau": 210,
+            "brier": 0.2055,
+            "auc": 0.6722,
+            "n_attempts": 10009,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 415,
+                "mean_p": 0.3773,
+                "freq": 0.4819
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 1796,
+                "mean_p": 0.4621,
+                "freq": 0.4733
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 1164,
+                "mean_p": 0.537,
+                "freq": 0.5619
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 2256,
+                "mean_p": 0.6562,
+                "freq": 0.6684
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 3179,
+                "mean_p": 0.7437,
+                "freq": 0.7553
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 1199,
+                "mean_p": 0.8346,
+                "freq": 0.8682
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 1.0
+          },
+          "elo": {
+            "n": 200,
+            "goal_mastery_rate": 0.285,
+            "all_required_rate": 0.08,
+            "false_mastery_rate": 0.0,
+            "minute_utilisation": 0.9868,
+            "mean_dx_minutes": 13.455,
+            "mean_dx_items": 12.0,
+            "items_per_mastered_concept": 49.6412,
+            "reach_rate": 0.285,
+            "km_median_minutes": null,
+            "km_rmst_minutes": 150.15,
+            "km_tau": 210,
+            "brier": 0.2038,
+            "auc": 0.7089,
+            "n_attempts": 24854,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 243,
+                "mean_p": 0.0728,
+                "freq": 0.3374
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 695,
+                "mean_p": 0.153,
+                "freq": 0.3914
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 855,
+                "mean_p": 0.2533,
+                "freq": 0.4386
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 946,
+                "mean_p": 0.3505,
+                "freq": 0.5074
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 1057,
+                "mean_p": 0.4503,
+                "freq": 0.5374
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 1423,
+                "mean_p": 0.5507,
+                "freq": 0.572
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 1620,
+                "mean_p": 0.6514,
+                "freq": 0.6056
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 1901,
+                "mean_p": 0.7514,
+                "freq": 0.6297
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 2372,
+                "mean_p": 0.8534,
+                "freq": 0.6699
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 13742,
+                "mean_p": 0.9762,
+                "freq": 0.8291
+              }
+            ],
+            "mean_retention": 1.0
+          }
+        },
+        "paired_vs_bkt": {
+          "elo": {
+            "goal_mastery": {
+              "diff": -0.61,
+              "ci95": [
+                -0.68,
+                -0.54
+              ],
+              "n": 200
+            },
+            "all_required": {
+              "diff": -0.615,
+              "ci95": [
+                -0.685,
+                -0.54
+              ],
+              "n": 200
+            }
+          }
+        }
+      },
+      "S1|4node_x10|B15|calm|h14": {
+        "name": "S1",
+        "arms": {
+          "bkt": {
+            "n": 200,
+            "goal_mastery_rate": 0.8,
+            "all_required_rate": 0.555,
+            "false_mastery_rate": 0.1542,
+            "minute_utilisation": 0.6427,
+            "mean_dx_minutes": 18.8,
+            "mean_dx_items": 9.4,
+            "items_per_mastered_concept": 18.8284,
+            "reach_rate": 0.8,
+            "km_median_minutes": 119.0,
+            "km_rmst_minutes": 99.4222,
+            "km_tau": 210,
+            "brier": 0.2103,
+            "auc": 0.6796,
+            "n_attempts": 11033,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 561,
+                "mean_p": 0.3775,
+                "freq": 0.4171
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 2047,
+                "mean_p": 0.4608,
+                "freq": 0.4411
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 1254,
+                "mean_p": 0.5397,
+                "freq": 0.5327
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 2438,
+                "mean_p": 0.6558,
+                "freq": 0.6456
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 3410,
+                "mean_p": 0.7445,
+                "freq": 0.739
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 1323,
+                "mean_p": 0.8344,
+                "freq": 0.8571
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 1.0
+          },
+          "elo": {
+            "n": 200,
+            "goal_mastery_rate": 0.285,
+            "all_required_rate": 0.08,
+            "false_mastery_rate": 0.0,
+            "minute_utilisation": 0.9868,
+            "mean_dx_minutes": 13.455,
+            "mean_dx_items": 12.0,
+            "items_per_mastered_concept": 49.6412,
+            "reach_rate": 0.285,
+            "km_median_minutes": null,
+            "km_rmst_minutes": 150.15,
+            "km_tau": 210,
+            "brier": 0.2038,
+            "auc": 0.7093,
+            "n_attempts": 24854,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 245,
+                "mean_p": 0.0727,
+                "freq": 0.3429
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 699,
+                "mean_p": 0.1529,
+                "freq": 0.3891
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 858,
+                "mean_p": 0.2534,
+                "freq": 0.4359
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 942,
+                "mean_p": 0.3505,
+                "freq": 0.5053
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 1055,
+                "mean_p": 0.4503,
+                "freq": 0.5365
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 1424,
+                "mean_p": 0.5507,
+                "freq": 0.5709
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 1623,
+                "mean_p": 0.6514,
+                "freq": 0.6044
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 1901,
+                "mean_p": 0.7515,
+                "freq": 0.6323
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 2372,
+                "mean_p": 0.8535,
+                "freq": 0.6686
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 13735,
+                "mean_p": 0.9762,
+                "freq": 0.8291
+              }
+            ],
+            "mean_retention": 1.0
+          }
+        },
+        "paired_vs_bkt": {
+          "elo": {
+            "goal_mastery": {
+              "diff": -0.515,
+              "ci95": [
+                -0.585,
+                -0.445
+              ],
+              "n": 200
+            },
+            "all_required": {
+              "diff": -0.475,
+              "ci95": [
+                -0.55,
+                -0.4
+              ],
+              "n": 200
+            }
+          }
+        }
+      },
+      "S4|4node_x10|B15|calm|h14": {
+        "name": "S4",
+        "arms": {
+          "bkt": {
+            "n": 200,
+            "goal_mastery_rate": 0.93,
+            "all_required_rate": 0.915,
+            "false_mastery_rate": 0.0026,
+            "minute_utilisation": 0.6349,
+            "mean_dx_minutes": 15.37,
+            "mean_dx_items": 7.685,
+            "items_per_mastered_concept": 14.0501,
+            "reach_rate": 0.93,
+            "km_median_minutes": 108.0,
+            "km_rmst_minutes": 98.6638,
+            "km_tau": 210,
+            "brier": 0.2425,
+            "auc": 0.5801,
+            "n_attempts": 8229,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 766,
+                "mean_p": 0.374,
+                "freq": 0.2285
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 981,
+                "mean_p": 0.464,
+                "freq": 0.6901
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 1368,
+                "mean_p": 0.5512,
+                "freq": 0.5117
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 1657,
+                "mean_p": 0.6499,
+                "freq": 0.7043
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 2907,
+                "mean_p": 0.7383,
+                "freq": 0.5473
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 550,
+                "mean_p": 0.8409,
+                "freq": 0.8673
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 1.0
+          },
+          "elo": {
+            "n": 200,
+            "goal_mastery_rate": 0.28,
+            "all_required_rate": 0.22,
+            "false_mastery_rate": 0.0,
+            "minute_utilisation": 0.9757,
+            "mean_dx_minutes": 12.66,
+            "mean_dx_items": 12.0,
+            "items_per_mastered_concept": 41.1492,
+            "reach_rate": 0.28,
+            "km_median_minutes": null,
+            "km_rmst_minutes": 160.7393,
+            "km_tau": 210,
+            "brier": 0.217,
+            "auc": 0.7084,
+            "n_attempts": 23333,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 1061,
+                "mean_p": 0.0576,
+                "freq": 0.131
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 829,
+                "mean_p": 0.1464,
+                "freq": 0.3595
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 928,
+                "mean_p": 0.2464,
+                "freq": 0.472
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 984,
+                "mean_p": 0.3534,
+                "freq": 0.5498
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 912,
+                "mean_p": 0.4484,
+                "freq": 0.6371
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 1293,
+                "mean_p": 0.55,
+                "freq": 0.6636
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 1721,
+                "mean_p": 0.6532,
+                "freq": 0.6188
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 1953,
+                "mean_p": 0.7515,
+                "freq": 0.6365
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 2231,
+                "mean_p": 0.8561,
+                "freq": 0.6356
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 11421,
+                "mean_p": 0.9767,
+                "freq": 0.8061
+              }
+            ],
+            "mean_retention": 1.0
+          }
+        },
+        "paired_vs_bkt": {
+          "elo": {
+            "goal_mastery": {
+              "diff": -0.65,
+              "ci95": [
+                -0.715,
+                -0.585
+              ],
+              "n": 200
+            },
+            "all_required": {
+              "diff": -0.695,
+              "ci95": [
+                -0.76,
+                -0.625
+              ],
+              "n": 200
+            }
+          }
+        }
+      }
+    }
+  },
+  "hlr": {
+    "meta": {
+      "smoke": false,
+      "n_seeds": 200,
+      "episodes_executed": 2400,
+      "hlr_weights": [
+        0.25,
+        -0.25,
+        0.25
+      ],
+      "runtime_s": 194.4
+    },
+    "cells": {
+      "S0|4node_x10|B15|forgetting_21|h21": {
+        "name": "S0|4node_x10",
+        "arms": {
+          "fixed": {
+            "n": 200,
+            "goal_mastery_rate": 0.0,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 1.0,
+            "minute_utilisation": 0.4594,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": null,
+            "reach_rate": 0.735,
+            "km_median_minutes": 128.0,
+            "km_rmst_minutes": 110.2968,
+            "km_tau": 315,
+            "brier": 0.217,
+            "auc": 0.6807,
+            "n_attempts": 13862,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 876,
+                "mean_p": 0.378,
+                "freq": 0.3973
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 2721,
+                "mean_p": 0.4616,
+                "freq": 0.4171
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 1497,
+                "mean_p": 0.5369,
+                "freq": 0.4836
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 3097,
+                "mean_p": 0.6517,
+                "freq": 0.6232
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 4090,
+                "mean_p": 0.7449,
+                "freq": 0.7254
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 1581,
+                "mean_p": 0.835,
+                "freq": 0.8254
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.3133
+          },
+          "hlr": {
+            "n": 200,
+            "goal_mastery_rate": 0.04,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 0.9864,
+            "minute_utilisation": 0.7001,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": 1259.4545,
+            "reach_rate": 0.58,
+            "km_median_minutes": 201.0,
+            "km_rmst_minutes": 177.2637,
+            "km_tau": 315,
+            "brier": 0.2343,
+            "auc": 0.6439,
+            "n_attempts": 25429,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 881,
+                "mean_p": 0.3784,
+                "freq": 0.3802
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 3591,
+                "mean_p": 0.4613,
+                "freq": 0.3977
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 2595,
+                "mean_p": 0.5277,
+                "freq": 0.4316
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 3944,
+                "mean_p": 0.6582,
+                "freq": 0.6164
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 11400,
+                "mean_p": 0.7372,
+                "freq": 0.6269
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 3018,
+                "mean_p": 0.8354,
+                "freq": 0.7863
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.4175
+          },
+          "product_norev": {
+            "n": 200,
+            "goal_mastery_rate": 0.0,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 1.0,
+            "minute_utilisation": 0.4539,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": null,
+            "reach_rate": 0.73,
+            "km_median_minutes": 128.0,
+            "km_rmst_minutes": 109.8975,
+            "km_tau": 315,
+            "brier": 0.2168,
+            "auc": 0.6809,
+            "n_attempts": 13623,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 864,
+                "mean_p": 0.378,
+                "freq": 0.3981
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 2680,
+                "mean_p": 0.4616,
+                "freq": 0.4175
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 1472,
+                "mean_p": 0.5373,
+                "freq": 0.4871
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 3059,
+                "mean_p": 0.6517,
+                "freq": 0.6244
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 4018,
+                "mean_p": 0.7452,
+                "freq": 0.7257
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 1530,
+                "mean_p": 0.8349,
+                "freq": 0.8281
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.3142
+          }
+        },
+        "paired_vs_product_norev": {
+          "fixed": {
+            "goal_mastery": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            },
+            "all_required": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            }
+          },
+          "hlr": {
+            "goal_mastery": {
+              "diff": 0.04,
+              "ci95": [
+                0.015,
+                0.07
+              ],
+              "n": 200
+            },
+            "all_required": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            }
+          }
+        }
+      },
+      "S0|8node_x10|B15|forgetting_21|h21": {
+        "name": "S0|8node_x10",
+        "arms": {
+          "fixed": {
+            "n": 200,
+            "goal_mastery_rate": 0.2,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 0.9809,
+            "minute_utilisation": 0.8689,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": 435.1884,
+            "reach_rate": 0.595,
+            "km_median_minutes": 274.0,
+            "km_rmst_minutes": 215.3477,
+            "km_tau": 315,
+            "brier": 0.2236,
+            "auc": 0.673,
+            "n_attempts": 26232,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 1848,
+                "mean_p": 0.3778,
+                "freq": 0.382
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 5009,
+                "mean_p": 0.4599,
+                "freq": 0.3923
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 2830,
+                "mean_p": 0.5385,
+                "freq": 0.4756
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 5618,
+                "mean_p": 0.6512,
+                "freq": 0.6061
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 8013,
+                "mean_p": 0.7437,
+                "freq": 0.7025
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 2914,
+                "mean_p": 0.835,
+                "freq": 0.7903
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.4376
+          },
+          "hlr": {
+            "n": 200,
+            "goal_mastery_rate": 0.0,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 0.9822,
+            "minute_utilisation": 0.9636,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": 664.4655,
+            "reach_rate": 0.245,
+            "km_median_minutes": null,
+            "km_rmst_minutes": 237.825,
+            "km_tau": 315,
+            "brier": 0.2437,
+            "auc": 0.63,
+            "n_attempts": 35340,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 1227,
+                "mean_p": 0.3781,
+                "freq": 0.392
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 4791,
+                "mean_p": 0.4607,
+                "freq": 0.3742
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 3456,
+                "mean_p": 0.5293,
+                "freq": 0.43
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 5158,
+                "mean_p": 0.658,
+                "freq": 0.607
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 16668,
+                "mean_p": 0.7367,
+                "freq": 0.5973
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 4040,
+                "mean_p": 0.8351,
+                "freq": 0.7599
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.5504
+          },
+          "product_norev": {
+            "n": 200,
+            "goal_mastery_rate": 0.15,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 0.9843,
+            "minute_utilisation": 0.8216,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": 632.8182,
+            "reach_rate": 0.67,
+            "km_median_minutes": 253.0,
+            "km_rmst_minutes": 202.8436,
+            "km_tau": 315,
+            "brier": 0.222,
+            "auc": 0.6726,
+            "n_attempts": 24051,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 1767,
+                "mean_p": 0.3777,
+                "freq": 0.3797
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 4677,
+                "mean_p": 0.4597,
+                "freq": 0.403
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 2539,
+                "mean_p": 0.541,
+                "freq": 0.51
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 5404,
+                "mean_p": 0.6508,
+                "freq": 0.6097
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 7128,
+                "mean_p": 0.7456,
+                "freq": 0.71
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 2536,
+                "mean_p": 0.8342,
+                "freq": 0.8032
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.4211
+          }
+        },
+        "paired_vs_product_norev": {
+          "fixed": {
+            "goal_mastery": {
+              "diff": 0.05,
+              "ci95": [
+                -0.01,
+                0.105
+              ],
+              "n": 200
+            },
+            "all_required": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            }
+          },
+          "hlr": {
+            "goal_mastery": {
+              "diff": -0.15,
+              "ci95": [
+                -0.2,
+                -0.105
+              ],
+              "n": 200
+            },
+            "all_required": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            }
+          }
+        }
+      },
+      "S3|4node_x10|B15|forgetting_21|h21": {
+        "name": "S3|4node_x10",
+        "arms": {
+          "fixed": {
+            "n": 200,
+            "goal_mastery_rate": 0.0,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 1.0,
+            "minute_utilisation": 0.4594,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": null,
+            "reach_rate": 0.735,
+            "km_median_minutes": 128.0,
+            "km_rmst_minutes": 110.2968,
+            "km_tau": 315,
+            "brier": 0.217,
+            "auc": 0.6807,
+            "n_attempts": 13862,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 876,
+                "mean_p": 0.378,
+                "freq": 0.3973
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 2721,
+                "mean_p": 0.4616,
+                "freq": 0.4171
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 1497,
+                "mean_p": 0.5369,
+                "freq": 0.4836
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 3097,
+                "mean_p": 0.6517,
+                "freq": 0.6232
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 4090,
+                "mean_p": 0.7449,
+                "freq": 0.7254
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 1581,
+                "mean_p": 0.835,
+                "freq": 0.8254
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.3133
+          },
+          "hlr": {
+            "n": 200,
+            "goal_mastery_rate": 0.04,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 0.9864,
+            "minute_utilisation": 0.7001,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": 1259.4545,
+            "reach_rate": 0.58,
+            "km_median_minutes": 201.0,
+            "km_rmst_minutes": 177.2637,
+            "km_tau": 315,
+            "brier": 0.2343,
+            "auc": 0.6439,
+            "n_attempts": 25429,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 881,
+                "mean_p": 0.3784,
+                "freq": 0.3802
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 3591,
+                "mean_p": 0.4613,
+                "freq": 0.3977
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 2595,
+                "mean_p": 0.5277,
+                "freq": 0.4316
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 3944,
+                "mean_p": 0.6582,
+                "freq": 0.6164
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 11400,
+                "mean_p": 0.7372,
+                "freq": 0.6269
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 3018,
+                "mean_p": 0.8354,
+                "freq": 0.7863
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.4175
+          },
+          "product_norev": {
+            "n": 200,
+            "goal_mastery_rate": 0.0,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 1.0,
+            "minute_utilisation": 0.4539,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": null,
+            "reach_rate": 0.73,
+            "km_median_minutes": 128.0,
+            "km_rmst_minutes": 109.8975,
+            "km_tau": 315,
+            "brier": 0.2168,
+            "auc": 0.6809,
+            "n_attempts": 13623,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 864,
+                "mean_p": 0.378,
+                "freq": 0.3981
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 2680,
+                "mean_p": 0.4616,
+                "freq": 0.4175
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 1472,
+                "mean_p": 0.5373,
+                "freq": 0.4871
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 3059,
+                "mean_p": 0.6517,
+                "freq": 0.6244
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 4018,
+                "mean_p": 0.7452,
+                "freq": 0.7257
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 1530,
+                "mean_p": 0.8349,
+                "freq": 0.8281
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.3142
+          }
+        },
+        "paired_vs_product_norev": {
+          "fixed": {
+            "goal_mastery": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            },
+            "all_required": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            }
+          },
+          "hlr": {
+            "goal_mastery": {
+              "diff": 0.04,
+              "ci95": [
+                0.015,
+                0.07
+              ],
+              "n": 200
+            },
+            "all_required": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            }
+          }
+        }
+      },
+      "S3|8node_x10|B15|forgetting_21|h21": {
+        "name": "S3|8node_x10",
+        "arms": {
+          "fixed": {
+            "n": 200,
+            "goal_mastery_rate": 0.2,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 0.9809,
+            "minute_utilisation": 0.8689,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": 435.1884,
+            "reach_rate": 0.595,
+            "km_median_minutes": 274.0,
+            "km_rmst_minutes": 215.3477,
+            "km_tau": 315,
+            "brier": 0.2236,
+            "auc": 0.673,
+            "n_attempts": 26232,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 1848,
+                "mean_p": 0.3778,
+                "freq": 0.382
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 5009,
+                "mean_p": 0.4599,
+                "freq": 0.3923
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 2830,
+                "mean_p": 0.5385,
+                "freq": 0.4756
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 5618,
+                "mean_p": 0.6512,
+                "freq": 0.6061
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 8013,
+                "mean_p": 0.7437,
+                "freq": 0.7025
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 2914,
+                "mean_p": 0.835,
+                "freq": 0.7903
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.4376
+          },
+          "hlr": {
+            "n": 200,
+            "goal_mastery_rate": 0.0,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 0.9822,
+            "minute_utilisation": 0.9636,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": 664.4655,
+            "reach_rate": 0.245,
+            "km_median_minutes": null,
+            "km_rmst_minutes": 237.825,
+            "km_tau": 315,
+            "brier": 0.2437,
+            "auc": 0.63,
+            "n_attempts": 35340,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 1227,
+                "mean_p": 0.3781,
+                "freq": 0.392
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 4791,
+                "mean_p": 0.4607,
+                "freq": 0.3742
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 3456,
+                "mean_p": 0.5293,
+                "freq": 0.43
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 5158,
+                "mean_p": 0.658,
+                "freq": 0.607
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 16668,
+                "mean_p": 0.7367,
+                "freq": 0.5973
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 4040,
+                "mean_p": 0.8351,
+                "freq": 0.7599
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.5504
+          },
+          "product_norev": {
+            "n": 200,
+            "goal_mastery_rate": 0.15,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 0.9843,
+            "minute_utilisation": 0.8216,
+            "mean_dx_minutes": 0.0,
+            "mean_dx_items": 0.0,
+            "items_per_mastered_concept": 632.8182,
+            "reach_rate": 0.67,
+            "km_median_minutes": 253.0,
+            "km_rmst_minutes": 202.8436,
+            "km_tau": 315,
+            "brier": 0.222,
+            "auc": 0.6726,
+            "n_attempts": 24051,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 1767,
+                "mean_p": 0.3777,
+                "freq": 0.3797
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 4677,
+                "mean_p": 0.4597,
+                "freq": 0.403
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 2539,
+                "mean_p": 0.541,
+                "freq": 0.51
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 5404,
+                "mean_p": 0.6508,
+                "freq": 0.6097
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 7128,
+                "mean_p": 0.7456,
+                "freq": 0.71
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 2536,
+                "mean_p": 0.8342,
+                "freq": 0.8032
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.4211
+          }
+        },
+        "paired_vs_product_norev": {
+          "fixed": {
+            "goal_mastery": {
+              "diff": 0.05,
+              "ci95": [
+                -0.01,
+                0.105
+              ],
+              "n": 200
+            },
+            "all_required": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            }
+          },
+          "hlr": {
+            "goal_mastery": {
+              "diff": -0.15,
+              "ci95": [
+                -0.2,
+                -0.105
+              ],
+              "n": 200
+            },
+            "all_required": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            }
+          }
+        }
+      }
+    }
+  },
+  "forgets": {
+    "meta": {
+      "smoke": false,
+      "n_seeds": 200,
+      "episodes_executed": 400,
+      "runtime_s": 27.8
+    },
+    "cells": {
+      "S3|4node_x10|B15|forgetting_21|h21": {
+        "name": "S3",
+        "arms": {
+          "fitted_S3": {
+            "n": 200,
+            "goal_mastery_rate": 0.49,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": 0.9383,
+            "minute_utilisation": 0.9349,
+            "mean_dx_minutes": 15.0,
+            "mean_dx_items": 12.0,
+            "items_per_mastered_concept": 280.3571,
+            "reach_rate": 0.845,
+            "km_median_minutes": 243.0,
+            "km_rmst_minutes": 190.0454,
+            "km_tau": 315,
+            "brier": 0.2219,
+            "auc": 0.6912,
+            "n_attempts": 33945,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 415,
+                "mean_p": 0.2972,
+                "freq": 0.3398
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 11960,
+                "mean_p": 0.3236,
+                "freq": 0.4251
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 1158,
+                "mean_p": 0.493,
+                "freq": 0.5475
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 9155,
+                "mean_p": 0.5329,
+                "freq": 0.6388
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 11257,
+                "mean_p": 0.7304,
+                "freq": 0.7884
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.5222
+          },
+          "fitted_S3_forget": {
+            "n": 200,
+            "goal_mastery_rate": 0.0,
+            "all_required_rate": 0.0,
+            "false_mastery_rate": null,
+            "minute_utilisation": 0.0433,
+            "mean_dx_minutes": 13.65,
+            "mean_dx_items": 10.645,
+            "items_per_mastered_concept": null,
+            "reach_rate": 0.285,
+            "km_median_minutes": null,
+            "km_rmst_minutes": 225.225,
+            "km_tau": 315,
+            "brier": null,
+            "auc": null,
+            "n_attempts": 0,
+            "executed_prereq_violations": 0,
+            "plan_prereq_violations": 0,
+            "budget_violations": 0,
+            "reliability": [
+              {
+                "lo": 0.0,
+                "hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.1,
+                "hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.2,
+                "hi": 0.3,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.3,
+                "hi": 0.4,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.4,
+                "hi": 0.5,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.5,
+                "hi": 0.6,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.6,
+                "hi": 0.7,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.7,
+                "hi": 0.8,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.8,
+                "hi": 0.9,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              },
+              {
+                "lo": 0.9,
+                "hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "freq": null
+              }
+            ],
+            "mean_retention": 0.4963
+          }
+        },
+        "paired_vs_fitted_S3": {
+          "fitted_S3_forget": {
+            "goal_mastery": {
+              "diff": -0.49,
+              "ci95": [
+                -0.56,
+                -0.42
+              ],
+              "n": 200
+            },
+            "all_required": {
+              "diff": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 200
+            }
+          }
+        }
+      }
+    }
+  }
+}

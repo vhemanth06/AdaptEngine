@@ -9,7 +9,6 @@ pytest.importorskip("httpx")
 
 from fastapi.testclient import TestClient  # noqa: E402
 
-from adaptengine.api import Engine  # noqa: E402
 from adaptengine.core.schema import Event, EventType, PlanContext  # noqa: E402
 from adaptengine.learner.state import ExecutionLog  # noqa: E402
 from adaptengine.planner import serialize_plan  # noqa: E402
@@ -26,11 +25,10 @@ def client(tmp_path, monkeypatch):
 
 @pytest.fixture(scope="module")
 def engine():
-    data = app_module.DATA
-    return Engine.from_files(
-        str(data / "curriculum" / "curriculum_8node.json"),
-        str(data / "curriculum" / "activities_8node.json"),
-        str(app_module.MANIFEST),
+    """The W7 engine as a new legacy web session runs it (WEB_DIAG_PRIOR, WEB_DIAG_STOP, WEB_MAINTENANCE_REVIEWS)."""
+    a = app_module
+    return a._profile_engine(
+        "8node", "w7_default", "legacy", a.WEB_DIAG_PRIOR, a.WEB_DIAG_STOP, a.WEB_MAINTENANCE_REVIEWS
     )
 
 
@@ -393,3 +391,51 @@ def test_product_diagnostic_only_searches_goal_path(client):
     # a later goal change must not break replay of the recorded answers
     assert client.post(f"/api/sessions/{sid}/plan", json={"goal": "C4"}).status_code == 200
     assert client.get(f"/api/sessions/{sid}").json()["diagnostic"] == v["diagnostic"]
+
+
+
+def test_web_diagnostic_starts_at_0_2_and_old_sessions_keep_their_prior(client):
+    for kw in ({}, {"profile": "w7_default", "rules": "legacy"}):
+        sid = _new(client, **kw)["session_id"]
+        after = _run_diagnostic(client, sid)
+        assert after["diagnostic"]["items"][0]["p_before"] == pytest.approx(0.2)
+    # a session saved before diag_prior was recorded replays with the engine's population prior
+    meta_path = app_module.store._paths(sid)[1]
+    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    del meta["diag_prior"], meta["diag_stop"], meta["maintenance_reviews"]
+    meta["diag_answers"] = []
+    meta_path.write_text(json.dumps(meta), encoding="utf-8")
+    old = _run_diagnostic(client, sid)
+    assert old["diagnostic"]["items"][0]["p_before"] == pytest.approx(0.24)
+
+
+def test_web_diagnostic_stops_once_concept_is_known(client):
+    v = _new(client, curriculum="8node_x10")  # product rules, goal C8; all right except C8
+    sid = v["session_id"]
+    while not v["diagnostic"]["done"]:
+        item = v["diagnostic"]["next_item"]
+        body = {"activity_id": item["activity_id"], "correct": item["concept_id"] != "C8"}
+        v = client.post(f"/api/sessions/{sid}/diagnostic/answer", json=body).json()
+    rows = {r["concept_id"]: r for r in v["diagnostic"]["concept_results"]}
+    assert rows["C3"]["n_items"] == 3 and 0.70 <= rows["C3"]["p"] < 0.80  # 3 hard rights, stop at p >= 0.70
+    assert rows["C8"]["n_items"] == 1 and rows["C8"]["p"] <= 0.30
+
+
+def test_web_plan_ends_at_goal_without_maintenance_reviews(client):
+    def plan(drop_key):
+        v = _new(client, curriculum="8node_x10", deadline_day=30)
+        sid = v["session_id"]
+        if drop_key:  # a session saved before maintenance_reviews was recorded keeps D43 maintenance
+            meta_path = app_module.store._paths(sid)[1]
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+            del meta["maintenance_reviews"]
+            meta_path.write_text(json.dumps(meta), encoding="utf-8")
+        while not v["diagnostic"]["done"]:
+            item = v["diagnostic"]["next_item"]
+            body = {"activity_id": item["activity_id"], "correct": True}
+            v = client.post(f"/api/sessions/{sid}/diagnostic/answer", json=body).json()
+        return v["plan"]["days"]
+
+    new, old = plan(False), plan(True)
+    assert "L-C8" in new[-1]["activities"]  # last day is the goal's content, not a review
+    assert old[-1]["day"] > new[-1]["day"] + 10

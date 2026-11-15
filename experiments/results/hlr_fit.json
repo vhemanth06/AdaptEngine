@@ -1,0 +1,24 @@
+{
+  "weights": [
+    0.25,
+    -0.25,
+    0.25
+  ],
+  "brier": 0.30191,
+  "baseline_brier_mean": 0.24461,
+  "n_observations": 4510,
+  "n_seeds": 200,
+  "worlds": "S3",
+  "scenario": "forgetting_21",
+  "curricula": [
+    "4node_x10",
+    "8node_x10"
+  ],
+  "episodes": 400,
+  "meta": {
+    "code_hash": "6c55d4f99dc1af50871f35ae113c9bacc11cade68936a579b0cab76bd43b836a",
+    "experiment_hash": "24eabf602925b8f5b0f4e0ff63087612ff6b8dc956e78257eb3fc780f0426715",
+    "timestamp_utc": "2026-11-14T23:12:57.387621+00:00",
+    "engine": "product"
+  }
+}
