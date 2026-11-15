@@ -211,6 +211,7 @@ def run_episode(
     start_state = engine.init_learner()
 
     dx_minutes = 0
+    dx_items = 0
     if arm == "adapt_dx":
         # A.4: diagnostic answers are sampled with their own tag and never change true theta
         dx = engine.diagnose(
@@ -225,6 +226,7 @@ def run_episode(
         )
         start_state = dx.state
         dx_minutes = sum(engine.activities[i.activity_id].duration for i in dx.item_log)
+        dx_items = len(dx.item_log)
 
     review_urgency: Optional[Mapping[str, float]] = None
     if arm == "no_review":
@@ -503,6 +505,7 @@ def run_episode(
         "false_mastered": len(false_mastered),
         "false_mastery_rate": round(len(false_mastered) / len(believed), 4) if believed else 0.0,
         "dx_minutes": dx_minutes,
+        "dx_items": dx_items,
         "minutes_available": study_days_budget,
         "minute_utilisation": round(minutes_used / study_days_budget, 4)
         if study_days_budget

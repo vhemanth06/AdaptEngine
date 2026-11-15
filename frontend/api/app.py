@@ -68,6 +68,7 @@ REPO = Path(__file__).resolve().parents[2]
 DATA = REPO / "data"
 MANIFEST = DATA / "review_manifest.json"
 RESULTS_DIR = REPO / "experiments" / "results"
+POLICY_FROZEN = REPO / "config" / "policy_frozen.json"  # module-level so tests can redirect it
 DIST = REPO / "frontend" / "web" / "dist"
 
 app = FastAPI(title="AdaptEngine demo API", version="1.0.0")
@@ -709,7 +710,7 @@ def policy_preview(sid: str, req: PolicyPreviewRequest):
 
     b, state, log, ctx, meta = _open(sid)
     label = None
-    frozen = REPO / "config" / "policy_frozen.json"
+    frozen = POLICY_FROZEN
     if req.policy == "deterministic":
         pol = None
     elif req.policy == "random":

@@ -17,16 +17,17 @@ w5:
 	$(PYTHON) scripts/run_w5.py
 
 w6:
-	$(PYTHON) scripts/run_w6.py
+	$(PYTHON) experiments/run_diag.py --smoke
 
 poc:
 	$(PYTHON) scripts/poc_demo.py
 
+# the full E2 runs only through the orchestrator (`make final`), against the pre-registration
 eval:
-	$(PYTHON) experiments/run_evaluation.py
+	$(PYTHON) experiments/run_diag.py --smoke
 
 eval-quick:
-	$(PYTHON) experiments/run_evaluation.py --quick
+	$(PYTHON) experiments/run_diag.py --smoke
 
 
 
@@ -50,7 +51,7 @@ demo:
 
 # W8 I.4: every gate + final-week runs + figures (see docs/WEEK8_REPORT_NOTES.md §15)
 final:
-	$(PYTHON) scripts/run_final.py
+	$(PYTHON) scripts/run_experiments.py
 
 # Demo frontend (W7 WP8). Needs: pip install -e ".[demo]" and npm ci in frontend/web.
 demo-api:

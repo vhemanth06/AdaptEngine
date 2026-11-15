@@ -1,108 +1,128 @@
 #!/usr/bin/env python3
-"""W8 pre-registered extension evaluations (FINAL_A5 §7), odd seeds 2001-2399:
-  D.1  review cap + goal-path relevance on synth-20 forgetting cells
-  O.1  Elo/IRT vs BKT measurement model in the adapt_final loop
-  O.2  HLR-lite half-life: fit on HLR seeds (S3), evaluate in forgetting_21 cells
-  O.3  BKT forgets: S3 in-loop Brier with/without the fitted forget parameter
-  O.4  CP-SAT: only if OR-Tools is installed (recorded as not run otherwise)
-Writes experiments/results/w8_extensions.json and experiments/results/w8_hlr_fit.json."""
+"""E5: four extension experiments on the shipped product engine (FINAL_A5 §7).
+
+  python experiments/run_extensions.py review_cap|elo|hlr|forgets|all [--smoke]
+Each subcommand writes its key into <out-dir>/extensions.json (extensions_smoke.json for --smoke),
+keeping the other keys. `hlr` also writes hlr_fit.json. Smoke = 2 seeds.
+  review_cap (D.1): product_nodx vs +review cap vs product_norev, synth-20-x10 forgetting cells.
+  elo (O.1): mastery_model elo vs bkt.   forgets (O.3): fitted_S3 vs fitted_S3_forget.
+  hlr (O.2): HLR-lite weights fitted on HLR_SEEDS product episodes (S3), evaluated on REPORT_SEEDS.
+Arms run through run_grid.run_unit with an overrides dict ("mode" picks the run mode).
+"""
 
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import sys
 import time
-from multiprocessing import Pool
+from collections import defaultdict
 
 import numpy as np
 
-repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-sys.path[:0] = [p for p in (repo_root, os.path.join(repo_root, "src")) if p not in sys.path]
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from experiments.arms import get_scenario, run_episode  # noqa: E402
-from experiments.provenance import stamp  # noqa: E402
+from experiments.common import (  # noqa: E402
+    HLR_SEEDS,
+    REPORT_SEEDS,
+    curriculum_paths,
+    goal_of,
+    product_engine,
+    run_parallel,
+    write_result,
+)
+from experiments.run_grid import (  # noqa: E402
+    CHUNK,
+    _mean,
+    _paired,
+    _w7_engine,
+    cell_id,
+    run_unit,
+    summarise,
+)
 from experiments.sim import PROFILES  # noqa: E402
-from experiments.stats import brier_score, paired_summary, roc_auc  # noqa: E402
-from experiments.w8_common import FINAL_FLAGS, HLR_SEEDS, REPORT_SEEDS, engine, goal_of  # noqa: E402
 
-SELECT = os.path.join(repo_root, "experiments/results/w8_calibration_select.json")
-HLR_FIT = os.path.join(repo_root, "experiments/results/w8_hlr_fit.json")
+KEYS = ("review_cap", "elo", "hlr", "forgets")
+CURS2 = ("4node_x10", "8node_x10")
 
 
-def winner():
-    sel = json.load(open(SELECT))
-    c = sel["candidates"][sel["winner"]]
-    return c["profile"], dict(c["overrides"])
+def _cells(key, hlr_w=None):
+    """-> list of (name, ref_arm, (world, cur, B, scenario, horizon), {arm: overrides})."""
+    out = []
+    if key == "review_cap":
+        arms = {
+            "product_nodx": {"mode": "adapt"},
+            "capped": {"mode": "adapt", "review_cap_fraction": 0.25, "review_goal_path_only": True},
+            "product_norev": {"mode": "no_review"},
+        }
+        for w in ("S0", "S1"):
+            for b in (10, 15):
+                out.append(
+                    (
+                        f"{w}|B{b}",
+                        "product_norev",
+                        (w, "synth-20-x10", b, "forgetting_21", 21),
+                        arms,
+                    )
+                )
+    elif key == "elo":
+        arms = {"bkt": {}, "elo": {"mastery_model": "elo"}}
+        for w in ("S0", "S1", "S4"):
+            out.append((w, "bkt", (w, "4node_x10", 15, "calm", 14), arms))
+    elif key == "hlr":
+        arms = {
+            "fixed": {"mode": "adapt"},
+            "hlr": {"mode": "adapt", "half_life_model": "hlr", "hlr_weights": hlr_w},
+            "product_norev": {"mode": "no_review"},
+        }
+        for w in ("S0", "S3"):
+            for cur in CURS2:
+                out.append((f"{w}|{cur}", "product_norev", (w, cur, 15, "forgetting_21", 21), arms))
+    else:  # forgets
+        arms = {
+            "fitted_S3": {"profile": "fitted_S3"},
+            "fitted_S3_forget": {"profile": "fitted_S3_forget"},
+        }
+        out.append(("S3", "fitted_S3", ("S3", "4node_x10", 15, "forgetting_21", 21), arms))
+    return out
 
 
-def final(world, cur, **extra):
-    kind, ov = winner()
-    prof = (
-        "w7_default"
-        if kind == "w7_default"
-        else f"fitted_{world if world in ('S0', 'S1', 'S4') else 'S0'}"
-    )
-    return engine(cur, prof, **{**ov, **FINAL_FLAGS, **extra})
+def fit_units(seeds=HLR_SEEDS):
+    return [(cur, seeds[i : i + CHUNK]) for cur in CURS2 for i in range(0, len(seeds), CHUNK)]
 
 
-def run_unit(u):
-    tag, world, cur, budget, scen, horizon, arm, eng_kw, seeds = u
-    base = engine(cur)
-    sc = get_scenario(
-        scen, base, base.init_learner(), goal=goal_of(base), budget=budget, horizon=horizon
-    )
-    kind = eng_kw.pop("_kind")
-    e = engine(cur, **eng_kw) if kind == "plain" else final(world, cur, **eng_kw)
-    prof = PROFILES["fast_forgetter" if scen == "forgetting_21" else "nominal"]
-    rows, att = [], []
-    for s in seeds:
-        r = run_episode(e, s, sc, arm, prof, world=world)
-        att += r["attempts"]
-        rows.append({"seed": s, "goal": float(r["goal_mastered"]), "theta": r["goal_true_mastery"],
-                     "allreq": float(r["all_required_mastered"]), "viol": r["executed_prereq_violations"],
-                     "ret": r["retention"], "util": r["minute_utilisation"]})  # fmt: skip
-    return tag, rows, att
-
-
-def summarise(rows, att):
-    pairs = [tuple(p) for p in att]
-    n = len(rows)
-    return {
-        "n": n,
-        "goal_mastery_rate": round(sum(r["goal"] for r in rows) / n, 4),
-        "mean_goal_theta": round(sum(r["theta"] for r in rows) / n, 4),
-        "all_required_rate": round(sum(r["allreq"] for r in rows) / n, 4),
-        "mean_retention": round(sum(r["ret"] for r in rows) / n, 4),
-        "minute_utilisation": round(sum(r["util"] for r in rows) / n, 4),
-        "executed_violations": sum(r["viol"] for r in rows),
-        "brier": brier_score(pairs),
-        "auc": roc_auc(pairs),
-    }
-
-
-def fit_hlr():
-    """HLR-lite: p(recall) = 2^(-gap/h), h = 2^(w . [1, sqrt(1+correct), sqrt(1+wrong)]), least squares
-    by grid search on the first exercise after a gap >= 1 day (S3, forgetting_21, HLR seeds)."""
+def _fit_unit(u):
+    """Product (adapt_dx, fixed half-life) episodes in S3 / forgetting_21 -> (gap, n_ok, n_wrong, y)."""
+    cur, seeds = u
+    e = product_engine(cur)
+    sc = get_scenario("forgetting_21", e, e.init_learner(), goal=goal_of(e), budget=15, horizon=21)
     rows = []
-    for cur in ("4-node", "8-node"):
-        e = engine(cur)
-        sc = get_scenario(
-            "forgetting_21", e, e.init_learner(), goal=goal_of(e), budget=15, horizon=21
-        )
-        for arm in ("static_loop", "random_eligible"):
-            for s in HLR_SEEDS:
-                log = run_episode(e, s, sc, arm, PROFILES["fast_forgetter"], world="S3")[
-                    "activity_log"
-                ]
-                last, nc, nw = {}, {}, {}
-                for c, _, is_lesson, _d, y, day in log:
-                    if not is_lesson:
-                        if c in last and day - last[c] >= 1:
-                            rows.append((day - last[c], nc.get(c, 0), nw.get(c, 0), int(y)))
-                        nc[c] = nc.get(c, 0) + int(y)
-                        nw[c] = nw.get(c, 0) + (1 - int(y))
-                    last[c] = day
+    for s in seeds:
+        log = run_episode(e, s, sc, "adapt_dx", PROFILES["fast_forgetter"], world="S3")[
+            "activity_log"
+        ]
+        last, nc, nw = {}, {}, {}
+        for c, _, is_lesson, _d, y, day in log:
+            if not is_lesson:
+                if c in last and day - last[c] >= 1:  # first exercise after a gap >= 1 day
+                    rows.append((day - last[c], nc.get(c, 0), nw.get(c, 0), int(y)))
+                nc[c] = nc.get(c, 0) + int(y)
+                nw[c] = nw.get(c, 0) + (1 - int(y))
+            last[c] = day
+    return rows
+
+
+def fit_hlr(seeds, out_dir, smoke, processes=None):
+    """p(recall) = 2^(-gap/h), h = 2^(w . [1, sqrt(1+ok), sqrt(1+wrong)]); least squares by grid
+    search (same grid as the pre-rewrite fit)."""
+    units = fit_units(seeds)
+    for cur, _ in units:
+        product_engine(cur)
+    rows = [r for out in run_parallel(_fit_unit, units, processes) for r in out]
+    if not rows:
+        raise RuntimeError("HLR fit: no recall-after-gap observations")
     a = np.array(rows, float)
     gap, xc, xw, y = a[:, 0], np.sqrt(1 + a[:, 1]), np.sqrt(1 + a[:, 2]), a[:, 3]
     best = None
@@ -113,176 +133,98 @@ def fit_hlr():
                 err = float(np.mean((2.0 ** (-gap / h) - y) ** 2))
                 if best is None or err < best[0]:
                     best = (err, (float(w0), float(w1), float(w2)))
-    out = {"metadata": {**stamp(), "seeds": "even 8000-8398", "n_observations": len(rows)}, "weights": best[1],
-           "brier": round(best[0], 5), "baseline_brier_mean": round(float(np.mean((y - y.mean()) ** 2)), 5)}  # fmt: skip
-    with open(HLR_FIT, "w") as f:
-        json.dump(out, f, indent=1)
-    return out
+    fit = {
+        "weights": list(best[1]),
+        "brier": round(best[0], 5),
+        "baseline_brier_mean": round(float(np.mean((y - y.mean()) ** 2)), 5),
+        "n_observations": len(rows),
+        "n_seeds": len(seeds),
+        "worlds": "S3",
+        "scenario": "forgetting_21",
+        "curricula": list(CURS2),
+        "episodes": len(seeds) * len(CURS2),
+    }
+    write_result("hlr_fit_smoke" if smoke else "hlr_fit", dict(fit), out_dir)
+    return fit
 
 
-def main():
-    t0, meta = time.time(), stamp()
-    hlr = fit_hlr()
-    w = tuple(hlr["weights"])
-    S = REPORT_SEEDS
+def run_key(key, seeds, out_dir, smoke, processes, hlr_w=None):
+    cells = _cells(key, hlr_w)
+    for _n, _r, (_w, cur, *_x), arms in cells:  # pre-warm so forked workers inherit engines
+        curriculum_paths(cur)
+        _w7_engine(cur)
+        for ov in arms.values():
+            product_engine(cur, **{k: v for k, v in ov.items() if k != "mode"})
     units = []
-
-    def add(tag, world, cur, budget, scen, horizon, arm, kw):
-        for i in range(0, len(S), 50):
-            units.append((tag, world, cur, budget, scen, horizon, arm, dict(kw), S[i : i + 50]))
-
-    for world in ("S0", "S1"):  # D.1
-        for b in (10, 15):
-            cell = f"D1|{world}|synth-20|B{b}"
-            add(
-                f"{cell}|adapt",
-                world,
-                "synth-20",
-                b,
-                "forgetting_21",
-                21,
-                "adapt",
-                {"_kind": "plain"},
-            )
-            add(f"{cell}|adapt_cap", world, "synth-20", b, "forgetting_21", 21, "adapt",
-                {"_kind": "plain", "review_cap_fraction": 0.25, "review_goal_path_only": True})  # fmt: skip
-            add(
-                f"{cell}|no_review",
-                world,
-                "synth-20",
-                b,
-                "forgetting_21",
-                21,
-                "no_review",
-                {"_kind": "plain"},
-            )
-    for world in ("S0", "S1", "S4"):  # O.1
-        cell = f"O1|{world}|4-node|B15"
-        add(f"{cell}|bkt", world, "4-node", 15, "calm", 14, "adapt", {"_kind": "final"})
-        add(
-            f"{cell}|elo",
-            world,
-            "4-node",
-            15,
-            "calm",
-            14,
-            "adapt",
-            {"_kind": "final", "mastery_model": "elo"},
-        )
-    for world in ("S0", "S3"):  # O.2
-        for cur in ("4-node", "8-node"):
-            cell = f"O2|{world}|{cur}|B15"
-            add(f"{cell}|fixed", world, cur, 15, "forgetting_21", 21, "adapt", {"_kind": "final"})
-            add(
-                f"{cell}|hlr",
-                world,
-                cur,
-                15,
-                "forgetting_21",
-                21,
-                "adapt",
-                {"_kind": "final", "half_life_model": "hlr", "hlr_weights": w},
-            )
-            add(
-                f"{cell}|no_review",
-                world,
-                cur,
-                15,
-                "forgetting_21",
-                21,
-                "no_review",
-                {"_kind": "final"},
-            )
-    cell = "O3|S3|4-node|B15"  # O.3
-    add(
-        f"{cell}|no_forget",
-        "S3",
-        "4-node",
-        15,
-        "forgetting_21",
-        21,
-        "adapt",
-        {"_kind": "plain_profile_S3"},
-    )
-    units = [
-        (
-            u[0],
-            *u[1:7],
-            (
-                {"_kind": "plain", "profile": "fitted_S3"}
-                if u[7].get("_kind") == "plain_profile_S3"
-                else u[7]
-            ),
-            u[8],
-        )
-        for u in units
-    ]
-    for i in range(0, len(S), 50):
-        units.append(
-            (
-                f"{cell}|forget",
-                "S3",
-                "4-node",
-                15,
-                "forgetting_21",
-                21,
-                "adapt",
-                {"_kind": "plain", "profile": "fitted_S3_forget"},
-                S[i : i + 50],
-            )
-        )
-    rows, att = {}, {}
-    with Pool(max(1, (os.cpu_count() or 2) - 1)) as pool:
-        for tag, r, a in pool.imap_unordered(run_unit, units):
-            rows.setdefault(tag, []).extend(r)
-            att.setdefault(tag, []).extend(a)
-    res = {"metadata": {**meta, "preregistration": "docs/preregistration/FINAL_A5_2026-11-10.md §7", "seeds": "odd 2001-2399"},
-           "hlr_fit": hlr, "cells": {}}  # fmt: skip
-    for tag in sorted(rows):
-        cell, arm = tag.rsplit("|", 1)
-        rs = sorted(rows[tag], key=lambda r: r["seed"])
-        res["cells"].setdefault(cell, {})[arm] = summarise(rs, att[tag])
-        res["cells"][cell].setdefault("_rows", {})[arm] = rs
-    for cell, d in res["cells"].items():
-        rr = d.pop("_rows")
-        ref = {"D1": "no_review", "O1": "bkt", "O2": "no_review", "O3": "no_forget"}[
-            cell.split("|")[0]
-        ]
-        d["paired_vs_" + ref] = {
-            arm: {
-                "goal_mastery": paired_summary(
-                    [r["goal"] for r in rr[arm]], [r["goal"] for r in rr[ref]]
-                ),
-                "goal_theta": paired_summary(
-                    [r["theta"] for r in rr[arm]], [r["theta"] for r in rr[ref]]
-                ),
+    for name, _ref, (w, cur, b, scen, h), arms in cells:
+        for arm, ov in arms.items():
+            for i in range(0, len(seeds), CHUNK):
+                units.append((key, w, cur, b, scen, h, arm, seeds[i : i + CHUNK], ov))
+    recs = [r for out in run_parallel(run_unit, units, processes) for r in out]
+    by, hists = defaultdict(lambda: defaultdict(list)), {}
+    for r in recs:
+        by[r["cell"]][r["arm"]].append(r)
+        agg = hists.setdefault((r["cell"], r["arm"]), {})
+        for k, (pos, neg, sp) in r.pop("hist").items():
+            x = agg.setdefault(k, [0, 0, 0.0])
+            x[0] += pos
+            x[1] += neg
+            x[2] += sp
+    out_cells = {}
+    for name, ref, (w, cur, b, scen, h), arms in cells:
+        cid = cell_id(w, cur, b, scen, h)
+        a = {k: sorted(v, key=lambda r: r["seed"]) for k, v in by[cid].items()}
+        cell = {"name": name, "arms": {}, f"paired_vs_{ref}": {}}
+        for lab, v in a.items():
+            cell["arms"][lab] = {
+                **summarise(v, hists[(cid, lab)]),
+                "mean_retention": _mean([r["row"]["ret"] for r in v]),
             }
-            for arm in rr
-            if arm != ref
-        }
-    try:
-        import ortools  # noqa: F401
+            if lab != ref:
+                cell[f"paired_vs_{ref}"][lab] = {
+                    "goal_mastery": _paired(v, a[ref], "goal"),
+                    "all_required": _paired(v, a[ref], "allreq"),
+                }
+        if key == "review_cap":
+            ci = cell["paired_vs_product_norev"]["capped"]["goal_mastery"]
+            cell["capped_vs_no_review"] = ci
+            _lo, hi = ci["ci95"]
+            cell["pass"] = bool(hi >= 0)  # "CI includes or exceeds 0": fails only if hi < 0
+        out_cells[cid] = cell
+    return {
+        "meta": {
+            "smoke": smoke,
+            "n_seeds": len(seeds),
+            "episodes_executed": len(recs),
+            **({"hlr_weights": list(hlr_w)} if hlr_w else {}),
+        },
+        "cells": out_cells,
+    }
 
-        res["O4"] = "OR-Tools installed: run experiments/run_cpsat_eval.py"
-    except ImportError:
-        res["O4"] = "not run: OR-Tools is not installed (optional [solver] extra)"
-    res["metadata"]["runtime_s"] = round(time.time() - t0, 1)
-    with open(os.path.join(repo_root, "experiments/results/w8_extensions.json"), "w") as f:
-        json.dump(res, f, indent=1, sort_keys=True)
-    for cell, d in res["cells"].items():
-        print(
-            cell,
-            {
-                a: (
-                    v["goal_mastery_rate"],
-                    v["mean_goal_theta"],
-                    v["brier"],
-                    v["executed_violations"],
-                )
-                for a, v in d.items()
-                if not a.startswith("paired")
-            },
-        )
+
+def main(argv=None) -> dict:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("cmd", choices=(*KEYS, "all"))
+    ap.add_argument("--smoke", action="store_true")
+    ap.add_argument("--out-dir", default=None)
+    ap.add_argument("--processes", type=int, default=None)
+    a = ap.parse_args(argv)
+    seeds = REPORT_SEEDS[:2] if a.smoke else REPORT_SEEDS
+    name = "extensions_smoke" if a.smoke else "extensions"
+    out_dir = a.out_dir or os.path.join(os.path.dirname(os.path.abspath(__file__)), "results")
+    path = os.path.join(out_dir, f"{name}.json")
+    for key in KEYS if a.cmd == "all" else (a.cmd,):
+        t0, hlr_w = time.time(), None
+        if key == "hlr":
+            fit = fit_hlr(HLR_SEEDS[:2] if a.smoke else HLR_SEEDS, out_dir, a.smoke, a.processes)
+            hlr_w = tuple(fit["weights"])
+        sub = run_key(key, seeds, out_dir, a.smoke, a.processes, hlr_w)
+        sub["meta"]["runtime_s"] = round(time.time() - t0, 1)
+        data = json.load(open(path)) if os.path.exists(path) else {}
+        data[key] = sub
+        write_result(name, data, out_dir)
+        print(f"{key}: {sub['meta']['episodes_executed']} episodes, {sub['meta']['runtime_s']}s")
+    return json.load(open(path))
 
 
 if __name__ == "__main__":

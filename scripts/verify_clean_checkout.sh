@@ -35,10 +35,15 @@ rm -f quick_snap.json
 echo "=== Running API Quickstart ==="
 python examples/api_quickstart.py
 
-echo "=== Running quick evaluation twice (TC8.1 byte-identical check) ==="
-python experiments/run_evaluation.py --quick
-cp experiments/results/evaluation_results.json "$TEMP_DIR/eval1.json"
-python experiments/run_evaluation.py --quick
-diff "$TEMP_DIR/eval1.json" experiments/results/evaluation_results.json
-
+echo "=== Running E2 diagnostic smoke twice (byte-identical modulo timestamp/runtime) ==="
+python experiments/run_diag.py --smoke --out-dir "$TEMP_DIR/diag1" > /dev/null
+python experiments/run_diag.py --smoke --out-dir "$TEMP_DIR/diag2" > /dev/null
+python -c "
+import json, sys
+def load(d):
+    j = json.load(open(d + '/diag_matrix_smoke.json'))
+    j['meta'].pop('timestamp_utc'); j['meta'].pop('runtime_s')
+    return j
+sys.exit(0 if load(sys.argv[1]) == load(sys.argv[2]) else 'E2 smoke outputs differ')
+" "$TEMP_DIR/diag1" "$TEMP_DIR/diag2"
 echo "CLEAN CHECKOUT OK"

@@ -94,7 +94,7 @@ Each row lists one old experiment, its design, its result file, and what this pl
 - Executed prerequisite violations must be 0 in every adaptive arm. Static baselines may violate by design.
 - **Measurement only:** nothing is selected from report seeds, and results are reported whatever they show.
 - Never run `scripts/record_review.py` or edit `data/review_manifest.json`; the owner does that.
-- Git: one commit per task, only after the owner approves this plan. The Task 1 deletion happens only after the owner confirms the Part B manifest.
+- Git: never commit or push; the owner does both. Other git commands are allowed (`git tag`, `git show`, `git rm`, `git status`, `git diff`). Work starts only after the owner approves this plan. The Task 1 deletion happens only after the owner confirms the Part B manifest.
 
 ## Review Focus
 
@@ -140,7 +140,6 @@ def test_old_runners_gone():
 - [ ] **Step 2:** `.venv/bin/python -m pytest tests/test_harness_kept.py -v`. The first two tests pass and `test_old_runners_gone` fails.
 - [ ] **Step 3:** `git rm` the Part B delete list, then add the doc banners.
 - [ ] **Step 4:** `.venv/bin/python -m pytest -q tests frontend/api/tests`. Expected: all pass, with no `ImportError` from `experiments`.
-- [ ] **Step 5:** Commit `chore: remove W6–W8 experiment runners and results (fits kept)`.
 
 ---
 
@@ -195,7 +194,6 @@ def test_write_result_stamps(tmp_path, monkeypatch): ...  # meta has code_hash, 
 - [ ] **Step 2:** Run the tests and confirm they fail with `ImportError`.
 - [ ] **Step 3:** Implement the interfaces above.
 - [ ] **Step 4:** Run the file and the full suite. Expected: PASS.
-- [ ] **Step 5:** Commit.
 
 ---
 
@@ -260,7 +258,6 @@ def test_resume_skips_done_units(tmp_path): ...  # second --resume run executes 
 - [ ] **Step 2:** Confirm the tests fail.
 - [ ] **Step 3:** Implement.
 - [ ] **Step 4:** Confirm the tests pass. Then run the smoke: `.venv/bin/python experiments/run_grid.py --smoke`.
-- [ ] **Step 5:** Commit.
 
 ---
 
@@ -300,7 +297,6 @@ Answers rows #1 (diagnostic), #2, #5 and #20.
 - [ ] **Step 3:** Implement.
 - [ ] **Step 4:** Confirm the tests pass.
 - [ ] **Step 5:** Update `scripts/verify_clean_checkout.sh:39-42` to run `experiments/run_diag.py --smoke` twice and compare the outputs with `meta.timestamp_utc` removed, using a short inline `python -c` (no `jq` dependency).
-- [ ] **Step 6:** Commit.
 
 ---
 
@@ -336,7 +332,6 @@ Answers rows #4, #7 and #13 as measurements, not selections.
 - [ ] **Step 2:** Confirm the tests fail.
 - [ ] **Step 3:** Implement.
 - [ ] **Step 4:** Confirm the tests pass.
-- [ ] **Step 5:** Commit.
 
 ---
 
@@ -372,7 +367,6 @@ Answers row #15.
 - [ ] **Step 2:** Confirm the tests fail.
 - [ ] **Step 3:** Implement.
 - [ ] **Step 4:** Confirm the tests pass.
-- [ ] **Step 5:** Commit.
 
 ---
 
@@ -399,7 +393,6 @@ The HLR fit is also written to `hlr_fit.json`.
 - [ ] **Step 2:** Confirm the tests fail.
 - [ ] **Step 3:** Implement.
 - [ ] **Step 4:** Confirm the tests pass.
-- [ ] **Step 5:** Commit.
 
 ---
 
@@ -429,7 +422,6 @@ Answers rows #3, #9 and #17.
 - [ ] **Step 2:** Confirm the tests fail.
 - [ ] **Step 3:** Implement.
 - [ ] **Step 4:** Confirm the tests pass.
-- [ ] **Step 5:** Commit.
 
 ---
 
@@ -452,7 +444,6 @@ Answers rows #3, #9 and #17.
   - stops on the first non-zero exit;
   - before each run, checks that the current code hash equals the hash in the pre-registration, and refuses to run if it differs.
 - [ ] **Step 3:** Test `test_hash_mismatch_refuses`: monkeypatch `code_hash`, then expect `SystemExit` before any runner starts.
-- [ ] **Step 4:** Commit. The code hash is now frozen; do not edit `src/` or `experiments/` until Task 10 finishes.
 
 ---
 
@@ -463,7 +454,6 @@ Answers rows #3, #9 and #17.
 - [ ] **Step 3:** Verify:
   - every output's `meta.code_hash` equals the pre-registered hash;
   - every adaptive arm in E1, E3, E4 and E5 has `executed_prereq_violations == 0`.
-- [ ] **Step 4:** Commit the results.
 
 ---
 
@@ -487,4 +477,3 @@ Answers rows #3, #9 and #17.
   Figures go to `docs/figures/results_*.png`: KM headline, forest plot vs `static_loop`, reliability, false mastery vs utilisation.
 - [ ] **Step 2:** Test `test_make_results_on_smoke`: run on the smoke outputs, check every section header is present, and check that no number appears without a source line.
 - [ ] **Step 3:** Run it on the full results.
-- [ ] **Step 4:** Commit.

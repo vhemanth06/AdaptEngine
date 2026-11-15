@@ -11,7 +11,14 @@ import random
 from typing import Tuple
 
 
-def generate_synthetic_curriculum(n_concepts: int, seed: int = 2026) -> Tuple[dict, dict]:
+X10_DIFFICULTIES = (0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.85, 0.9)
+
+
+def generate_synthetic_curriculum(
+    n_concepts: int,
+    seed: int = 2026,
+    difficulties: tuple[float, ...] = (0.20, 0.40, 0.60, 0.80),
+) -> Tuple[dict, dict]:
     """Generate layered DAG curriculum and activity catalog for N concepts."""
     rng = random.Random(seed)
 
@@ -77,8 +84,8 @@ def generate_synthetic_curriculum(n_concepts: int, seed: int = 2026) -> Tuple[di
     # Generate activities
     # 1 lesson + 4 exercises per concept
     activities = []
-    difficulties = [0.20, 0.40, 0.60, 0.80]
-    durations = [1, 2, 2, 3]
+    durations = [1, 2, 2, 3] if len(difficulties) == 4 else [1, 1, 2, 2, 2, 2, 3, 3, 3, 3]
+    assert len(durations) == len(difficulties), "difficulties must be 4 or 10 long"
 
     for cid in concept_ids:
         activities.append(
@@ -109,12 +116,18 @@ def generate_synthetic_curriculum(n_concepts: int, seed: int = 2026) -> Tuple[di
     return curr_dict, act_dict
 
 
-def write_synthetic_curriculum(out_dir: str, n_concepts: int, seed: int = 2026) -> Tuple[str, str]:
+def write_synthetic_curriculum(
+    out_dir: str,
+    n_concepts: int,
+    seed: int = 2026,
+    difficulties: tuple[float, ...] = (0.20, 0.40, 0.60, 0.80),
+    suffix: str = "",
+) -> Tuple[str, str]:
     """Write synthetic curriculum and activities to JSON files in out_dir."""
     os.makedirs(out_dir, exist_ok=True)
-    curr_dict, act_dict = generate_synthetic_curriculum(n_concepts, seed)
-    curr_path = os.path.join(out_dir, f"curriculum_synth_{n_concepts}.json")
-    act_path = os.path.join(out_dir, f"activities_synth_{n_concepts}.json")
+    curr_dict, act_dict = generate_synthetic_curriculum(n_concepts, seed, difficulties)
+    curr_path = os.path.join(out_dir, f"curriculum_synth_{n_concepts}{suffix}.json")
+    act_path = os.path.join(out_dir, f"activities_synth_{n_concepts}{suffix}.json")
 
     with open(curr_path, "w") as f:
         json.dump(curr_dict, f, indent=2)

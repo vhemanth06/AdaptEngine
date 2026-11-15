@@ -21,6 +21,7 @@ import pandas as pd  # noqa: E402
 
 from adaptengine.api import Engine  # noqa: E402
 from adaptengine.core import constants as C  # noqa: E402
+from adaptengine.core.config import DEFAULT_CONFIG  # noqa: E402
 from adaptengine.learner.adapter import DEFAULT_CLASS_PARAMS  # noqa: E402
 from experiments.arms import get_scenario, run_episode  # noqa: E402
 from experiments.fit_bkt import (  # noqa: E402
@@ -118,9 +119,30 @@ def main():
 # ---------------------------------------------------------------- W8 B.2 / O.3
 
 
-def _w8_episodes(args):
-    from experiments.w8_common import engine, goal_of
+FIT_SEEDS = tuple(range(2000, 2400, 2))  # FINAL_A5 §1 fit seeds
+_ENGINES: dict = {}
 
+
+def _curriculum_paths(cur: str):
+    n = cur.split("-")[0]
+    return f"data/curriculum/curriculum_{n}node.json", f"data/curriculum/activities_{n}node.json"
+
+
+def goal_of(e: Engine) -> str:
+    return max(e.graph.concepts(), key=lambda c: (len(e.graph.ancestors(c)), c))
+
+
+def engine(cur: str) -> Engine:
+    """Cached w7_default engine over the original 4-node/8-node curricula."""
+    if cur not in _ENGINES:
+        cp, ap = _curriculum_paths(cur)
+        _ENGINES[cur] = Engine.from_files(
+            os.path.join(repo_root, cp), os.path.join(repo_root, ap), config=DEFAULT_CONFIG
+        )
+    return _ENGINES[cur]
+
+
+def _w8_episodes(args):
     world, cur, arm, scen, horizon, seeds = args
     e = engine(cur)
     sc = get_scenario(scen, e, e.init_learner(), goal=goal_of(e), budget=15, horizon=horizon)
@@ -138,7 +160,6 @@ def main_w8():
     from multiprocessing import Pool
 
     from experiments.bkt_lessons import fit, flags, sequences_from_episodes
-    from experiments.w8_common import FIT_SEEDS
 
     jobs = {}
     for world in ("S0", "S1", "S4"):

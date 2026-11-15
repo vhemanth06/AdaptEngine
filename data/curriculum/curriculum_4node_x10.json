@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "concepts": [
+    {
+      "concept_id": "C1",
+      "description": "Basic Data Types",
+      "prerequisites": []
+    },
+    {
+      "concept_id": "C2",
+      "description": "For & While Loops",
+      "prerequisites": []
+    },
+    {
+      "concept_id": "C3",
+      "description": "Lists & Arrays",
+      "prerequisites": [
+        "C1",
+        "C2"
+      ]
+    },
+    {
+      "concept_id": "C4",
+      "description": "List Comprehensions",
+      "prerequisites": [
+        "C3"
+      ]
+    }
+  ]
+}

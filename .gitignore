@@ -61,3 +61,9 @@ experiments/results/agent_cache/*
 # W8: resumable-runner checkpoints and smoke outputs are regenerated
 experiments/results/*.ckpt.jsonl
 experiments/results/final_grid_smoke.json
+experiments/results/_archive_pre_rewrite/
+# Smoke outputs (written next to real results when no --out-dir is given) are not results
+experiments/results/*_smoke*
+experiments/results/policy_logs_smoke/
+experiments/results/RESULTS_smoke.md
+experiments/results/figures/

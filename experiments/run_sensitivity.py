@@ -1,149 +1,169 @@
 #!/usr/bin/env python3
-"""W7 WP5: sensitivity of the closed-loop engine to its heuristic parameters.
+"""E3: sensitivity around the shipped product config. A measurement, not a selection.
 
-T5.2 one-at-a-time scans, T5.3 theta x k factorial, T5.4 alternative mastery criteria.
-Cells: worlds S0, S1 x curricula 4-node, 8-node; budget 15; calm; arm adapt (static reference
-once per cell); N = 200 paired learners (seeds 1000-1199). The horizon of each cell is fixed
-from DEFAULT_CONFIG so every configuration is compared at the same deadline.
-Writes experiments/results/w7_sensitivity.json (code_hash + timestamp; no git).
+  python experiments/run_sensitivity.py --smoke   # 2 cells, 8 report seeds -> sensitivity_smoke.json
+  python experiments/run_sensitivity.py           # -> experiments/results/sensitivity.json
+Options: --out-dir, --processes.
+One-at-a-time scans of SCANS plus a theta x k_responses factorial; each config is
+product_engine(cur, **changes), arm adapt_dx, on REPORT_SEEDS. The product config appears in every
+scan but runs once per cell; static_loop runs once per cell as reference. Combinations the config
+validation rejects are logged under meta.skipped, never raised.
 """
 
 from __future__ import annotations
 
 import argparse
-import dataclasses
-import json
+import itertools
 import os
 import sys
 import time
-from multiprocessing import Pool
+from collections import defaultdict
 
-repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-sys.path[:0] = [p for p in (repo_root, os.path.join(repo_root, "src")) if p not in sys.path]
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from adaptengine.api import Engine  # noqa: E402
-from adaptengine.core.config import DEFAULT_CONFIG  # noqa: E402
-from experiments.arms import get_scenario, run_episode  # noqa: E402
-from experiments.provenance import stamp  # noqa: E402
-from experiments.sim import PROFILES  # noqa: E402
-from experiments.stats import paired_summary  # noqa: E402
+from adaptengine.core.profiles import product_config  # noqa: E402
+from experiments.common import (  # noqa: E402
+    REPORT_SEEDS,
+    curriculum_paths,
+    product_engine,
+    run_parallel,
+    write_result,
+)
+from experiments.run_grid import (  # noqa: E402
+    CHUNK,
+    _mean,
+    _paired,
+    _w7_engine,
+    cell_id,
+    run_unit,
+    summarise,
+)
 
-CURRICULA = {
-    "4-node": ("data/curriculum/curriculum_4node.json", "data/curriculum/activities_4node.json"),
-    "8-node": ("data/curriculum/curriculum_8node.json", "data/curriculum/activities_8node.json"),
-}
-WORLDS = ("S0", "S1")
-SEEDS = tuple(range(1000, 1200))
-BUDGET = 15
 SCANS = {
-    "theta": (0.70, 0.75, 0.80, 0.85, 0.90, 0.95),
-    "k_responses": (1, 2, 3, 4),
-    "half_life_days": (7.0, 14.0, 30.0, 60.0),
-    "p0": (0.10, 0.20, 0.30, 0.40),
-    "t_lesson": (0.10, 0.20, 0.30),
-    "recall_threshold": (0.70, 0.80, 0.90),
-    "remediation_threshold": (0.30, 0.40, 0.50),
+    "theta": (0.85, 0.90, 0.95, 0.98),
+    "k_responses": (1, 2, 3),
+    "mastery_criterion": ("bkt_threshold", "two_threshold", "n_consecutive"),
+    "horizon_aware_mastery": (False, True),
+    "consolidation": (False, True),
+    "concept_cap": (2, 4, 6),
+    "n_max": (12, 25, 40),
+    "diag_budget_per_concept": (0.0, 0.5, 1.0, 2.0),
+    "known_threshold": (0.60, 0.70, 0.80),
+    "skip_threshold": (0.30, 0.40, 0.50),
+    "selection_scope": ("concept_sweep", "frontier", "goal_search"),
+    "pruning_mode": ("hard", "soft", "none"),
 }
-FACTORIAL = [{"theta": t, "k_responses": k} for t in (0.75, 0.85, 0.95) for k in (1, 2, 3)]
-CRITERIA = {
-    "bkt_threshold": {"mastery_criterion": "bkt_threshold"},
-    "n_consecutive_2": {"mastery_criterion": "n_consecutive", "n_consecutive": 2},
-    "n_consecutive_3": {"mastery_criterion": "n_consecutive", "n_consecutive": 3},
-    "two_threshold": {"mastery_criterion": "two_threshold"},
-}
+FACTORIAL = ("theta", "k_responses")
+WORLDS = ("S0", "S1", "S4")
+CURS = ("4node_x10", "8node_x10")
+BUDGET, SCEN, HORIZON = 15, "calm", 14
 
 
-def configs():
-    out = {"baseline": {}}
-    for name, values in SCANS.items():
-        for v in values:
-            out[f"{name}={v}"] = {name: v}
-    for f in FACTORIAL:
-        out[f"theta={f['theta']}|k={f['k_responses']}"] = f
-    for name, kw in CRITERIA.items():
-        out[f"criterion={name}"] = kw
-    return out
+def label(changes: dict) -> str:
+    return ",".join(f"{k}={v}" for k, v in sorted(changes.items())) or "product"
 
 
-def run_unit(unit):
-    world, cur, label, kw, arm = unit
-    cp, ap = CURRICULA[cur]
-    base = Engine.from_files(cp, ap)
-    goal = max(base.graph.concepts(), key=lambda c: (len(base.graph.ancestors(c)), c))
-    sc = get_scenario("calm", base, base.init_learner(), goal=goal, budget=BUDGET)
-    e = Engine.from_files(cp, ap, config=dataclasses.replace(DEFAULT_CONFIG, **kw))
-    rows = []
-    for s in SEEDS:
-        r = run_episode(e, s, sc, arm, PROFILES["nominal"], world=world)
-        rows.append(
-            (
-                float(r["goal_mastered"]),
-                r["goal_true_mastery"],
-                r["minutes_used"],
-                r["executed_prereq_violations"],
-                float(r["all_required_mastered"]),
-            )
-        )
-    return (world, cur, label, arm), rows
+def build_configs(scans=SCANS, factorial=FACTORIAL, cur="4node_x10"):
+    """-> (configs {label: changes}, index {scan: [(value, label | None)]}, skipped {label: reason}).
+    A change equal to the product value is dropped, so that config dedupes to "product"."""
+    prod = product_config()
+    configs: dict = {"product": {}}
+    skipped: dict = {}
+
+    def add(changes):
+        eff = {k: v for k, v in changes.items() if v != getattr(prod, k)}
+        lab = label(eff)
+        if lab not in configs and lab not in skipped:
+            try:
+                product_engine(cur, **eff)
+                configs[lab] = eff
+            except Exception as ex:  # ValidationError etc.: invalid combination, record it
+                skipped[lab] = f"{type(ex).__name__}: {ex}"
+        return lab if lab in configs else None
+
+    index = {k: [(v, add({k: v})) for v in vals] for k, vals in scans.items()}
+    for combo in itertools.product(*(scans[k] for k in factorial)):
+        add(dict(zip(factorial, combo)))
+    return configs, index, skipped
 
 
-def mean(xs):
-    return round(sum(xs) / len(xs), 4)
-
-
-def main(out_path, procs):
+def main(argv=None) -> dict:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--smoke", action="store_true")
+    ap.add_argument("--out-dir", default=None)
+    ap.add_argument("--processes", type=int, default=None)
+    a = ap.parse_args(argv)
     t0 = time.time()
-    provenance = stamp()
-    cfgs = configs()
-    units = [
-        (w, c, lab, kw, "adapt") for w in WORLDS for c in CURRICULA for lab, kw in cfgs.items()
-    ]
-    units += [(w, c, "static", {}, "static") for w in WORLDS for c in CURRICULA]
-    with Pool(procs) as pool:
-        raw = dict(pool.imap_unordered(run_unit, units))
-    cells = {}
-    for w in WORLDS:
-        for c in CURRICULA:
-            base = raw[(w, c, "baseline", "adapt")]
-            rows = {}
-            for lab in list(cfgs) + ["static"]:
-                r = raw[(w, c, lab, "static" if lab == "static" else "adapt")]
-                rows[lab] = {
-                    "goal_mastery_rate": mean([x[0] for x in r]),
-                    "mean_goal_theta": mean([x[1] for x in r]),
-                    "mean_minutes": mean([x[2] for x in r]),
-                    "executed_prereq_violations": sum(x[3] for x in r),
-                    "all_required_rate": mean([x[4] for x in r]),
-                    "vs_baseline_goal_mastery": paired_summary(
-                        [x[0] for x in r], [x[0] for x in base]
-                    ),
-                    "vs_baseline_minutes": paired_summary([x[2] for x in r], [x[2] for x in base]),
-                }
-            cells[f"{w}|{c}"] = rows
-    res = {
-        "metadata": {
-            **provenance,
-            "worlds": list(WORLDS),
-            "curricula": list(CURRICULA),
-            "budget": BUDGET,
-            "scenario": "calm (horizon fixed from DEFAULT_CONFIG)",
-            "n": len(SEEDS),
+    cells = [(w, c) for w in WORLDS for c in CURS]
+    seeds = REPORT_SEEDS
+    if a.smoke:
+        cells, seeds = [("S1", "4node_x10"), ("S0", "4node_x10")], REPORT_SEEDS[:8]
+    configs, index, skipped = build_configs()
+    for _w, cur in cells:  # pre-warm so forked workers inherit curricula and engines
+        curriculum_paths(cur)
+        _w7_engine(cur)
+        for ch in configs.values():
+            product_engine(cur, **ch)
+
+    units = []
+    for w, cur in cells:
+        for lab, ch in {"static_loop": None, **configs}.items():
+            for i in range(0, len(seeds), CHUNK):
+                s = seeds[i : i + CHUNK]
+                base = ("sens", w, cur, BUDGET, SCEN, HORIZON, lab, s)
+                units.append(base if ch is None else (*base, ch))
+    # static_loop goes through the grid's own arm table (no overrides element)
+    recs = [r for out in run_parallel(run_unit, units, a.processes) for r in out]
+
+    by: dict = defaultdict(lambda: defaultdict(list))
+    hists: dict = defaultdict(dict)
+    for r in recs:
+        by[r["cell"]][r["arm"]].append(r)
+        agg = hists.setdefault((r["cell"], r["arm"]), {})
+        for k, (pos, neg, sp) in r.pop("hist").items():
+            x = agg.setdefault(k, [0, 0, 0.0])
+            x[0] += pos
+            x[1] += neg
+            x[2] += sp
+    out_cells = {}
+    for cid in sorted(by):
+        arms = {k: sorted(v, key=lambda r: r["seed"]) for k, v in by[cid].items()}
+        cell = {"configs": {}, "paired_vs_static_loop": {}, "paired_vs_product": {}}
+        for lab, v in arms.items():
+            cell["configs"][lab] = {
+                **summarise(v, hists[(cid, lab)]),
+                "mean_dx_items": _mean([r["row"]["dx_items"] for r in v]),
+            }
+            for ref, dst in (
+                ("static_loop", "paired_vs_static_loop"),
+                ("product", "paired_vs_product"),
+            ):
+                if lab != ref:
+                    cell[dst][lab] = {
+                        "goal_mastery": _paired(v, arms[ref], "goal"),
+                        "all_required": _paired(v, arms[ref], "allreq"),
+                    }
+        out_cells[cid] = cell
+    payload = {
+        "meta": {
+            "smoke": a.smoke,
+            "arm": "adapt_dx",
+            "reference": "static_loop",
+            "cells": [cell_id(w, c, BUDGET, SCEN, HORIZON) for w, c in cells],
+            "n_seeds": len(seeds),
             "scans": {k: list(v) for k, v in SCANS.items()},
+            "factorial": list(FACTORIAL),
+            "scan_index": {k: [[v, lab] for v, lab in vs] for k, vs in index.items()},
+            "configs": configs,
+            "skipped": skipped,
+            "episodes_executed": len(recs),
             "runtime_s": round(time.time() - t0, 1),
         },
-        "cells": cells,
+        "cells": out_cells,
     }
-    with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(res, f, indent=1, sort_keys=True)
-    return res
+    write_result("sensitivity_smoke" if a.smoke else "sensitivity", payload, a.out_dir)
+    return payload
 
 
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser()
-    ap.add_argument(
-        "--out", default=os.path.join(repo_root, "experiments/results/w7_sensitivity.json")
-    )
-    ap.add_argument("--procs", type=int, default=max(1, (os.cpu_count() or 2) - 1))
-    a = ap.parse_args()
-    r = main(a.out, a.procs)
-    print("runtime_s", r["metadata"]["runtime_s"])
+    main()
