@@ -1064,6 +1064,35 @@
       ],
       "title": "Rules",
       "default": "product"
+     },
+     "start_p": {
+      "type": "number",
+      "maximum": 0.99,
+      "minimum": 0.01,
+      "title": "Start P",
+      "default": 0.2
+     },
+     "theta": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 0.99,
+        "minimum": 0.5
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Theta"
+     },
+     "scheduler": {
+      "type": "string",
+      "enum": [
+       "greedy",
+       "cpsat"
+      ],
+      "title": "Scheduler",
+      "default": "greedy"
      }
     },
     "type": "object",
@@ -1934,6 +1963,17 @@
        }
       ],
       "title": "Budget"
+     },
+     "cpsat_fallback": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Cpsat Fallback"
      }
     },
     "type": "object",
@@ -2163,6 +2203,27 @@
      "k_responses": {
       "type": "integer",
       "title": "K Responses"
+     },
+     "scheduler": {
+      "type": "string",
+      "title": "Scheduler",
+      "default": "greedy"
+     },
+     "start_p": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Start P"
+     },
+     "cpsat_fallback": {
+      "type": "boolean",
+      "title": "Cpsat Fallback",
+      "default": true
      },
      "feasibility_warning": {
       "anyOf": [

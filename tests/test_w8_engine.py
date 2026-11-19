@@ -428,3 +428,18 @@ def test_cpsat_matches_oracle_constraints():
     s1, asg1, _ = solve_cpsat(acts, preds, 10, 3)
     s2, asg2, _ = solve_oracle(acts, preds, 10, 3)
     assert s1 == s2 and len(asg1) == 3
+
+
+def test_cpsat_infeasibility_proof_is_kept():
+    # greedy overshoots and the oracle hits its node limit (UNKNOWN); CP-SAT proves no packing exists
+    pytest.importorskip("ortools")
+    from experiments.common import product_engine
+
+    c = PlanContext(goal="C3", deadline_day=4, budget=10)
+    g = product_engine("4node_x10", maintenance_reviews=False)
+    e = product_engine("4node_x10", maintenance_reviews=False, scheduler="cpsat")
+    pg, pc = g.plan(g.init_learner(), c), e.plan(e.init_learner(), c)
+    assert (pg.status.value, pg.reason) == ("UNKNOWN", "ORACLE_LIMIT_EXCEEDED")
+    assert (pc.status.value, pc.reason) == ("INFEASIBLE", "CPSAT_INFEASIBLE")
+    assert pc.shortfall_days == pg.shortfall_days > 0 and pc.best_effort_days
+    assert any(t.get("reason") == "CPSAT_INFEASIBLE_USING_GREEDY" for t in pc.trace)

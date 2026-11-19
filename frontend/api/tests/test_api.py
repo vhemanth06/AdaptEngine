@@ -1,5 +1,6 @@
 """TestClient tests for the demo adapter (T8.2). Skipped when the demo extra is not installed."""
 
+import importlib.util
 import json
 
 import pytest
@@ -25,11 +26,11 @@ def client(tmp_path, monkeypatch):
 
 @pytest.fixture(scope="module")
 def engine():
-    """The W7 engine as a new legacy web session runs it (WEB_DIAG_PRIOR, WEB_DIAG_STOP, WEB_MAINTENANCE_REVIEWS)."""
+    """The W7 engine as a new legacy web session (default Setup settings) runs it."""
     a = app_module
-    return a._profile_engine(
-        "8node", "w7_default", "legacy", a.WEB_DIAG_PRIOR, a.WEB_DIAG_STOP, a.WEB_MAINTENANCE_REVIEWS
-    )
+    meta = {"curriculum": "8node", "profile": "w7_default", "rules": "legacy", "diag_prior": 0.2}
+    meta |= {"diag_stop": a.WEB_DIAG_STOP, "maintenance_reviews": a.WEB_MAINTENANCE_REVIEWS, "scheduler": "greedy"}
+    return a._session_engine(meta)
 
 
 def _new(client, **kw):
@@ -439,3 +440,36 @@ def test_web_plan_ends_at_goal_without_maintenance_reviews(client):
     new, old = plan(False), plan(True)
     assert "L-C8" in new[-1]["activities"]  # last day is the goal's content, not a review
     assert old[-1]["day"] > new[-1]["day"] + 10
+
+
+def test_unknown_plan_falls_back_to_cpsat(client):
+    pytest.importorskip("ortools")
+    # before the diagnostic C8 needs ~95 of the 100 min: greedy overshoots and the oracle hits its node limit
+    sid = _new(client, curriculum="8node_x10", deadline_day=10)["session_id"]
+    plan = client.post(f"/api/sessions/{sid}/plan", json={}).json()["plan"]
+    assert (plan["status"], plan["reason"]) == ("FEASIBLE", "CPSAT_ASSIGNMENT")
+
+
+def test_setup_start_p_theta_and_scheduler(client):
+    v = _new(client, curriculum="8node_x10", deadline_day=20, start_p=0.3, theta=0.9, scheduler="cpsat")
+    assert (v["start_p"], v["theta"], v["scheduler"]) == (0.3, 0.9, "cpsat")
+    assert all(c["p"] == pytest.approx(0.3) for c in v["concepts"])
+    after = _run_diagnostic(client, v["session_id"])
+    assert after["diagnostic"]["items"][0]["p_before"] == pytest.approx(0.3)
+    if importlib.util.find_spec("ortools"):
+        assert after["plan"]["reason"] == "CPSAT_ASSIGNMENT"
+    d = _new(client)  # defaults: rules' theta, greedy, starting mastery 0.2
+    assert (d["start_p"], d["theta"], d["scheduler"]) == (0.2, 0.95, "greedy")
+    bad = {"curriculum": "8node", "goal": "C8", "deadline_day": 10, "budget": 10, "theta": 1.5}
+    assert client.post("/api/sessions", json=bad).status_code == 422
+
+
+def test_cpsat_fallback_can_be_switched_off(client):
+    pytest.importorskip("ortools")
+    sid = _new(client, curriculum="8node_x10", deadline_day=10)["session_id"]  # greedy UNKNOWN case
+    off = client.post(f"/api/sessions/{sid}/plan", json={"cpsat_fallback": False}).json()
+    assert off["plan"]["status"] == "UNKNOWN" and off["cpsat_fallback"] is False
+    kept = client.post(f"/api/sessions/{sid}/plan", json={}).json()  # setting persists in the session
+    assert kept["plan"]["status"] == "UNKNOWN"
+    on = client.post(f"/api/sessions/{sid}/plan", json={"cpsat_fallback": True}).json()
+    assert on["plan"]["reason"] == "CPSAT_ASSIGNMENT" and on["cpsat_fallback"] is True

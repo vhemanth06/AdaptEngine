@@ -8,6 +8,7 @@ content file's answer key, and reshapes engine output for display.
 Run from the repo root:  .venv/bin/python -m uvicorn frontend.api.app:app --port 8000
 """
 
+import copy
 import functools
 import json
 import os
@@ -120,9 +121,9 @@ def _bundle(cid: str) -> Bundle:
     return Bundle(Engine(concepts, acts, DEFAULT_CONFIG), concepts, content)
 
 
-# Every new web diagnostic starts each concept at p = 0.2 (owner, 2026-11-15). Web-only, so src/ and the
-# PRODUCT_RERUN registration hash stay valid; sessions saved without "diag_prior" keep the engine's prior (replay).
-WEB_DIAG_PRIOR = 0.2
+# Web-only session settings (owner, 2026-11-15), fixed in meta at creation so src/ and the PRODUCT_RERUN
+# registration hash stay valid and a session saved without a key keeps the engine's value (replay).
+# "diag_prior": every concept starts at this p (Setup "starting mastery", default CreateSession.start_p).
 # New web diagnostics stop a concept as soon as it is classified: H(p) <= H(known_threshold) <=> p >= 0.70 or
 # p <= 0.30 (owner, 2026-11-15). Sessions saved without "diag_stop" keep the engine's h_stop (replay).
 WEB_DIAG_STOP = "known"
@@ -131,28 +132,35 @@ WEB_DIAG_STOP = "known"
 WEB_MAINTENANCE_REVIEWS = False
 
 
+def _meta_overrides(meta: dict) -> tuple:
+    """The EngineConfig overrides a session fixed at creation, as a hashable sorted tuple."""
+    o: dict[str, Any] = {}
+    if (p := meta.get("diag_prior")) is not None:
+        o |= {"p0": p, "prior_mode": "population", "population_p0": p}
+    if meta.get("diag_stop") == "known":
+        o["h_stop"] = entropy(DEFAULT_CONFIG.known_threshold)
+    for k in ("maintenance_reviews", "theta", "scheduler"):
+        if meta.get(k) is not None:
+            o[k] = meta[k]
+    return tuple(sorted(o.items()))
+
+
+def _session_engine(meta: dict) -> Engine:
+    return _profile_engine(
+        meta["curriculum"], meta.get("profile", "w7_default"), meta.get("rules", "legacy"), _meta_overrides(meta)
+    )
+
+
 @functools.cache
-def _profile_engine(
-    cid: str,
-    profile: str,
-    rules: str,
-    diag_prior: Optional[float] = None,
-    diag_stop: Optional[str] = None,
-    maintenance_reviews: Optional[bool] = None,
-) -> Engine:
+def _profile_engine(cid: str, profile: str, rules: str, overrides: tuple = ()) -> Engine:
     """W8 B.1: the session's named profile (w7_default = the bundle's engine, bit-identical)."""
     b = _bundle(cid)
-    if rules == "legacy" and profile == "w7_default" and (diag_prior, diag_stop, maintenance_reviews) == (None,) * 3:
+    if rules == "legacy" and profile == "w7_default" and not overrides:
         return b.engine
     if profile not in list_profiles():
         raise HTTPException(422, f"unknown profile {profile}")
     cfg = load_profile(profile) if rules == "legacy" else product_config(profile)
-    if diag_prior is not None:
-        cfg = replace(cfg, prior_mode="population", population_p0=diag_prior)
-    if diag_stop == "known":
-        cfg = replace(cfg, h_stop=entropy(cfg.known_threshold))
-    if maintenance_reviews is not None:
-        cfg = replace(cfg, maintenance_reviews=maintenance_reviews)
+    cfg = replace(cfg, **dict(overrides))
     return Engine(b.concepts, tuple(b.engine.activities.values()), cfg)
 
 
@@ -318,10 +326,7 @@ def _diagnostic_view(engine: Engine, answers: list, sid: str, goal: Optional[str
 def _open(sid: str):
     meta = store.load_meta(sid)
     b = _bundle(meta["curriculum"])
-    b = replace(b, engine=_profile_engine(
-        meta["curriculum"], meta.get("profile", "w7_default"), meta.get("rules", "legacy"),
-        meta.get("diag_prior"), meta.get("diag_stop"), meta.get("maintenance_reviews"),
-    ))
+    b = replace(b, engine=_session_engine(meta))
     state, log, ctx = store.load_state(sid, b.engine.graph.concepts())
     return b, state, log, ctx, meta
 
@@ -346,10 +351,23 @@ def _day_dict(d) -> Optional[dict]:
     )
 
 
+@functools.cache
+def _cpsat_twin(engine: Engine) -> Engine:
+    """The same engine with the exact CP-SAT scheduler (D60); graph, activities and model are shared."""
+    twin = copy.copy(engine)
+    twin.config = replace(engine.config, scheduler="cpsat")
+    return twin
+
+
 def _run_plan(engine: Engine, state, log, ctx, meta: dict) -> None:
     """The engine's online loop (T2.2): replan from the real state and log, commit today's slice."""
     t0 = time.perf_counter()
     today, plan = engine.next_activities(state, log, ctx)
+    if plan.status.value == "UNKNOWN" and engine.config.scheduler != "cpsat" and meta.get("cpsat_fallback", True):
+        # Web-only (owner, 2026-11-15): when greedy overshoots and the B&B oracle hits its node limit,
+        # let CP-SAT decide (up to 5 s); without OR-Tools it falls back to greedy + oracle, i.e. UNKNOWN again.
+        # Setup can switch this off per session (meta "cpsat_fallback").
+        today, plan = _cpsat_twin(engine).next_activities(state, log, ctx)
     meta["replan_ms"] = round((time.perf_counter() - t0) * 1000, 2)
     meta["plan"] = serialize_plan(plan, engine.config)
     eff, _, _ = compute_effective_context(ctx, log)
@@ -401,6 +419,9 @@ def _view(b: Bundle, sid: str, state, log, ctx, meta: dict) -> dict:
         "rules": meta.get("rules", "legacy"),
         "theta": cfg.theta,
         "k_responses": cfg.k_responses,
+        "scheduler": cfg.scheduler,
+        "start_p": meta.get("diag_prior"),
+        "cpsat_fallback": meta.get("cpsat_fallback", True),
         "feasibility_warning": meta.get("feasibility_warning"),
     }
 
@@ -418,19 +439,16 @@ def _grade(b: Bundle, activity_id: str, choice: Optional[int], correct: Optional
 
 @app.post("/api/sessions", response_model=SessionOut)
 def create_session(req: CreateSession):
-    b = _bundle(req.curriculum)
-    b = replace(b, engine=_profile_engine(
-        req.curriculum, req.profile, req.rules, WEB_DIAG_PRIOR, WEB_DIAG_STOP, WEB_MAINTENANCE_REVIEWS
-    ))
+    meta = {"curriculum": req.curriculum, "diag_answers": [], "profile": req.profile, "rules": req.rules}
+    meta |= {"diag_prior": req.start_p, "diag_stop": WEB_DIAG_STOP, "maintenance_reviews": WEB_MAINTENANCE_REVIEWS}
+    meta |= {"scheduler": req.scheduler, "theta": req.theta}  # theta None = the rules' own theta
+    b = replace(_bundle(req.curriculum), engine=_session_engine(meta))
     ctx = PlanContext(goal=req.goal, deadline_day=req.deadline_day, budget=req.budget)
     check_budget(ctx.budget, b.engine.config.allowed_budgets)  # config-driven since W7 T5.1
     if req.goal not in b.engine.graph.concepts():
         raise HTTPException(422, f"unknown goal concept {req.goal}")
     sid = store.new_id()
     state, log = b.engine.init_learner(), ExecutionLog()
-    meta = {"curriculum": req.curriculum, "diag_answers": [], "profile": req.profile, "rules": req.rules}
-    meta["diag_prior"], meta["diag_stop"] = WEB_DIAG_PRIOR, WEB_DIAG_STOP
-    meta["maintenance_reviews"] = WEB_MAINTENANCE_REVIEWS
     meta["diag_goal"] = req.goal  # fixed at creation so a later goal change cannot break replay of recorded answers
     store.save(sid, state, log, ctx, meta)
     return _view(b, sid, state, log, ctx, meta)
@@ -477,6 +495,8 @@ def make_plan(sid: str, req: PlanRequest):
     check_budget(ctx.budget, b.engine.config.allowed_budgets)
     if ctx.goal not in b.engine.graph.concepts():
         raise HTTPException(422, f"unknown goal concept {ctx.goal}")
+    if req.cpsat_fallback is not None:
+        meta["cpsat_fallback"] = req.cpsat_fallback
     _run_plan(b.engine, state, log, ctx, meta)
     store.save(sid, state, log, ctx, meta)
     return _view(b, sid, state, log, ctx, meta)

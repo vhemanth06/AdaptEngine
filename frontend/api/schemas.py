@@ -58,6 +58,9 @@ class CreateSession(BaseModel):
     budget: int = Field(ge=1, le=600)
     profile: str = _id(default="fitted_S1")  # named learner-model profile
     rules: Literal["product", "legacy"] = "product"
+    start_p: float = Field(default=0.2, ge=0.01, le=0.99)  # starting mastery p of every concept
+    theta: Optional[float] = Field(default=None, ge=0.5, le=0.99)  # None = the rules' theta
+    scheduler: Literal["greedy", "cpsat"] = "greedy"
 
 
 class PlanRequest(BaseModel):
@@ -66,6 +69,7 @@ class PlanRequest(BaseModel):
     goal: Optional[str] = _id(default=None)
     deadline_day: Optional[int] = Field(default=None, ge=1, le=365)
     budget: Optional[int] = Field(default=None, ge=1, le=600)
+    cpsat_fallback: Optional[bool] = None  # greedy UNKNOWN -> CP-SAT; None keeps the session's setting
 
 
 class DiagnosticAnswer(BaseModel):
@@ -188,6 +192,9 @@ class SessionOut(BaseModel):
     rules: str = "legacy"
     theta: float
     k_responses: int
+    scheduler: str = "greedy"
+    start_p: Optional[float] = None  # None = a session saved before the setting (engine's own prior)
+    cpsat_fallback: bool = True
     feasibility_warning: Optional[str] = None  # W8 F.1 (expected projection; display only)
 
 

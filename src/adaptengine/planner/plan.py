@@ -318,19 +318,25 @@ def _plan_goal(
                 act_preds[toks[0]].append(concept_tokens[pred_c][-1])
 
     num_days = ctx.deadline_day - ctx.current_day + 1
-    oracle_status, assignment, nodes_explored = solve_oracle(
-        oracle_acts,
-        act_preds,
-        ctx.budget,
-        num_days,
-        node_limit=cfg.oracle_node_limit,
-        used_first_day=ctx.minutes_used_today,
-    )
+    # A CP-SAT infeasibility proof is final: the oracle would only search the same packing problem
+    # again and can stop at its node limit (UNKNOWN). Greedy still ran for shortfall and options.
+    cpsat_infeasible = bool(cpsat_note) and cpsat_note[0]["reason"] == "CPSAT_INFEASIBLE_USING_GREEDY"
+    if cpsat_infeasible:
+        oracle_status, assignment, nodes_explored = PlanStatus.INFEASIBLE, None, 0
+    else:
+        oracle_status, assignment, nodes_explored = solve_oracle(
+            oracle_acts,
+            act_preds,
+            ctx.budget,
+            num_days,
+            node_limit=cfg.oracle_node_limit,
+            used_first_day=ctx.minutes_used_today,
+        )
 
     if oracle_status == PlanStatus.FEASIBLE and assignment is not None:
         # T1.4 / TC7.1: the greedy schedule is abandoned, so its per-activity records are
         # re-tagged as superseded attempts; only ORACLE_ASSIGNED records explain the final plan.
-        full_trace = list(init_trace) + _supersede(greedy_trace)
+        full_trace = list(init_trace) + cpsat_note + _supersede(greedy_trace)
         oracle_days: list[PlanDay] = []
         for d_idx, day_tokens in enumerate(assignment):
             day_aids = [token_aid[t] for t in day_tokens]
@@ -368,7 +374,7 @@ def _plan_goal(
         )
 
     # The greedy schedule overshot the deadline and is not the answer: mark its records superseded
-    full_trace = list(init_trace) + _supersede(greedy_trace)
+    full_trace = list(init_trace) + cpsat_note + _supersede(greedy_trace)
 
     # Calculate shortfall and options using greedy result as upper bound
     shortfall = last_day - ctx.deadline_day
@@ -394,10 +400,11 @@ def _plan_goal(
             trace=tuple(full_trace),
         )
 
-    # oracle_status == PlanStatus.INFEASIBLE
+    # oracle_status == PlanStatus.INFEASIBLE (proved by the oracle, or by CP-SAT above)
+    proof = "CPSAT_INFEASIBLE" if cpsat_infeasible else "ORACLE_INFEASIBLE"
     full_trace.append(
         {
-            "decision": "ORACLE_INFEASIBLE",
+            "decision": proof,
             "reason": "NO_VALID_PACKING_WITHIN_DEADLINE",
             "nodes_explored": nodes_explored,
         }
@@ -405,7 +412,7 @@ def _plan_goal(
     return Plan(
         status=PlanStatus.INFEASIBLE,
         days=(),
-        reason="ORACLE_INFEASIBLE",
+        reason=proof,
         shortfall_days=shortfall,
         options=feas_opts,
         trace=tuple(full_trace),

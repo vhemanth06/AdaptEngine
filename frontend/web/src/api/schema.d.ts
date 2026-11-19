@@ -451,6 +451,19 @@ export interface components {
              * @enum {string}
              */
             rules: "product" | "legacy";
+            /**
+             * Start P
+             * @default 0.2
+             */
+            start_p: number;
+            /** Theta */
+            theta?: number | null;
+            /**
+             * Scheduler
+             * @default greedy
+             * @enum {string}
+             */
+            scheduler: "greedy" | "cpsat";
         };
         /** CurriculumDetail */
         CurriculumDetail: {
@@ -735,6 +748,8 @@ export interface components {
             deadline_day?: number | null;
             /** Budget */
             budget?: number | null;
+            /** Cpsat Fallback */
+            cpsat_fallback?: boolean | null;
         };
         /** PolicyPreviewOut */
         PolicyPreviewOut: {
@@ -820,6 +835,18 @@ export interface components {
             theta: number;
             /** K Responses */
             k_responses: number;
+            /**
+             * Scheduler
+             * @default greedy
+             */
+            scheduler: string;
+            /** Start P */
+            start_p?: number | null;
+            /**
+             * Cpsat Fallback
+             * @default true
+             */
+            cpsat_fallback: boolean;
             /** Feasibility Warning */
             feasibility_warning?: string | null;
         };
