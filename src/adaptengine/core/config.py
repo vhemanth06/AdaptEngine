@@ -27,11 +27,12 @@ class EngineConfig:
     skip_threshold: float = 0.40
     # W7 T3.2 diagnostic options; defaults set by the pre-registered T3.3 rule
     # (experiments/results/w7_diag_selection.json). W6 behaviour: prior_mode="flat",
-    # concept_cap=3, n_max=8, other flags as below.
+    # concept_cap=3, n_max=8, other flags as below. D59: default prior_mode is "flat"
+    # (sweep prior = p0 = 0.20); population_prior_config() restores the population prior 0.24.
     min_items_per_concept: int = 1  # responses required before an entropy stop
     pruning_mode: str = "hard"  # "hard" skip | "soft" cap descendants' prior | "none"
     selection_scope: str = "concept_sweep"  # "concept_sweep" | "frontier" (global EIG)
-    prior_mode: str = "population"  # "flat" (state p) | "population" (population_p0)
+    prior_mode: str = "flat"  # "flat" (state p, D59) | "population" (population_p0)
     population_p0: float = 0.24  # S0 tuning-cohort base rate of 1[theta >= 0.70]
     # M3/M4 Planner settings
     target_success: float = 0.75
@@ -160,6 +161,11 @@ class EngineConfig:
 
 
 DEFAULT_CONFIG = EngineConfig()
+
+
+def population_prior_config() -> EngineConfig:
+    """Defaults with the population sweep prior: population_p0 = 0.24 (the D44 default before D59)."""
+    return EngineConfig(prior_mode="population", population_p0=0.24)
 
 
 def config_hash(cfg: EngineConfig) -> str:

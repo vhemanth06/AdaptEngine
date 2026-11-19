@@ -37,7 +37,7 @@ if repo_root not in sys.path:
     sys.path.insert(0, repo_root)
 
 from adaptengine.api import Engine  # noqa: E402
-from adaptengine.core.config import DEFAULT_CONFIG, config_hash  # noqa: E402
+from adaptengine.core.config import config_hash, population_prior_config  # noqa: E402
 from experiments.arms import get_scenario, run_episode  # noqa: E402
 from experiments.diag_eval import (  # noqa: E402
     evaluate_diagnostic_binary,
@@ -80,13 +80,16 @@ def run_evaluation(
     except Exception:
         git_sha = "unknown"
 
-    cfg_hash = config_hash(DEFAULT_CONFIG)
+    # D59: the committed results were made with the population prior, so the evaluation runs on
+    # that preset
+    cfg = population_prior_config()
+    cfg_hash = config_hash(cfg)
 
     curriculum_4_path = "data/curriculum/curriculum_4node.json"
     activities_4_path = "data/curriculum/activities_4node.json"
     curricula_used = ["4-node"]
 
-    engine_4 = Engine.from_files(curriculum_4_path, activities_4_path, config=DEFAULT_CONFIG)
+    engine_4 = Engine.from_files(curriculum_4_path, activities_4_path, config=cfg)
 
     # -------------------------------------------------------------------------
     # PART 1: Diagnostic Evaluation & Tuning
@@ -138,6 +141,7 @@ def run_evaluation(
         tuning_seeds=tuning_seeds if tuning_seeds else seeds[:2],
         heldout_seeds=heldout_seeds if heldout_seeds else seeds[:2],
         profile=PROFILES["nominal"],
+        base_config=cfg,
     )
     diagnostic_summary["tuning"] = tuning_res
     # W7 T3.1: proper scoring rules against binary truth on the held-out cohort (primary metric)
@@ -296,7 +300,7 @@ def run_evaluation(
         curriculum_8_path = "data/curriculum/curriculum_8node.json"
         activities_8_path = "data/curriculum/activities_8node.json"
         curricula_used.append("8-node")
-        engine_8 = Engine.from_files(curriculum_8_path, activities_8_path, config=DEFAULT_CONFIG)
+        engine_8 = Engine.from_files(curriculum_8_path, activities_8_path, config=cfg)
         start_state_8 = engine_8.init_learner()
         goal_8 = engine_8.graph.topological_order()[-1]
 

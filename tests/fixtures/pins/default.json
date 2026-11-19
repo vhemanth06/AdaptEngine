@@ -1,0 +1,3590 @@
+{
+ "config": {
+  "allow_exercise_repeats": true,
+  "allowed_budgets": [
+   5,
+   10,
+   15,
+   30
+  ],
+  "certainty_max_entropy": 0.5,
+  "concept_cap": 2,
+  "d_max": 0.95,
+  "d_min": 0.05,
+  "guess_coef": 0.3,
+  "h_stop": 0.5,
+  "half_life_days": 30.0,
+  "half_life_growth": 1.0,
+  "k_responses": 2,
+  "maintenance_reviews": true,
+  "mastery_criterion": "bkt_threshold",
+  "min_items_per_concept": 1,
+  "n_consecutive": 3,
+  "n_max": 6,
+  "oracle_node_limit": 1000,
+  "p0": 0.2,
+  "population_p0": 0.24,
+  "prior_mode": "flat",
+  "projection_mode": "optimistic",
+  "pruning_mode": "hard",
+  "recall_threshold": 0.8,
+  "remediation_threshold": 0.4,
+  "selection_scope": "concept_sweep",
+  "skip_threshold": 0.4,
+  "slip_base": 0.05,
+  "slip_coef": 0.25,
+  "t_diag": 0.0,
+  "t_exercise": 0.05,
+  "t_lesson": 0.2,
+  "target_success": 0.75,
+  "theta": 0.85,
+  "w_fit": 1.0,
+  "w_review": 1.0,
+  "w_unlock": 1.0
+ },
+ "diag_matrix_S0": {
+  "default_t33": {
+   "auc": 0.4226,
+   "brier": 0.2597,
+   "decomposition": {
+    "base_rate": 0.3,
+    "reliability": 0.0651,
+    "resolution": 0.0175,
+    "uncertainty": 0.21
+   },
+   "items": 2.6,
+   "log_loss": 0.8278,
+   "next_response_brier": 0.3259,
+   "vs_prior_only": {
+    "ci95": [
+     -0.0365,
+     0.1265
+    ],
+    "diff": 0.0397
+   },
+   "vs_w6_shipped": {
+    "ci95": [
+     -0.0678,
+     0.0
+    ],
+    "diff": -0.0226
+   }
+  },
+  "fitted_bkt": {
+   "auc": 0.4464,
+   "brier": 0.2582,
+   "decomposition": {
+    "base_rate": 0.3,
+    "reliability": 0.0675,
+    "resolution": 0.0193,
+    "uncertainty": 0.21
+   },
+   "items": 2.6,
+   "log_loss": 0.8341,
+   "next_response_brier": 0.2582,
+   "vs_prior_only": {
+    "ci95": [
+     -0.0368,
+     0.1267
+    ],
+    "diff": 0.0382
+   },
+   "vs_w6_shipped": {
+    "ci95": [
+     -0.0768,
+     0.0038
+    ],
+    "diff": -0.0241
+   }
+  },
+  "fixed@n_default": {
+   "auc": 0.6548,
+   "brier": 0.1977,
+   "decomposition": {
+    "base_rate": 0.3,
+    "reliability": 0.0062,
+    "resolution": 0.0186,
+    "uncertainty": 0.21
+   },
+   "items": 2.6,
+   "log_loss": 0.5652,
+   "next_response_brier": 0.272,
+   "vs_prior_only": {
+    "ci95": [
+     -0.1191,
+     0.0815
+    ],
+    "diff": -0.0223
+   },
+   "vs_w6_shipped": {
+    "ci95": [
+     -0.1723,
+     -0.0023
+    ],
+    "diff": -0.0846
+   }
+  },
+  "frontier": {
+   "auc": 0.4226,
+   "brier": 0.2823,
+   "decomposition": {
+    "base_rate": 0.3,
+    "reliability": 0.0916,
+    "resolution": 0.0193,
+    "uncertainty": 0.21
+   },
+   "items": 2.8,
+   "log_loss": 0.8766,
+   "next_response_brier": 0.326,
+   "vs_prior_only": {
+    "ci95": [
+     -0.026,
+     0.1592
+    ],
+    "diff": 0.0623
+   },
+   "vs_w6_shipped": {
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "diff": 0.0
+   }
+  },
+  "irt_cat_global@8": {
+   "auc": 0.5,
+   "brier": 0.2353,
+   "decomposition": {
+    "base_rate": 0.3,
+    "reliability": 0.0288,
+    "resolution": 0.0017,
+    "uncertainty": 0.21
+   },
+   "items": 8.0,
+   "log_loss": 0.6991,
+   "next_response_brier": 0.3218,
+   "vs_prior_only": {
+    "ci95": [
+     0.0042,
+     0.0267
+    ],
+    "diff": 0.0153
+   },
+   "vs_w6_shipped": {
+    "ci95": [
+     -0.136,
+     0.04
+    ],
+    "diff": -0.0469
+   }
+  },
+  "irt_cat_global@n": {
+   "auc": 0.5952,
+   "brier": 0.2093,
+   "decomposition": {
+    "base_rate": 0.3,
+    "reliability": 0.0091,
+    "resolution": 0.01,
+    "uncertainty": 0.21
+   },
+   "items": 2.6,
+   "log_loss": 0.6186,
+   "next_response_brier": 0.3021,
+   "vs_prior_only": {
+    "ci95": [
+     -0.0439,
+     0.0104
+    ],
+    "diff": -0.0107
+   },
+   "vs_w6_shipped": {
+    "ci95": [
+     -0.1476,
+     0.0034
+    ],
+    "diff": -0.0729
+   }
+  },
+  "irt_cat_per_concept@8": {
+   "auc": 0.8988,
+   "brier": 0.1426,
+   "decomposition": {
+    "base_rate": 0.3,
+    "reliability": 0.0316,
+    "resolution": 0.0975,
+    "uncertainty": 0.21
+   },
+   "items": 8.0,
+   "log_loss": 0.4431,
+   "next_response_brier": 0.2872,
+   "vs_prior_only": {
+    "ci95": [
+     -0.1004,
+     -0.0523
+    ],
+    "diff": -0.0774
+   },
+   "vs_w6_shipped": {
+    "ci95": [
+     -0.2259,
+     -0.0574
+    ],
+    "diff": -0.1396
+   }
+  },
+  "min_k2": {
+   "auc": 0.7381,
+   "brier": 0.1889,
+   "decomposition": {
+    "base_rate": 0.3,
+    "reliability": 0.0514,
+    "resolution": 0.0725,
+    "uncertainty": 0.21
+   },
+   "items": 5.8,
+   "log_loss": 0.5615,
+   "next_response_brier": 0.2827,
+   "vs_prior_only": {
+    "ci95": [
+     -0.1776,
+     0.1155
+    ],
+    "diff": -0.0311
+   },
+   "vs_w6_shipped": {
+    "ci95": [
+     -0.1953,
+     0.0285
+    ],
+    "diff": -0.0933
+   }
+  },
+  "prior_only": {
+   "auc": 0.5,
+   "brier": 0.22,
+   "decomposition": {
+    "base_rate": 0.3,
+    "reliability": 0.01,
+    "resolution": 0.0,
+    "uncertainty": 0.21
+   },
+   "items": 0.0,
+   "log_loss": 0.639,
+   "next_response_brier": 0.3124,
+   "vs_prior_only": {
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "diff": 0.0
+   },
+   "vs_w6_shipped": {
+    "ci95": [
+     -0.1592,
+     0.026
+    ],
+    "diff": -0.0623
+   }
+  },
+  "r74_recommended": {
+   "auc": 0.7619,
+   "brier": 0.1868,
+   "decomposition": {
+    "base_rate": 0.3,
+    "reliability": 0.0233,
+    "resolution": 0.0465,
+    "uncertainty": 0.21
+   },
+   "items": 8.0,
+   "log_loss": 0.6194,
+   "next_response_brier": 0.3211,
+   "vs_prior_only": {
+    "ci95": [
+     -0.1643,
+     0.1398
+    ],
+    "diff": -0.0332
+   },
+   "vs_w6_shipped": {
+    "ci95": [
+     -0.1596,
+     0.0039
+    ],
+    "diff": -0.0955
+   }
+  },
+  "soft_prune": {
+   "auc": 0.6905,
+   "brier": 0.253,
+   "decomposition": {
+    "base_rate": 0.3,
+    "reliability": 0.0831,
+    "resolution": 0.035,
+    "uncertainty": 0.21
+   },
+   "items": 5.2,
+   "log_loss": 0.908,
+   "next_response_brier": 0.3636,
+   "vs_prior_only": {
+    "ci95": [
+     -0.1129,
+     0.1802
+    ],
+    "diff": 0.033
+   },
+   "vs_w6_shipped": {
+    "ci95": [
+     -0.1064,
+     0.0387
+    ],
+    "diff": -0.0292
+   }
+  },
+  "state_space": {
+   "auc": 0.6131,
+   "brier": 0.2569,
+   "decomposition": {
+    "base_rate": 0.3,
+    "reliability": 0.0587,
+    "resolution": 0.01,
+    "uncertainty": 0.21
+   },
+   "items": 3.2,
+   "log_loss": 1.188,
+   "next_response_brier": 0.3632,
+   "vs_prior_only": {
+    "ci95": [
+     -0.0661,
+     0.1652
+    ],
+    "diff": 0.0369
+   },
+   "vs_w6_shipped": {
+    "ci95": [
+     -0.1325,
+     0.0597
+    ],
+    "diff": -0.0254
+   }
+  },
+  "w6_shipped": {
+   "auc": 0.4226,
+   "brier": 0.2823,
+   "decomposition": {
+    "base_rate": 0.3,
+    "reliability": 0.0916,
+    "resolution": 0.0193,
+    "uncertainty": 0.21
+   },
+   "items": 2.8,
+   "log_loss": 0.8766,
+   "next_response_brier": 0.326,
+   "vs_prior_only": {
+    "ci95": [
+     -0.026,
+     0.1592
+    ],
+    "diff": 0.0623
+   },
+   "vs_w6_shipped": {
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "diff": 0.0
+   }
+  }
+ },
+ "diagnostic": {
+  "4node": {
+   "all_right": {
+    "concepts": {
+     "C1": [
+      0.9213759213759215,
+      2,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.9213759213759215,
+      2,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.9213759213759215,
+      2,
+      "ASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C1-0.2",
+     "E-C2-0.8",
+     "E-C2-0.2",
+     "E-C3-0.8",
+     "E-C3-0.2"
+    ],
+    "total_items": 6
+   },
+   "all_wrong": {
+    "concepts": {
+     "C1": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C2-0.8"
+    ],
+    "total_items": 2
+   },
+   "sim101": {
+    "concepts": {
+     "C1": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C2-0.8"
+    ],
+    "total_items": 2
+   },
+   "sim103": {
+    "concepts": {
+     "C1": [
+      0.29137529137529156,
+      2,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C1-0.2",
+     "E-C2-0.8"
+    ],
+    "total_items": 3
+   },
+   "sim105": {
+    "concepts": {
+     "C1": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C2-0.8"
+    ],
+    "total_items": 2
+   },
+   "sim107": {
+    "concepts": {
+     "C1": [
+      0.9213759213759215,
+      2,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C1-0.2",
+     "E-C2-0.8"
+    ],
+    "total_items": 3
+   },
+   "sim109": {
+    "concepts": {
+     "C1": [
+      0.9213759213759215,
+      2,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C1-0.2",
+     "E-C2-0.8"
+    ],
+    "total_items": 3
+   },
+   "sim111": {
+    "concepts": {
+     "C1": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.29137529137529156,
+      2,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C2-0.8",
+     "E-C2-0.2"
+    ],
+    "total_items": 3
+   },
+   "sim113": {
+    "concepts": {
+     "C1": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.9213759213759215,
+      2,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C2-0.8",
+     "E-C2-0.2"
+    ],
+    "total_items": 3
+   },
+   "sim115": {
+    "concepts": {
+     "C1": [
+      0.9213759213759215,
+      2,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C1-0.2",
+     "E-C2-0.8"
+    ],
+    "total_items": 3
+   },
+   "sim117": {
+    "concepts": {
+     "C1": [
+      0.9213759213759215,
+      2,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C1-0.2",
+     "E-C2-0.8"
+    ],
+    "total_items": 3
+   },
+   "sim119": {
+    "concepts": {
+     "C1": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.9213759213759215,
+      2,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C2-0.8",
+     "E-C2-0.2"
+    ],
+    "total_items": 3
+   }
+  },
+  "8node": {
+   "all_right": {
+    "concepts": {
+     "C1": [
+      0.9213759213759215,
+      2,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.9213759213759215,
+      2,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.9213759213759215,
+      2,
+      "ASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C5": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C6": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C7": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C8": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C1-0.2",
+     "E-C2-0.8",
+     "E-C2-0.2",
+     "E-C3-0.8",
+     "E-C3-0.2"
+    ],
+    "total_items": 6
+   },
+   "all_wrong": {
+    "concepts": {
+     "C1": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C5": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C6": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C7": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C8": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C2-0.8"
+    ],
+    "total_items": 2
+   },
+   "sim101": {
+    "concepts": {
+     "C1": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C5": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C6": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C7": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C8": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C2-0.8"
+    ],
+    "total_items": 2
+   },
+   "sim103": {
+    "concepts": {
+     "C1": [
+      0.29137529137529156,
+      2,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C5": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C6": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C7": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C8": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C1-0.2",
+     "E-C2-0.8"
+    ],
+    "total_items": 3
+   },
+   "sim105": {
+    "concepts": {
+     "C1": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C5": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C6": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C7": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C8": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C2-0.8"
+    ],
+    "total_items": 2
+   },
+   "sim107": {
+    "concepts": {
+     "C1": [
+      0.9213759213759215,
+      2,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C5": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C6": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C7": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C8": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C1-0.2",
+     "E-C2-0.8",
+     "E-C6-0.8"
+    ],
+    "total_items": 4
+   },
+   "sim109": {
+    "concepts": {
+     "C1": [
+      0.9213759213759215,
+      2,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C5": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C6": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C7": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C8": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C1-0.2",
+     "E-C2-0.8",
+     "E-C6-0.8"
+    ],
+    "total_items": 4
+   },
+   "sim111": {
+    "concepts": {
+     "C1": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.29137529137529156,
+      2,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C5": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C6": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C7": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C8": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C2-0.8",
+     "E-C2-0.2"
+    ],
+    "total_items": 3
+   },
+   "sim113": {
+    "concepts": {
+     "C1": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.9213759213759215,
+      2,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C5": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C6": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C7": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C8": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C2-0.8",
+     "E-C2-0.2"
+    ],
+    "total_items": 3
+   },
+   "sim115": {
+    "concepts": {
+     "C1": [
+      0.9213759213759215,
+      2,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C5": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C6": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C7": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C8": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C1-0.2",
+     "E-C2-0.8",
+     "E-C6-0.8"
+    ],
+    "total_items": 4
+   },
+   "sim117": {
+    "concepts": {
+     "C1": [
+      0.9213759213759215,
+      2,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C5": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C6": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C7": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C8": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C1-0.2",
+     "E-C2-0.8",
+     "E-C6-0.8"
+    ],
+    "total_items": 4
+   },
+   "sim119": {
+    "concepts": {
+     "C1": [
+      0.06234413965087281,
+      1,
+      "ASSESSED"
+     ],
+     "C2": [
+      0.9213759213759215,
+      2,
+      "ASSESSED"
+     ],
+     "C3": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C4": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C5": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C6": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C7": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ],
+     "C8": [
+      0.2,
+      0,
+      "UNASSESSED"
+     ]
+    },
+    "items": [
+     "E-C1-0.8",
+     "E-C2-0.8",
+     "E-C2-0.2"
+    ],
+    "total_items": 3
+   }
+  }
+ },
+ "episode": {
+  "all_required_mastered": true,
+  "arm": "adapt",
+  "attempts": [
+   [
+    0.4776,
+    false
+   ],
+   [
+    0.3759,
+    false
+   ],
+   [
+    0.3195,
+    false
+   ],
+   [
+    0.2708,
+    true
+   ],
+   [
+    0.4776,
+    true
+   ],
+   [
+    0.6453,
+    true
+   ],
+   [
+    0.4776,
+    true
+   ],
+   [
+    0.6453,
+    true
+   ],
+   [
+    0.4776,
+    true
+   ],
+   [
+    0.6453,
+    true
+   ]
+  ],
+  "budget_violations": 0,
+  "days_used": 3,
+  "deadline_violations": 0,
+  "executed_minutes_per_day": {
+   "1": 14,
+   "3": 14,
+   "4": 14
+  },
+  "executed_prereq_violations": 0,
+  "exercise_log": [
+   [
+    "C1",
+    "E-C1-0.2",
+    0.2,
+    false
+   ],
+   [
+    "C1",
+    "E-C1-0.4",
+    0.4,
+    false
+   ],
+   [
+    "C1",
+    "E-C1-0.6",
+    0.6,
+    false
+   ],
+   [
+    "C1",
+    "E-C1-0.8",
+    0.8,
+    true
+   ],
+   [
+    "C2",
+    "E-C2-0.2",
+    0.2,
+    true
+   ],
+   [
+    "C2",
+    "E-C2-0.4",
+    0.4,
+    true
+   ],
+   [
+    "C3",
+    "E-C3-0.2",
+    0.2,
+    true
+   ],
+   [
+    "C3",
+    "E-C3-0.4",
+    0.4,
+    true
+   ],
+   [
+    "C4",
+    "E-C4-0.2",
+    0.2,
+    true
+   ],
+   [
+    "C4",
+    "E-C4-0.4",
+    0.4,
+    true
+   ]
+  ],
+  "goal_evidence_mastered": true,
+  "goal_mastered": true,
+  "goal_theta_by_minutes": [
+   [
+    0,
+    0.7657
+   ],
+   [
+    4,
+    0.7657
+   ],
+   [
+    5,
+    0.7657
+   ],
+   [
+    9,
+    0.7657
+   ],
+   [
+    10,
+    0.7657
+   ],
+   [
+    14,
+    0.7657
+   ],
+   [
+    16,
+    0.7657
+   ],
+   [
+    20,
+    0.7657
+   ],
+   [
+    22,
+    0.7657
+   ],
+   [
+    26,
+    0.7657
+   ],
+   [
+    27,
+    0.7657
+   ],
+   [
+    28,
+    0.7657
+   ],
+   [
+    33,
+    0.7657
+   ],
+   [
+    34,
+    0.7657
+   ],
+   [
+    35,
+    0.7657
+   ],
+   [
+    40,
+    0.8079
+   ],
+   [
+    41,
+    0.8175
+   ],
+   [
+    42,
+    0.8266
+   ]
+  ],
+  "goal_true_mastery": 0.8266,
+  "idle_days": 0,
+  "mean_true_mastery_goal_and_ancestors": 0.8531,
+  "minutes_to_goal_mastery": 0,
+  "minutes_used": 42,
+  "plan_prereq_violations": 0,
+  "plan_trace_coverage": 1.0,
+  "retention": 1.0,
+  "retention_not_reviewed": 1.0,
+  "retention_reviewed": null,
+  "scenario": "missed_day",
+  "seed": 42,
+  "total_activities_completed": 17,
+  "world": "S0"
+ },
+ "plans": {
+  "4node": {
+   "after_all_wrong_diag": {
+    "best_effort_days": [],
+    "days": [
+     {
+      "activities": [
+       "L-C1",
+       "E-C1-0.2",
+       "E-C1-0.4",
+       "L-C2",
+       "E-C2-0.2",
+       "E-C2-0.4"
+      ],
+      "day": 1,
+      "duration": 12
+     },
+     {
+      "activities": [
+       "L-C3",
+       "E-C3-0.2",
+       "E-C3-0.4",
+       "L-C4",
+       "E-C4-0.2",
+       "E-C4-0.4"
+      ],
+      "day": 2,
+      "duration": 14
+     },
+     {
+      "activities": [
+       "E-C1-0.4",
+       "E-C2-0.4"
+      ],
+      "day": 11,
+      "duration": 2
+     },
+     {
+      "activities": [
+       "E-C3-0.6",
+       "E-C4-0.6"
+      ],
+      "day": 12,
+      "duration": 4
+     }
+    ],
+    "options": [],
+    "reason": "GREEDY_FEASIBLE",
+    "shortfall_days": 0,
+    "status": "FEASIBLE",
+    "trace": [
+     {
+      "activity_id": "L-C1",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 4,
+      "projected_p": 0.24987531172069827,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 11,
+      "score": 2.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C1"
+     },
+     {
+      "activity_id": "E-C1-0.2",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.5776217574458651,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 10,
+      "score": 2.6549177057356608,
+      "score_components": {
+       "fit": 0.6549177057356609,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C1"
+     },
+     {
+      "activity_id": "E-C1-0.4",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.8726175632800437,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 9,
+      "score": 2.81700657748873,
+      "score_components": {
+       "fit": 0.8170065774887296,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C1"
+     },
+     {
+      "activity_id": "L-C2",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 4,
+      "projected_p": 0.24987531172069827,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 5,
+      "score": 2.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C2"
+     },
+     {
+      "activity_id": "E-C2-0.2",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.5776217574458651,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 4,
+      "score": 2.6549177057356608,
+      "score_components": {
+       "fit": 0.6549177057356609,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C2"
+     },
+     {
+      "activity_id": "E-C2-0.4",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.8726175632800437,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 3,
+      "score": 2.81700657748873,
+      "score_components": {
+       "fit": 0.8170065774887296,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C2"
+     },
+     {
+      "activity_id": "L-C3",
+      "day": 1,
+      "decision": "DEFERRED",
+      "duration": 5,
+      "reason": "DOES_NOT_FIT_REMAINING_TIME",
+      "remaining_budget": 3,
+      "target_concept": "C3"
+     },
+     {
+      "activity_id": "L-C3",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 5,
+      "projected_p": 0.36000000000000004,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 10,
+      "score": 1.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 1.0
+      },
+      "target_concept": "C3"
+     },
+     {
+      "activity_id": "E-C3-0.2",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.6944723618090453,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 9,
+      "score": 1.7276,
+      "score_components": {
+       "fit": 0.7276,
+       "review": 0.0,
+       "unlock": 1.0
+      },
+      "target_concept": "C3"
+     },
+     {
+      "activity_id": "E-C3-0.4",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.919036865139315,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 8,
+      "score": 1.8952964824120604,
+      "score_components": {
+       "fit": 0.8952964824120604,
+       "review": 0.0,
+       "unlock": 1.0
+      },
+      "target_concept": "C3"
+     },
+     {
+      "activity_id": "L-C4",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 5,
+      "projected_p": 0.36000000000000004,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 3,
+      "score": 0.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 0.0
+      },
+      "target_concept": "C4"
+     },
+     {
+      "activity_id": "E-C4-0.2",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.6944723618090453,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 2,
+      "score": 0.7276,
+      "score_components": {
+       "fit": 0.7276,
+       "review": 0.0,
+       "unlock": 0.0
+      },
+      "target_concept": "C4"
+     },
+     {
+      "activity_id": "E-C4-0.4",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.919036865139315,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 1,
+      "score": 0.8952964824120604,
+      "score_components": {
+       "fit": 0.8952964824120604,
+       "review": 0.0,
+       "unlock": 0.0
+      },
+      "target_concept": "C4"
+     },
+     {
+      "concept_id": "C1",
+      "day": 11,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 0.6188984220477006
+     },
+     {
+      "concept_id": "C2",
+      "day": 11,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 0.6188984220477006
+     },
+     {
+      "activity_id": "E-C1-0.4",
+      "day": 11,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.9715133860475895,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 14,
+      "score": 0.6188984220477006,
+      "score_components": {
+       "fit": 0.9853462326023708,
+       "review": 0.6188984220477006,
+       "unlock": 2.0
+      },
+      "target_concept": "C1"
+     },
+     {
+      "activity_id": "E-C2-0.4",
+      "day": 11,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.9715133860475895,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 13,
+      "score": 0.6188984220477006,
+      "score_components": {
+       "fit": 0.9853462326023708,
+       "review": 0.6188984220477006,
+       "unlock": 2.0
+      },
+      "target_concept": "C2"
+     },
+     {
+      "concept_id": "C3",
+      "day": 12,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 0.4125989480318004
+     },
+     {
+      "concept_id": "C4",
+      "day": 12,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 0.2062994740159002
+     },
+     {
+      "activity_id": "E-C3-0.6",
+      "day": 12,
+      "decision": "SELECTED",
+      "duration": 2,
+      "projected_p": 0.9876100966810262,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 13,
+      "score": 0.4125989480318004,
+      "score_components": {
+       "fit": 0.9949450682947343,
+       "review": 0.4125989480318004,
+       "unlock": 1.0
+      },
+      "target_concept": "C3"
+     },
+     {
+      "activity_id": "E-C4-0.6",
+      "day": 12,
+      "decision": "SELECTED",
+      "duration": 2,
+      "projected_p": 0.9876100966810262,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 11,
+      "score": 0.2062994740159002,
+      "score_components": {
+       "fit": 0.9949450682947343,
+       "review": 0.2062994740159002,
+       "unlock": 0.0
+      },
+      "target_concept": "C4"
+     }
+    ]
+   },
+   "cold_start": {
+    "best_effort_days": [],
+    "days": [
+     {
+      "activities": [
+       "L-C1",
+       "E-C1-0.2",
+       "E-C1-0.4",
+       "L-C2",
+       "E-C2-0.2",
+       "E-C2-0.4"
+      ],
+      "day": 1,
+      "duration": 12
+     },
+     {
+      "activities": [
+       "L-C3",
+       "E-C3-0.2",
+       "E-C3-0.4",
+       "L-C4",
+       "E-C4-0.2",
+       "E-C4-0.4"
+      ],
+      "day": 2,
+      "duration": 14
+     },
+     {
+      "activities": [
+       "E-C1-0.6",
+       "E-C2-0.6"
+      ],
+      "day": 11,
+      "duration": 4
+     },
+     {
+      "activities": [
+       "E-C3-0.6",
+       "E-C4-0.6"
+      ],
+      "day": 12,
+      "duration": 4
+     }
+    ],
+    "options": [],
+    "reason": "GREEDY_FEASIBLE",
+    "shortfall_days": 0,
+    "status": "FEASIBLE",
+    "trace": [
+     {
+      "activity_id": "L-C1",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 4,
+      "projected_p": 0.36000000000000004,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 11,
+      "score": 2.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C1"
+     },
+     {
+      "activity_id": "E-C1-0.2",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.6944723618090453,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 10,
+      "score": 2.7276,
+      "score_components": {
+       "fit": 0.7276,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C1"
+     },
+     {
+      "activity_id": "E-C1-0.4",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.919036865139315,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 9,
+      "score": 2.8952964824120606,
+      "score_components": {
+       "fit": 0.8952964824120604,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C1"
+     },
+     {
+      "activity_id": "L-C2",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 4,
+      "projected_p": 0.36000000000000004,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 5,
+      "score": 2.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C2"
+     },
+     {
+      "activity_id": "E-C2-0.2",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.6944723618090453,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 4,
+      "score": 2.7276,
+      "score_components": {
+       "fit": 0.7276,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C2"
+     },
+     {
+      "activity_id": "E-C2-0.4",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.919036865139315,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 3,
+      "score": 2.8952964824120606,
+      "score_components": {
+       "fit": 0.8952964824120604,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C2"
+     },
+     {
+      "activity_id": "L-C3",
+      "day": 1,
+      "decision": "DEFERRED",
+      "duration": 5,
+      "reason": "DOES_NOT_FIT_REMAINING_TIME",
+      "remaining_budget": 3,
+      "target_concept": "C3"
+     },
+     {
+      "activity_id": "L-C3",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 5,
+      "projected_p": 0.36000000000000004,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 10,
+      "score": 1.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 1.0
+      },
+      "target_concept": "C3"
+     },
+     {
+      "activity_id": "E-C3-0.2",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.6944723618090453,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 9,
+      "score": 1.7276,
+      "score_components": {
+       "fit": 0.7276,
+       "review": 0.0,
+       "unlock": 1.0
+      },
+      "target_concept": "C3"
+     },
+     {
+      "activity_id": "E-C3-0.4",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.919036865139315,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 8,
+      "score": 1.8952964824120604,
+      "score_components": {
+       "fit": 0.8952964824120604,
+       "review": 0.0,
+       "unlock": 1.0
+      },
+      "target_concept": "C3"
+     },
+     {
+      "activity_id": "L-C4",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 5,
+      "projected_p": 0.36000000000000004,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 3,
+      "score": 0.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 0.0
+      },
+      "target_concept": "C4"
+     },
+     {
+      "activity_id": "E-C4-0.2",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.6944723618090453,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 2,
+      "score": 0.7276,
+      "score_components": {
+       "fit": 0.7276,
+       "review": 0.0,
+       "unlock": 0.0
+      },
+      "target_concept": "C4"
+     },
+     {
+      "activity_id": "E-C4-0.4",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.919036865139315,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 1,
+      "score": 0.8952964824120604,
+      "score_components": {
+       "fit": 0.8952964824120604,
+       "review": 0.0,
+       "unlock": 0.0
+      },
+      "target_concept": "C4"
+     },
+     {
+      "concept_id": "C1",
+      "day": 11,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 0.6188984220477006
+     },
+     {
+      "concept_id": "C2",
+      "day": 11,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 0.6188984220477006
+     },
+     {
+      "activity_id": "E-C1-0.6",
+      "day": 11,
+      "decision": "SELECTED",
+      "duration": 2,
+      "projected_p": 0.9876100966810262,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 13,
+      "score": 0.6188984220477006,
+      "score_components": {
+       "fit": 0.9949450682947343,
+       "review": 0.6188984220477006,
+       "unlock": 2.0
+      },
+      "target_concept": "C1"
+     },
+     {
+      "activity_id": "E-C2-0.6",
+      "day": 11,
+      "decision": "SELECTED",
+      "duration": 2,
+      "projected_p": 0.9876100966810262,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 11,
+      "score": 0.6188984220477006,
+      "score_components": {
+       "fit": 0.9949450682947343,
+       "review": 0.6188984220477006,
+       "unlock": 2.0
+      },
+      "target_concept": "C2"
+     },
+     {
+      "concept_id": "C3",
+      "day": 12,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 0.4125989480318004
+     },
+     {
+      "concept_id": "C4",
+      "day": 12,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 0.2062994740159002
+     },
+     {
+      "activity_id": "E-C3-0.6",
+      "day": 12,
+      "decision": "SELECTED",
+      "duration": 2,
+      "projected_p": 0.9876100966810262,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 13,
+      "score": 0.4125989480318004,
+      "score_components": {
+       "fit": 0.9949450682947343,
+       "review": 0.4125989480318004,
+       "unlock": 1.0
+      },
+      "target_concept": "C3"
+     },
+     {
+      "activity_id": "E-C4-0.6",
+      "day": 12,
+      "decision": "SELECTED",
+      "duration": 2,
+      "projected_p": 0.9876100966810262,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 11,
+      "score": 0.2062994740159002,
+      "score_components": {
+       "fit": 0.9949450682947343,
+       "review": 0.2062994740159002,
+       "unlock": 0.0
+      },
+      "target_concept": "C4"
+     }
+    ]
+   }
+  },
+  "8node": {
+   "after_all_wrong_diag": {
+    "best_effort_days": [],
+    "days": [
+     {
+      "activities": [
+       "L-C1",
+       "E-C1-0.2",
+       "E-C1-0.4",
+       "L-C2",
+       "E-C2-0.2",
+       "E-C2-0.4"
+      ],
+      "day": 1,
+      "duration": 12
+     },
+     {
+      "activities": [
+       "L-C3",
+       "E-C3-0.2",
+       "E-C3-0.4",
+       "L-C5",
+       "E-C5-0.2",
+       "E-C5-0.4"
+      ],
+      "day": 2,
+      "duration": 14
+     },
+     {
+      "activities": [
+       "L-C6",
+       "E-C6-0.2",
+       "E-C6-0.4",
+       "L-C7",
+       "E-C7-0.2",
+       "E-C7-0.4"
+      ],
+      "day": 3,
+      "duration": 13
+     },
+     {
+      "activities": [
+       "L-C8",
+       "E-C8-0.2",
+       "E-C8-0.4"
+      ],
+      "day": 4,
+      "duration": 7
+     },
+     {
+      "activities": [
+       "E-C1-0.4",
+       "E-C2-0.4"
+      ],
+      "day": 11,
+      "duration": 2
+     },
+     {
+      "activities": [
+       "E-C3-0.6",
+       "E-C5-0.6"
+      ],
+      "day": 12,
+      "duration": 4
+     },
+     {
+      "activities": [
+       "E-C6-0.6",
+       "E-C7-0.6"
+      ],
+      "day": 13,
+      "duration": 4
+     },
+     {
+      "activities": [
+       "E-C8-0.6"
+      ],
+      "day": 14,
+      "duration": 2
+     }
+    ],
+    "options": [],
+    "reason": "GREEDY_FEASIBLE",
+    "shortfall_days": 0,
+    "status": "FEASIBLE",
+    "trace": [
+     {
+      "activity_id": "L-C1",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 4,
+      "projected_p": 0.24987531172069827,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 11,
+      "score": 6.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 6.0
+      },
+      "target_concept": "C1"
+     },
+     {
+      "activity_id": "E-C1-0.2",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.5776217574458651,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 10,
+      "score": 6.654917705735661,
+      "score_components": {
+       "fit": 0.6549177057356609,
+       "review": 0.0,
+       "unlock": 6.0
+      },
+      "target_concept": "C1"
+     },
+     {
+      "activity_id": "E-C1-0.4",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.8726175632800437,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 9,
+      "score": 6.81700657748873,
+      "score_components": {
+       "fit": 0.8170065774887296,
+       "review": 0.0,
+       "unlock": 6.0
+      },
+      "target_concept": "C1"
+     },
+     {
+      "activity_id": "L-C2",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 4,
+      "projected_p": 0.24987531172069827,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 5,
+      "score": 5.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 5.0
+      },
+      "target_concept": "C2"
+     },
+     {
+      "activity_id": "E-C2-0.2",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.5776217574458651,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 4,
+      "score": 5.654917705735661,
+      "score_components": {
+       "fit": 0.6549177057356609,
+       "review": 0.0,
+       "unlock": 5.0
+      },
+      "target_concept": "C2"
+     },
+     {
+      "activity_id": "E-C2-0.4",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.8726175632800437,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 3,
+      "score": 5.81700657748873,
+      "score_components": {
+       "fit": 0.8170065774887296,
+       "review": 0.0,
+       "unlock": 5.0
+      },
+      "target_concept": "C2"
+     },
+     {
+      "activity_id": "L-C3",
+      "day": 1,
+      "decision": "DEFERRED",
+      "duration": 5,
+      "reason": "DOES_NOT_FIT_REMAINING_TIME",
+      "remaining_budget": 3,
+      "target_concept": "C3"
+     },
+     {
+      "activity_id": "L-C6",
+      "day": 1,
+      "decision": "DEFERRED",
+      "duration": 4,
+      "reason": "DOES_NOT_FIT_REMAINING_TIME",
+      "remaining_budget": 3,
+      "target_concept": "C6"
+     },
+     {
+      "activity_id": "L-C3",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 5,
+      "projected_p": 0.36000000000000004,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 10,
+      "score": 4.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 4.0
+      },
+      "target_concept": "C3"
+     },
+     {
+      "activity_id": "E-C3-0.2",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.6944723618090453,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 9,
+      "score": 4.7276,
+      "score_components": {
+       "fit": 0.7276,
+       "review": 0.0,
+       "unlock": 4.0
+      },
+      "target_concept": "C3"
+     },
+     {
+      "activity_id": "E-C3-0.4",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.919036865139315,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 8,
+      "score": 4.895296482412061,
+      "score_components": {
+       "fit": 0.8952964824120604,
+       "review": 0.0,
+       "unlock": 4.0
+      },
+      "target_concept": "C3"
+     },
+     {
+      "activity_id": "L-C5",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 5,
+      "projected_p": 0.36000000000000004,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 3,
+      "score": 2.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C5"
+     },
+     {
+      "activity_id": "L-C6",
+      "day": 2,
+      "decision": "DEFERRED",
+      "duration": 4,
+      "reason": "DOES_NOT_FIT_REMAINING_TIME",
+      "remaining_budget": 3,
+      "target_concept": "C6"
+     },
+     {
+      "activity_id": "E-C5-0.2",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.6944723618090453,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 2,
+      "score": 2.7276,
+      "score_components": {
+       "fit": 0.7276,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C5"
+     },
+     {
+      "activity_id": "L-C6",
+      "day": 2,
+      "decision": "DEFERRED",
+      "duration": 4,
+      "reason": "DOES_NOT_FIT_REMAINING_TIME",
+      "remaining_budget": 2,
+      "target_concept": "C6"
+     },
+     {
+      "activity_id": "E-C5-0.4",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.919036865139315,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 1,
+      "score": 2.8952964824120606,
+      "score_components": {
+       "fit": 0.8952964824120604,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C5"
+     },
+     {
+      "activity_id": "L-C6",
+      "day": 2,
+      "decision": "DEFERRED",
+      "duration": 4,
+      "reason": "DOES_NOT_FIT_REMAINING_TIME",
+      "remaining_budget": 1,
+      "target_concept": "C6"
+     },
+     {
+      "activity_id": "L-C6",
+      "day": 3,
+      "decision": "SELECTED",
+      "duration": 4,
+      "projected_p": 0.36000000000000004,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 11,
+      "score": 2.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C6"
+     },
+     {
+      "activity_id": "E-C6-0.2",
+      "day": 3,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.6944723618090453,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 10,
+      "score": 2.7276,
+      "score_components": {
+       "fit": 0.7276,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C6"
+     },
+     {
+      "activity_id": "E-C6-0.4",
+      "day": 3,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.919036865139315,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 9,
+      "score": 2.8952964824120606,
+      "score_components": {
+       "fit": 0.8952964824120604,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C6"
+     },
+     {
+      "activity_id": "L-C7",
+      "day": 3,
+      "decision": "SELECTED",
+      "duration": 5,
+      "projected_p": 0.36000000000000004,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 4,
+      "score": 1.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 1.0
+      },
+      "target_concept": "C7"
+     },
+     {
+      "activity_id": "E-C7-0.2",
+      "day": 3,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.6944723618090453,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 3,
+      "score": 1.7276,
+      "score_components": {
+       "fit": 0.7276,
+       "review": 0.0,
+       "unlock": 1.0
+      },
+      "target_concept": "C7"
+     },
+     {
+      "activity_id": "E-C7-0.4",
+      "day": 3,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.919036865139315,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 2,
+      "score": 1.8952964824120604,
+      "score_components": {
+       "fit": 0.8952964824120604,
+       "review": 0.0,
+       "unlock": 1.0
+      },
+      "target_concept": "C7"
+     },
+     {
+      "activity_id": "L-C8",
+      "day": 3,
+      "decision": "DEFERRED",
+      "duration": 5,
+      "reason": "DOES_NOT_FIT_REMAINING_TIME",
+      "remaining_budget": 2,
+      "target_concept": "C8"
+     },
+     {
+      "activity_id": "L-C8",
+      "day": 4,
+      "decision": "SELECTED",
+      "duration": 5,
+      "projected_p": 0.36000000000000004,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 10,
+      "score": 0.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 0.0
+      },
+      "target_concept": "C8"
+     },
+     {
+      "activity_id": "E-C8-0.2",
+      "day": 4,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.6944723618090453,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 9,
+      "score": 0.7276,
+      "score_components": {
+       "fit": 0.7276,
+       "review": 0.0,
+       "unlock": 0.0
+      },
+      "target_concept": "C8"
+     },
+     {
+      "activity_id": "E-C8-0.4",
+      "day": 4,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.919036865139315,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 8,
+      "score": 0.8952964824120604,
+      "score_components": {
+       "fit": 0.8952964824120604,
+       "review": 0.0,
+       "unlock": 0.0
+      },
+      "target_concept": "C8"
+     },
+     {
+      "concept_id": "C1",
+      "day": 11,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 1.4440963181113013
+     },
+     {
+      "concept_id": "C2",
+      "day": 11,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 1.2377968440954012
+     },
+     {
+      "activity_id": "E-C1-0.4",
+      "day": 11,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.9715133860475895,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 14,
+      "score": 1.4440963181113013,
+      "score_components": {
+       "fit": 0.9853462326023708,
+       "review": 1.4440963181113013,
+       "unlock": 6.0
+      },
+      "target_concept": "C1"
+     },
+     {
+      "activity_id": "E-C2-0.4",
+      "day": 11,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.9715133860475895,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 13,
+      "score": 1.2377968440954012,
+      "score_components": {
+       "fit": 0.9853462326023708,
+       "review": 1.2377968440954012,
+       "unlock": 5.0
+      },
+      "target_concept": "C2"
+     },
+     {
+      "concept_id": "C3",
+      "day": 12,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 1.0314973700795012
+     },
+     {
+      "concept_id": "C5",
+      "day": 12,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 0.6188984220477006
+     },
+     {
+      "activity_id": "E-C3-0.6",
+      "day": 12,
+      "decision": "SELECTED",
+      "duration": 2,
+      "projected_p": 0.9876100966810262,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 13,
+      "score": 1.0314973700795012,
+      "score_components": {
+       "fit": 0.9949450682947343,
+       "review": 1.0314973700795012,
+       "unlock": 4.0
+      },
+      "target_concept": "C3"
+     },
+     {
+      "activity_id": "E-C5-0.6",
+      "day": 12,
+      "decision": "SELECTED",
+      "duration": 2,
+      "projected_p": 0.9876100966810262,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 11,
+      "score": 0.6188984220477006,
+      "score_components": {
+       "fit": 0.9949450682947343,
+       "review": 0.6188984220477006,
+       "unlock": 2.0
+      },
+      "target_concept": "C5"
+     },
+     {
+      "concept_id": "C6",
+      "day": 13,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 0.6188984220477006
+     },
+     {
+      "concept_id": "C7",
+      "day": 13,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 0.4125989480318004
+     },
+     {
+      "activity_id": "E-C6-0.6",
+      "day": 13,
+      "decision": "SELECTED",
+      "duration": 2,
+      "projected_p": 0.9876100966810262,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 13,
+      "score": 0.6188984220477006,
+      "score_components": {
+       "fit": 0.9949450682947343,
+       "review": 0.6188984220477006,
+       "unlock": 2.0
+      },
+      "target_concept": "C6"
+     },
+     {
+      "activity_id": "E-C7-0.6",
+      "day": 13,
+      "decision": "SELECTED",
+      "duration": 2,
+      "projected_p": 0.9876100966810262,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 11,
+      "score": 0.4125989480318004,
+      "score_components": {
+       "fit": 0.9949450682947343,
+       "review": 0.4125989480318004,
+       "unlock": 1.0
+      },
+      "target_concept": "C7"
+     },
+     {
+      "concept_id": "C8",
+      "day": 14,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 0.2062994740159002
+     },
+     {
+      "activity_id": "E-C8-0.6",
+      "day": 14,
+      "decision": "SELECTED",
+      "duration": 2,
+      "projected_p": 0.9876100966810262,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 13,
+      "score": 0.2062994740159002,
+      "score_components": {
+       "fit": 0.9949450682947343,
+       "review": 0.2062994740159002,
+       "unlock": 0.0
+      },
+      "target_concept": "C8"
+     }
+    ]
+   },
+   "cold_start": {
+    "best_effort_days": [],
+    "days": [
+     {
+      "activities": [
+       "L-C1",
+       "E-C1-0.2",
+       "E-C1-0.4",
+       "L-C2",
+       "E-C2-0.2",
+       "E-C2-0.4"
+      ],
+      "day": 1,
+      "duration": 12
+     },
+     {
+      "activities": [
+       "L-C3",
+       "E-C3-0.2",
+       "E-C3-0.4",
+       "L-C5",
+       "E-C5-0.2",
+       "E-C5-0.4"
+      ],
+      "day": 2,
+      "duration": 14
+     },
+     {
+      "activities": [
+       "L-C6",
+       "E-C6-0.2",
+       "E-C6-0.4",
+       "L-C7",
+       "E-C7-0.2",
+       "E-C7-0.4"
+      ],
+      "day": 3,
+      "duration": 13
+     },
+     {
+      "activities": [
+       "L-C8",
+       "E-C8-0.2",
+       "E-C8-0.4"
+      ],
+      "day": 4,
+      "duration": 7
+     },
+     {
+      "activities": [
+       "E-C1-0.6",
+       "E-C2-0.6"
+      ],
+      "day": 11,
+      "duration": 4
+     },
+     {
+      "activities": [
+       "E-C3-0.6",
+       "E-C5-0.6"
+      ],
+      "day": 12,
+      "duration": 4
+     },
+     {
+      "activities": [
+       "E-C6-0.6",
+       "E-C7-0.6"
+      ],
+      "day": 13,
+      "duration": 4
+     },
+     {
+      "activities": [
+       "E-C8-0.6"
+      ],
+      "day": 14,
+      "duration": 2
+     }
+    ],
+    "options": [],
+    "reason": "GREEDY_FEASIBLE",
+    "shortfall_days": 0,
+    "status": "FEASIBLE",
+    "trace": [
+     {
+      "activity_id": "L-C1",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 4,
+      "projected_p": 0.36000000000000004,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 11,
+      "score": 6.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 6.0
+      },
+      "target_concept": "C1"
+     },
+     {
+      "activity_id": "E-C1-0.2",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.6944723618090453,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 10,
+      "score": 6.7276,
+      "score_components": {
+       "fit": 0.7276,
+       "review": 0.0,
+       "unlock": 6.0
+      },
+      "target_concept": "C1"
+     },
+     {
+      "activity_id": "E-C1-0.4",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.919036865139315,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 9,
+      "score": 6.895296482412061,
+      "score_components": {
+       "fit": 0.8952964824120604,
+       "review": 0.0,
+       "unlock": 6.0
+      },
+      "target_concept": "C1"
+     },
+     {
+      "activity_id": "L-C2",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 4,
+      "projected_p": 0.36000000000000004,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 5,
+      "score": 5.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 5.0
+      },
+      "target_concept": "C2"
+     },
+     {
+      "activity_id": "E-C2-0.2",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.6944723618090453,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 4,
+      "score": 5.7276,
+      "score_components": {
+       "fit": 0.7276,
+       "review": 0.0,
+       "unlock": 5.0
+      },
+      "target_concept": "C2"
+     },
+     {
+      "activity_id": "E-C2-0.4",
+      "day": 1,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.919036865139315,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 3,
+      "score": 5.895296482412061,
+      "score_components": {
+       "fit": 0.8952964824120604,
+       "review": 0.0,
+       "unlock": 5.0
+      },
+      "target_concept": "C2"
+     },
+     {
+      "activity_id": "L-C3",
+      "day": 1,
+      "decision": "DEFERRED",
+      "duration": 5,
+      "reason": "DOES_NOT_FIT_REMAINING_TIME",
+      "remaining_budget": 3,
+      "target_concept": "C3"
+     },
+     {
+      "activity_id": "L-C6",
+      "day": 1,
+      "decision": "DEFERRED",
+      "duration": 4,
+      "reason": "DOES_NOT_FIT_REMAINING_TIME",
+      "remaining_budget": 3,
+      "target_concept": "C6"
+     },
+     {
+      "activity_id": "L-C3",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 5,
+      "projected_p": 0.36000000000000004,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 10,
+      "score": 4.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 4.0
+      },
+      "target_concept": "C3"
+     },
+     {
+      "activity_id": "E-C3-0.2",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.6944723618090453,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 9,
+      "score": 4.7276,
+      "score_components": {
+       "fit": 0.7276,
+       "review": 0.0,
+       "unlock": 4.0
+      },
+      "target_concept": "C3"
+     },
+     {
+      "activity_id": "E-C3-0.4",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.919036865139315,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 8,
+      "score": 4.895296482412061,
+      "score_components": {
+       "fit": 0.8952964824120604,
+       "review": 0.0,
+       "unlock": 4.0
+      },
+      "target_concept": "C3"
+     },
+     {
+      "activity_id": "L-C5",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 5,
+      "projected_p": 0.36000000000000004,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 3,
+      "score": 2.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C5"
+     },
+     {
+      "activity_id": "L-C6",
+      "day": 2,
+      "decision": "DEFERRED",
+      "duration": 4,
+      "reason": "DOES_NOT_FIT_REMAINING_TIME",
+      "remaining_budget": 3,
+      "target_concept": "C6"
+     },
+     {
+      "activity_id": "E-C5-0.2",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.6944723618090453,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 2,
+      "score": 2.7276,
+      "score_components": {
+       "fit": 0.7276,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C5"
+     },
+     {
+      "activity_id": "L-C6",
+      "day": 2,
+      "decision": "DEFERRED",
+      "duration": 4,
+      "reason": "DOES_NOT_FIT_REMAINING_TIME",
+      "remaining_budget": 2,
+      "target_concept": "C6"
+     },
+     {
+      "activity_id": "E-C5-0.4",
+      "day": 2,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.919036865139315,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 1,
+      "score": 2.8952964824120606,
+      "score_components": {
+       "fit": 0.8952964824120604,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C5"
+     },
+     {
+      "activity_id": "L-C6",
+      "day": 2,
+      "decision": "DEFERRED",
+      "duration": 4,
+      "reason": "DOES_NOT_FIT_REMAINING_TIME",
+      "remaining_budget": 1,
+      "target_concept": "C6"
+     },
+     {
+      "activity_id": "L-C6",
+      "day": 3,
+      "decision": "SELECTED",
+      "duration": 4,
+      "projected_p": 0.36000000000000004,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 11,
+      "score": 2.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C6"
+     },
+     {
+      "activity_id": "E-C6-0.2",
+      "day": 3,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.6944723618090453,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 10,
+      "score": 2.7276,
+      "score_components": {
+       "fit": 0.7276,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C6"
+     },
+     {
+      "activity_id": "E-C6-0.4",
+      "day": 3,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.919036865139315,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 9,
+      "score": 2.8952964824120606,
+      "score_components": {
+       "fit": 0.8952964824120604,
+       "review": 0.0,
+       "unlock": 2.0
+      },
+      "target_concept": "C6"
+     },
+     {
+      "activity_id": "L-C7",
+      "day": 3,
+      "decision": "SELECTED",
+      "duration": 5,
+      "projected_p": 0.36000000000000004,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 4,
+      "score": 1.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 1.0
+      },
+      "target_concept": "C7"
+     },
+     {
+      "activity_id": "E-C7-0.2",
+      "day": 3,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.6944723618090453,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 3,
+      "score": 1.7276,
+      "score_components": {
+       "fit": 0.7276,
+       "review": 0.0,
+       "unlock": 1.0
+      },
+      "target_concept": "C7"
+     },
+     {
+      "activity_id": "E-C7-0.4",
+      "day": 3,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.919036865139315,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 2,
+      "score": 1.8952964824120604,
+      "score_components": {
+       "fit": 0.8952964824120604,
+       "review": 0.0,
+       "unlock": 1.0
+      },
+      "target_concept": "C7"
+     },
+     {
+      "activity_id": "L-C8",
+      "day": 3,
+      "decision": "DEFERRED",
+      "duration": 5,
+      "reason": "DOES_NOT_FIT_REMAINING_TIME",
+      "remaining_budget": 2,
+      "target_concept": "C8"
+     },
+     {
+      "activity_id": "L-C8",
+      "day": 4,
+      "decision": "SELECTED",
+      "duration": 5,
+      "projected_p": 0.36000000000000004,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 10,
+      "score": 0.0,
+      "score_components": {
+       "fit": 0.0,
+       "review": 0.0,
+       "unlock": 0.0
+      },
+      "target_concept": "C8"
+     },
+     {
+      "activity_id": "E-C8-0.2",
+      "day": 4,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.6944723618090453,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 9,
+      "score": 0.7276,
+      "score_components": {
+       "fit": 0.7276,
+       "review": 0.0,
+       "unlock": 0.0
+      },
+      "target_concept": "C8"
+     },
+     {
+      "activity_id": "E-C8-0.4",
+      "day": 4,
+      "decision": "SELECTED",
+      "duration": 1,
+      "projected_p": 0.919036865139315,
+      "reason": "RANKED_TOP",
+      "remaining_budget": 8,
+      "score": 0.8952964824120604,
+      "score_components": {
+       "fit": 0.8952964824120604,
+       "review": 0.0,
+       "unlock": 0.0
+      },
+      "target_concept": "C8"
+     },
+     {
+      "concept_id": "C1",
+      "day": 11,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 1.4440963181113013
+     },
+     {
+      "concept_id": "C2",
+      "day": 11,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 1.2377968440954012
+     },
+     {
+      "activity_id": "E-C1-0.6",
+      "day": 11,
+      "decision": "SELECTED",
+      "duration": 2,
+      "projected_p": 0.9876100966810262,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 13,
+      "score": 1.4440963181113013,
+      "score_components": {
+       "fit": 0.9949450682947343,
+       "review": 1.4440963181113013,
+       "unlock": 6.0
+      },
+      "target_concept": "C1"
+     },
+     {
+      "activity_id": "E-C2-0.6",
+      "day": 11,
+      "decision": "SELECTED",
+      "duration": 2,
+      "projected_p": 0.9876100966810262,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 11,
+      "score": 1.2377968440954012,
+      "score_components": {
+       "fit": 0.9949450682947343,
+       "review": 1.2377968440954012,
+       "unlock": 5.0
+      },
+      "target_concept": "C2"
+     },
+     {
+      "concept_id": "C3",
+      "day": 12,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 1.0314973700795012
+     },
+     {
+      "concept_id": "C5",
+      "day": 12,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 0.6188984220477006
+     },
+     {
+      "activity_id": "E-C3-0.6",
+      "day": 12,
+      "decision": "SELECTED",
+      "duration": 2,
+      "projected_p": 0.9876100966810262,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 13,
+      "score": 1.0314973700795012,
+      "score_components": {
+       "fit": 0.9949450682947343,
+       "review": 1.0314973700795012,
+       "unlock": 4.0
+      },
+      "target_concept": "C3"
+     },
+     {
+      "activity_id": "E-C5-0.6",
+      "day": 12,
+      "decision": "SELECTED",
+      "duration": 2,
+      "projected_p": 0.9876100966810262,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 11,
+      "score": 0.6188984220477006,
+      "score_components": {
+       "fit": 0.9949450682947343,
+       "review": 0.6188984220477006,
+       "unlock": 2.0
+      },
+      "target_concept": "C5"
+     },
+     {
+      "concept_id": "C6",
+      "day": 13,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 0.6188984220477006
+     },
+     {
+      "concept_id": "C7",
+      "day": 13,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 0.4125989480318004
+     },
+     {
+      "activity_id": "E-C6-0.6",
+      "day": 13,
+      "decision": "SELECTED",
+      "duration": 2,
+      "projected_p": 0.9876100966810262,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 13,
+      "score": 0.6188984220477006,
+      "score_components": {
+       "fit": 0.9949450682947343,
+       "review": 0.6188984220477006,
+       "unlock": 2.0
+      },
+      "target_concept": "C6"
+     },
+     {
+      "activity_id": "E-C7-0.6",
+      "day": 13,
+      "decision": "SELECTED",
+      "duration": 2,
+      "projected_p": 0.9876100966810262,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 11,
+      "score": 0.4125989480318004,
+      "score_components": {
+       "fit": 0.9949450682947343,
+       "review": 0.4125989480318004,
+       "unlock": 1.0
+      },
+      "target_concept": "C7"
+     },
+     {
+      "concept_id": "C8",
+      "day": 14,
+      "decision": "REVIEW_DUE",
+      "r": 0.7937005259840998,
+      "reason": "REVIEW_DUE",
+      "threshold": 0.8,
+      "urgency": 0.2062994740159002
+     },
+     {
+      "activity_id": "E-C8-0.6",
+      "day": 14,
+      "decision": "SELECTED",
+      "duration": 2,
+      "projected_p": 0.9876100966810262,
+      "reason": "REVIEW_DUE",
+      "remaining_budget": 13,
+      "score": 0.2062994740159002,
+      "score_components": {
+       "fit": 0.9949450682947343,
+       "review": 0.2062994740159002,
+       "unlock": 0.0
+      },
+      "target_concept": "C8"
+     }
+    ]
+   }
+  }
+ },
+ "poc_demo": "============================================================================\n AdaptEngine \u2014 End-to-End PoC Demonstration (4-Node Fixture)\n============================================================================\n\n[PART 1] Running Two Scripted Profiles (Goal=C4, Budget=15m, Deadline=10d)...\n -> Profile A (Novice): Diagnostic asked 2 items. Status=FEASIBLE\n    Mastery after diagnostic: {'C1': 0.062, 'C2': 0.062, 'C3': 0.2, 'C4': 0.2}\n    Plan: 2 days scheduled. Day 1: ('L-C1', 'E-C1-0.2', 'E-C1-0.4', 'L-C2', 'E-C2-0.2', 'E-C2-0.4')\n -> Profile B (Advanced): Diagnostic asked 5 items. Status=FEASIBLE\n    Mastery after diagnostic: {'C1': 0.921, 'C2': 0.921, 'C3': 0.062, 'C4': 0.2}\n    Plan: 1 days scheduled. Day 1: ('L-C3', 'E-C3-0.2', 'E-C3-0.4', 'L-C4', 'E-C4-0.2', 'E-C4-0.4')\n    C1 evidence_mastered: Novice=False, Advanced=True\n    Trace explanation for Profile B skipping mastered concepts:\n      - Concept C1: ALREADY_EVIDENCE_MASTERED (p=0.9213759213759215, responses=2)\n      - Concept C2: ALREADY_EVIDENCE_MASTERED (p=0.9213759213759215, responses=2)\n\n[PART 2] Recording Response for Profile A & Replanning...\n -> Recorded activity L-C1 (correct=True). New belief for C1: 0.2499\n    Revised plan starts on Day 2 with 2 days.\n    Verification passed: completed lesson L-C1 was NOT repeated.\n\n[PART 3] Evaluating Multi-Budget Plans (5m, 10m, 15m, 30m) for Profile A...\n    Budget= 5m -> Status=FEASIBLE  Days= 9 TotalMinutes=29\n    Budget=10m -> Status=FEASIBLE  Days= 6 TotalMinutes=33\n    Budget=15m -> Status=FEASIBLE  Days= 4 TotalMinutes=33\n    Budget=30m -> Status=FEASIBLE  Days= 2 TotalMinutes=33\n\n[PART 4] Infeasible Request (Goal=C4, Deadline=1d, Budget=5m)...\n -> Plan status: INFEASIBLE\n    Shortfall days: 5\n    Reason: INSUFFICIENT_TIME_BUDGET\n    Resolution Options: ('Increase daily budget to 10 min (requires 3 days)', 'Increase daily budget to 15 min (requires 2 days)', 'Increase daily budget to 30 min (fits in 1 days)', 'Extend deadline by at least 5 days to day 6')\n\n[PART 5] Executing the Four Adaptive Events and Review Due Trigger...\n -> 1. Missed Day Event:\n    Logged 2 events. Replan starts at Day 3 with 2 days.\n -> 2. Failed Assessment with Remediation Trigger:\n    Failed assessment recorded for C1. p=0.0899, needs_remediation=True\n    First activity scheduled in Day 3: L-C1 (Expected remediation lesson L-C1)\n -> 3. Deadline Change Event:\n    Extended deadline to Day 14. Plan status: FEASIBLE, horizon: 14\n -> 4. Budget Change Event:\n    Increased daily budget to 30m. Days needed: 2 (compressed from previous 4 days)\n -> 5. Spaced Review Due Trigger (Short Half-Life Fixture):\n    Plan on Day 5: ('E-C1-0.6', 'L-C2', 'E-C2-0.2', 'E-C2-0.4', 'L-C3', 'E-C3-0.2', 'E-C3-0.4')\n    Review exercise scheduled for C1 on Day 5: ['E-C1-0.6']\n\n[PART 6] Sample Decision Explainability Trace (Review Plan Day 5):\n    Day 5: E-C1-0.6 -> reason=REVIEW_DUE, score=2.812\n    Day 5: L-C2 -> reason=RANKED_TOP, score=2.0\n    Day 5: E-C2-0.2 -> reason=RANKED_TOP, score=2.655\n    Day 5: E-C2-0.4 -> reason=RANKED_TOP, score=2.817\n    Day 5: L-C3 -> reason=RANKED_TOP, score=1.0\n    Day 5: E-C3-0.2 -> reason=RANKED_TOP, score=1.728\n    Day 5: E-C3-0.4 -> reason=RANKED_TOP, score=1.895\n    Day 6: E-C1-0.8 -> reason=REVIEW_DUE, score=1.5\n    Day 6: L-C4 -> reason=RANKED_TOP, score=0.0\n    Day 6: E-C4-0.2 -> reason=RANKED_TOP, score=0.728\n    Day 6: E-C4-0.4 -> reason=RANKED_TOP, score=0.895\n    Day 7: E-C1-0.8 -> reason=REVIEW_DUE, score=1.5\n    Day 8: E-C1-0.8 -> reason=REVIEW_DUE, score=1.5\n    Day 9: E-C1-0.8 -> reason=REVIEW_DUE, score=1.5\n    Day 10: E-C1-0.8 -> reason=REVIEW_DUE, score=1.5\n    Day 11: E-C1-0.8 -> reason=REVIEW_DUE, score=1.5\n    Day 12: E-C1-0.8 -> reason=REVIEW_DUE, score=1.5\n    Day 13: E-C1-0.8 -> reason=REVIEW_DUE, score=1.5\n    Day 14: E-C1-0.8 -> reason=REVIEW_DUE, score=1.5\n\n============================================================================\n PoC Demonstration Completed Successfully with Full Verification.\n============================================================================\n"
+}

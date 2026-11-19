@@ -27,3 +27,14 @@ This document tracks all 23 verification scenarios (the authoritative Assignment
 | **TC7.1** | M7 | Every decision traceable to state, applied constraints, and score components | **W5** | `tests/test_w5.py::test_tc7_1_comprehensive_traceability_and_serialization`, `tests/test_planner.py::test_oracle_path_trace_natural_case_t1_4` (exactly one SELECTED per planned activity, W7 T1.4) | **Verified** |
 | **TC8.1** | M8 | Identical random seeds and configuration produce bitwise identical raw results | **W6** | `tests/test_evaluation.py::test_evaluation_reproducibility_tc8_1`, `experiments/run_evaluation.py` | **Verified** |
 | **TC8.2** | M8 | Frontier vs full replanning produces identical decisions with runtime latency measured | **W6** | `tests/test_replan_frontier.py`, `experiments/run_replan_latency.py`, `experiments/results/replan_latency.json` | **Verified** |
+
+## Plan 0–6 acceptance cases
+
+| TC-ID | Plan | Scenario / Specification | Implementation & Test Evidence | Status |
+|---|---|---|---|---|
+| **P0-TC1** | Plan 0 | `population_prior_config()` reproduces the pre-Plan-0 behaviour exactly (diagnostic, plans, traces, demo) | `tests/test_baseline_pins.py::test_population_prior_config_reproduces_baseline_pins` (pins in `tests/fixtures/pins/population_prior.json`, recorded before any Plan 0 change), `::test_population_prior_config_matches_baseline_config_fields`; full re-runs of `experiments/run_evaluation.py` and `experiments/run_diag_matrix.py` reproduce `evaluation_results.json` and `w7_diag_matrix.json` (see `docs/PLAN0_NOTES.md`) | **Verified** |
+| **P0-TC2** | Plan 0 | The new defaults differ from the pre-Plan-0 defaults only in the sweep's starting prior (0.20, D59) | `tests/test_baseline_pins.py::test_default_differs_from_population_prior_only_in_sweep_prior`, `::test_default_sweep_starts_untouched_concepts_at_p0`, `::test_plan_without_diagnostic_unchanged`, `::test_default_config_matches_default_pins` (`tests/fixtures/pins/default.json`) | **Verified** |
+| **P0.5-TC1** | Plan 0.5 | No `w7_config`, `W7_CONFIG` or `w7_redo` left in code, tests or scripts; docs mention them only as the rename record (D59a) | Old-name search over `*.py`, `*.md`, `*.json` (see `docs/PLAN0_NOTES.md`, Plan 0.5) | **Verified** |
+| **P0.5-TC2** | Plan 0.5 | Behaviour unchanged: P0-TC1 and P0-TC2 pass under the new names; pin file byte-identical; config hashes unchanged | `make check`; SHA-256 of `tests/fixtures/pins/population_prior.json`; hashes vs `docs/PLAN0_NOTES.md` | **Verified** |
+| **P0.5-TC3** | Plan 0.5 | Everything works exactly as after Plan 0: same test outcomes and counts; fresh pins, PoC demo, CLI output, demo API tests and quick experiment runs identical | Before/after snapshot comparison (`docs/PLAN0_NOTES.md`, Plan 0.5) | **Verified** |
+

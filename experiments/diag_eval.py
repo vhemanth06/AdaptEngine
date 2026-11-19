@@ -17,7 +17,7 @@ import random
 from typing import Any, Mapping, Optional, Sequence
 
 from adaptengine.api import Engine
-from adaptengine.core.config import DEFAULT_CONFIG
+from adaptengine.core.config import DEFAULT_CONFIG, EngineConfig
 
 from adaptengine.core.schema import ActivityType
 from adaptengine.learner.state import ConceptStatus, LearnerConcept, LearnerState
@@ -215,8 +215,13 @@ def run_diagnostic_tuning(
     tuning_seeds: Sequence[int],
     heldout_seeds: Sequence[int],
     profile: Optional[SimProfile] = None,
+    base_config: EngineConfig = DEFAULT_CONFIG,
 ) -> dict[str, Any]:
-    """Grid search over diagnostic stopping parameters on tuning cohort, evaluated on held-out cohort."""
+    """Grid search over diagnostic stopping parameters on tuning cohort, evaluated on held-out cohort.
+
+    base_config supplies every field the grid does not vary (population_prior_config() reproduces
+    the population-prior results).
+    """
     if profile is None:
         profile = PROFILES["nominal"]
 
@@ -230,7 +235,7 @@ def run_diagnostic_tuning(
         for h_s in h_stop_grid:
             for c_c in concept_cap_grid:
                 cfg = dataclasses.replace(
-                    DEFAULT_CONFIG,
+                    base_config,
                     h_stop=h_s,
                     concept_cap=c_c,
                     n_max=n_m,
@@ -272,13 +277,13 @@ def run_diagnostic_tuning(
 
     # Evaluate winner on held-out seeds
     winner_cfg = dataclasses.replace(
-        DEFAULT_CONFIG,
+        base_config,
         h_stop=winner["h_stop"],
         concept_cap=winner["concept_cap"],
         n_max=winner["n_max"],
     )
     winner_eng = Engine.from_files(curriculum_path, activities_path, config=winner_cfg)
-    default_eng = Engine.from_files(curriculum_path, activities_path, config=DEFAULT_CONFIG)
+    default_eng = Engine.from_files(curriculum_path, activities_path, config=base_config)
 
     heldout_winner_mae = []
     heldout_winner_items = []

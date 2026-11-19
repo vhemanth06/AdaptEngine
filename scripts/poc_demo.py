@@ -29,7 +29,7 @@ if os.path.join(repo_root, "src") not in sys.path:
     sys.path.insert(0, os.path.join(repo_root, "src"))
 
 from adaptengine.api import Engine  # noqa: E402
-from adaptengine.core.config import DEFAULT_CONFIG  # noqa: E402
+from adaptengine.core.config import DEFAULT_CONFIG, EngineConfig  # noqa: E402
 from adaptengine.core.schema import (  # noqa: E402
     ActivityType,
     Event,
@@ -46,14 +46,16 @@ from adaptengine.session import load_snapshot, save_snapshot  # noqa: E402
 
 
 def run_demo(
-    curriculum_path: str | None = None, activities_path: str | None = None
+    curriculum_path: str | None = None,
+    activities_path: str | None = None,
+    config: EngineConfig = DEFAULT_CONFIG,
 ) -> dict[str, Any]:
     if curriculum_path is None:
         curriculum_path = os.path.join(repo_root, "data", "curriculum", "curriculum_4node.json")
     if activities_path is None:
         activities_path = os.path.join(repo_root, "data", "curriculum", "activities_4node.json")
 
-    engine = Engine.from_files(curriculum_path, activities_path, config=DEFAULT_CONFIG)
+    engine = Engine.from_files(curriculum_path, activities_path, config=config)
     temp_dir = tempfile.mkdtemp(prefix="adaptengine_poc_")
     results: dict[str, Any] = {}
 
@@ -118,8 +120,8 @@ def run_demo(
     )
 
     # Check evidence mastery differences
-    c1_mastered_b = is_evidence_mastered(state_b.concepts["C1"], DEFAULT_CONFIG)
-    c1_mastered_a = is_evidence_mastered(state_a.concepts["C1"], DEFAULT_CONFIG)
+    c1_mastered_b = is_evidence_mastered(state_b.concepts["C1"], config)
+    c1_mastered_a = is_evidence_mastered(state_a.concepts["C1"], config)
     print(f"    C1 evidence_mastered: Novice={c1_mastered_a}, Advanced={c1_mastered_b}")
 
     # Omitted trace explanation

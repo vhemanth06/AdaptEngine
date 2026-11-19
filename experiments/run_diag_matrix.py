@@ -20,7 +20,7 @@ repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path[:0] = [p for p in (repo_root, os.path.join(repo_root, "src")) if p not in sys.path]
 
 from adaptengine.api import Engine  # noqa: E402
-from adaptengine.core.config import DEFAULT_CONFIG  # noqa: E402
+from adaptengine.core.config import population_prior_config  # noqa: E402
 from adaptengine.diagnostic.state_space import StateSpaceDiagnostic  # noqa: E402
 from experiments.cat_baseline import irt_cat  # noqa: E402
 from experiments.diag_eval import (  # noqa: E402
@@ -32,6 +32,8 @@ from experiments.provenance import stamp  # noqa: E402
 from experiments.sim import PROFILES, make_sim  # noqa: E402
 from experiments.stats import brier_decomposition, log_loss, paired_summary, roc_auc  # noqa: E402
 
+# D59: the matrix's "default_t33" arm uses the population prior
+POPULATION_PRIOR_CONFIG = population_prior_config()
 CUR, ACT = "data/curriculum/curriculum_4node.json", "data/curriculum/activities_4node.json"
 FITTED_SIM = os.path.join(repo_root, "config", "fitted_sim.json")
 VARIANTS = {
@@ -50,8 +52,8 @@ VARIANTS = {
 }
 
 
-def engine_for(model=None, **kw):
-    cfg = dataclasses.replace(DEFAULT_CONFIG, **kw)
+def engine_for(model=None, base=POPULATION_PRIOR_CONFIG, **kw):
+    cfg = dataclasses.replace(base, **kw)
     return Engine.from_files(CUR, ACT, config=cfg, model=model)
 
 
@@ -64,11 +66,11 @@ def fitted_model():
     return PyBKTAdapter(class_params=prof["class_params"])
 
 
-def run_world(world: str, seeds, prof) -> dict:
-    engines = {k: engine_for(**v) for k, v in VARIANTS.items()}
+def run_world(world: str, seeds, prof, base=POPULATION_PRIOR_CONFIG) -> dict:
+    engines = {k: engine_for(base=base, **v) for k, v in VARIANTS.items()}
     fm = fitted_model()
     if fm is not None:
-        engines["fitted_bkt"] = engine_for(model=fm)
+        engines["fitted_bkt"] = engine_for(model=fm, base=base)
     base = engines["default_t33"]
     rows: dict[str, list] = {}
     items: dict[str, list] = {}

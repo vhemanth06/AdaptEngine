@@ -25,6 +25,11 @@ The Adaptive Diagnostic (**Milestone M2**) computes an initial mastery profile f
 - Concepts with no prior assessment responses maintain their default prior ($p = p_0 = 0.20$), retain status `UNASSESSED`, and are treated as **unmastered** for prerequisite gating.
 - Running the diagnostic never overwrites or resets untouched concepts.
 
+### Sweep starting prior (D59)
+- **Default (`prior_mode = "flat"`):** the sweep starts every untouched concept at the learner's prior $p_0 = 0.20$.
+- **Population prior (`prior_mode = "population"`):** concepts still at the cold-start prior (no responses, $p = p_0$) start at `population_p0 = 0.24`, the S0 tuning-cohort base rate chosen by the pre-registered T3.3 rule (D44). A $p$ set by the caller is kept.
+- To reproduce the earlier default behaviour exactly, use `population_prior_config()` from `adaptengine.core.config` (for example `Engine.from_files(cur, act, config=population_prior_config())`). At Plan 0 its `config_hash` equals the pre-Plan-0 default hash `acaccaee…`; fields added by later plans change the hash (ground rule 8) but not the behaviour. The result scripts behind the committed results (`experiments/run_evaluation.py`, `experiments/run_diag_matrix.py`) already use it.
+
 ---
 
 ## 3. Algorithm & Selection Policy
