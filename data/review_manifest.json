@@ -33,5 +33,27 @@
     "date": "2026-11-08T17:28:41.468805+00:00",
     "sha256": "e153fcbdb5b2983472c1cc5c099723743360276d93e9e3f40c29901e553c2898",
     "source": "ai-drafted demo content"
+  },
+  "data/curriculum/curriculum_8node_x10.json": {
+    "reviewer": "PENDING_HUMAN_REVIEW",
+    "date": "2026-11-19T23:36:44.329842+00:00",
+    "sha256": "f057fe5b41f737d4c660bcabc012780269898c65aa4d0b263d57541ba38adfd7",
+    "source": "byte copy of curriculum_8node.json (edges unchanged), ai-checked",
+    "ai_assisted": true,
+    "edges_reviewed": false
+  },
+  "data/curriculum/activities_8node_x10.json": {
+    "reviewer": "PENDING_HUMAN_REVIEW",
+    "date": "2026-11-19T23:36:44.363808+00:00",
+    "sha256": "13f309a4362099f00f379b76777a217d90c1be6f031f34406d516f03e12ed8d4",
+    "source": "ai-drafted, ai-checked",
+    "ai_assisted": true
+  },
+  "data/content/content_8node_x10.json": {
+    "reviewer": "PENDING_HUMAN_REVIEW",
+    "date": "2026-11-19T23:36:44.391634+00:00",
+    "sha256": "96a2db6abade3df691ed254b04253c66a35086f7013c36553d18d47f9d2848fc",
+    "source": "ai-drafted, ai-checked",
+    "ai_assisted": true
   }
 }

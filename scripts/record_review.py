@@ -12,13 +12,18 @@ def hash_file(path: str) -> str:
     return hasher.hexdigest()
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("file")
-    parser.add_argument("--reviewer", required=True)
+    who = parser.add_mutually_exclusive_group(required=True)
+    who.add_argument("--reviewer")
+    # D88: honest status for AI-drafted, AI-checked files; the loader still treats them as unreviewed
+    who.add_argument("--pending", action="store_true", help="reviewer = PENDING_HUMAN_REVIEW")
     parser.add_argument("--source", required=True)
     parser.add_argument("--edges-reviewed", action="store_true")
-    args = parser.parse_args()
+    parser.add_argument("--ai-assisted", action="store_true", help='write "ai_assisted": true')
+    parser.add_argument("--manifest", help="manifest path (default data/review_manifest.json)")
+    args = parser.parse_args(argv)
 
     if not os.path.isfile(args.file):
         print(f"File not found: {args.file}")
@@ -29,7 +34,7 @@ def main():
     abs_file = os.path.abspath(args.file)
     rel_path = os.path.relpath(abs_file, abs_root)
 
-    manifest_path = os.path.join(abs_root, "data", "review_manifest.json")
+    manifest_path = args.manifest or os.path.join(abs_root, "data", "review_manifest.json")
 
     if os.path.exists(manifest_path):
         with open(manifest_path, "r", encoding="utf-8") as f:
@@ -38,11 +43,14 @@ def main():
         manifest = {}
 
     entry = {
-        "reviewer": args.reviewer,
+        "reviewer": "PENDING_HUMAN_REVIEW" if args.pending else args.reviewer,
         "date": datetime.now(timezone.utc).isoformat(),
         "sha256": hash_file(args.file),
         "source": args.source,
     }
+
+    if args.ai_assisted:
+        entry["ai_assisted"] = True
 
     if args.edges_reviewed:
         entry["edges_reviewed"] = True

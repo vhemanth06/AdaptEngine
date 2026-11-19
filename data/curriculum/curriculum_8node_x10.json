@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "concepts": [
+    {
+      "concept_id": "C1",
+      "description": "Basic Data Types",
+      "prerequisites": []
+    },
+    {
+      "concept_id": "C2",
+      "description": "For & While Loops",
+      "prerequisites": []
+    },
+    {
+      "concept_id": "C3",
+      "description": "Lists & Arrays",
+      "prerequisites": [
+        "C1",
+        "C2"
+      ]
+    },
+    {
+      "concept_id": "C4",
+      "description": "List Comprehensions",
+      "prerequisites": [
+        "C3"
+      ]
+    },
+    {
+      "concept_id": "C5",
+      "description": "Functions & Scope",
+      "prerequisites": [
+        "C3"
+      ]
+    },
+    {
+      "concept_id": "C6",
+      "description": "Dictionaries & Sets",
+      "prerequisites": [
+        "C1"
+      ]
+    },
+    {
+      "concept_id": "C7",
+      "description": "Classes & OOP",
+      "prerequisites": [
+        "C5",
+        "C6"
+      ]
+    },
+    {
+      "concept_id": "C8",
+      "description": "Inheritance & Polymorphism",
+      "prerequisites": [
+        "C7"
+      ]
+    }
+  ]
+}

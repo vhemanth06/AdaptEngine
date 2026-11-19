@@ -1,0 +1,935 @@
+{
+  "metadata": {
+    "arm": "adapt",
+    "budget": 15,
+    "code_hash": "4129b2bf950d312775830c7125229c46e3b3744b3560b0184e17d01506878afb",
+    "config_hash": "b450f59cc11c1a0179f8a41d864a648166652bbd4efb2a4ca141eac2070afcee",
+    "content_review": {
+      "8-node": "reviewed",
+      "8-node-x10": "AI-checked, human review pending (D88); loaded with allow_unreviewed=True"
+    },
+    "curricula": {
+      "8-node": [
+        "data/curriculum/curriculum_8node.json",
+        "data/curriculum/activities_8node.json"
+      ],
+      "8-node-x10": [
+        "data/curriculum/curriculum_8node_x10.json",
+        "data/curriculum/activities_8node_x10.json"
+      ]
+    },
+    "diag_seeds": [
+      101,
+      599,
+      "odd"
+    ],
+    "episode_seeds": [
+      1000,
+      1199
+    ],
+    "preregistration": "docs/preregistration/F5_2026-11-20.md",
+    "timestamp_utc": "2026-11-19T23:39:17.431901+00:00"
+  },
+  "worlds": {
+    "S0": {
+      "diagnostic": {
+        "8-node": {
+          "auc": 0.5638,
+          "brier": 0.2038,
+          "items": 3.028,
+          "n": 250,
+          "next_response_brier": 0.2859
+        },
+        "8-node-x10": {
+          "auc": 0.5358,
+          "brier": 0.2112,
+          "items": 2.852,
+          "n": 250,
+          "next_response_brier": 0.2847
+        }
+      },
+      "diagnostic_paired_x10_minus_8node": {
+        "brier": {
+          "ci95": [
+            -0.0047,
+            0.0193
+          ],
+          "diff": 0.0073
+        },
+        "items": {
+          "ci95": [
+            -0.372,
+            0.024
+          ],
+          "diff": -0.176
+        }
+      },
+      "episodes": {
+        "calm": {
+          "8-node": {
+            "all_required_rate": 0.005,
+            "auc": 0.5241,
+            "brier": 0.2564,
+            "budget_violations": 0,
+            "deadline_violations": 0,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.365,
+            "idle_days": 0,
+            "learners_with_executed_violations": 0,
+            "mean_goal_theta": 0.5897,
+            "mean_minutes": 76.56,
+            "mean_minutes_to_mastery": 14.1507,
+            "n": 200,
+            "plan_prereq_violations": 0,
+            "reach_rate": 0.365,
+            "retention_not_reviewed": 1.0,
+            "retention_reviewed": null,
+            "trace_coverage": 1.0
+          },
+          "8-node-x10": {
+            "all_required_rate": 0.0,
+            "auc": 0.5088,
+            "brier": 0.2351,
+            "budget_violations": 0,
+            "deadline_violations": 0,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.425,
+            "idle_days": 0,
+            "learners_with_executed_violations": 0,
+            "mean_goal_theta": 0.6303,
+            "mean_minutes": 71.89,
+            "mean_minutes_to_mastery": 21.2,
+            "n": 200,
+            "plan_prereq_violations": 0,
+            "reach_rate": 0.425,
+            "retention_not_reviewed": 1.0,
+            "retention_reviewed": null,
+            "trace_coverage": 1.0
+          },
+          "paired_x10_minus_8node": {
+            "all_required": {
+              "ci95": [
+                -0.015,
+                0.0
+              ],
+              "diff": -0.005
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.02,
+                0.105
+              ],
+              "diff": 0.06
+            },
+            "goal_theta": {
+              "ci95": [
+                0.0236,
+                0.0578
+              ],
+              "diff": 0.0406
+            },
+            "goal_theta_equal_minutes": {
+              "ci95": [
+                0.0329,
+                0.0647
+              ],
+              "diff": 0.0487
+            }
+          }
+        },
+        "missed_day": {
+          "8-node": {
+            "all_required_rate": 0.005,
+            "auc": 0.5315,
+            "brier": 0.2549,
+            "budget_violations": 0,
+            "deadline_violations": 0,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.33,
+            "idle_days": 0,
+            "learners_with_executed_violations": 0,
+            "mean_goal_theta": 0.5395,
+            "mean_minutes": 65.8,
+            "mean_minutes_to_mastery": 7.8939,
+            "n": 200,
+            "plan_prereq_violations": 0,
+            "reach_rate": 0.33,
+            "retention_not_reviewed": 1.0,
+            "retention_reviewed": null,
+            "trace_coverage": 1.0
+          },
+          "8-node-x10": {
+            "all_required_rate": 0.0,
+            "auc": 0.5114,
+            "brier": 0.2339,
+            "budget_violations": 0,
+            "deadline_violations": 0,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.365,
+            "idle_days": 0,
+            "learners_with_executed_violations": 0,
+            "mean_goal_theta": 0.5751,
+            "mean_minutes": 64.325,
+            "mean_minutes_to_mastery": 12.2603,
+            "n": 200,
+            "plan_prereq_violations": 0,
+            "reach_rate": 0.365,
+            "retention_not_reviewed": 1.0,
+            "retention_reviewed": null,
+            "trace_coverage": 1.0
+          },
+          "paired_x10_minus_8node": {
+            "all_required": {
+              "ci95": [
+                -0.015,
+                0.0
+              ],
+              "diff": -0.005
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.005,
+                0.07
+              ],
+              "diff": 0.035
+            },
+            "goal_theta": {
+              "ci95": [
+                0.0233,
+                0.0485
+              ],
+              "diff": 0.0356
+            },
+            "goal_theta_equal_minutes": {
+              "ci95": [
+                0.0191,
+                0.0428
+              ],
+              "diff": 0.0311
+            }
+          }
+        }
+      }
+    },
+    "S1": {
+      "diagnostic": {
+        "8-node": {
+          "auc": 0.5638,
+          "brier": 0.2038,
+          "items": 3.028,
+          "n": 250,
+          "next_response_brier": 0.2859
+        },
+        "8-node-x10": {
+          "auc": 0.5358,
+          "brier": 0.2112,
+          "items": 2.852,
+          "n": 250,
+          "next_response_brier": 0.2847
+        }
+      },
+      "diagnostic_paired_x10_minus_8node": {
+        "brier": {
+          "ci95": [
+            -0.0047,
+            0.0193
+          ],
+          "diff": 0.0073
+        },
+        "items": {
+          "ci95": [
+            -0.372,
+            0.024
+          ],
+          "diff": -0.176
+        }
+      },
+      "episodes": {
+        "calm": {
+          "8-node": {
+            "all_required_rate": 0.0,
+            "auc": 0.5564,
+            "brier": 0.253,
+            "budget_violations": 0,
+            "deadline_violations": 0,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.315,
+            "idle_days": 0,
+            "learners_with_executed_violations": 0,
+            "mean_goal_theta": 0.5287,
+            "mean_minutes": 78.16,
+            "mean_minutes_to_mastery": 5.3333,
+            "n": 200,
+            "plan_prereq_violations": 0,
+            "reach_rate": 0.315,
+            "retention_not_reviewed": 1.0,
+            "retention_reviewed": null,
+            "trace_coverage": 1.0
+          },
+          "8-node-x10": {
+            "all_required_rate": 0.0,
+            "auc": 0.5524,
+            "brier": 0.2369,
+            "budget_violations": 0,
+            "deadline_violations": 0,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.325,
+            "idle_days": 0,
+            "learners_with_executed_violations": 0,
+            "mean_goal_theta": 0.5393,
+            "mean_minutes": 74.21,
+            "mean_minutes_to_mastery": 6.3692,
+            "n": 200,
+            "plan_prereq_violations": 0,
+            "reach_rate": 0.325,
+            "retention_not_reviewed": 1.0,
+            "retention_reviewed": null,
+            "trace_coverage": 1.0
+          },
+          "paired_x10_minus_8node": {
+            "all_required": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.01,
+                0.03
+              ],
+              "diff": 0.01
+            },
+            "goal_theta": {
+              "ci95": [
+                0.0044,
+                0.0168
+              ],
+              "diff": 0.0106
+            },
+            "goal_theta_equal_minutes": {
+              "ci95": [
+                0.0077,
+                0.0211
+              ],
+              "diff": 0.0144
+            }
+          }
+        },
+        "missed_day": {
+          "8-node": {
+            "all_required_rate": 0.0,
+            "auc": 0.5595,
+            "brier": 0.2522,
+            "budget_violations": 0,
+            "deadline_violations": 0,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.305,
+            "idle_days": 0,
+            "learners_with_executed_violations": 0,
+            "mean_goal_theta": 0.5147,
+            "mean_minutes": 65.945,
+            "mean_minutes_to_mastery": 3.1967,
+            "n": 200,
+            "plan_prereq_violations": 0,
+            "reach_rate": 0.305,
+            "retention_not_reviewed": 1.0,
+            "retention_reviewed": null,
+            "trace_coverage": 1.0
+          },
+          "8-node-x10": {
+            "all_required_rate": 0.0,
+            "auc": 0.5375,
+            "brier": 0.2369,
+            "budget_violations": 0,
+            "deadline_violations": 0,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.32,
+            "idle_days": 0,
+            "learners_with_executed_violations": 0,
+            "mean_goal_theta": 0.526,
+            "mean_minutes": 65.25,
+            "mean_minutes_to_mastery": 5.2812,
+            "n": 200,
+            "plan_prereq_violations": 0,
+            "reach_rate": 0.32,
+            "retention_not_reviewed": 1.0,
+            "retention_reviewed": null,
+            "trace_coverage": 1.0
+          },
+          "paired_x10_minus_8node": {
+            "all_required": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.01,
+                0.04
+              ],
+              "diff": 0.015
+            },
+            "goal_theta": {
+              "ci95": [
+                0.0071,
+                0.0159
+              ],
+              "diff": 0.0113
+            },
+            "goal_theta_equal_minutes": {
+              "ci95": [
+                0.0049,
+                0.014
+              ],
+              "diff": 0.0094
+            }
+          }
+        }
+      }
+    },
+    "S2": {
+      "diagnostic": {
+        "8-node": {
+          "auc": 0.555,
+          "brier": 0.1648,
+          "items": 3.024,
+          "n": 250,
+          "next_response_brier": 0.281
+        },
+        "8-node-x10": {
+          "auc": 0.5566,
+          "brier": 0.1611,
+          "items": 2.816,
+          "n": 250,
+          "next_response_brier": 0.281
+        }
+      },
+      "diagnostic_paired_x10_minus_8node": {
+        "brier": {
+          "ci95": [
+            -0.0162,
+            0.0083
+          ],
+          "diff": -0.0038
+        },
+        "items": {
+          "ci95": [
+            -0.404,
+            -0.008
+          ],
+          "diff": -0.208
+        }
+      },
+      "episodes": {
+        "calm": {
+          "8-node": {
+            "all_required_rate": 0.165,
+            "auc": 0.5257,
+            "brier": 0.255,
+            "budget_violations": 0,
+            "deadline_violations": 0,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.37,
+            "idle_days": 0,
+            "learners_with_executed_violations": 0,
+            "mean_goal_theta": 0.5734,
+            "mean_minutes": 74.635,
+            "mean_minutes_to_mastery": 32.7568,
+            "n": 200,
+            "plan_prereq_violations": 0,
+            "reach_rate": 0.37,
+            "retention_not_reviewed": 1.0,
+            "retention_reviewed": null,
+            "trace_coverage": 1.0
+          },
+          "8-node-x10": {
+            "all_required_rate": 0.16,
+            "auc": 0.5034,
+            "brier": 0.2319,
+            "budget_violations": 0,
+            "deadline_violations": 0,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.435,
+            "idle_days": 0,
+            "learners_with_executed_violations": 0,
+            "mean_goal_theta": 0.6272,
+            "mean_minutes": 70.005,
+            "mean_minutes_to_mastery": 36.5057,
+            "n": 200,
+            "plan_prereq_violations": 0,
+            "reach_rate": 0.435,
+            "retention_not_reviewed": 1.0,
+            "retention_reviewed": null,
+            "trace_coverage": 1.0
+          },
+          "paired_x10_minus_8node": {
+            "all_required": {
+              "ci95": [
+                -0.035,
+                0.025
+              ],
+              "diff": -0.005
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.015,
+                0.12
+              ],
+              "diff": 0.065
+            },
+            "goal_theta": {
+              "ci95": [
+                0.0362,
+                0.0703
+              ],
+              "diff": 0.0538
+            },
+            "goal_theta_equal_minutes": {
+              "ci95": [
+                0.0488,
+                0.0804
+              ],
+              "diff": 0.0649
+            }
+          }
+        },
+        "missed_day": {
+          "8-node": {
+            "all_required_rate": 0.15,
+            "auc": 0.5251,
+            "brier": 0.2541,
+            "budget_violations": 0,
+            "deadline_violations": 0,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.28,
+            "idle_days": 0,
+            "learners_with_executed_violations": 0,
+            "mean_goal_theta": 0.538,
+            "mean_minutes": 64.78,
+            "mean_minutes_to_mastery": 19.3393,
+            "n": 200,
+            "plan_prereq_violations": 0,
+            "reach_rate": 0.28,
+            "retention_not_reviewed": 1.0,
+            "retention_reviewed": null,
+            "trace_coverage": 1.0
+          },
+          "8-node-x10": {
+            "all_required_rate": 0.15,
+            "auc": 0.5082,
+            "brier": 0.2297,
+            "budget_violations": 0,
+            "deadline_violations": 0,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.345,
+            "idle_days": 0,
+            "learners_with_executed_violations": 0,
+            "mean_goal_theta": 0.5764,
+            "mean_minutes": 63.34,
+            "mean_minutes_to_mastery": 26.1449,
+            "n": 200,
+            "plan_prereq_violations": 0,
+            "reach_rate": 0.345,
+            "retention_not_reviewed": 1.0,
+            "retention_reviewed": null,
+            "trace_coverage": 1.0
+          },
+          "paired_x10_minus_8node": {
+            "all_required": {
+              "ci95": [
+                -0.025,
+                0.03
+              ],
+              "diff": 0.0
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.02,
+                0.11
+              ],
+              "diff": 0.065
+            },
+            "goal_theta": {
+              "ci95": [
+                0.0258,
+                0.0517
+              ],
+              "diff": 0.0384
+            },
+            "goal_theta_equal_minutes": {
+              "ci95": [
+                0.0207,
+                0.0457
+              ],
+              "diff": 0.0334
+            }
+          }
+        }
+      }
+    },
+    "S3": {
+      "diagnostic": {
+        "8-node": {
+          "auc": 0.5638,
+          "brier": 0.2038,
+          "items": 3.028,
+          "n": 250,
+          "next_response_brier": 0.2859
+        },
+        "8-node-x10": {
+          "auc": 0.5358,
+          "brier": 0.2112,
+          "items": 2.852,
+          "n": 250,
+          "next_response_brier": 0.2847
+        }
+      },
+      "diagnostic_paired_x10_minus_8node": {
+        "brier": {
+          "ci95": [
+            -0.0047,
+            0.0193
+          ],
+          "diff": 0.0073
+        },
+        "items": {
+          "ci95": [
+            -0.372,
+            0.024
+          ],
+          "diff": -0.176
+        }
+      },
+      "episodes": {
+        "calm": {
+          "8-node": {
+            "all_required_rate": 0.0,
+            "auc": 0.5321,
+            "brier": 0.2566,
+            "budget_violations": 0,
+            "deadline_violations": 0,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.08,
+            "idle_days": 0,
+            "learners_with_executed_violations": 0,
+            "mean_goal_theta": 0.4502,
+            "mean_minutes": 77.385,
+            "mean_minutes_to_mastery": 8.6061,
+            "n": 200,
+            "plan_prereq_violations": 0,
+            "reach_rate": 0.33,
+            "retention_not_reviewed": 0.8279,
+            "retention_reviewed": null,
+            "trace_coverage": 1.0
+          },
+          "8-node-x10": {
+            "all_required_rate": 0.0,
+            "auc": 0.5102,
+            "brier": 0.2387,
+            "budget_violations": 0,
+            "deadline_violations": 0,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.145,
+            "idle_days": 0,
+            "learners_with_executed_violations": 0,
+            "mean_goal_theta": 0.5076,
+            "mean_minutes": 73.73,
+            "mean_minutes_to_mastery": 9.9853,
+            "n": 200,
+            "plan_prereq_violations": 0,
+            "reach_rate": 0.34,
+            "retention_not_reviewed": 0.8277,
+            "retention_reviewed": null,
+            "trace_coverage": 1.0
+          },
+          "paired_x10_minus_8node": {
+            "all_required": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.02,
+                0.11
+              ],
+              "diff": 0.065
+            },
+            "goal_theta": {
+              "ci95": [
+                0.0386,
+                0.0762
+              ],
+              "diff": 0.0573
+            },
+            "goal_theta_equal_minutes": {
+              "ci95": [
+                0.0071,
+                0.0367
+              ],
+              "diff": 0.0216
+            }
+          }
+        },
+        "missed_day": {
+          "8-node": {
+            "all_required_rate": 0.0,
+            "auc": 0.5325,
+            "brier": 0.2561,
+            "budget_violations": 0,
+            "deadline_violations": 0,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.04,
+            "idle_days": 0,
+            "learners_with_executed_violations": 0,
+            "mean_goal_theta": 0.4041,
+            "mean_minutes": 65.895,
+            "mean_minutes_to_mastery": 1.2203,
+            "n": 200,
+            "plan_prereq_violations": 0,
+            "reach_rate": 0.295,
+            "retention_not_reviewed": 0.8355,
+            "retention_reviewed": null,
+            "trace_coverage": 1.0
+          },
+          "8-node-x10": {
+            "all_required_rate": 0.0,
+            "auc": 0.5084,
+            "brier": 0.2387,
+            "budget_violations": 0,
+            "deadline_violations": 0,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.065,
+            "idle_days": 0,
+            "learners_with_executed_violations": 0,
+            "mean_goal_theta": 0.4518,
+            "mean_minutes": 65.39,
+            "mean_minutes_to_mastery": 2.9508,
+            "n": 200,
+            "plan_prereq_violations": 0,
+            "reach_rate": 0.305,
+            "retention_not_reviewed": 0.8351,
+            "retention_reviewed": null,
+            "trace_coverage": 1.0
+          },
+          "paired_x10_minus_8node": {
+            "all_required": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.01,
+                0.06
+              ],
+              "diff": 0.025
+            },
+            "goal_theta": {
+              "ci95": [
+                0.0338,
+                0.062
+              ],
+              "diff": 0.0476
+            },
+            "goal_theta_equal_minutes": {
+              "ci95": [
+                -0.004,
+                0.0148
+              ],
+              "diff": 0.0047
+            }
+          }
+        }
+      }
+    },
+    "S4": {
+      "diagnostic": {
+        "8-node": {
+          "auc": 0.6704,
+          "brier": 0.1293,
+          "items": 2.64,
+          "n": 250,
+          "next_response_brier": 0.1869
+        },
+        "8-node-x10": {
+          "auc": 0.6733,
+          "brier": 0.1276,
+          "items": 2.592,
+          "n": 250,
+          "next_response_brier": 0.1829
+        }
+      },
+      "diagnostic_paired_x10_minus_8node": {
+        "brier": {
+          "ci95": [
+            -0.0078,
+            0.0044
+          ],
+          "diff": -0.0017
+        },
+        "items": {
+          "ci95": [
+            -0.164,
+            0.072
+          ],
+          "diff": -0.048
+        }
+      },
+      "episodes": {
+        "calm": {
+          "8-node": {
+            "all_required_rate": 0.02,
+            "auc": 0.6366,
+            "brier": 0.2339,
+            "budget_violations": 0,
+            "deadline_violations": 0,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.235,
+            "idle_days": 0,
+            "learners_with_executed_violations": 0,
+            "mean_goal_theta": 0.235,
+            "mean_minutes": 80.245,
+            "mean_minutes_to_mastery": 4.7021,
+            "n": 200,
+            "plan_prereq_violations": 0,
+            "reach_rate": 0.235,
+            "retention_not_reviewed": 1.0,
+            "retention_reviewed": null,
+            "trace_coverage": 1.0
+          },
+          "8-node-x10": {
+            "all_required_rate": 0.045,
+            "auc": 0.6165,
+            "brier": 0.2399,
+            "budget_violations": 0,
+            "deadline_violations": 0,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.26,
+            "idle_days": 0,
+            "learners_with_executed_violations": 0,
+            "mean_goal_theta": 0.26,
+            "mean_minutes": 81.25,
+            "mean_minutes_to_mastery": 10.7885,
+            "n": 200,
+            "plan_prereq_violations": 0,
+            "reach_rate": 0.26,
+            "retention_not_reviewed": 1.0,
+            "retention_reviewed": null,
+            "trace_coverage": 1.0
+          },
+          "paired_x10_minus_8node": {
+            "all_required": {
+              "ci95": [
+                0.0,
+                0.055
+              ],
+              "diff": 0.025
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.05
+              ],
+              "diff": 0.025
+            },
+            "goal_theta": {
+              "ci95": [
+                0.0,
+                0.05
+              ],
+              "diff": 0.025
+            },
+            "goal_theta_equal_minutes": {
+              "ci95": [
+                0.0,
+                0.05
+              ],
+              "diff": 0.025
+            }
+          }
+        },
+        "missed_day": {
+          "8-node": {
+            "all_required_rate": 0.0,
+            "auc": 0.6392,
+            "brier": 0.2341,
+            "budget_violations": 0,
+            "deadline_violations": 0,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.225,
+            "idle_days": 0,
+            "learners_with_executed_violations": 0,
+            "mean_goal_theta": 0.225,
+            "mean_minutes": 67.115,
+            "mean_minutes_to_mastery": 1.4222,
+            "n": 200,
+            "plan_prereq_violations": 0,
+            "reach_rate": 0.225,
+            "retention_not_reviewed": 1.0,
+            "retention_reviewed": null,
+            "trace_coverage": 1.0
+          },
+          "8-node-x10": {
+            "all_required_rate": 0.015,
+            "auc": 0.6225,
+            "brier": 0.2386,
+            "budget_violations": 0,
+            "deadline_violations": 0,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.23,
+            "idle_days": 0,
+            "learners_with_executed_violations": 0,
+            "mean_goal_theta": 0.23,
+            "mean_minutes": 68.155,
+            "mean_minutes_to_mastery": 2.3261,
+            "n": 200,
+            "plan_prereq_violations": 0,
+            "reach_rate": 0.23,
+            "retention_not_reviewed": 1.0,
+            "retention_reviewed": null,
+            "trace_coverage": 1.0
+          },
+          "paired_x10_minus_8node": {
+            "all_required": {
+              "ci95": [
+                0.0,
+                0.035
+              ],
+              "diff": 0.015
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.01,
+                0.025
+              ],
+              "diff": 0.005
+            },
+            "goal_theta": {
+              "ci95": [
+                -0.01,
+                0.025
+              ],
+              "diff": 0.005
+            },
+            "goal_theta_equal_minutes": {
+              "ci95": [
+                0.0,
+                0.025
+              ],
+              "diff": 0.01
+            }
+          }
+        }
+      }
+    }
+  }
+}

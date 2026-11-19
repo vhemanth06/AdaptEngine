@@ -64,6 +64,14 @@ def test_list_and_get_curricula(client):
     assert len(d["concepts"]) == 8 and d["content"]["L-C1"]["markdown"]
     assert {c["concept_id"]: c["depth"] for c in d["concepts"]}["C8"] == 4
     assert client.get("/api/curricula/4node").json()["content"] is None
+
+
+def test_8node_x10_listed_as_pending_human_review(client):
+    """D88: the AI-checked 8node_x10 files are recorded as pending, so the demo lists them as
+    unreviewed (the Setup page disables unreviewed curricula)."""
+    row = {r["id"]: r for r in client.get("/api/curricula").json()}["8node_x10"]
+    assert row["reviewed"] is False and "pending human review" in row["review_error"]
+    assert row["has_content"] and row["content_reviewer"] == "PENDING_HUMAN_REVIEW"
     assert client.get("/api/curricula/nope").status_code == 404
 
 

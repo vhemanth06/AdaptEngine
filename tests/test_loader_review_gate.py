@@ -143,11 +143,55 @@ def test_hash_mismatch(tmp_path):
     assert "Hash mismatch" in str(exc.value)
 
 
+# Curriculum files recorded as PENDING_HUMAN_REVIEW (D88). They must fail the gate until a named
+# human review is recorded; that review removes them from this set, so the scan below checks them.
+def _pending_curriculum_files():
+    with open("data/review_manifest.json", encoding="utf-8") as f:
+        manifest = json.load(f)
+    return {
+        os.path.basename(path)
+        for path, entry in manifest.items()
+        if path.startswith("data/curriculum/")
+        and str(entry.get("reviewer", "")).strip().upper() == "PENDING_HUMAN_REVIEW"
+    }
+
+
+PENDING_REVIEW = _pending_curriculum_files()
+
+
+def test_pending_set_is_derived_from_manifest():
+    assert {"curriculum_8node_x10.json", "activities_8node_x10.json"} <= PENDING_REVIEW
+
+
+def test_pending_curricula_record_edges_not_reviewed():
+    """D88: a pending curriculum entry says so explicitly with edges_reviewed: false."""
+    with open("data/review_manifest.json", encoding="utf-8") as f:
+        manifest = json.load(f)
+    for filename in PENDING_REVIEW:
+        if filename.startswith("curriculum_"):
+            assert manifest[f"data/curriculum/{filename}"].get("edges_reviewed") is False
+
+
+def test_pending_review_files_blocked_until_recorded():
+    for filename in sorted(PENDING_REVIEW):
+        path = os.path.join("data/curriculum", filename)
+        with pytest.raises(UnreviewedContentError, match="pending human review"):
+            if filename.startswith("curriculum_"):
+                load_curriculum(path)
+            else:
+                load_activities(
+                    path,
+                    load_curriculum(
+                        path.replace("activities", "curriculum"), allow_unreviewed=True
+                    ),
+                )
+
+
 def test_ci_scan_all_data():
     manifest_path = "data/review_manifest.json"
     assert os.path.exists(manifest_path)
     for filename in os.listdir("data/curriculum"):
-        if filename.endswith(".json"):
+        if filename.endswith(".json") and filename not in PENDING_REVIEW:
             path = os.path.join("data/curriculum", filename)
             if "activities" in filename:
                 curr_file = path.replace("activities", "curriculum")
@@ -158,3 +202,127 @@ def test_ci_scan_all_data():
                 load_activities(path, concepts)
             else:
                 load_curriculum(path)
+
+
+# D88 / P1.5-TC1: a PENDING_HUMAN_REVIEW entry with a correct hash must not pass the gate.
+_CUR = b'{"schema_version": 1, "concepts": [{"concept_id": "C1"}]}'
+_ACT = (
+    b'{"schema_version": 1, "activities": ['
+    b'{"activity_id": "L-C1", "type": "LESSON", "target_concept": "C1", "duration": 4},'
+    b' {"activity_id": "E-C1-0.2", "type": "EXERCISE", "target_concept": "C1", "duration": 1,'
+    b' "difficulty": 0.2}]}'
+)
+
+
+def _write_reviewed(tmp_path, reviewer):
+    import hashlib
+
+    (tmp_path / "curriculum.json").write_bytes(_CUR)
+    (tmp_path / "activities.json").write_bytes(_ACT)
+    entry = {"date": "2026-11-20", "reviewer": reviewer}
+    manifest = {
+        "curriculum.json": {
+            **entry,
+            "sha256": hashlib.sha256(_CUR).hexdigest(),
+            "edges_reviewed": True,
+        },
+        "activities.json": {**entry, "sha256": hashlib.sha256(_ACT).hexdigest()},
+    }
+    (tmp_path / "manifest.json").write_text(json.dumps(manifest))
+    return (
+        str(tmp_path / "curriculum.json"),
+        str(tmp_path / "activities.json"),
+        str(tmp_path / "manifest.json"),
+    )
+
+
+@pytest.mark.parametrize(
+    "reviewer", ["PENDING_HUMAN_REVIEW", " pending_human_review ", "Pending_Human_Review"]
+)
+def test_pending_reviewer_blocked_even_with_correct_hash(tmp_path, reviewer):
+    cur, act, man = _write_reviewed(tmp_path, reviewer)
+    with pytest.raises(UnreviewedContentError, match="pending human review"):
+        load_curriculum(cur, manifest_path=man)
+    concepts = load_curriculum(cur, manifest_path=man, allow_unreviewed=True)
+    with pytest.raises(UnreviewedContentError, match="pending human review"):
+        load_activities(act, concepts, manifest_path=man)
+    assert len(load_activities(act, concepts, manifest_path=man, allow_unreviewed=True)) == 2
+
+
+def test_named_reviewer_unblocks(tmp_path):
+    cur, act, man = _write_reviewed(tmp_path, "test-reviewer")
+    concepts = load_curriculum(cur, manifest_path=man)
+    assert len(load_activities(act, concepts, manifest_path=man)) == 2
+
+
+def test_ai_reviewer_still_rejected_with_correct_hash(tmp_path):
+    cur, _, man = _write_reviewed(tmp_path, "AI")
+    with pytest.raises(UnreviewedContentError, match="'AI'"):
+        load_curriculum(cur, manifest_path=man)
+
+
+def _record_review_main():
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("record_review", "scripts/record_review.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod.main
+
+
+def test_record_review_pending_ai_assisted(tmp_path):
+    import hashlib
+    import shutil
+
+    record_review = _record_review_main()
+    man = tmp_path / "manifest.json"
+    shutil.copy("data/review_manifest.json", man)
+    before = json.loads(man.read_text())
+    path = "data/curriculum/curriculum_8node_x10.json"
+    record_review([path, "--pending", "--ai-assisted", "--source", "test", "--manifest", str(man)])
+    after = json.loads(man.read_text())
+    entry = after.pop(path)
+    assert entry["reviewer"] == "PENDING_HUMAN_REVIEW" and entry["ai_assisted"] is True
+    assert entry["sha256"] == hashlib.sha256(open(path, "rb").read()).hexdigest()
+    assert entry["source"] == "test" and "edges_reviewed" not in entry and entry["date"]
+    before.pop(path, None)
+    assert after == before  # no other entry touched
+
+
+def test_record_review_needs_reviewer_or_pending(tmp_path):
+    record_review = _record_review_main()
+    with pytest.raises(SystemExit):
+        record_review(["data/curriculum/curriculum_4node.json", "--source", "x"])
+    with pytest.raises(SystemExit):
+        record_review(
+            [
+                "data/curriculum/curriculum_4node.json",
+                "--source",
+                "x",
+                "--pending",
+                "--reviewer",
+                "a",
+            ]
+        )
+
+
+def test_8node_x10_pending_loads_with_allow_unreviewed_and_named_review_unblocks(tmp_path):
+    """F5-TC7 (reworded, D88): blocked while pending, loads with allow_unreviewed, and a named
+    human review (recorded in a temporary manifest) unblocks the real files."""
+    cur, act = (
+        "data/curriculum/curriculum_8node_x10.json",
+        "data/curriculum/activities_8node_x10.json",
+    )
+    concepts = load_curriculum(cur, allow_unreviewed=True)
+    assert len(load_activities(act, concepts, allow_unreviewed=True)) == 88
+
+    with open("data/review_manifest.json", encoding="utf-8") as f:
+        manifest = json.load(f)
+    for path in (cur, act):
+        assert manifest[path]["reviewer"] == "PENDING_HUMAN_REVIEW"
+        manifest[path] = {**manifest[path], "reviewer": "test-reviewer"}
+    manifest[cur]["edges_reviewed"] = True
+    man = tmp_path / "manifest.json"
+    man.write_text(json.dumps(manifest))
+    concepts = load_curriculum(os.path.abspath(cur), manifest_path=str(man))
+    assert len(load_activities(os.path.abspath(act), concepts, manifest_path=str(man))) == 88

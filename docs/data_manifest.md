@@ -5,6 +5,17 @@
 - 4-Node Synthetic Activities (`data/curriculum/activities_4node.json`)
 - 8-Node Synthetic Curriculum (`data/curriculum/curriculum_8node.json`)
 - 8-Node Synthetic Activities (`data/curriculum/activities_8node.json`)
+- 8-Node x10 Curriculum (`data/curriculum/curriculum_8node_x10.json`): a copy of the 8-node graph
+  (Plan 1, F5 Phase A, D82). **AI-checked, human review pending (D88):** manifest reviewer
+  `PENDING_HUMAN_REVIEW`, `edges_reviewed: false`; loads only with `allow_unreviewed=True`.
+- 8-Node x10 Activities (`data/curriculum/activities_8node_x10.json`): the 40 8-node activities
+  unchanged plus 6 new exercises per concept (8 lessons, 80 exercises; 3 easy / 4 medium / 3 hard,
+  D81). Durations are synthetic placeholders. **AI-checked, human review pending (D88):** manifest
+  reviewer `PENDING_HUMAN_REVIEW`; loads only with `allow_unreviewed=True`.
+- 8-Node Content (`data/content/content_8node.json`) and 8-Node x10 Content
+  (`data/content/content_8node_x10.json`): display-only learner text (AI-drafted; both recorded
+  as `PENDING_HUMAN_REVIEW`; the 48 new `8node_x10` exercises are AI-reviewed in
+  `docs/content_reviews/8node_x10_ai_review.md`; see `data/content/README.md`).
 - Novice Learner Profile (`data/learner_novice.json`)
 
 ## External learner data (WP7)

@@ -28,6 +28,9 @@ def _parse(path: str, raw: bytes):
         raise ValidationError(f"File {path}: failed to parse json: {e}")
 
 
+PENDING_REVIEWER = "PENDING_HUMAN_REVIEW"
+
+
 def _check_review_gate(
     path: str, manifest_path: str = None, *, is_curriculum: bool = False, raw: bytes = None
 ):
@@ -72,6 +75,13 @@ def _check_review_gate(
     if isinstance(reviewer, str) and reviewer.strip().upper() == "AI":
         raise UnreviewedContentError(
             f"File {path}: Reviewer cannot be 'AI'. Named human review required for live content."
+        )
+
+    # D88: a pending entry records honest status, not a review; it must not unlock the file
+    if isinstance(reviewer, str) and reviewer.strip().upper() == PENDING_REVIEWER:
+        raise UnreviewedContentError(
+            f"File {path}: pending human review (reviewer {PENDING_REVIEWER}). "
+            "Named human review required for live content."
         )
 
     if is_curriculum:

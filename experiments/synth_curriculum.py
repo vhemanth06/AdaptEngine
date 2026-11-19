@@ -8,11 +8,37 @@ Note: These curricula are synthetic and unreviewed.
 import json
 import os
 import random
+import re
 from typing import Tuple
 
+# exercises_per_concept -> (difficulties, durations). 4 is the original catalogue; 10 follows the
+# 3 easy / 4 medium / 3 hard spread of the 8node_x10 curriculum (Plan 1, D84).
+EXERCISE_SPECS = {
+    4: ([0.20, 0.40, 0.60, 0.80], [1, 2, 2, 3]),
+    10: (
+        [0.10, 0.20, 0.30, 0.40, 0.45, 0.55, 0.60, 0.70, 0.80, 0.90],
+        [1, 1, 1, 2, 2, 2, 2, 2, 2, 2],
+    ),
+}
 
-def generate_synthetic_curriculum(n_concepts: int, seed: int = 2026) -> Tuple[dict, dict]:
-    """Generate layered DAG curriculum and activity catalog for N concepts."""
+
+def parse_synth_name(name: str) -> Tuple[int, int]:
+    """'synth-20' -> (20, 4); 'synth-50-x10' -> (50, 10)."""
+    m = re.fullmatch(r"synth-(\d+)(?:-x(\d+))?", name)
+    if not m or int(m.group(2) or 4) not in EXERCISE_SPECS:
+        raise ValueError(f"not a synthetic curriculum name: {name!r}")
+    return int(m.group(1)), int(m.group(2) or 4)
+
+
+def generate_synthetic_curriculum(
+    n_concepts: int, seed: int = 2026, exercises_per_concept: int = 4
+) -> Tuple[dict, dict]:
+    """Generate layered DAG curriculum and activity catalog for N concepts.
+
+    exercises_per_concept is 4 (default, output unchanged) or 10 (3/4/3 difficulty spread).
+    """
+    if exercises_per_concept not in EXERCISE_SPECS:
+        raise ValueError(f"exercises_per_concept must be one of {sorted(EXERCISE_SPECS)}")
     rng = random.Random(seed)
 
     # Layered DAG generation
@@ -75,10 +101,9 @@ def generate_synthetic_curriculum(n_concepts: int, seed: int = 2026) -> Tuple[di
                 )
 
     # Generate activities
-    # 1 lesson + 4 exercises per concept
+    # 1 lesson + exercises_per_concept exercises per concept
     activities = []
-    difficulties = [0.20, 0.40, 0.60, 0.80]
-    durations = [1, 2, 2, 3]
+    difficulties, durations = EXERCISE_SPECS[exercises_per_concept]
 
     for cid in concept_ids:
         activities.append(
@@ -109,12 +134,17 @@ def generate_synthetic_curriculum(n_concepts: int, seed: int = 2026) -> Tuple[di
     return curr_dict, act_dict
 
 
-def write_synthetic_curriculum(out_dir: str, n_concepts: int, seed: int = 2026) -> Tuple[str, str]:
+def write_synthetic_curriculum(
+    out_dir: str, n_concepts: int, seed: int = 2026, exercises_per_concept: int = 4
+) -> Tuple[str, str]:
     """Write synthetic curriculum and activities to JSON files in out_dir."""
     os.makedirs(out_dir, exist_ok=True)
-    curr_dict, act_dict = generate_synthetic_curriculum(n_concepts, seed)
-    curr_path = os.path.join(out_dir, f"curriculum_synth_{n_concepts}.json")
-    act_path = os.path.join(out_dir, f"activities_synth_{n_concepts}.json")
+    curr_dict, act_dict = generate_synthetic_curriculum(n_concepts, seed, exercises_per_concept)
+    tag = f"synth_{n_concepts}" + (
+        "" if exercises_per_concept == 4 else f"_x{exercises_per_concept}"
+    )
+    curr_path = os.path.join(out_dir, f"curriculum_{tag}.json")
+    act_path = os.path.join(out_dir, f"activities_{tag}.json")
 
     with open(curr_path, "w") as f:
         json.dump(curr_dict, f, indent=2)

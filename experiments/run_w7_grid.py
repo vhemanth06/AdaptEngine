@@ -27,7 +27,7 @@ from experiments.arms import get_scenario, run_episode  # noqa: E402
 from experiments.provenance import stamp  # noqa: E402
 from experiments.sim import PROFILES, WORLDS  # noqa: E402
 from experiments.stats import brier_score, paired_summary, roc_auc  # noqa: E402
-from experiments.synth_curriculum import write_synthetic_curriculum  # noqa: E402
+from experiments.synth_curriculum import parse_synth_name, write_synthetic_curriculum  # noqa: E402
 
 ARMS = ("adapt", "adapt_expected", "no_review", "no_replan", "static")
 H7_ARMS = ("adapt_h7", "no_review_h7")
@@ -71,9 +71,17 @@ def curriculum_paths(cur: str):
         return ("data/curriculum/curriculum_4node.json", "data/curriculum/activities_4node.json")
     if cur == "8-node":
         return ("data/curriculum/curriculum_8node.json", "data/curriculum/activities_8node.json")
-    if "paths" not in _SYNTH:
-        _SYNTH["paths"] = write_synthetic_curriculum(tempfile.mkdtemp(), 20, seed=2026)
-    return _SYNTH["paths"]
+    if cur == "8-node-x10":
+        return (
+            "data/curriculum/curriculum_8node_x10.json",
+            "data/curriculum/activities_8node_x10.json",
+        )
+    if cur not in _SYNTH:  # synth-N or synth-N-x10 (Plan 1, D84)
+        n, per = parse_synth_name(cur)
+        _SYNTH[cur] = write_synthetic_curriculum(
+            tempfile.mkdtemp(), n, seed=2026, exercises_per_concept=per
+        )
+    return _SYNTH[cur]
 
 
 def engine(cur: str, variant: str) -> Engine:
@@ -81,7 +89,9 @@ def engine(cur: str, variant: str) -> Engine:
     if key not in _ENGINES:
         cp, ap = curriculum_paths(cur)
         cfg = dataclasses.replace(DEFAULT_CONFIG, **VARIANTS[variant])
-        _ENGINES[key] = Engine.from_files(cp, ap, config=cfg, allow_unreviewed=cur == "synth-20")
+        _ENGINES[key] = Engine.from_files(
+            cp, ap, config=cfg, allow_unreviewed=cur != "4-node" and cur != "8-node"
+        )
     return _ENGINES[key]
 
 
