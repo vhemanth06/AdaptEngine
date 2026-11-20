@@ -6,7 +6,6 @@ const TAG: Record<string, [string, string]> = {
   REVIEW_DUE: ["Review", C.purple],
   REVIEW_SCHEDULED: ["Review", C.purple],
   ORACLE_ASSIGNED: ["Solver", C.orange],
-  CPSAT_ASSIGNED: ["CP-SAT", C.orange],
 };
 
 export default function PlanTimeline({

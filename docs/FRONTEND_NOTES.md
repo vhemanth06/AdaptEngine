@@ -281,3 +281,10 @@ At the owner's request, as in the Diagnostic: Study's demo-mode buttons ("Demo l
 (`answer-right`, `answer-wrong`). They show on every exercise, demo mode or not. The old "1 ·
 Right / 2 · Wrong" fallback for curricula without question text is gone: the two buttons and keys
 1 and 2 cover it. The walkthrough's step 5 now picks the button from the preset's known set.
+
+## Plan timeline: no "CP-SAT" tag on every card (2026-11-21)
+
+At the owner's request, the `CPSAT_ASSIGNED` reason no longer gets a tag on the timeline cards.
+With CP-SAT (or hybrid's takeover) every card had one, so it carried no information. The session
+chip already names the planner, and the Why panel still shows CP-SAT's earliest day and placement
+for the clicked card. Remediation, review and greedy's oracle ("Solver") tags are unchanged.
