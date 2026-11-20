@@ -324,6 +324,8 @@ def test_health_fields(client):
 def test_default_session_flags_false(client):
     """FE-TC3: a sweep session never shows confirmation flags, and its info is empty."""
     sid = _new(client)["session_id"]
+    first = client.get(f"/api/sessions/{sid}").json()["diagnostic"]
+    assert first["info"] is None and set(first["live_p"].values()) == {DEFAULT_CONFIG.p0}
     view = _run_diagnostic(client, sid)
     assert not any(c["diag_confident"] or c["confirmed"] for c in view["concepts"])
     assert not view["diagnostic"]["info"]
@@ -335,7 +337,10 @@ def test_bisection_session_info_and_flags(client):
     engine = _engine("8node_x10", cfg)
     sid = _new(client, curriculum="8node_x10", diagnostic_method="bisection")["session_id"]
     first = client.get(f"/api/sessions/{sid}").json()["diagnostic"]
-    assert first["info"] is None  # no answer yet: no prefix to replay
+    prior = engine.diagnose(engine.init_learner(), lambda a: True, session_id=sid, item_limit=0)
+    assert first["info"] == _norm(dict(prior.info))  # no answer yet: the engine's prior
+    assert first["live_p"] == {c: x.p for c, x in prior.state.concepts.items()}
+    assert first["live_p"]["C1"] != engine.init_learner().concepts["C1"].p  # not p0
     view = _run_diagnostic(client, sid)
     info = view["diagnostic"]["info"]
     assert {"n_max", "mode", "top_state"} <= set(info) and isinstance(info["top_state"], list)

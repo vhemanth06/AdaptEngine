@@ -270,18 +270,20 @@ def _diagnostic_view(engine: Engine, answers: list, sid: str) -> dict:
         ],
         "live_p": {c: x.p for c, x in engine.init_learner().concepts.items()},
     }
-    if answers:
-        try:
-            prefix, _ = _replay(engine, answers, sid, n_max=len(answers))
-        except (RuntimeError, ValidationError):
-            prefix = None  # the engine's stop rules differ for a truncated run: no live bars
-        rows = _item_rows(prefix) if prefix is not None else []
-        if [r["activity_id"] for r in rows] == [a for a, _ in answers]:
-            view["items"] = rows
-            view["info"] = _info(prefix)
-            view["live_p"] = {c: x.p for c, x in prefix.state.concepts.items()}
-        else:
-            view["live_p"] = None
+    # The engine's state after the answers so far. With no answers this is its prior (bisection:
+    # uniform over knowledge states, not init_learner's p0); the sweep has no zero-item run, and
+    # its prior is the initial state above.
+    try:
+        prefix, _ = _replay(engine, answers, sid, n_max=len(answers))
+    except (RuntimeError, ValidationError):
+        prefix = None  # the engine's stop rules differ for a truncated run: no live bars
+    rows = _item_rows(prefix) if prefix is not None else []
+    if prefix is not None and [r["activity_id"] for r in rows] == [a for a, _ in answers]:
+        view["items"] = rows
+        view["info"] = _info(prefix)
+        view["live_p"] = {c: x.p for c, x in prefix.state.concepts.items()}
+    elif answers:
+        view["live_p"] = None
     return view
 
 

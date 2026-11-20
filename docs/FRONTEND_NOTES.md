@@ -142,3 +142,18 @@ install `.[demo,cpsat]`.
 
 **D91 (Plans 5 and 6 skipped)** is referenced by Plan FE but has no row in `docs/DECISIONS.md`.
 It was not added here, because Plan FE did not ask for it.
+
+## Fix after review (2026-11-21): the belief bars before the first answer
+
+Before any answer, the Diagnostic view showed `init_learner()`'s p0 (0.20) for every concept.
+That is correct for the sweep, but a bisection session's real prior is uniform over knowledge
+states (on `8node_x10`: C1 0.89, C2 0.83, C3 0.67, C4 0.33, C5 0.44, C6 0.56, C7 0.22, C8 0.11).
+The bars jumped after answer 1, and its "p before" did not match them.
+
+Fix: the view now replays the engine with 0 items when no answer has been given. That is the
+engine's own prior and `info` (D45), so the budget line also shows from question 1. The sweep has
+no zero-item run, so it keeps the initial state.
+
+Tests: `test_bisection_session_info_and_flags` checks the first view against a direct
+`item_limit=0` run. `test_default_session_flags_false` checks that the sweep's first view is
+unchanged.
