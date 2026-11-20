@@ -3,6 +3,7 @@ import hashlib
 import math
 import os
 from dataclasses import asdict, dataclass, fields, replace
+from typing import Optional
 from . import constants
 from .errors import ValidationError
 from .validators import check_bool, check_positive_int
@@ -62,6 +63,23 @@ class EngineConfig:
     # from the profile as well.
     model_profile: str = "heuristic"
     use_profile_learn: bool = False
+    # F1 (Plan 3, D49-D57): bisection diagnostic over prerequisite-closed knowledge states and the
+    # planner's confirmation path. Defaults keep the sweep and D4 unchanged.
+    diagnostic_method: str = "sweep"  # "sweep" | "bisection" (D49)
+    bisection_prior: str = "uniform_states"  # "uniform_states" (D51) | "independent_p0" (arm)
+    bisection_scope: str = "goal_ancestors"  # "goal_ancestors" | "all" (D54)
+    bisection_exact_state_limit: int = 5000  # exact enumeration up to this many states (D53)
+    bisection_samples: int = 4000  # weighted sample states in sampling mode
+    bisection_seed: int = 0
+    bisection_stop_confidence: float = 0.80  # top-state posterior that ends the run (D55)
+    bisection_n_min: int = 6  # budget floor (D56)
+    bisection_n_ceiling: int = 40  # budget ceiling (D56)
+    bisection_alpha: Optional[float] = None  # questions-per-bit override (D56); None = from model
+    bisection_concept_cap: int = 3
+    confirm_diag_confident: bool = False  # planner confirmation path (D57)
+    confirm_epsilon: float = 0.02  # acceptable false-confirm rate: confirm at 1 - epsilon
+    confirm_max_checks: int = 3
+    confirm_min_direct: int = 1
 
     def __post_init__(self):
         if not (0.0 < self.d_min < self.d_max < 1.0):
@@ -160,6 +178,37 @@ class EngineConfig:
             raise ValidationError(
                 f"remediation_threshold must be in (0, 1], got {self.remediation_threshold}"
             )
+        for name, val, allowed in (
+            ("diagnostic_method", self.diagnostic_method, ("sweep", "bisection")),
+            ("bisection_prior", self.bisection_prior, ("uniform_states", "independent_p0")),
+            ("bisection_scope", self.bisection_scope, ("goal_ancestors", "all")),
+        ):
+            if val not in allowed:
+                raise ValidationError(f"{name} must be one of {allowed}, got {val!r}")
+        for name in (
+            "bisection_exact_state_limit",
+            "bisection_samples",
+            "bisection_n_min",
+            "bisection_n_ceiling",
+            "bisection_concept_cap",
+            "confirm_max_checks",
+            "confirm_min_direct",
+        ):
+            check_positive_int(getattr(self, name), name)
+        if isinstance(self.bisection_seed, bool) or not isinstance(self.bisection_seed, int):
+            raise ValidationError(f"bisection_seed must be an int, got {self.bisection_seed!r}")
+        if self.bisection_n_min > self.bisection_n_ceiling:
+            raise ValidationError("bisection_n_min must not exceed bisection_n_ceiling")
+        for name in ("bisection_stop_confidence", "confirm_epsilon"):
+            v = getattr(self, name)
+            if isinstance(v, bool) or not isinstance(v, (int, float)) or not 0.0 < v < 1.0:
+                raise ValidationError(f"{name} must be in (0, 1), got {v!r}")
+        a = self.bisection_alpha
+        if a is not None and (
+            isinstance(a, bool) or not isinstance(a, (int, float)) or not math.isfinite(a) or a <= 0
+        ):
+            raise ValidationError(f"bisection_alpha must be None or a finite number > 0, got {a!r}")
+        check_bool(self.confirm_diag_confident, "confirm_diag_confident")
         if not isinstance(self.model_profile, str) or not self.model_profile:
             raise ValidationError(
                 f"model_profile must be a non-empty string, got {self.model_profile!r}"
@@ -176,6 +225,13 @@ class EngineConfig:
 
 
 _REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+
+
+def bisection_config(**overrides) -> EngineConfig:
+    """F1 preset (Plan 3): bisection diagnostic with the planner confirmation path on."""
+    return replace(
+        EngineConfig(diagnostic_method="bisection", confirm_diag_confident=True), **overrides
+    )
 
 
 def resolve_profile_path(path: str) -> str:

@@ -27,7 +27,6 @@ from adaptengine.core.validators import check_budget
 from adaptengine.core.schema import ActivityType, Event, EventType, PlanContext
 from adaptengine.curriculum.content import load_content
 from adaptengine.curriculum.loader import load_activities, load_curriculum
-from adaptengine.diagnostic import AdaptiveDiagnostic
 from adaptengine.learner.state import ExecutionLog, is_evidence_mastered
 from adaptengine.planner import serialize_plan
 from adaptengine.replanner import compute_effective_context
@@ -89,7 +88,7 @@ def _curriculum_ids() -> list[str]:
 
 
 @functools.cache
-def _bundle(cid: str, model_profile: str = "heuristic") -> Bundle:
+def _bundle(cid: str, model_profile: str = "heuristic", diagnostic_method: str = "sweep") -> Bundle:
     if cid not in _curriculum_ids():
         raise HTTPException(404, f"unknown curriculum {cid}")
     concepts = load_curriculum(str(DATA / "curriculum" / f"curriculum_{cid}.json"), str(MANIFEST))
@@ -106,6 +105,8 @@ def _bundle(cid: str, model_profile: str = "heuristic") -> Bundle:
         if model_profile == "heuristic"
         else replace(DEFAULT_CONFIG, model_profile=f"config/{model_profile}.json")
     )
+    if diagnostic_method == "bisection":  # F1 preset: bisection with the confirmation path
+        cfg = replace(cfg, diagnostic_method="bisection", confirm_diag_confident=True)
     return Bundle(Engine(concepts, acts, cfg), concepts, content)
 
 
@@ -190,12 +191,10 @@ def _replay(engine: Engine, answers: list, sid: str, n_max: Optional[int] = None
             raise RuntimeError(f"diagnostic replay diverged at {aid} vs {activity.activity_id}")
         return correct
 
-    try:
-        if n_max is None:
-            return engine.diagnose(engine.init_learner(), provider, session_id=sid), None
-        cfg = replace(engine.config, n_max=n_max)
-        diag = AdaptiveDiagnostic(engine.graph, engine.activities, cfg, model=engine.model)
-        return diag.run(engine.init_learner(), provider, session_id=sid), None
+    try:  # F1: the engine picks the diagnostic; item_limit gives the exact prefix state
+        return engine.diagnose(
+            engine.init_learner(), provider, session_id=sid, item_limit=n_max
+        ), None
     except NeedAnswer as e:
         return None, e.activity
 
@@ -262,7 +261,11 @@ def _diagnostic_view(engine: Engine, answers: list, sid: str) -> dict:
 
 def _open(sid: str):
     meta = store.load_meta(sid)
-    b = _bundle(meta["curriculum"], meta.get("model_profile", "heuristic"))
+    b = _bundle(
+        meta["curriculum"],
+        meta.get("model_profile", "heuristic"),
+        meta.get("diagnostic_method", "sweep"),
+    )
     state, log, ctx = store.load_state(sid, b.engine.graph.concepts())
     return b, state, log, ctx, meta
 
@@ -303,6 +306,7 @@ def _view(b: Bundle, sid: str, state, log, ctx, meta: dict) -> dict:
         "session_id": sid,
         "curriculum": meta["curriculum"],
         "model_profile": meta.get("model_profile", "heuristic"),
+        "diagnostic_method": meta.get("diagnostic_method", "sweep"),
         "context": _ctx_dict(ctx),
         "effective": _ctx_dict(eff),
         "concepts": [
@@ -339,14 +343,20 @@ def _grade(b: Bundle, activity_id: str, choice: Optional[int], correct: Optional
 @app.post("/api/sessions", response_model=SessionOut)
 def create_session(req: CreateSession):
     profile = req.model_profile or "heuristic"
-    b = _bundle(req.curriculum, profile)
+    method = req.diagnostic_method or "sweep"
+    b = _bundle(req.curriculum, profile, method)
     ctx = PlanContext(goal=req.goal, deadline_day=req.deadline_day, budget=req.budget)
     check_budget(ctx.budget, b.engine.config.allowed_budgets)  # config-driven since W7 T5.1
     if req.goal not in b.engine.graph.concepts():
         raise HTTPException(422, f"unknown goal concept {req.goal}")
     sid = store.new_id()
     state, log = b.engine.init_learner(), ExecutionLog()
-    meta = {"curriculum": req.curriculum, "diag_answers": [], "model_profile": profile}
+    meta = {
+        "curriculum": req.curriculum,
+        "diag_answers": [],
+        "model_profile": profile,
+        "diagnostic_method": method,
+    }
     store.save(sid, state, log, ctx, meta)
     return _view(b, sid, state, log, ctx, meta)
 

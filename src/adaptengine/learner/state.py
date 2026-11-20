@@ -36,6 +36,10 @@ class LearnerConcept:
     n_reviews: int
     needs_remediation: bool = False
     correct_streak: int = 0  # consecutive correct responses (T5.4)
+    # F1 (D57): set by the bisection diagnostic on candidates for confirmation checks, and when the
+    # epsilon test passes. Both stay False unless EngineConfig.confirm_diag_confident is on.
+    diag_confident: bool = False
+    confirmed: bool = False
 
     def __init__(
         self,
@@ -54,6 +58,8 @@ class LearnerConcept:
         assessed: Optional[bool] = None,
         needs_remediation: bool = False,
         correct_streak: int = 0,
+        diag_confident: bool = False,
+        confirmed: bool = False,
     ):
         if p is None and mastery is not None:
             p = mastery
@@ -118,6 +124,8 @@ class LearnerConcept:
         object.__setattr__(self, "n_reviews", n_reviews)
         object.__setattr__(self, "needs_remediation", bool(needs_remediation))
         object.__setattr__(self, "correct_streak", correct_streak)
+        object.__setattr__(self, "diag_confident", check_bool(diag_confident, "diag_confident"))
+        object.__setattr__(self, "confirmed", check_bool(confirmed, "confirmed"))
 
     @property
     def mastery(self) -> float:
@@ -160,8 +168,14 @@ def mastered_by(p: float, responses: int, streak: int, cfg: EngineConfig = DEFAU
 
 
 def is_evidence_mastered(concept: LearnerConcept, cfg: EngineConfig = DEFAULT_CONFIG) -> bool:
-    """evidence_mastered under cfg.mastery_criterion (default D4: p >= theta and responses >= k)."""
-    return mastered_by(concept.p, concept.responses, concept.correct_streak, cfg)
+    """evidence_mastered under cfg.mastery_criterion (default D4: p >= theta and responses >= k).
+
+    F1 (D57): with confirm_diag_confident, a concept confirmed by the epsilon test also counts
+    while p >= theta, so a later drop in p revokes the confirmation.
+    """
+    if mastered_by(concept.p, concept.responses, concept.correct_streak, cfg):
+        return True
+    return cfg.confirm_diag_confident and concept.confirmed and concept.p >= cfg.theta
 
 
 @dataclass(frozen=True)

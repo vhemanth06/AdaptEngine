@@ -1,4 +1,4 @@
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, field, replace
 from types import MappingProxyType
 from enum import Enum
 from typing import Callable, Mapping, Optional, Sequence
@@ -20,6 +20,8 @@ class StopReason(str, Enum):
     NO_ITEMS = "NO_ITEMS"
     SKIPPED_ANCESTOR_UNMASTERED = "SKIPPED_ANCESTOR_UNMASTERED"
     NOT_REACHED = "NOT_REACHED"
+    CONFIDENT = "CONFIDENT"  # bisection: run ended by the confidence stop (F1.3.6)
+    INFERRED = "INFERRED"  # bisection: never asked; p set by answers on other concepts
 
 
 @dataclass(frozen=True)
@@ -49,6 +51,8 @@ class DiagnosticResult:
     concept_results: Mapping[str, ConceptDiagnosticResult]  # read-only (T9.1 hygiene)
     item_log: tuple[DiagnosticItemLog, ...]
     total_items: int
+    # F1: optional run details (bisection: mode, states/bits, n_max, q_bit, top state); additive
+    info: Mapping[str, object] = field(default_factory=lambda: MappingProxyType({}))
 
 
 class AdaptiveDiagnostic:
@@ -186,8 +190,14 @@ class AdaptiveDiagnostic:
         goal_concepts: Optional[Sequence[str]] = None,
         model: Optional[MasteryModel] = None,
         session_id: Optional[str] = None,
+        item_limit: Optional[int] = None,
     ) -> DiagnosticResult:
-        """Run the adaptive diagnostic M2."""
+        """Run the adaptive diagnostic M2. item_limit stops after that many items (prefix replay)."""
+        if item_limit is not None and item_limit < self.config.n_max:
+            capped = replace(self.config, n_max=item_limit)  # n_max >= 1 is validated there
+            return AdaptiveDiagnostic(self.graph, self.activities, capped, self.model).run(
+                state, response_provider, goal_concepts, model, session_id
+            )
         if goal_concepts is None:
             goal_set = set(self.graph.concepts())
         else:

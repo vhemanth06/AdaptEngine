@@ -281,6 +281,8 @@ export interface components {
             budget: number;
             /** Model Profile */
             model_profile?: ("heuristic" | "fitted_assist09" | "fitted_ct") | null;
+            /** Diagnostic Method */
+            diagnostic_method?: ("sweep" | "bisection") | null;
         };
         /** CurriculumDetail */
         CurriculumDetail: {
@@ -492,6 +494,11 @@ export interface components {
              * @default heuristic
              */
             model_profile: string;
+            /**
+             * Diagnostic Method
+             * @default sweep
+             */
+            diagnostic_method: string;
             context: components["schemas"]["ContextOut"];
             effective?: components["schemas"]["ContextOut"] | null;
             /** Concepts */

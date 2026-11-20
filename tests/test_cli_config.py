@@ -17,7 +17,7 @@ import pytest
 
 from adaptengine.api import Engine
 from adaptengine.cli import main
-from adaptengine.core.config import DEFAULT_CONFIG, config_from_file
+from adaptengine.core.config import DEFAULT_CONFIG, config_from_file, config_hash
 from adaptengine.core.errors import ValidationError
 from adaptengine.core.schema import Event, EventType, PlanContext
 from adaptengine.planner import serialize_plan
@@ -107,7 +107,10 @@ def default_runs(tmp: str, extra=()) -> dict:
         snap_bytes = open(snap, encoding="utf-8").read() if os.path.exists(snap) else None
         out[name] = {
             "ret": ret,
-            "stdout": stdout.replace(tmp, "<TMP>"),
+            # config_hash moves whenever a plan adds an EngineConfig field (ground rule 8)
+            "stdout": stdout.replace(tmp, "<TMP>").replace(
+                config_hash(DEFAULT_CONFIG), "<CONFIG_HASH>"
+            ),
             "snapshot": snap_bytes,
         }
     return out

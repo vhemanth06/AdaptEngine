@@ -9,6 +9,7 @@ from ..curriculum.graph import CurriculumGraph
 from ..learner.state import LearnerState, is_evidence_mastered, mastered_by
 from ..learner.mastery import learn
 from ..learner.adapter import MasteryModel, CustomBKT
+from .confirmation import route_concept
 from .difficulty import select_exercise
 
 
@@ -94,11 +95,13 @@ def compute_workload(
             continue
         c_state = state.concepts[c]
         if is_evidence_mastered(c_state, cfg):
+            by_d4 = mastered_by(c_state.p, c_state.responses, c_state.correct_streak, cfg)
             trace.append(
                 {
                     "decision": "OMITTED",
                     "concept_id": c,
-                    "reason": "ALREADY_EVIDENCE_MASTERED",
+                    # F1 (D57): confirmed by the epsilon test rather than by D4
+                    "reason": "ALREADY_EVIDENCE_MASTERED" if by_d4 else "CONFIRMED_BY_DIAGNOSTIC",
                     "p": c_state.p,
                     "responses": c_state.responses,
                 }
@@ -214,6 +217,9 @@ def compute_workload(
             else:
                 available_exercises.remove(chosen)
 
+        def mine_ordered() -> tuple:
+            return tuple(x for x in done_ids if x in c_ids)
+
         expected_items = 0.0
         n_exercises = 0
         while not mastered_by(p, responses, streak, cfg):
@@ -239,6 +245,23 @@ def compute_workload(
                 if not pool:
                     break
                 take(select_exercise(pool, p, cfg.target_success, model, cfg))
+
+        if cfg.confirm_diag_confident and c_state.diag_confident and not c_state.needs_remediation:
+            # F1 (D57): checks instead of the full workload when testing first is cheaper
+            routed = route_concept(
+                c,
+                c_state.p,
+                c_state.responses,
+                concept_workload_list,
+                c_exercises,
+                mine_ordered(),
+                model,
+                cfg,
+            )
+            if routed is not None:
+                concept_workload_list, check_trace = routed
+                this_concept_trace.append(check_trace)
+                trace.append(check_trace)
 
         concept_workload_tuple = tuple(concept_workload_list)
         workload[c] = concept_workload_tuple

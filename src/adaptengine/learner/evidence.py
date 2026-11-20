@@ -53,6 +53,10 @@ def update_concept_evidence(
         cfg.half_life_growth if is_review and correct else 1.0
     )
 
+    flags = {}
+    if cfg.confirm_diag_confident and concept.diag_confident:
+        flags = confirmation_flags(concept.p, difficulty, correct, new_responses, model, cfg)
+
     new_concept = replace(
         concept,
         p=new_p,
@@ -64,5 +68,33 @@ def update_concept_evidence(
         n_reviews=concept.n_reviews + (1 if is_review else 0),
         correct_streak=concept.correct_streak + 1 if correct else 0,
         half_life_days=new_half_life,
+        **flags,
     )
     return new_concept, True
+
+
+def checks_to_confirm(p: float, d: float, model: "MasteryModel", cfg: EngineConfig) -> int:
+    """Correct answers on items of difficulty d that lift the observation-only posterior from p to
+    1 - confirm_epsilon (D57); confirm_max_checks + 1 when it takes more than that."""
+    n = 0
+    while p < 1.0 - cfg.confirm_epsilon and n <= cfg.confirm_max_checks:
+        p = model.update(p, d, True, 0.0)
+        n += 1
+    return n
+
+
+def confirmation_flags(
+    p: float, d: float, correct: bool, responses: int, model: "MasteryModel", cfg: EngineConfig
+) -> dict:
+    """Epsilon test after a direct answer on a diag_confident concept (F1.4.3).
+
+    Confirmed when the observation-only posterior (transition 0) reaches 1 - epsilon with at least
+    confirm_min_direct direct answers. A wrong answer that leaves confirmation out of reach within
+    confirm_max_checks clears diag_confident, so the concept returns to normal study.
+    """
+    p_obs = model.update(p, d, correct, 0.0)
+    if p_obs >= 1.0 - cfg.confirm_epsilon and responses >= cfg.confirm_min_direct:
+        return {"confirmed": True, "diag_confident": False}
+    if not correct and checks_to_confirm(p_obs, d, model, cfg) > cfg.confirm_max_checks:
+        return {"diag_confident": False}
+    return {}

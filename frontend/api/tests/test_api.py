@@ -193,22 +193,34 @@ def test_evaluation_tolerates_missing_and_broken_files(client, tmp_path, monkeyp
     assert files == [{"name": "w7_matrix.json", "data": {"a": 1}}]
 
 
-@pytest.mark.parametrize("profile", ["heuristic", "fitted_assist09"])
-def test_end_to_end_plan_matches_direct_engine(client, engine, profile):
+@pytest.mark.parametrize(
+    "profile,method",
+    [("heuristic", "sweep"), ("fitted_assist09", "sweep"), ("heuristic", "bisection")],
+)
+def test_end_to_end_plan_matches_direct_engine(client, engine, profile, method):
     """create -> diagnose -> plan -> answer -> disrupt; the API plan equals a direct Engine call.
 
-    Also with a fitted item model (F2-TC7, D45): the session and the direct engine use it alike.
+    Also with a fitted item model (F2-TC7) and the bisection preset (F1-TC11, D45).
     """
-    if profile != "heuristic":
-        cfg = replace(DEFAULT_CONFIG, model_profile=f"config/{profile}.json")
+    if (profile, method) != ("heuristic", "sweep"):
+        cfg = (
+            replace(DEFAULT_CONFIG, model_profile=f"config/{profile}.json")
+            if profile != "heuristic"
+            else DEFAULT_CONFIG
+        )
+        if method == "bisection":
+            cfg = replace(cfg, diagnostic_method="bisection", confirm_diag_confident=True)
         engine = Engine.from_files(
             str(app_module.DATA / "curriculum" / "curriculum_8node.json"),
             str(app_module.DATA / "curriculum" / "activities_8node.json"),
             str(app_module.MANIFEST),
             config=cfg,
         )
-    created = _new(client, model_profile=profile) if profile != "heuristic" else _new(client)
-    assert created["model_profile"] == profile
+    extra = {"model_profile": profile} if profile != "heuristic" else {}
+    if method != "sweep":
+        extra["diagnostic_method"] = method
+    created = _new(client, **extra)
+    assert created["model_profile"] == profile and created["diagnostic_method"] == method
     sid = created["session_id"]
     view = _run_diagnostic(client, sid)
     direct = engine.diagnose(

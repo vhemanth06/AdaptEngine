@@ -103,3 +103,66 @@ The diagnostic implementation is verified by `tests/test_diagnostic.py`:
 - `test_input_state_not_mutated`: Confirms input state object immutability.
 - `test_deterministic_identical_runs`: Confirms identical logs across duplicate runs.
 - `test_tie_breaking_d10`: Confirms $|d - 0.5|$ and lexicographic tie-breaks.
+
+## 6. Bisection diagnostic (Plan 3, F1; `diagnostic_method = "bisection"`)
+
+The sweep stays the default. The bisection diagnostic treats the learner's mastered set as one
+**knowledge state** $K$, a set of in-scope concepts closed under in-scope prerequisites (D50), and
+searches the states like binary search.
+
+- **Scope (D54):** with goal concepts given and `bisection_scope = "goal_ancestors"`, the goals
+  and their ancestors; otherwise all concepts. Out-of-scope concepts are untouched (TC2.2).
+- **Prior (D51):** uniform over knowledge states. On 8-node (18 states) the starting marginals are
+  C1 0.89, C2 0.83, C3 0.67, C6 0.56, C5 0.44, C4 0.33, C7 0.22, C8 0.11, so the first question
+  lands mid-DAG. With many independent branches, mixed middle-sized states get slightly more total
+  weight than "all" or "nothing". `bisection_prior = "independent_p0"` (each concept $p_0$, chained
+  through prerequisites) exists only as an experiment arm.
+- **Earlier evidence:** a concept with responses in the input state contributes a likelihood factor
+  $p/p_0$ if known and $(1-p)/(1-p_0)$ if not (posterior odds over prior odds).
+- **Observation model:** the active `MasteryModel` (heuristic or a Plan 2 fitted profile):
+  $P(Y=1 \mid K) = $ `predict_correct(1, d)` if $c \in K$, else `predict_correct(0, d)`;
+  no learning during the diagnostic.
+- **Posterior and marginals:** $\pi(K \mid y) \propto \pi(K)\,P(y \mid K)$, $p_c = \sum_{K \ni c} \pi(K)$.
+  One answer reweights every state, and $p_{\text{child}} \le p_{\text{parent}}$ always holds.
+- **Question choice (D52):** the unasked item (at most `bisection_concept_cap` = 3 per concept)
+  with the largest $I(Y;K) = h(q(1-s) + (1-q)g) - q\,h(s) - (1-q)\,h(g)$ at the joint marginal
+  $q = p_c$; ties as D10. With noiseless items this asks the concept nearest 50%: a chain of length
+  $L$ is solved in $\lceil \log_2(L+1) \rceil$ questions.
+- **Stopping (D55):** the most probable state reaches `bisection_stop_confidence`, or the budget is
+  used, or no item has information above $10^{-9}$.
+- **Budget (D56):** $n_{\max} = \min(\text{items},\ \max(n_{\min},\ \min(n_{\text{ceiling}},\ \lceil
+  \text{bits} \cdot q_{\text{bit}} \rceil)))$ with bits $= \log_2|\mathcal{H}|$ (exact mode) or a
+  chain-cover upper bound (sampling mode), and $q_{\text{bit}} = 1 / I^*$, the best information per
+  question of the active item model at $q = 0.5$ (heuristic on 8-node: 2.6, so $n_{\max} = 11$;
+  fitted_assist09: larger). `bisection_alpha` overrides $q_{\text{bit}}$.
+- **Inference (D53):** exact enumeration up to `bisection_exact_state_limit` (5,000) states.
+  Above it, sequential Monte Carlo over down-sets: `bisection_samples` (4,000) particles, a seeded
+  Metropolis chain on down-sets (add a concept whose prerequisites are in $K$, or remove one with
+  no dependants in $K$; symmetric proposal), initial particles from 40·n chain moves each (cached
+  per scope), reweighting after each answer, and systematic resampling with 3·n moves per particle
+  when the effective sample size falls below half. Marginals are Rao-Blackwellised (per sample, the
+  exact $P(c \in K \mid K \setminus c)$). Measured against exact on enumerable curricula: worst
+  error 0.005–0.022 over seeds, consistent with the Monte Carlo error at 4,000 samples.
+- **Output:** the usual `DiagnosticResult`. Every in-scope concept gets $p = p_c$; responses, status
+  and attempt ids (`diag-<sid>-<concept>-<n>`) change only for asked concepts. New stop reasons
+  `CONFIDENT` (the run ended by the confidence stop) and `INFERRED` (never asked). `info` holds the
+  mode, number of states or bits bound, $n_{\max}$, $q_{\text{bit}}$ and the top state.
+  `item_limit` stops after that many items (used by the demo's prefix replay).
+
+### Confirmation path (D57, `confirm_diag_confident`)
+
+- The diagnostic confirms a directly asked concept with $p \ge 1 - \varepsilon$ (ε = 0.02) and
+  flags `diag_confident` on in-scope, not-yet-mastered concepts that a few correct answers could
+  confirm (at most `confirm_max_checks`). An inferred concept always needs at least one check.
+- After each direct answer on a `diag_confident` concept, the observation-only posterior (no
+  learning) is compared with $1 - \varepsilon$; passing sets `confirmed`. A wrong answer that leaves
+  confirmation out of reach clears `diag_confident`.
+- Mastered = D4 **or** (`confirmed` and $p \ge \theta$), inside `is_evidence_mastered`, so workload,
+  gating and review stay consistent and a later drop in $p$ revokes the confirmation.
+- The planner gives a `diag_confident` concept checks instead of its full workload when
+  $T_{\text{checks}} < P_{\text{pass}} \cdot T_{\text{full}}$ (expected minutes; trace reason
+  `CONFIRMATION_CHECK`); confirmed concepts are omitted with `CONFIRMED_BY_DIAGNOSTIC`. Gating stays
+  strict: dependants wait until the checks are done.
+
+Use `bisection_config()` for the preset (bisection with confirmation); it combines with
+`model_profile`. From the terminal, set the fields with `--config` (D89).

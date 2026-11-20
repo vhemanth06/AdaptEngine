@@ -157,13 +157,33 @@ def run_episode(
     profile: SimProfile,
     world: str = "S0",
     sim_kw: Optional[Mapping[str, Any]] = None,
+    diagnose: bool = False,
 ) -> dict[str, Any]:
     """Execute a single closed-loop episode day-by-day under the specified arm and scenario.
 
     world selects the simulator variant (S0-S4, T4.2); sim_kw is passed to the SimLearner.
+    diagnose (Plan 3, F1-T8): run the engine's diagnostic on the simulated learner first, on the
+    goal and its ancestors (the concepts the planner uses, D54), and start from its end state; the
+    result then also reports diagnostic items/minutes and confirmations.
     """
     sim = make_sim(engine, seed, profile, world=world, **(sim_kw or {}))
     start_state = engine.init_learner()
+    diag_extra: dict[str, Any] = {}
+    if diagnose:
+        res = engine.diagnose(
+            start_state,
+            lambda a: sim.respond(a.target_concept, a.activity_id, a.difficulty, tag="diag"),
+            goal_concepts=sorted({scenario.goal} | set(engine.graph.ancestors(scenario.goal))),
+            session_id=str(seed),
+        )
+        start_state = res.state
+        confirmed = sorted(c for c, x in start_state.concepts.items() if x.confirmed)
+        diag_extra = {
+            "diag_items": res.total_items,
+            "diag_minutes": sum(engine.activities[x.activity_id].duration for x in res.item_log),
+            "confirmed_at_diag": confirmed,
+            "false_confirm_at_diag": sum(sim.initial[c] < TRUE_MASTERY_CUTOFF for c in confirmed),
+        }
 
     review_urgency: Optional[Mapping[str, float]] = None
     if arm == "no_review":
@@ -374,5 +394,18 @@ def run_episode(
         ),
         "total_activities_completed": sum(
             len(acts) for acts in executed_activities_by_day.values()
+        ),
+        **diag_extra,
+        **(
+            {
+                "confirmed_at_end": sorted(c for c, x in state.concepts.items() if x.confirmed),
+                "false_confirm_at_end": sum(
+                    1
+                    for c, x in state.concepts.items()
+                    if x.confirmed and sim.theta[c] < TRUE_MASTERY_CUTOFF
+                ),
+            }
+            if diagnose
+            else {}
         ),
     }

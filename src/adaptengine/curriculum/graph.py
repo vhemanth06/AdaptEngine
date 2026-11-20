@@ -66,6 +66,34 @@ class CurriculumGraph:
         self._check(c)
         return self._descendants[c]
 
+    def min_chain_cover(self, nodes) -> list[list[str]]:
+        """A minimum set of chains (in reachability order) covering `nodes` (Plan 3, F1.3.7).
+
+        Size = n - maximum bipartite matching on the transitive closure restricted to `nodes`;
+        following the matched successors gives the chains.
+        """
+        nodes = [c for c in self.topological_order() if c in set(nodes)]
+        inside = set(nodes)
+        bip = nx.Graph()
+        left = [("L", c) for c in nodes]
+        bip.add_nodes_from(left, bipartite=0)
+        bip.add_nodes_from((("R", c) for c in nodes), bipartite=1)
+        for u in nodes:
+            for v in sorted(self.descendants(u)):
+                if v in inside:
+                    bip.add_edge(("L", u), ("R", v))
+        match = nx.bipartite.hopcroft_karp_matching(bip, top_nodes=left)
+        succ = {u[1]: v[1] for u, v in match.items() if u[0] == "L"}
+        has_pred = set(succ.values())
+        chains = []
+        for c in nodes:
+            if c not in has_pred:
+                chain = [c]
+                while chain[-1] in succ:
+                    chain.append(succ[chain[-1]])
+                chains.append(chain)
+        return chains
+
     def descendant_count(self, c: str) -> int:
         return len(self.descendants(c))
 

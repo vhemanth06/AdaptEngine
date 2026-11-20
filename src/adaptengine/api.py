@@ -62,11 +62,12 @@ class Engine:
         goal_concepts=None,
         model=None,
         session_id=None,
+        item_limit=None,
     ):
-        from .diagnostic import AdaptiveDiagnostic
+        from .diagnostic import DIAGNOSTICS
 
         active_model = model if model is not None else self.model
-        diagnostic = AdaptiveDiagnostic(
+        diagnostic = DIAGNOSTICS[self.config.diagnostic_method](
             self.graph, self.activities, self.config, model=active_model
         )
         return diagnostic.run(
@@ -75,6 +76,7 @@ class Engine:
             goal_concepts=goal_concepts,
             model=active_model,
             session_id=session_id,
+            **({"item_limit": item_limit} if item_limit is not None else {}),
         )
 
     def plan(

@@ -306,6 +306,8 @@ To use AdaptEngine effectively, developers interact with four primary file types
 
 **Item model** (Plan 2, D60): `EngineConfig.model_profile` is `"heuristic"` (default) or a fitted profile such as `config/fitted_assist09.json` (guess/slip per difficulty class, fitted on ASSISTments maths data; `config/fitted_ct.json` is a cross-check). The engine then uses that model for the diagnostic, planning and answer updates; the profile's prior is never used, and its learn rate only with `use_profile_learn=True`. See `docs/MASTERY_MODEL.md` §7.
 
+**Bisection diagnostic** (Plan 3, D49–D57): `diagnostic_method="bisection"` diagnoses the learner's prerequisite-consistent knowledge state like binary search (each answer moves many concepts), with a question budget that grows with the curriculum and the item model; `confirm_diag_confident=True` lets the planner confirm inferred concepts with a few checks instead of full lessons. `bisection_config()` turns both on; the sweep stays the default. See `docs/DIAGNOSTIC.md` §6.
+
 ---
 
 ### 3. Command Reference Cheat Sheet

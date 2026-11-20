@@ -154,6 +154,9 @@ def serialize_learner(state: LearnerState) -> dict:
                 "last_practice_day": c.last_practice_day,
                 "n_reviews": c.n_reviews,
                 "needs_remediation": c.needs_remediation,
+                # F1 flags only when set, so files without F1 stay byte-identical
+                **({"diag_confident": True} if c.diag_confident else {}),
+                **({"confirmed": True} if c.confirmed else {}),
             }
             for cid, c in state.concepts.items()
         },
@@ -297,6 +300,8 @@ def deserialize_learner(data: dict, concept_ids: tuple[str, ...]) -> LearnerStat
             last_practice_day=cdata.get("last_practice_day"),
             n_reviews=cdata.get("n_reviews", 0),
             needs_remediation=needs_remediation,
+            diag_confident=check_bool(cdata.get("diag_confident", False), f"{cid} diag_confident"),
+            confirmed=check_bool(cdata.get("confirmed", False), f"{cid} confirmed"),
         )
 
     return LearnerState(concepts=concepts)

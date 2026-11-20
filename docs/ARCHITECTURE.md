@@ -4,7 +4,8 @@
 - `core/`: Errors, config, schema, validators.
 - `curriculum/`: Loader, graph (DAG), review gate.
 - `learner/`: State, mastery update, mastery-model adapter.
-- `diagnostic/`: Adaptive diagnostic (selection, stopping, results).
+- `diagnostic/`: Adaptive diagnostic (selection, stopping, results). Plan 3 (F1) adds `bisection.py` (`BisectionDiagnostic`: question choice by information about the whole knowledge state, confidence stop, budget from the active item model) and `knowledge_space.py` (scope, down-set enumeration, exact and sampling posteriors, chain-cover bits bound); `DIAGNOSTICS` in `diagnostic/__init__.py` maps `EngineConfig.diagnostic_method` to the class `Engine.diagnose` uses.
+- `planner/confirmation.py` (Plan 3, F1): routing rule and confirmation checks for concepts the bisection diagnostic inferred; called from `compute_workload` when `confirm_diag_confident` is on.
 - `planner/`: Deterministic path planner, difficulty policy, feasibility bounds, exact bin-packing oracle.
 - `review/`: Spaced review forgetting model (half-life decay) and review urgency scoring.
 - `replanner/`: Dynamic horizon replanning on events (missed day, failed assessment, deadline changed, budget changed).
