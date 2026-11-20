@@ -109,3 +109,25 @@ test("keys 1-4 answer in the diagnostic", async ({ page, request }) => {
   await page.keyboard.press("1");
   await expect(page.getByTestId("diag-items").locator("li")).toHaveCount(1);
 });
+
+test("next day ends today and the engine replans from the next day", async ({ page, request }) => {
+  const s = await (
+    await request.post("/api/sessions", { data: { curriculum: "8node", goal: "C8", deadline_day: 10, budget: 10 } })
+  ).json();
+  const sid = s.session_id;
+  let view = await (await request.post(`/api/sessions/${sid}/plan`, { data: {} })).json();
+  while (view.today && view.effective.current_day === 1) {
+    // do day 1's work through the API (right on every exercise)
+    const aid: string = view.today.activities[0];
+    const data = aid.startsWith("E-") ? { kind: "COMPLETED", activity_id: aid, correct: true } : { kind: "COMPLETED", activity_id: aid };
+    view = (await (await request.post(`/api/sessions/${sid}/events`, { data })).json()).session;
+  }
+  const day: number = view.effective.current_day;
+  await page.addInitScript((id) => localStorage.setItem("ae.sid", id), sid);
+  await page.goto("/");
+  await page.getByTestId("tab-study").click();
+  await expect(page.getByTestId("effective")).toContainText(`Day ${day}`);
+  await page.getByTestId("next-day").click();
+  await expect(page.getByTestId("effective")).toContainText(`Day ${day + 1}`);
+  await expect(page.getByTestId("study-card")).toContainText(`Day ${day + 1} ·`);
+});

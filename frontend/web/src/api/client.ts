@@ -45,6 +45,7 @@ export const api = {
   answer: (sid: string, b: S["DiagnosticAnswer"]) => req<Session>(`/sessions/${sid}/diagnostic/answer`, b),
   plan: (sid: string, b: S["PlanRequest"]) => req<Session>(`/sessions/${sid}/plan`, b),
   event: (sid: string, b: S["EventRequest"]) => req<EventResult>(`/sessions/${sid}/events`, b),
+  nextDay: (sid: string) => req<Session>(`/sessions/${sid}/next-day`, {}),
   trace: (sid: string, aid: string) =>
     req<Trace>(`/sessions/${sid}/trace?activity_id=${encodeURIComponent(aid)}`),
   simulate: (b: Partial<SimulateRequest> & Pick<SimulateRequest, "curriculum" | "goal">) =>

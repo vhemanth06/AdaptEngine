@@ -49,6 +49,9 @@ export default function Study({ session, cur, demo, sendEvent, lastEvent, go }: 
         {!act ? (
           <p data-testid="nothing-today">
             Nothing scheduled. Plan status: <b>{session.plan?.status ?? "none"}</b>.
+            {session.effective && session.effective.current_day < session.effective.deadline_day && (
+              <> Today's work is done: use “Next day →” in the top bar to continue.</>
+            )}
           </p>
         ) : (
           <div className="space-y-4">

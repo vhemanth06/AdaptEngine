@@ -71,6 +71,18 @@ function Shell() {
     [qc],
   );
 
+  // End today (D96): the engine replans from the next day
+  const nextDay = async () => {
+    try {
+      const s = await api.nextDay(sid!);
+      setSession(s);
+      setLastEvent(null);
+      toast(`Day ${s.effective?.current_day}: the engine replanned the remaining work`, "neutral");
+    } catch (e) {
+      toast(String(e), "violation");
+    }
+  };
+
   const reset = useCallback(() => {
     store.set("ae.sid", null);
     setSidState(null);
@@ -132,6 +144,7 @@ function Shell() {
           theme={theme}
           toggleTheme={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
           reset={reset}
+          nextDay={nextDay}
         />
         <main className="flex-1">
           <Page title={title} subtitle={SUBTITLE[tab]}>

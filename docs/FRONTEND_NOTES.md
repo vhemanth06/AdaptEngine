@@ -157,3 +157,27 @@ no zero-item run, so it keeps the initial state.
 Tests: `test_bisection_session_info_and_flags` checks the first view against a direct
 `item_limit=0` run. `test_default_session_flags_false` checks that the sweep's first view is
 unchanged.
+
+## "Next day" button (2026-11-21, D96)
+
+**Problem.** In session `30fdf1` (budget 10), 7 minutes were used on day 1 and the next item,
+`L-C2`, was longer than the 3 minutes left. The engine planned it for day 2, but it moves on only
+once the daily budget is used, so day 1 never ended ("Nothing scheduled").
+
+**Change.** The learner is assumed to keep to the budget. The change is in the web adapter only;
+`src/` is untouched.
+- New route `POST /api/sessions/{sid}/next-day`: sets `ctx.current_day` to the effective day + 1
+  and replans.
+  - It returns 409 on the deadline day.
+  - After a deadline extension, the context's deadline moves with the day, because `PlanContext`
+    needs `current_day <= deadline_day`.
+- Setup's re-plan keeps `current_day`. It used to rebuild the context with day 1, which was
+  harmless while the day was never set.
+- Top bar: "Next day →".
+- Study's "Nothing scheduled" points to it.
+
+A first version also had "Keep going" (work beyond the budget). The owner removed it: the budget
+is followed strictly.
+
+**Tests:** API 27 passed (2 new); Playwright 9 passed (1 new); `make check` green; code hash
+unchanged.

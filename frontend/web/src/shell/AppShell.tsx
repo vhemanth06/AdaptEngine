@@ -80,6 +80,7 @@ export function TopBar({
   theme,
   toggleTheme,
   reset,
+  nextDay,
 }: {
   session?: Session;
   demo: boolean;
@@ -87,6 +88,7 @@ export function TopBar({
   theme: string;
   toggleTheme: () => void;
   reset: () => void;
+  nextDay: () => void;
 }) {
   const eff = session?.effective;
   return (
@@ -101,10 +103,20 @@ export function TopBar({
       )}
       <StatusBadge plan={session?.plan} testId="plan-status" />
       {eff && (
-        <span data-testid="effective" className="flex flex-wrap gap-2">
+        <span data-testid="effective" className="flex flex-wrap items-center gap-2">
           <Chip tone="accent">Day {eff.current_day}</Chip>
           <Chip tone="neutral">deadline {eff.deadline_day}</Chip>
           <Chip tone="neutral">{eff.budget} min/day</Chip>
+          <Button
+            kind="ghost"
+            size="sm"
+            testId="next-day"
+            disabled={!session?.plan || eff.current_day >= eff.deadline_day}
+            title={eff.current_day >= eff.deadline_day ? "Today is the deadline day" : "End today; the engine replans the rest from the next day"}
+            onClick={nextDay}
+          >
+            Next day →
+          </Button>
         </span>
       )}
       <span className="flex-1" />

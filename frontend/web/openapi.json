@@ -290,6 +290,46 @@
     }
    }
   },
+  "/api/sessions/{sid}/next-day": {
+   "post": {
+    "summary": "Next Day",
+    "description": "End today and start the next day (D96). The engine moves on by itself only once the daily\nbudget is used; with minutes left but nothing that fits, today would never end. Unused minutes\nare not carried over, nothing is logged, and the engine replans from the new day.",
+    "operationId": "next_day_api_sessions__sid__next_day_post",
+    "parameters": [
+     {
+      "name": "sid",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Sid"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SessionOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/api/sessions/{sid}/trace": {
    "get": {
     "summary": "Get Trace",

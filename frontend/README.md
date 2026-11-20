@@ -40,6 +40,10 @@ preset uses CP-SAT, so install the extra for the walkthrough.
 - **Top bar:**
   - the session chip (id · curriculum · diagnostic · item model · planner);
   - plan status and the day, deadline and budget chips;
+  - **Next day →**: ends today, and the engine replans the remaining work from the next day
+    (D96). The learner is assumed to keep to the daily budget; the engine moves on by itself once
+    the budget is used, and this button ends a day that has minutes left but nothing that fits.
+    The deadline day is the last day;
   - the demo-mode switch, the theme toggle and Reset demo.
 - **⌘K / Ctrl+K:** opens the command palette (jump to a screen, and other actions).
 - **Robustness:** loading skeletons, empty states with a next step, inline errors with Retry,

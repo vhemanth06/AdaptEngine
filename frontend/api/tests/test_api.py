@@ -446,3 +446,36 @@ def test_demo_preset(client):
         assert step5["activity_id"] == p["wrong_check"] == demo.WRONG_CHECK
         assert step5["changes"] > 0
         assert step5["diag_confident_after"] and not step5["confirmed_after"]  # still pending
+
+
+# ------------------------------------------------------------------------------ next day (D96)
+
+
+def test_next_day_ends_a_stuck_day(client):
+    """Today's work done with minutes left: no slice and no way on until "Next day"."""
+    sid = _new(client)["session_id"]
+    view = client.post(f"/api/sessions/{sid}/plan", json={}).json()
+    while view["today"] and view["effective"]["current_day"] == 1:
+        aid = view["today"]["activities"][0]
+        body = {"kind": "COMPLETED", "activity_id": aid}
+        if aid.startswith("E-"):
+            body["correct"] = aid.split("-")[1] in KNOWN
+        view = client.post(f"/api/sessions/{sid}/events", json=body).json()["session"]
+    day = view["effective"]["current_day"]
+    view = client.post(f"/api/sessions/{sid}/next-day").json()
+    assert view["effective"]["current_day"] == day + 1 == view["context"]["current_day"]
+    assert view["today"]["day"] == day + 1
+    assert client.post(f"/api/sessions/{sid}/events", json={"kind": "MISSED"}).status_code == 200
+    # a Setup re-plan keeps the day
+    view = client.post(f"/api/sessions/{sid}/plan", json={}).json()
+    assert view["effective"]["current_day"] == day + 2
+
+
+def test_next_day_not_past_the_deadline(client):
+    sid = _new(client, deadline_day=2)["session_id"]
+    client.post(f"/api/sessions/{sid}/plan", json={})
+    assert client.post(f"/api/sessions/{sid}/next-day").json()["effective"]["current_day"] == 2
+    assert client.post(f"/api/sessions/{sid}/next-day").status_code == 409  # day 2 = deadline
+    client.post(f"/api/sessions/{sid}/events", json={"kind": "DEADLINE_CHANGED", "value": 4})
+    view = client.post(f"/api/sessions/{sid}/next-day").json()
+    assert view["effective"]["current_day"] == 3 and view["effective"]["deadline_day"] == 4

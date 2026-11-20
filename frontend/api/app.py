@@ -435,6 +435,7 @@ def make_plan(sid: str, req: PlanRequest):
         goal=req.goal or ctx.goal,
         deadline_day=req.deadline_day or ctx.deadline_day,
         budget=req.budget or ctx.budget,
+        current_day=ctx.current_day,  # a re-plan keeps the day reached with "Next day"
     )
     check_budget(ctx.budget, b.engine.config.allowed_budgets)
     if ctx.goal not in b.engine.graph.concepts():
@@ -516,6 +517,23 @@ def post_event(sid: str, req: EventRequest):
         "old_status": old_plan["status"] if old_plan else None,
         "changes": changes,
     }
+
+
+@app.post("/api/sessions/{sid}/next-day", response_model=SessionOut)
+def next_day(sid: str):
+    """End today and start the next day (D96). The engine moves on by itself only once the daily
+    budget is used; with minutes left but nothing that fits, today would never end. Unused minutes
+    are not carried over, nothing is logged, and the engine replans from the new day."""
+    b, state, log, ctx, meta = _open(sid)
+    eff, _, deadline = compute_effective_context(ctx, log)
+    if eff is None or eff.current_day >= deadline:
+        raise HTTPException(409, "today is the deadline day: there is no next day")
+    day = eff.current_day + 1
+    # a DEADLINE_CHANGED extension in the log can put day past ctx.deadline_day; the log wins
+    ctx = replace(ctx, current_day=day, deadline_day=max(ctx.deadline_day, day))
+    _run_plan(b.engine, state, log, ctx, meta)
+    store.save(sid, state, log, ctx, meta)
+    return _view(b, sid, state, log, ctx, meta)
 
 
 @app.get("/api/sessions/{sid}/trace", response_model=TraceOut)
