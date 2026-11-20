@@ -279,6 +279,8 @@ export interface components {
             deadline_day: number;
             /** Budget */
             budget: number;
+            /** Model Profile */
+            model_profile?: ("heuristic" | "fitted_assist09" | "fitted_ct") | null;
         };
         /** CurriculumDetail */
         CurriculumDetail: {
@@ -464,6 +466,8 @@ export interface components {
             trace: {
                 [key: string]: unknown;
             }[];
+        } & {
+            [key: string]: unknown;
         };
         /**
          * PlanRequest
@@ -483,6 +487,11 @@ export interface components {
             session_id: string;
             /** Curriculum */
             curriculum: string;
+            /**
+             * Model Profile
+             * @default heuristic
+             */
+            model_profile: string;
             context: components["schemas"]["ContextOut"];
             effective?: components["schemas"]["ContextOut"] | null;
             /** Concepts */

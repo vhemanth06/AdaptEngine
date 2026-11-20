@@ -328,7 +328,7 @@ def serialize_plan(plan: Plan, cfg: EngineConfig = DEFAULT_CONFIG) -> dict:
     """Serialize a Plan into pure primitives including the configuration hash (T7)."""
     from ..core.config import config_hash
 
-    return {
+    out = {
         "config_hash": config_hash(cfg),
         "status": plan.status.value,
         "reason": plan.reason,
@@ -348,3 +348,8 @@ def serialize_plan(plan: Plan, cfg: EngineConfig = DEFAULT_CONFIG) -> dict:
         ],
         "trace": list(plan.trace),
     }
+    if cfg.model_profile != "heuristic":  # F2 provenance: tie the plan to the exact numbers used
+        from ..learner.profiles import load_profile
+
+        out["model_profile"] = load_profile(cfg.model_profile).provenance()
+    return out

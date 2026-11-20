@@ -11,14 +11,26 @@ from .session import (
     load_snapshot,
 )
 from .planner import serialize_plan
-from .core.config import DEFAULT_CONFIG
+from dataclasses import replace
+
+from .core.config import DEFAULT_CONFIG, config_from_file, config_hash
 from .core.errors import AdaptEngineError, ValidationError
 from .core.schema import Event, EventType, PlanContext, PlanStatus
 from .learner.state import ExecutionLog
 
 
+_MODEL_HELP = (
+    "Mastery model: 'custombkt' or 'pybkt' "
+    "(default: built from the config, heuristic unless a profile is given)"
+)
+
+
 def _resolve_model(model_name: str | None, cfg=DEFAULT_CONFIG):
-    if not model_name or model_name.lower() in ("custom", "custombkt"):
+    """Model for an explicit --model, built from the effective config; None lets the Engine build
+    its model from the config (D89)."""
+    if model_name is None:
+        return None
+    if model_name.lower() in ("custom", "custombkt"):
         from .learner.adapter import CustomBKT
 
         return CustomBKT(cfg)
@@ -30,6 +42,18 @@ def _resolve_model(model_name: str | None, cfg=DEFAULT_CONFIG):
         raise ValidationError(f"Unknown model '{model_name}'. Allowed: 'custombkt', 'pybkt'")
 
 
+def _effective_config(args):
+    """DEFAULT_CONFIG < --config file < --model-profile (D89)."""
+    cfg = config_from_file(args.config) if args.config else DEFAULT_CONFIG
+    if args.model_profile:
+        cfg = replace(cfg, model_profile=args.model_profile)
+    if getattr(args, "model", None) is not None and cfg.model_profile != "heuristic":
+        raise ValidationError(
+            "--model cannot be combined with a fitted model profile; drop --model to use the profile"
+        )
+    return cfg
+
+
 def main(argv=None):
     if argv is None:
         argv = sys.argv[1:]
@@ -39,6 +63,11 @@ def main(argv=None):
     # T9.1: options shared by every subcommand live on one parent parser
     common = argparse.ArgumentParser(add_help=False)
     common.add_argument("--allow-unreviewed", action="store_true")
+    common.add_argument("--config", help="JSON file of EngineConfig field overrides (D89)")
+    common.add_argument(
+        "--model-profile",
+        help="item-model profile: path to config/fitted_*.json (overrides --config)",
+    )
 
     # validate
     val_parser = subparsers.add_parser("validate", parents=[common])
@@ -79,8 +108,8 @@ def main(argv=None):
     upd_parser.add_argument(
         "--model",
         choices=["custombkt", "pybkt"],
-        default="custombkt",
-        help="Mastery model: 'custombkt' (default) or 'pybkt'",
+        default=None,
+        help=_MODEL_HELP,
     )
 
     # Event recording commands: missed-day
@@ -95,8 +124,8 @@ def main(argv=None):
         m_parser.add_argument(
             "--model",
             choices=["custombkt", "pybkt"],
-            default="custombkt",
-            help="Mastery model: 'custombkt' (default) or 'pybkt'",
+            default=None,
+            help=_MODEL_HELP,
         )
 
     # Event recording commands: failed-assessment
@@ -112,8 +141,8 @@ def main(argv=None):
         f_parser.add_argument(
             "--model",
             choices=["custombkt", "pybkt"],
-            default="custombkt",
-            help="Mastery model: 'custombkt' (default) or 'pybkt'",
+            default=None,
+            help=_MODEL_HELP,
         )
 
     # Event recording commands: change-deadline
@@ -129,8 +158,8 @@ def main(argv=None):
         d_parser.add_argument(
             "--model",
             choices=["custombkt", "pybkt"],
-            default="custombkt",
-            help="Mastery model: 'custombkt' (default) or 'pybkt'",
+            default=None,
+            help=_MODEL_HELP,
         )
 
     # Event recording commands: change-budget
@@ -146,8 +175,8 @@ def main(argv=None):
         b_parser.add_argument(
             "--model",
             choices=["custombkt", "pybkt"],
-            default="custombkt",
-            help="Mastery model: 'custombkt' (default) or 'pybkt'",
+            default=None,
+            help=_MODEL_HELP,
         )
 
     # Explicit legacy import/export commands
@@ -186,8 +215,8 @@ def main(argv=None):
     plan_parser.add_argument(
         "--model",
         choices=["custombkt", "pybkt"],
-        default="custombkt",
-        help="Mastery model: 'custombkt' (default) or 'pybkt'",
+        default=None,
+        help=_MODEL_HELP,
     )
 
     # replan
@@ -206,8 +235,8 @@ def main(argv=None):
     replan_parser.add_argument(
         "--model",
         choices=["custombkt", "pybkt"],
-        default="custombkt",
-        help="Mastery model: 'custombkt' (default) or 'pybkt'",
+        default=None,
+        help=_MODEL_HELP,
     )
 
     args = parser.parse_args(argv)
@@ -216,12 +245,20 @@ def main(argv=None):
         print("WARNING: authoring-only mode: allowing unreviewed content", file=sys.stderr)
 
     try:
+        cfg = _effective_config(args)
+        if cfg != DEFAULT_CONFIG:
+            print(
+                f"INFO: config: model_profile={cfg.model_profile}, "
+                f"config_hash={config_hash(cfg)[:12]}",
+                file=sys.stderr,
+            )
         if args.command == "validate":
             engine = Engine.from_files(
                 args.curriculum,
                 args.activities,
                 manifest_path=args.manifest,
                 allow_unreviewed=args.allow_unreviewed,
+                config=cfg,
             )
             print(
                 f"OK: {len(engine.graph.concepts())} concepts, {len(engine.activities)} activities (reviewed)"
@@ -234,6 +271,7 @@ def main(argv=None):
                 args.activities,
                 manifest_path=args.manifest,
                 allow_unreviewed=args.allow_unreviewed,
+                config=cfg,
             )
             print("Concepts:", engine.graph.concepts())
             print(
@@ -253,6 +291,7 @@ def main(argv=None):
                 args.activities,
                 manifest_path=args.manifest,
                 allow_unreviewed=args.allow_unreviewed,
+                config=cfg,
             )
             state = engine.init_learner()
             ctx = None
@@ -269,7 +308,8 @@ def main(argv=None):
                 args.activities,
                 manifest_path=args.manifest,
                 allow_unreviewed=args.allow_unreviewed,
-                model=_resolve_model(getattr(args, "model", None)),
+                config=cfg,
+                model=_resolve_model(getattr(args, "model", None), cfg),
             )
             snap_ctx = None
             if args.snapshot:
@@ -326,7 +366,8 @@ def main(argv=None):
                 args.activities,
                 manifest_path=args.manifest,
                 allow_unreviewed=args.allow_unreviewed,
-                model=_resolve_model(getattr(args, "model", None)),
+                config=cfg,
+                model=_resolve_model(getattr(args, "model", None), cfg),
             )
             state, log, snap_ctx = load_snapshot(
                 args.snapshot, engine.graph.concepts(), include_context=True
@@ -343,7 +384,8 @@ def main(argv=None):
                 args.activities,
                 manifest_path=args.manifest,
                 allow_unreviewed=args.allow_unreviewed,
-                model=_resolve_model(getattr(args, "model", None)),
+                config=cfg,
+                model=_resolve_model(getattr(args, "model", None), cfg),
             )
             state, log, snap_ctx = load_snapshot(
                 args.snapshot, engine.graph.concepts(), include_context=True
@@ -370,7 +412,8 @@ def main(argv=None):
                 args.activities,
                 manifest_path=args.manifest,
                 allow_unreviewed=args.allow_unreviewed,
-                model=_resolve_model(getattr(args, "model", None)),
+                config=cfg,
+                model=_resolve_model(getattr(args, "model", None), cfg),
             )
             state, log, snap_ctx = load_snapshot(
                 args.snapshot, engine.graph.concepts(), include_context=True
@@ -392,7 +435,8 @@ def main(argv=None):
                 args.activities,
                 manifest_path=args.manifest,
                 allow_unreviewed=args.allow_unreviewed,
-                model=_resolve_model(getattr(args, "model", None)),
+                config=cfg,
+                model=_resolve_model(getattr(args, "model", None), cfg),
             )
             state, log, snap_ctx = load_snapshot(
                 args.snapshot, engine.graph.concepts(), include_context=True
@@ -414,6 +458,7 @@ def main(argv=None):
                 args.activities,
                 manifest_path=args.manifest,
                 allow_unreviewed=args.allow_unreviewed,
+                config=cfg,
             )
             state = load_learner(args.learner, engine.graph.concepts())
             log = load_log(args.log)
@@ -430,6 +475,7 @@ def main(argv=None):
                 args.activities,
                 manifest_path=args.manifest,
                 allow_unreviewed=args.allow_unreviewed,
+                config=cfg,
             )
             state, log = load_snapshot(args.snapshot, engine.graph.concepts())
             save_learner(state, args.out_learner)
@@ -443,7 +489,8 @@ def main(argv=None):
                 args.activities,
                 manifest_path=args.manifest,
                 allow_unreviewed=args.allow_unreviewed,
-                model=_resolve_model(getattr(args, "model", None)),
+                config=cfg,
+                model=_resolve_model(getattr(args, "model", None), cfg),
             )
             state = None
             log = None
@@ -523,7 +570,8 @@ def main(argv=None):
                 args.activities,
                 manifest_path=args.manifest,
                 allow_unreviewed=args.allow_unreviewed,
-                model=_resolve_model(getattr(args, "model", None)),
+                config=cfg,
+                model=_resolve_model(getattr(args, "model", None), cfg),
             )
             state = None
             log = None

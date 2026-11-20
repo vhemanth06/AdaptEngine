@@ -89,7 +89,7 @@ def _curriculum_ids() -> list[str]:
 
 
 @functools.cache
-def _bundle(cid: str) -> Bundle:
+def _bundle(cid: str, model_profile: str = "heuristic") -> Bundle:
     if cid not in _curriculum_ids():
         raise HTTPException(404, f"unknown curriculum {cid}")
     concepts = load_curriculum(str(DATA / "curriculum" / f"curriculum_{cid}.json"), str(MANIFEST))
@@ -101,7 +101,12 @@ def _bundle(cid: str) -> Bundle:
     )
     content_path = DATA / "content" / f"content_{cid}.json"
     content = dict(load_content(str(content_path), acts)) if content_path.exists() else None
-    return Bundle(Engine(concepts, acts, DEFAULT_CONFIG), concepts, content)
+    cfg = (  # model_profile is one of schemas.ModelProfile, never a client path
+        DEFAULT_CONFIG
+        if model_profile == "heuristic"
+        else replace(DEFAULT_CONFIG, model_profile=f"config/{model_profile}.json")
+    )
+    return Bundle(Engine(concepts, acts, cfg), concepts, content)
 
 
 @app.get("/api/curricula", response_model=list[CurriculumSummary])
@@ -257,7 +262,7 @@ def _diagnostic_view(engine: Engine, answers: list, sid: str) -> dict:
 
 def _open(sid: str):
     meta = store.load_meta(sid)
-    b = _bundle(meta["curriculum"])
+    b = _bundle(meta["curriculum"], meta.get("model_profile", "heuristic"))
     state, log, ctx = store.load_state(sid, b.engine.graph.concepts())
     return b, state, log, ctx, meta
 
@@ -297,6 +302,7 @@ def _view(b: Bundle, sid: str, state, log, ctx, meta: dict) -> dict:
     return {
         "session_id": sid,
         "curriculum": meta["curriculum"],
+        "model_profile": meta.get("model_profile", "heuristic"),
         "context": _ctx_dict(ctx),
         "effective": _ctx_dict(eff),
         "concepts": [
@@ -332,14 +338,15 @@ def _grade(b: Bundle, activity_id: str, choice: Optional[int], correct: Optional
 
 @app.post("/api/sessions", response_model=SessionOut)
 def create_session(req: CreateSession):
-    b = _bundle(req.curriculum)
+    profile = req.model_profile or "heuristic"
+    b = _bundle(req.curriculum, profile)
     ctx = PlanContext(goal=req.goal, deadline_day=req.deadline_day, budget=req.budget)
     check_budget(ctx.budget, b.engine.config.allowed_budgets)  # config-driven since W7 T5.1
     if req.goal not in b.engine.graph.concepts():
         raise HTTPException(422, f"unknown goal concept {req.goal}")
     sid = store.new_id()
     state, log = b.engine.init_learner(), ExecutionLog()
-    meta = {"curriculum": req.curriculum, "diag_answers": []}
+    meta = {"curriculum": req.curriculum, "diag_answers": [], "model_profile": profile}
     store.save(sid, state, log, ctx, meta)
     return _view(b, sid, state, log, ctx, meta)
 

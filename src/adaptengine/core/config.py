@@ -1,7 +1,8 @@
 import json
 import hashlib
 import math
-from dataclasses import dataclass, asdict
+import os
+from dataclasses import asdict, dataclass, fields, replace
 from . import constants
 from .errors import ValidationError
 from .validators import check_bool, check_positive_int
@@ -56,6 +57,11 @@ class EngineConfig:
     mastery_criterion: str = "bkt_threshold"
     n_consecutive: int = 3
     certainty_max_entropy: float = 0.5
+    # F2 item model (Plan 2, D60): "heuristic" (D6 g(d), s(d)) or a path to config/fitted_*.json
+    # (class guess/slip; the profile's prior is never used). use_profile_learn takes t_exercise
+    # from the profile as well.
+    model_profile: str = "heuristic"
+    use_profile_learn: bool = False
 
     def __post_init__(self):
         if not (0.0 < self.d_min < self.d_max < 1.0):
@@ -154,10 +160,30 @@ class EngineConfig:
             raise ValidationError(
                 f"remediation_threshold must be in (0, 1], got {self.remediation_threshold}"
             )
+        if not isinstance(self.model_profile, str) or not self.model_profile:
+            raise ValidationError(
+                f"model_profile must be a non-empty string, got {self.model_profile!r}"
+            )
+        if self.model_profile != "heuristic":
+            resolve_profile_path(self.model_profile)
+        check_bool(self.use_profile_learn, "use_profile_learn")
+        if self.use_profile_learn and self.model_profile == "heuristic":
+            raise ValidationError("use_profile_learn needs a fitted model_profile")
         if not (0.0 < self.half_life_growth <= 10.0) or not math.isfinite(self.half_life_growth):
             raise ValidationError(
                 f"half_life_growth must be finite in (0, 10], got {self.half_life_growth}"
             )
+
+
+_REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+
+
+def resolve_profile_path(path: str) -> str:
+    """Absolute path of a model_profile file: as given (cwd-relative), else from the repo root."""
+    for candidate in (path, os.path.join(_REPO_ROOT, path)):
+        if os.path.isfile(candidate) and os.access(candidate, os.R_OK):
+            return os.path.abspath(candidate)
+    raise ValidationError(f"model_profile file not found or not readable: {path!r}")
 
 
 DEFAULT_CONFIG = EngineConfig()
@@ -166,6 +192,34 @@ DEFAULT_CONFIG = EngineConfig()
 def population_prior_config() -> EngineConfig:
     """Defaults with the population sweep prior: population_p0 = 0.24 (the D44 default before D59)."""
     return EngineConfig(prior_mode="population", population_p0=0.24)
+
+
+def config_from_file(path: str, base: EngineConfig = DEFAULT_CONFIG) -> EngineConfig:
+    """base with the EngineConfig field overrides in a JSON object file (Plan 2.5, D89).
+
+    Unknown keys are rejected; every value is validated by EngineConfig.__post_init__. JSON lists
+    become tuples for tuple fields (e.g. allowed_budgets).
+    """
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except OSError as e:
+        raise ValidationError(f"Cannot read config file {path}: {e}")
+    except json.JSONDecodeError as e:
+        raise ValidationError(f"Config file {path}: invalid JSON: {e}")
+    if not isinstance(data, dict):
+        raise ValidationError(f"Config file {path}: must hold a JSON object of EngineConfig fields")
+    names = {f.name: f for f in fields(EngineConfig)}
+    unknown = sorted(set(data) - set(names))
+    if unknown:
+        raise ValidationError(
+            f"Config file {path}: unknown keys {unknown}; allowed keys: {sorted(names)}"
+        )
+    overrides = {
+        k: tuple(v) if isinstance(v, list) and isinstance(getattr(base, k), tuple) else v
+        for k, v in data.items()
+    }
+    return replace(base, **overrides)
 
 
 def config_hash(cfg: EngineConfig) -> str:

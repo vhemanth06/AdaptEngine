@@ -14,7 +14,8 @@ from .core.schema import (
 from .curriculum.loader import load_curriculum, load_activities
 from .curriculum.graph import CurriculumGraph
 from .learner.state import LearnerState, ExecutionLog, initial_state
-from .learner.adapter import MasteryModel, CustomBKT
+from .learner.adapter import MasteryModel
+from .learner.profiles import build_model, profile_config
 from .session import apply_response, apply_lesson
 from .core.errors import ValidationError, UnknownConceptError
 
@@ -29,8 +30,9 @@ class Engine:
     ):
         self.graph = CurriculumGraph.from_concepts(curriculum)
         self.activities: Mapping[str, Activity] = {a.activity_id: a for a in activities}
+        config = profile_config(config)  # F2: use_profile_learn takes t_exercise from the profile
         self.config = config
-        self.model = model if model is not None else CustomBKT(config)
+        self.model = model if model is not None else build_model(config)
 
     @classmethod
     def from_files(

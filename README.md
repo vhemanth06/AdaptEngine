@@ -304,6 +304,8 @@ To use AdaptEngine effectively, developers interact with four primary file types
 
 **Bundled curricula** (`data/curriculum/`): `4node` and `8node` (1 lesson + 4 exercises per concept, reviewed) and `8node_x10` (the 8-node graph with 10 exercises per concept, 3 easy / 4 medium / 3 hard; AI-drafted and AI-checked, **human review pending** (D88), so pass `--allow-unreviewed`). Display text for the demo is in `data/content/`; check it with `scripts/check_content.py` (see `data/content/README.md`). The synthetic generator (`experiments/synth_curriculum.py`) also makes 10-exercise catalogues (`exercises_per_concept=10`, runner names `synth-N-x10`).
 
+**Item model** (Plan 2, D60): `EngineConfig.model_profile` is `"heuristic"` (default) or a fitted profile such as `config/fitted_assist09.json` (guess/slip per difficulty class, fitted on ASSISTments maths data; `config/fitted_ct.json` is a cross-check). The engine then uses that model for the diagnostic, planning and answer updates; the profile's prior is never used, and its learn rate only with `use_profile_learn=True`. See `docs/MASTERY_MODEL.md` §7.
+
 ---
 
 ### 3. Command Reference Cheat Sheet
@@ -322,6 +324,18 @@ To use AdaptEngine effectively, developers interact with four primary file types
 | `replan` | Dynamically replans schedule from current day without duplicating work. | `--curriculum`, `--activities`, `--snapshot`, `[--json]`, `[--model]` |
 | `import-legacy` | Converts legacy separate learner state and log files into a unified snapshot. | `--curriculum`, `--activities`, `--learner`, `--log`, `--out-snapshot` |
 | `export-legacy` | Exports a canonical snapshot into separate legacy learner and log files. | `--curriculum`, `--activities`, `--snapshot`, `--out-learner`, `--out-log` |
+
+**Config options on every command** (D89): `--config <file.json>` sets any `EngineConfig` field, and `--model-profile <path>` sets the item-model profile. Precedence: defaults < `--config` < `--model-profile`. `--model` cannot be combined with a fitted profile (drop `--model` to use the profile). Without these options every command behaves as before. Example:
+
+```bash
+cat > my_config.json <<'JSON'
+{"model_profile": "config/fitted_assist09.json", "use_profile_learn": true, "theta": 0.9}
+JSON
+python -m adaptengine plan --curriculum data/curriculum/curriculum_8node.json \
+  --activities data/curriculum/activities_8node.json --snapshot snapshot.json --config my_config.json --json
+```
+
+A run with a non-default config prints `INFO: config: model_profile=…, config_hash=…` to stderr. Snapshots do not record the config, so use the same options for every command on one snapshot.
 
 ---
 

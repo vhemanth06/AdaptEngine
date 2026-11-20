@@ -660,6 +660,22 @@
       "maximum": 600.0,
       "minimum": 1.0,
       "title": "Budget"
+     },
+     "model_profile": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "heuristic",
+         "fitted_assist09",
+         "fitted_ct"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Model Profile"
      }
     },
     "type": "object",
@@ -1289,6 +1305,7 @@
       "title": "Trace"
      }
     },
+    "additionalProperties": true,
     "type": "object",
     "required": [
      "config_hash",
@@ -1355,6 +1372,11 @@
      "curriculum": {
       "type": "string",
       "title": "Curriculum"
+     },
+     "model_profile": {
+      "type": "string",
+      "title": "Model Profile",
+      "default": "heuristic"
      },
      "context": {
       "$ref": "#/components/schemas/ContextOut"

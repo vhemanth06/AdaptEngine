@@ -6,7 +6,7 @@ ValidationError is mapped to HTTP 422 in app.py.
 
 from typing import Any, Literal, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 _ID = r"^[A-Za-z0-9_.\-]{1,64}$"
 
@@ -51,11 +51,17 @@ class CurriculumDetail(BaseModel):
     k_responses: int
 
 
+# F2 (D60): named item-model profiles only; a client never sends a file path, and fitted_sim
+# (fitted on our own simulator) is not offered
+ModelProfile = Literal["heuristic", "fitted_assist09", "fitted_ct"]
+
+
 class CreateSession(BaseModel):
     curriculum: str = _id()
     goal: str = _id()
     deadline_day: int = Field(ge=1, le=365)
     budget: int = Field(ge=1, le=600)
+    model_profile: Optional[ModelProfile] = None  # None = "heuristic"
 
 
 class PlanRequest(BaseModel):
@@ -100,6 +106,10 @@ class PlanDayOut(BaseModel):
 
 
 class PlanOut(BaseModel):
+    # extra keys pass through, so a fitted-profile plan keeps its "model_profile" provenance and
+    # the API plan stays equal to serialize_plan (D45) for both profiles
+    model_config = ConfigDict(extra="allow")
+
     config_hash: str
     status: Literal["FEASIBLE", "INFEASIBLE", "UNKNOWN"]
     reason: Optional[str] = None
@@ -165,6 +175,7 @@ class EventOut(BaseModel):
 class SessionOut(BaseModel):
     session_id: str
     curriculum: str
+    model_profile: str = "heuristic"
     context: ContextOut
     effective: Optional[ContextOut] = None  # engine's context after folding the log; None = over
     concepts: list[ConceptState]

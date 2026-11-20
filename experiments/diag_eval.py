@@ -331,9 +331,19 @@ def run_diagnostic_tuning(
 W6_DIAGNOSTIC = {"prior_mode": "flat", "concept_cap": 3, "n_max": 8}
 
 
-def binary_score(engine: Engine, state: LearnerState, seed: int, profile: SimProfile, world: str):
-    """Per-learner scores of a diagnostic end state against the simulator's initial truth."""
-    sim = make_sim(engine, seed, profile, world)
+def binary_score(
+    engine: Engine,
+    state: LearnerState,
+    seed: int,
+    profile: SimProfile,
+    world: str,
+    sim_kw: Optional[dict] = None,
+):
+    """Per-learner scores of a diagnostic end state against the simulator's initial truth.
+
+    sim_kw goes to the SimLearner (e.g. bkt_params for the ASSISTments-driven S4 world, Plan 2).
+    """
+    sim = make_sim(engine, seed, profile, world, **(sim_kw or {}))
     truth = sim.initial
     concepts = list(engine.graph.concepts())
     pairs = [(state.concepts[c].p, truth[c] >= TRUE_MASTERY_CUTOFF) for c in concepts]

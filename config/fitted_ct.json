@@ -1,0 +1,101 @@
+{
+  "profile": "fitted_ct",
+  "source": "Cognitive Tutor (ct.csv), multigs by D6 difficulty class, shared prior/learn across 9 skills",
+  "source_results": "experiments/results/bkt_fit_ct.json",
+  "code_hash": "854912fa2b278efdd54658c58fabb1b6a0a31de8459763e7d907443457e44eea",
+  "timestamp_utc": "2026-11-08T18:29:08.162896+00:00",
+  "caveat": "Fitted on MATHS tutor data, not Python programming, and on only 15935 answers. A robustness cross-check for fitted_assist09 (D60), never the recommended profile.",
+  "ci95": {
+    "prior": {
+      "ci95": [
+        0.347377,
+        0.742951
+      ],
+      "boot_median": 0.620904
+    },
+    "learn": {
+      "ci95": [
+        0.091173,
+        0.140829
+      ],
+      "boot_median": 0.115031
+    },
+    "guess_easy": {
+      "ci95": [
+        0.384628,
+        0.620494
+      ],
+      "boot_median": 0.482799
+    },
+    "guess_medium": {
+      "ci95": [
+        0.21536,
+        0.38529
+      ],
+      "boot_median": 0.280379
+    },
+    "guess_hard": {
+      "ci95": [
+        0.0,
+        0.062528
+      ],
+      "boot_median": 0.001847
+    },
+    "guess_unrated": {
+      "ci95": [
+        0.184761,
+        0.428069
+      ],
+      "boot_median": 0.274549
+    },
+    "slip_easy": {
+      "ci95": [
+        0.063245,
+        0.134067
+      ],
+      "boot_median": 0.108884
+    },
+    "slip_medium": {
+      "ci95": [
+        0.273372,
+        0.39518
+      ],
+      "boot_median": 0.36453
+    },
+    "slip_hard": {
+      "ci95": [
+        0.472331,
+        0.692362
+      ],
+      "boot_median": 0.631683
+    },
+    "slip_unrated": {
+      "ci95": [
+        0.144712,
+        0.272883
+      ],
+      "boot_median": 0.219072
+    }
+  },
+  "p0": 0.634033,
+  "t_exercise": 0.11673,
+  "class_params": {
+    "easy": {
+      "guess": 0.477106,
+      "slip": 0.111022
+    },
+    "medium": {
+      "guess": 0.276535,
+      "slip": 0.365979
+    },
+    "hard": {
+      "guess": 0.001598,
+      "slip": 0.633805
+    }
+  },
+  "constraint_warnings": {
+    "hard": [
+      "slip>0.5"
+    ]
+  }
+}

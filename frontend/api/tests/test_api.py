@@ -9,7 +9,10 @@ pytest.importorskip("httpx")
 
 from fastapi.testclient import TestClient  # noqa: E402
 
+from dataclasses import replace  # noqa: E402
+
 from adaptengine.api import Engine  # noqa: E402
+from adaptengine.core.config import DEFAULT_CONFIG  # noqa: E402
 from adaptengine.core.schema import Event, EventType, PlanContext  # noqa: E402
 from adaptengine.learner.state import ExecutionLog  # noqa: E402
 from adaptengine.planner import serialize_plan  # noqa: E402
@@ -190,9 +193,23 @@ def test_evaluation_tolerates_missing_and_broken_files(client, tmp_path, monkeyp
     assert files == [{"name": "w7_matrix.json", "data": {"a": 1}}]
 
 
-def test_end_to_end_plan_matches_direct_engine(client, engine):
-    """create -> diagnose -> plan -> answer -> disrupt; the API plan equals a direct Engine call."""
-    sid = _new(client)["session_id"]
+@pytest.mark.parametrize("profile", ["heuristic", "fitted_assist09"])
+def test_end_to_end_plan_matches_direct_engine(client, engine, profile):
+    """create -> diagnose -> plan -> answer -> disrupt; the API plan equals a direct Engine call.
+
+    Also with a fitted item model (F2-TC7, D45): the session and the direct engine use it alike.
+    """
+    if profile != "heuristic":
+        cfg = replace(DEFAULT_CONFIG, model_profile=f"config/{profile}.json")
+        engine = Engine.from_files(
+            str(app_module.DATA / "curriculum" / "curriculum_8node.json"),
+            str(app_module.DATA / "curriculum" / "activities_8node.json"),
+            str(app_module.MANIFEST),
+            config=cfg,
+        )
+    created = _new(client, model_profile=profile) if profile != "heuristic" else _new(client)
+    assert created["model_profile"] == profile
+    sid = created["session_id"]
     view = _run_diagnostic(client, sid)
     direct = engine.diagnose(
         engine.init_learner(), lambda a: a.target_concept in KNOWN, session_id=sid
@@ -208,7 +225,10 @@ def test_end_to_end_plan_matches_direct_engine(client, engine):
 
     view = client.post(f"/api/sessions/{sid}/plan", json={}).json()
     check(view)
+    assert ("model_profile" in view["plan"]) == (profile != "heuristic")
     for correct in (None, False, True):
+        if view["today"] is None:  # today's budget used up (fitted profile: two lessons, 8 min)
+            break
         aid, d = view["today"]["activities"][0], view["today"]["day"]
         act = engine.activities[aid]
         c = None if act.type.value == "LESSON" else bool(correct)
@@ -229,3 +249,13 @@ def test_end_to_end_plan_matches_direct_engine(client, engine):
     view = client.post(f"/api/sessions/{sid}/events", json={"kind": "MISSED"}).json()["session"]
     state, log = engine.record(state, log, Event(day=day, kind=EventType.MISSED))
     check(view)
+
+
+@pytest.mark.parametrize(
+    "profile", ["fitted_sim", "config/fitted_assist09.json", "../../etc/passwd"]
+)
+def test_model_profile_allowlist(client, profile):
+    """Only named profiles are accepted: no paths from clients, and never fitted_sim (D60)."""
+    body = {"curriculum": "8node", "goal": "C8", "deadline_day": 10, "budget": 10}
+    r = client.post("/api/sessions", json=body | {"model_profile": profile})
+    assert r.status_code == 422

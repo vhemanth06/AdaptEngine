@@ -1,0 +1,6360 @@
+{
+  "metadata": {
+    "arm": "adapt",
+    "budget": 15,
+    "code_hash": "b6259f8470d7d3f971f17119381a946fe987f60426450322a314083e0dbb2b33",
+    "config_hash_heuristic": "a00fdb3161e67097402a7a01021a910f0e609abccced0f8dd9a4cb6f480021ab",
+    "content_review": {
+      "4-node": "reviewed",
+      "8-node": "reviewed",
+      "8-node-x10": "AI-checked, human review pending (D88)",
+      "synth-20": "synthetic, unreviewed",
+      "synth-20-x10": "synthetic, unreviewed",
+      "synth-50": "synthetic, unreviewed",
+      "synth-50-x10": "synthetic, unreviewed"
+    },
+    "diag_seeds": [
+      101,
+      599,
+      "odd"
+    ],
+    "episode_seeds": [
+      1000,
+      1199
+    ],
+    "preregistration": "docs/preregistration/F2_2026-11-20.md",
+    "profiles": {
+      "fitted_assist09": {
+        "code_hash": "e3e519c08e13ce39e4fbf1e530199abd9bac391232d1561f7d5e011b4aa69733",
+        "path": "config/fitted_assist09.json",
+        "profile": "fitted_assist09",
+        "sha256": "197427dd03eedb3f791f95d73c9e08bf7cbdf5fb5601249e28415d8e99127d13",
+        "timestamp_utc": "2026-11-08T17:40:03.608532+00:00"
+      },
+      "fitted_ct": {
+        "code_hash": "854912fa2b278efdd54658c58fabb1b6a0a31de8459763e7d907443457e44eea",
+        "path": "config/fitted_ct.json",
+        "profile": "fitted_ct",
+        "sha256": "0005cfe4cf5f4e67c26b07016aa493174e9923a0e93c6fa4c31c4ada585463a7",
+        "timestamp_utc": "2026-11-08T18:29:08.162896+00:00"
+      },
+      "heuristic": null
+    },
+    "scenario": "calm",
+    "timestamp_utc": "2026-11-20T06:44:33.649005+00:00"
+  },
+  "worlds": {
+    "S0": {
+      "4-node": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.6305,
+            "brier": 0.211,
+            "items": 3.168,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.06,
+            "attempt_auc": 0.6193,
+            "attempt_brier": 0.2565,
+            "attempt_ece": 0.1885,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.395,
+            "mean_minutes": 47.575,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6418,
+            "brier": 0.2815,
+            "ece": 0.2119,
+            "log_loss": 0.7816
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.6242,
+            "brier": 0.2429,
+            "items": 3.576,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.115,
+            "attempt_auc": 0.6285,
+            "attempt_brier": 0.2443,
+            "attempt_ece": 0.1442,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.51,
+            "mean_minutes": 61.115,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6394,
+            "brier": 0.2601,
+            "ece": 0.1596,
+            "log_loss": 0.7556
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5913,
+            "brier": 0.2246,
+            "items": 2.728,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.065,
+            "attempt_auc": 0.5318,
+            "attempt_brier": 0.2558,
+            "attempt_ece": 0.1657,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.385,
+            "mean_minutes": 46.81,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.628,
+            "brier": 0.2966,
+            "ece": 0.2434,
+            "log_loss": 0.8088
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.033,
+                0.0055
+              ],
+              "diff": -0.0136
+            },
+            "diag_items": {
+              "ci95": [
+                0.288,
+                0.596
+              ],
+              "diff": 0.44
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.025,
+                0.045
+              ],
+              "diff": 0.01
+            },
+            "minutes": {
+              "ci95": [
+                0.19,
+                1.33
+              ],
+              "diff": 0.765
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0221,
+                -0.0083
+              ],
+              "diff": -0.0151
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0076,
+                0.0293
+              ],
+              "diff": 0.0183
+            },
+            "diag_items": {
+              "ci95": [
+                0.712,
+                0.976
+              ],
+              "diff": 0.848
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.07,
+                0.185
+              ],
+              "diff": 0.125
+            },
+            "minutes": {
+              "ci95": [
+                13.165,
+                15.465
+              ],
+              "diff": 14.305
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0414,
+                -0.0318
+              ],
+              "diff": -0.0365
+            }
+          }
+        }
+      },
+      "8-node": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5854,
+            "brier": 0.1977,
+            "items": 3.532,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.005,
+            "attempt_auc": 0.6153,
+            "attempt_brier": 0.2582,
+            "attempt_ece": 0.1993,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.385,
+            "mean_minutes": 78.425,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6442,
+            "brier": 0.2788,
+            "ece": 0.211,
+            "log_loss": 0.7735
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5879,
+            "brier": 0.2129,
+            "items": 4.12,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.025,
+            "attempt_auc": 0.6234,
+            "attempt_brier": 0.2457,
+            "attempt_ece": 0.1508,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.385,
+            "mean_minutes": 95.635,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6466,
+            "brier": 0.2568,
+            "ece": 0.154,
+            "log_loss": 0.7413
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5638,
+            "brier": 0.2038,
+            "items": 3.028,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.005,
+            "attempt_auc": 0.5241,
+            "attempt_brier": 0.2564,
+            "attempt_ece": 0.1675,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.365,
+            "mean_minutes": 76.56,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6409,
+            "brier": 0.2859,
+            "ece": 0.2222,
+            "log_loss": 0.7795
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0165,
+                0.004
+              ],
+              "diff": -0.0062
+            },
+            "diag_items": {
+              "ci95": [
+                0.304,
+                0.724
+              ],
+              "diff": 0.504
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.005,
+                0.05
+              ],
+              "diff": 0.02
+            },
+            "minutes": {
+              "ci95": [
+                1.24,
+                2.455
+              ],
+              "diff": 1.865
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0109,
+                -0.0036
+              ],
+              "diff": -0.0071
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0031,
+                0.0153
+              ],
+              "diff": 0.0091
+            },
+            "diag_items": {
+              "ci95": [
+                0.968,
+                1.212
+              ],
+              "diff": 1.092
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.015,
+                0.055
+              ],
+              "diff": 0.02
+            },
+            "minutes": {
+              "ci95": [
+                18.095,
+                20.095
+              ],
+              "diff": 19.075
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0322,
+                -0.0263
+              ],
+              "diff": -0.0291
+            }
+          }
+        }
+      },
+      "8-node-x10": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5956,
+            "brier": 0.1935,
+            "items": 3.644,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.005,
+            "attempt_auc": 0.582,
+            "attempt_brier": 0.2208,
+            "attempt_ece": 0.1619,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.4,
+            "mean_minutes": 81.74,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6604,
+            "brier": 0.2717,
+            "ece": 0.2013,
+            "log_loss": 0.7592
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.6203,
+            "brier": 0.2485,
+            "items": 4.732,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.03,
+            "attempt_auc": 0.6003,
+            "attempt_brier": 0.2186,
+            "attempt_ece": 0.1237,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.38,
+            "mean_minutes": 98.395,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6559,
+            "brier": 0.2506,
+            "ece": 0.1382,
+            "log_loss": 0.73
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5358,
+            "brier": 0.2112,
+            "items": 2.852,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.5088,
+            "attempt_brier": 0.2351,
+            "attempt_ece": 0.194,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.425,
+            "mean_minutes": 71.89,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6466,
+            "brier": 0.2847,
+            "ece": 0.2239,
+            "log_loss": 0.7774
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0295,
+                -0.0065
+              ],
+              "diff": -0.0177
+            },
+            "diag_items": {
+              "ci95": [
+                0.572,
+                1.016
+              ],
+              "diff": 0.792
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.065,
+                0.02
+              ],
+              "diff": -0.025
+            },
+            "minutes": {
+              "ci95": [
+                8.57,
+                11.18
+              ],
+              "diff": 9.85
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0161,
+                -0.0097
+              ],
+              "diff": -0.013
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0225,
+                0.0527
+              ],
+              "diff": 0.0374
+            },
+            "diag_items": {
+              "ci95": [
+                1.692,
+                2.064
+              ],
+              "diff": 1.88
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.09,
+                0.0
+              ],
+              "diff": -0.045
+            },
+            "minutes": {
+              "ci95": [
+                25.03,
+                28.05
+              ],
+              "diff": 26.505
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0378,
+                -0.0301
+              ],
+              "diff": -0.0341
+            }
+          }
+        }
+      },
+      "synth-20": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5361,
+            "brier": 0.1943,
+            "items": 3.808,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.614,
+            "attempt_brier": 0.258,
+            "attempt_ece": 0.1956,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.245,
+            "mean_minutes": 152.7,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.648,
+            "brier": 0.2827,
+            "ece": 0.2237,
+            "log_loss": 0.781
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5365,
+            "brier": 0.2026,
+            "items": 4.492,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6327,
+            "attempt_brier": 0.2413,
+            "attempt_ece": 0.1396,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.24,
+            "mean_minutes": 194.835,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6435,
+            "brier": 0.2593,
+            "ece": 0.1635,
+            "log_loss": 0.7443
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5352,
+            "brier": 0.197,
+            "items": 3.316,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.5238,
+            "attempt_brier": 0.256,
+            "attempt_ece": 0.1586,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.245,
+            "mean_minutes": 151.0,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6532,
+            "brier": 0.2841,
+            "ece": 0.2205,
+            "log_loss": 0.7717
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0072,
+                0.002
+              ],
+              "diff": -0.0027
+            },
+            "diag_items": {
+              "ci95": [
+                0.24,
+                0.728
+              ],
+              "diff": 0.492
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                1.11,
+                2.31
+              ],
+              "diff": 1.7
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0031,
+                0.0002
+              ],
+              "diff": -0.0014
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0028,
+                0.0089
+              ],
+              "diff": 0.0056
+            },
+            "diag_items": {
+              "ci95": [
+                1.048,
+                1.3
+              ],
+              "diff": 1.176
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.015,
+                0.0
+              ],
+              "diff": -0.005
+            },
+            "minutes": {
+              "ci95": [
+                43.105,
+                44.51
+              ],
+              "diff": 43.835
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0264,
+                -0.0231
+              ],
+              "diff": -0.0248
+            }
+          }
+        }
+      },
+      "synth-20-x10": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5288,
+            "brier": 0.195,
+            "items": 3.64,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.593,
+            "attempt_brier": 0.2187,
+            "attempt_ece": 0.1627,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.25,
+            "mean_minutes": 154.31,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6591,
+            "brier": 0.2769,
+            "ece": 0.2168,
+            "log_loss": 0.7709
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5494,
+            "brier": 0.219,
+            "items": 5.036,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6074,
+            "attempt_brier": 0.2171,
+            "attempt_ece": 0.1263,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.245,
+            "mean_minutes": 200.715,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6542,
+            "brier": 0.2569,
+            "ece": 0.1622,
+            "log_loss": 0.7456
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5211,
+            "brier": 0.1989,
+            "items": 3.056,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.4981,
+            "attempt_brier": 0.2332,
+            "attempt_ece": 0.1983,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.295,
+            "mean_minutes": 146.58,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6655,
+            "brier": 0.2821,
+            "ece": 0.2213,
+            "log_loss": 0.7675
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0086,
+                0.0006
+              ],
+              "diff": -0.0039
+            },
+            "diag_items": {
+              "ci95": [
+                0.348,
+                0.824
+              ],
+              "diff": 0.584
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.08,
+                -0.02
+              ],
+              "diff": -0.045
+            },
+            "minutes": {
+              "ci95": [
+                6.565,
+                8.915
+              ],
+              "diff": 7.73
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0064,
+                -0.004
+              ],
+              "diff": -0.0052
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0134,
+                0.0268
+              ],
+              "diff": 0.0201
+            },
+            "diag_items": {
+              "ci95": [
+                1.76,
+                2.176
+              ],
+              "diff": 1.98
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.085,
+                -0.02
+              ],
+              "diff": -0.05
+            },
+            "minutes": {
+              "ci95": [
+                52.895,
+                55.415
+              ],
+              "diff": 54.135
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0266,
+                -0.0235
+              ],
+              "diff": -0.0251
+            }
+          }
+        }
+      },
+      "synth-50": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5152,
+            "brier": 0.1908,
+            "items": 4.0,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6415,
+            "attempt_brier": 0.2384,
+            "attempt_ece": 0.1625,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.215,
+            "mean_minutes": 350.45,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.646,
+            "brier": 0.2825,
+            "ece": 0.2241,
+            "log_loss": 0.7806
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.516,
+            "brier": 0.1947,
+            "items": 4.824,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6476,
+            "attempt_brier": 0.2328,
+            "attempt_ece": 0.1334,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.215,
+            "mean_minutes": 420.105,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6451,
+            "brier": 0.2593,
+            "ece": 0.1628,
+            "log_loss": 0.7439
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5142,
+            "brier": 0.1917,
+            "items": 3.4,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.502,
+            "attempt_brier": 0.2551,
+            "attempt_ece": 0.1407,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.215,
+            "mean_minutes": 402.82,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6589,
+            "brier": 0.2815,
+            "ece": 0.2147,
+            "log_loss": 0.7647
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0026,
+                0.001
+              ],
+              "diff": -0.0009
+            },
+            "diag_items": {
+              "ci95": [
+                0.36,
+                0.84
+              ],
+              "diff": 0.6
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                -53.35,
+                -51.345
+              ],
+              "diff": -52.37
+            },
+            "next_answer_brier": {
+              "ci95": [
+                0.0002,
+                0.0017
+              ],
+              "diff": 0.001
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0016,
+                0.0044
+              ],
+              "diff": 0.003
+            },
+            "diag_items": {
+              "ci95": [
+                1.324,
+                1.524
+              ],
+              "diff": 1.424
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                16.285,
+                18.305
+              ],
+              "diff": 17.285
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0232,
+                -0.0212
+              ],
+              "diff": -0.0222
+            }
+          }
+        }
+      },
+      "synth-50-x10": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5135,
+            "brier": 0.1908,
+            "items": 3.88,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.586,
+            "attempt_brier": 0.2182,
+            "attempt_ece": 0.1489,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.215,
+            "mean_minutes": 338.715,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6588,
+            "brier": 0.2786,
+            "ece": 0.2215,
+            "log_loss": 0.7746
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5212,
+            "brier": 0.2022,
+            "items": 5.412,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6072,
+            "attempt_brier": 0.2169,
+            "attempt_ece": 0.1207,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.215,
+            "mean_minutes": 427.935,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.656,
+            "brier": 0.2585,
+            "ece": 0.1668,
+            "log_loss": 0.7489
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5082,
+            "brier": 0.1929,
+            "items": 3.164,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.4559,
+            "attempt_brier": 0.2383,
+            "attempt_ece": 0.1817,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.22,
+            "mean_minutes": 344.305,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6714,
+            "brier": 0.2805,
+            "ece": 0.2176,
+            "log_loss": 0.7626
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0041,
+                -0.0003
+              ],
+              "diff": -0.0021
+            },
+            "diag_items": {
+              "ci95": [
+                0.484,
+                0.948
+              ],
+              "diff": 0.716
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.015,
+                0.0
+              ],
+              "diff": -0.005
+            },
+            "minutes": {
+              "ci95": [
+                -6.6,
+                -4.51
+              ],
+              "diff": -5.59
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0025,
+                -0.0013
+              ],
+              "diff": -0.0019
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0065,
+                0.012
+              ],
+              "diff": 0.0093
+            },
+            "diag_items": {
+              "ci95": [
+                2.056,
+                2.432
+              ],
+              "diff": 2.248
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.015,
+                0.0
+              ],
+              "diff": -0.005
+            },
+            "minutes": {
+              "ci95": [
+                82.53,
+                84.835
+              ],
+              "diff": 83.63
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0229,
+                -0.0212
+              ],
+              "diff": -0.0221
+            }
+          }
+        }
+      }
+    },
+    "S1": {
+      "4-node": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.6305,
+            "brier": 0.211,
+            "items": 3.168,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.035,
+            "attempt_auc": 0.6255,
+            "attempt_brier": 0.2522,
+            "attempt_ece": 0.1543,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.265,
+            "mean_minutes": 49.665,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6418,
+            "brier": 0.2815,
+            "ece": 0.2119,
+            "log_loss": 0.7816
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.6242,
+            "brier": 0.2429,
+            "items": 3.576,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.065,
+            "attempt_auc": 0.6245,
+            "attempt_brier": 0.2444,
+            "attempt_ece": 0.1158,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.28,
+            "mean_minutes": 63.315,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6394,
+            "brier": 0.2601,
+            "ece": 0.1596,
+            "log_loss": 0.7556
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5913,
+            "brier": 0.2246,
+            "items": 2.728,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.03,
+            "attempt_auc": 0.5316,
+            "attempt_brier": 0.2572,
+            "attempt_ece": 0.1508,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.26,
+            "mean_minutes": 48.85,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.628,
+            "brier": 0.2966,
+            "ece": 0.2434,
+            "log_loss": 0.8088
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.033,
+                0.0055
+              ],
+              "diff": -0.0136
+            },
+            "diag_items": {
+              "ci95": [
+                0.288,
+                0.596
+              ],
+              "diff": 0.44
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.01,
+                0.025
+              ],
+              "diff": 0.005
+            },
+            "minutes": {
+              "ci95": [
+                0.205,
+                1.415
+              ],
+              "diff": 0.815
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0221,
+                -0.0083
+              ],
+              "diff": -0.0151
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0076,
+                0.0293
+              ],
+              "diff": 0.0183
+            },
+            "diag_items": {
+              "ci95": [
+                0.712,
+                0.976
+              ],
+              "diff": 0.848
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.045
+              ],
+              "diff": 0.02
+            },
+            "minutes": {
+              "ci95": [
+                13.4,
+                15.545
+              ],
+              "diff": 14.465
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0414,
+                -0.0318
+              ],
+              "diff": -0.0365
+            }
+          }
+        }
+      },
+      "8-node": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5854,
+            "brier": 0.1977,
+            "items": 3.532,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6353,
+            "attempt_brier": 0.2492,
+            "attempt_ece": 0.146,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.32,
+            "mean_minutes": 80.265,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6442,
+            "brier": 0.2788,
+            "ece": 0.211,
+            "log_loss": 0.7735
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5879,
+            "brier": 0.2129,
+            "items": 4.12,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.005,
+            "attempt_auc": 0.6296,
+            "attempt_brier": 0.2424,
+            "attempt_ece": 0.1081,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.31,
+            "mean_minutes": 97.515,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6466,
+            "brier": 0.2568,
+            "ece": 0.154,
+            "log_loss": 0.7413
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5638,
+            "brier": 0.2038,
+            "items": 3.028,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.5564,
+            "attempt_brier": 0.253,
+            "attempt_ece": 0.1347,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.315,
+            "mean_minutes": 78.16,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6409,
+            "brier": 0.2859,
+            "ece": 0.2222,
+            "log_loss": 0.7795
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0165,
+                0.004
+              ],
+              "diff": -0.0062
+            },
+            "diag_items": {
+              "ci95": [
+                0.304,
+                0.724
+              ],
+              "diff": 0.504
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.015
+              ],
+              "diff": 0.005
+            },
+            "minutes": {
+              "ci95": [
+                1.54,
+                2.66
+              ],
+              "diff": 2.105
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0109,
+                -0.0036
+              ],
+              "diff": -0.0071
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0031,
+                0.0153
+              ],
+              "diff": 0.0091
+            },
+            "diag_items": {
+              "ci95": [
+                0.968,
+                1.212
+              ],
+              "diff": 1.092
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.025,
+                0.01
+              ],
+              "diff": -0.005
+            },
+            "minutes": {
+              "ci95": [
+                18.51,
+                20.23
+              ],
+              "diff": 19.355
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0322,
+                -0.0263
+              ],
+              "diff": -0.0291
+            }
+          }
+        }
+      },
+      "8-node-x10": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5956,
+            "brier": 0.1935,
+            "items": 3.644,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6168,
+            "attempt_brier": 0.2241,
+            "attempt_ece": 0.1246,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.325,
+            "mean_minutes": 83.065,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6604,
+            "brier": 0.2717,
+            "ece": 0.2013,
+            "log_loss": 0.7592
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.6203,
+            "brier": 0.2485,
+            "items": 4.732,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.005,
+            "attempt_auc": 0.6278,
+            "attempt_brier": 0.2218,
+            "attempt_ece": 0.0899,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.32,
+            "mean_minutes": 99.005,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6559,
+            "brier": 0.2506,
+            "ece": 0.1382,
+            "log_loss": 0.73
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5358,
+            "brier": 0.2112,
+            "items": 2.852,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.5524,
+            "attempt_brier": 0.2369,
+            "attempt_ece": 0.1562,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.325,
+            "mean_minutes": 74.21,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6466,
+            "brier": 0.2847,
+            "ece": 0.2239,
+            "log_loss": 0.7774
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0295,
+                -0.0065
+              ],
+              "diff": -0.0177
+            },
+            "diag_items": {
+              "ci95": [
+                0.572,
+                1.016
+              ],
+              "diff": 0.792
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.015,
+                0.015
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                7.585,
+                10.14
+              ],
+              "diff": 8.855
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0161,
+                -0.0097
+              ],
+              "diff": -0.013
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0225,
+                0.0527
+              ],
+              "diff": 0.0374
+            },
+            "diag_items": {
+              "ci95": [
+                1.692,
+                2.064
+              ],
+              "diff": 1.88
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.025,
+                0.01
+              ],
+              "diff": -0.005
+            },
+            "minutes": {
+              "ci95": [
+                23.42,
+                26.17
+              ],
+              "diff": 24.795
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0378,
+                -0.0301
+              ],
+              "diff": -0.0341
+            }
+          }
+        }
+      },
+      "synth-20": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5361,
+            "brier": 0.1943,
+            "items": 3.808,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6279,
+            "attempt_brier": 0.2497,
+            "attempt_ece": 0.1355,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.24,
+            "mean_minutes": 152.35,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.648,
+            "brier": 0.2827,
+            "ece": 0.2237,
+            "log_loss": 0.781
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5365,
+            "brier": 0.2026,
+            "items": 4.492,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6409,
+            "attempt_brier": 0.2381,
+            "attempt_ece": 0.0922,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.24,
+            "mean_minutes": 194.405,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6435,
+            "brier": 0.2593,
+            "ece": 0.1635,
+            "log_loss": 0.7443
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5352,
+            "brier": 0.197,
+            "items": 3.316,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.557,
+            "attempt_brier": 0.2537,
+            "attempt_ece": 0.1265,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.24,
+            "mean_minutes": 150.69,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6532,
+            "brier": 0.2841,
+            "ece": 0.2205,
+            "log_loss": 0.7717
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0072,
+                0.002
+              ],
+              "diff": -0.0027
+            },
+            "diag_items": {
+              "ci95": [
+                0.24,
+                0.728
+              ],
+              "diff": 0.492
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                1.03,
+                2.29
+              ],
+              "diff": 1.66
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0031,
+                0.0002
+              ],
+              "diff": -0.0014
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0028,
+                0.0089
+              ],
+              "diff": 0.0056
+            },
+            "diag_items": {
+              "ci95": [
+                1.048,
+                1.3
+              ],
+              "diff": 1.176
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                43.005,
+                44.385
+              ],
+              "diff": 43.715
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0264,
+                -0.0231
+              ],
+              "diff": -0.0248
+            }
+          }
+        }
+      },
+      "synth-20-x10": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5288,
+            "brier": 0.195,
+            "items": 3.64,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6416,
+            "attempt_brier": 0.2223,
+            "attempt_ece": 0.1035,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.24,
+            "mean_minutes": 153.655,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6591,
+            "brier": 0.2769,
+            "ece": 0.2168,
+            "log_loss": 0.7709
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5494,
+            "brier": 0.219,
+            "items": 5.036,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6459,
+            "attempt_brier": 0.221,
+            "attempt_ece": 0.0764,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.24,
+            "mean_minutes": 199.68,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6542,
+            "brier": 0.2569,
+            "ece": 0.1622,
+            "log_loss": 0.7456
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5211,
+            "brier": 0.1989,
+            "items": 3.056,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.5723,
+            "attempt_brier": 0.2374,
+            "attempt_ece": 0.1342,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.24,
+            "mean_minutes": 148.795,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6655,
+            "brier": 0.2821,
+            "ece": 0.2213,
+            "log_loss": 0.7675
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0086,
+                0.0006
+              ],
+              "diff": -0.0039
+            },
+            "diag_items": {
+              "ci95": [
+                0.348,
+                0.824
+              ],
+              "diff": 0.584
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                3.905,
+                5.805
+              ],
+              "diff": 4.86
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0064,
+                -0.004
+              ],
+              "diff": -0.0052
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0134,
+                0.0268
+              ],
+              "diff": 0.0201
+            },
+            "diag_items": {
+              "ci95": [
+                1.76,
+                2.176
+              ],
+              "diff": 1.98
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                49.925,
+                51.935
+              ],
+              "diff": 50.885
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0266,
+                -0.0235
+              ],
+              "diff": -0.0251
+            }
+          }
+        }
+      },
+      "synth-50": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5152,
+            "brier": 0.1908,
+            "items": 4.0,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6657,
+            "attempt_brier": 0.2325,
+            "attempt_ece": 0.0932,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.215,
+            "mean_minutes": 349.5,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.646,
+            "brier": 0.2825,
+            "ece": 0.2241,
+            "log_loss": 0.7806
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.516,
+            "brier": 0.1947,
+            "items": 4.824,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6569,
+            "attempt_brier": 0.2316,
+            "attempt_ece": 0.0662,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.215,
+            "mean_minutes": 419.065,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6451,
+            "brier": 0.2593,
+            "ece": 0.1628,
+            "log_loss": 0.7439
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5142,
+            "brier": 0.1917,
+            "items": 3.4,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.5415,
+            "attempt_brier": 0.2582,
+            "attempt_ece": 0.1205,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.215,
+            "mean_minutes": 402.435,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6589,
+            "brier": 0.2815,
+            "ece": 0.2147,
+            "log_loss": 0.7647
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0026,
+                0.001
+              ],
+              "diff": -0.0009
+            },
+            "diag_items": {
+              "ci95": [
+                0.36,
+                0.84
+              ],
+              "diff": 0.6
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                -53.92,
+                -51.915
+              ],
+              "diff": -52.935
+            },
+            "next_answer_brier": {
+              "ci95": [
+                0.0002,
+                0.0017
+              ],
+              "diff": 0.001
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0016,
+                0.0044
+              ],
+              "diff": 0.003
+            },
+            "diag_items": {
+              "ci95": [
+                1.324,
+                1.524
+              ],
+              "diff": 1.424
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                15.59,
+                17.66
+              ],
+              "diff": 16.63
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0232,
+                -0.0212
+              ],
+              "diff": -0.0222
+            }
+          }
+        }
+      },
+      "synth-50-x10": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5135,
+            "brier": 0.1908,
+            "items": 3.88,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6469,
+            "attempt_brier": 0.2245,
+            "attempt_ece": 0.0842,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.215,
+            "mean_minutes": 338.025,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6588,
+            "brier": 0.2786,
+            "ece": 0.2215,
+            "log_loss": 0.7746
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5212,
+            "brier": 0.2022,
+            "items": 5.412,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.657,
+            "attempt_brier": 0.2228,
+            "attempt_ece": 0.058,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.215,
+            "mean_minutes": 425.85,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.656,
+            "brier": 0.2585,
+            "ece": 0.1668,
+            "log_loss": 0.7489
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5082,
+            "brier": 0.1929,
+            "items": 3.164,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.5346,
+            "attempt_brier": 0.2493,
+            "attempt_ece": 0.1251,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.215,
+            "mean_minutes": 345.315,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6714,
+            "brier": 0.2805,
+            "ece": 0.2176,
+            "log_loss": 0.7626
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0041,
+                -0.0003
+              ],
+              "diff": -0.0021
+            },
+            "diag_items": {
+              "ci95": [
+                0.484,
+                0.948
+              ],
+              "diff": 0.716
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                -8.355,
+                -6.26
+              ],
+              "diff": -7.29
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0025,
+                -0.0013
+              ],
+              "diff": -0.0019
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0065,
+                0.012
+              ],
+              "diff": 0.0093
+            },
+            "diag_items": {
+              "ci95": [
+                2.056,
+                2.432
+              ],
+              "diff": 2.248
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                79.41,
+                81.69
+              ],
+              "diff": 80.535
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0229,
+                -0.0212
+              ],
+              "diff": -0.0221
+            }
+          }
+        }
+      }
+    },
+    "S2": {
+      "4-node": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.6191,
+            "brier": 0.1719,
+            "items": 3.176,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.25,
+            "attempt_auc": 0.6346,
+            "attempt_brier": 0.2556,
+            "attempt_ece": 0.2071,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.465,
+            "mean_minutes": 45.805,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6454,
+            "brier": 0.2744,
+            "ece": 0.1989,
+            "log_loss": 0.7629
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.6117,
+            "brier": 0.2272,
+            "items": 3.652,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.34,
+            "attempt_auc": 0.6473,
+            "attempt_brier": 0.2392,
+            "attempt_ece": 0.1484,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.52,
+            "mean_minutes": 59.195,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6442,
+            "brier": 0.2517,
+            "ece": 0.1411,
+            "log_loss": 0.7308
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5851,
+            "brier": 0.1843,
+            "items": 2.744,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.23,
+            "attempt_auc": 0.5281,
+            "attempt_brier": 0.2552,
+            "attempt_ece": 0.1714,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.46,
+            "mean_minutes": 44.64,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6342,
+            "brier": 0.2873,
+            "ece": 0.2269,
+            "log_loss": 0.7867
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0308,
+                0.0063
+              ],
+              "diff": -0.0124
+            },
+            "diag_items": {
+              "ci95": [
+                0.276,
+                0.588
+              ],
+              "diff": 0.432
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.02,
+                0.03
+              ],
+              "diff": 0.005
+            },
+            "minutes": {
+              "ci95": [
+                0.65,
+                1.7
+              ],
+              "diff": 1.165
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0188,
+                -0.0069
+              ],
+              "diff": -0.0129
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0289,
+                0.0578
+              ],
+              "diff": 0.043
+            },
+            "diag_items": {
+              "ci95": [
+                0.784,
+                1.04
+              ],
+              "diff": 0.908
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.015,
+                0.105
+              ],
+              "diff": 0.06
+            },
+            "minutes": {
+              "ci95": [
+                13.48,
+                15.66
+              ],
+              "diff": 14.555
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0408,
+                -0.0307
+              ],
+              "diff": -0.0356
+            }
+          }
+        }
+      },
+      "8-node": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5766,
+            "brier": 0.158,
+            "items": 3.444,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.18,
+            "attempt_auc": 0.6207,
+            "attempt_brier": 0.258,
+            "attempt_ece": 0.2081,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.395,
+            "mean_minutes": 76.445,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6507,
+            "brier": 0.2746,
+            "ece": 0.2063,
+            "log_loss": 0.7623
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5716,
+            "brier": 0.1895,
+            "items": 4.172,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.26,
+            "attempt_auc": 0.6427,
+            "attempt_brier": 0.2401,
+            "attempt_ece": 0.1544,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.4,
+            "mean_minutes": 94.275,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6506,
+            "brier": 0.2514,
+            "ece": 0.1456,
+            "log_loss": 0.7253
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.555,
+            "brier": 0.1648,
+            "items": 3.024,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.165,
+            "attempt_auc": 0.5257,
+            "attempt_brier": 0.255,
+            "attempt_ece": 0.171,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.37,
+            "mean_minutes": 74.635,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.648,
+            "brier": 0.281,
+            "ece": 0.2143,
+            "log_loss": 0.7678
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0168,
+                0.0034
+              ],
+              "diff": -0.0068
+            },
+            "diag_items": {
+              "ci95": [
+                0.22,
+                0.624
+              ],
+              "diff": 0.42
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.005,
+                0.06
+              ],
+              "diff": 0.025
+            },
+            "minutes": {
+              "ci95": [
+                1.21,
+                2.385
+              ],
+              "diff": 1.81
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0097,
+                -0.0029
+              ],
+              "diff": -0.0063
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0173,
+                0.0325
+              ],
+              "diff": 0.0247
+            },
+            "diag_items": {
+              "ci95": [
+                1.02,
+                1.272
+              ],
+              "diff": 1.148
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.01,
+                0.07
+              ],
+              "diff": 0.03
+            },
+            "minutes": {
+              "ci95": [
+                18.665,
+                20.69
+              ],
+              "diff": 19.64
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0332,
+                -0.0263
+              ],
+              "diff": -0.0296
+            }
+          }
+        }
+      },
+      "8-node-x10": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.595,
+            "brier": 0.1578,
+            "items": 3.516,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.19,
+            "attempt_auc": 0.5787,
+            "attempt_brier": 0.221,
+            "attempt_ece": 0.1636,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.38,
+            "mean_minutes": 80.265,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6605,
+            "brier": 0.2687,
+            "ece": 0.1955,
+            "log_loss": 0.7518
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.6084,
+            "brier": 0.2377,
+            "items": 4.772,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.24,
+            "attempt_auc": 0.5951,
+            "attempt_brier": 0.2194,
+            "attempt_ece": 0.1271,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.36,
+            "mean_minutes": 97.075,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6495,
+            "brier": 0.25,
+            "ece": 0.1403,
+            "log_loss": 0.7276
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5566,
+            "brier": 0.1611,
+            "items": 2.816,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.16,
+            "attempt_auc": 0.5034,
+            "attempt_brier": 0.2319,
+            "attempt_ece": 0.2063,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.435,
+            "mean_minutes": 70.005,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6492,
+            "brier": 0.281,
+            "ece": 0.2172,
+            "log_loss": 0.7689
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0148,
+                0.0082
+              ],
+              "diff": -0.0033
+            },
+            "diag_items": {
+              "ci95": [
+                0.496,
+                0.908
+              ],
+              "diff": 0.7
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.1,
+                -0.01
+              ],
+              "diff": -0.055
+            },
+            "minutes": {
+              "ci95": [
+                9.075,
+                11.515
+              ],
+              "diff": 10.26
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0154,
+                -0.0092
+              ],
+              "diff": -0.0123
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0566,
+                0.0963
+              ],
+              "diff": 0.0767
+            },
+            "diag_items": {
+              "ci95": [
+                1.78,
+                2.132
+              ],
+              "diff": 1.956
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.125,
+                -0.025
+              ],
+              "diff": -0.075
+            },
+            "minutes": {
+              "ci95": [
+                25.645,
+                28.385
+              ],
+              "diff": 27.07
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0356,
+                -0.0266
+              ],
+              "diff": -0.0311
+            }
+          }
+        }
+      },
+      "synth-20": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5235,
+            "brier": 0.149,
+            "items": 3.584,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.055,
+            "attempt_auc": 0.6152,
+            "attempt_brier": 0.2575,
+            "attempt_ece": 0.208,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.21,
+            "mean_minutes": 152.525,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6444,
+            "brier": 0.2804,
+            "ece": 0.2174,
+            "log_loss": 0.7759
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5374,
+            "brier": 0.1576,
+            "items": 4.452,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.055,
+            "attempt_auc": 0.6349,
+            "attempt_brier": 0.2404,
+            "attempt_ece": 0.1527,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.2,
+            "mean_minutes": 195.025,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6428,
+            "brier": 0.2578,
+            "ece": 0.1572,
+            "log_loss": 0.7402
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5264,
+            "brier": 0.1493,
+            "items": 3.136,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.045,
+            "attempt_auc": 0.5191,
+            "attempt_brier": 0.2551,
+            "attempt_ece": 0.1674,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.195,
+            "mean_minutes": 150.67,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6493,
+            "brier": 0.2822,
+            "ece": 0.2149,
+            "log_loss": 0.7677
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0041,
+                0.0035
+              ],
+              "diff": -0.0003
+            },
+            "diag_items": {
+              "ci95": [
+                0.212,
+                0.688
+              ],
+              "diff": 0.448
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.035
+              ],
+              "diff": 0.015
+            },
+            "minutes": {
+              "ci95": [
+                1.265,
+                2.475
+              ],
+              "diff": 1.855
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0035,
+                -0.0001
+              ],
+              "diff": -0.0018
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0052,
+                0.0115
+              ],
+              "diff": 0.0083
+            },
+            "diag_items": {
+              "ci95": [
+                1.188,
+                1.44
+              ],
+              "diff": 1.316
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.015
+              ],
+              "diff": 0.005
+            },
+            "minutes": {
+              "ci95": [
+                43.63,
+                45.09
+              ],
+              "diff": 44.355
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0268,
+                -0.022
+              ],
+              "diff": -0.0244
+            }
+          }
+        }
+      },
+      "synth-20-x10": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.532,
+            "brier": 0.1506,
+            "items": 3.66,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.085,
+            "attempt_auc": 0.5853,
+            "attempt_brier": 0.2165,
+            "attempt_ece": 0.1726,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.23,
+            "mean_minutes": 153.785,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6642,
+            "brier": 0.2717,
+            "ece": 0.2081,
+            "log_loss": 0.758
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5523,
+            "brier": 0.1819,
+            "items": 5.008,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.065,
+            "attempt_auc": 0.6067,
+            "attempt_brier": 0.2144,
+            "attempt_ece": 0.1324,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.205,
+            "mean_minutes": 200.315,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6596,
+            "brier": 0.2517,
+            "ece": 0.15,
+            "log_loss": 0.7314
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.52,
+            "brier": 0.1492,
+            "items": 2.868,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.085,
+            "attempt_auc": 0.4931,
+            "attempt_brier": 0.2302,
+            "attempt_ece": 0.2115,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.31,
+            "mean_minutes": 144.83,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.669,
+            "brier": 0.278,
+            "ece": 0.2126,
+            "log_loss": 0.7585
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0028,
+                0.0058
+              ],
+              "diff": 0.0014
+            },
+            "diag_items": {
+              "ci95": [
+                0.556,
+                1.04
+              ],
+              "diff": 0.792
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.12,
+                -0.04
+              ],
+              "diff": -0.08
+            },
+            "minutes": {
+              "ci95": [
+                7.7,
+                10.265
+              ],
+              "diff": 8.955
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0076,
+                -0.0051
+              ],
+              "diff": -0.0063
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.024,
+                0.0414
+              ],
+              "diff": 0.0327
+            },
+            "diag_items": {
+              "ci95": [
+                1.916,
+                2.348
+              ],
+              "diff": 2.14
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.15,
+                -0.065
+              ],
+              "diff": -0.105
+            },
+            "minutes": {
+              "ci95": [
+                54.085,
+                56.975
+              ],
+              "diff": 55.485
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.029,
+                -0.0237
+              ],
+              "diff": -0.0264
+            }
+          }
+        }
+      },
+      "synth-50": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5086,
+            "brier": 0.1468,
+            "items": 3.796,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.005,
+            "attempt_auc": 0.6407,
+            "attempt_brier": 0.2385,
+            "attempt_ece": 0.1748,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.155,
+            "mean_minutes": 350.6,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6447,
+            "brier": 0.2805,
+            "ece": 0.2195,
+            "log_loss": 0.776
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5137,
+            "brier": 0.1505,
+            "items": 4.704,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.005,
+            "attempt_auc": 0.6447,
+            "attempt_brier": 0.2328,
+            "attempt_ece": 0.1438,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.155,
+            "mean_minutes": 420.065,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6449,
+            "brier": 0.2578,
+            "ece": 0.1582,
+            "log_loss": 0.7398
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5123,
+            "brier": 0.1462,
+            "items": 3.184,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.035,
+            "attempt_auc": 0.4921,
+            "attempt_brier": 0.2549,
+            "attempt_ece": 0.1576,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.185,
+            "mean_minutes": 400.685,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6573,
+            "brier": 0.2797,
+            "ece": 0.2099,
+            "log_loss": 0.7607
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0013,
+                0.0024
+              ],
+              "diff": 0.0005
+            },
+            "diag_items": {
+              "ci95": [
+                0.376,
+                0.84
+              ],
+              "diff": 0.612
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.055,
+                -0.01
+              ],
+              "diff": -0.03
+            },
+            "minutes": {
+              "ci95": [
+                -51.33,
+                -48.755
+              ],
+              "diff": -50.085
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0002,
+                0.0018
+              ],
+              "diff": 0.0008
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0027,
+                0.0058
+              ],
+              "diff": 0.0043
+            },
+            "diag_items": {
+              "ci95": [
+                1.416,
+                1.62
+              ],
+              "diff": 1.52
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.055,
+                -0.01
+              ],
+              "diff": -0.03
+            },
+            "minutes": {
+              "ci95": [
+                18.135,
+                20.615
+              ],
+              "diff": 19.38
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0237,
+                -0.0202
+              ],
+              "diff": -0.0219
+            }
+          }
+        }
+      },
+      "synth-50-x10": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5141,
+            "brier": 0.1472,
+            "items": 3.964,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.005,
+            "attempt_auc": 0.5786,
+            "attempt_brier": 0.2156,
+            "attempt_ece": 0.1589,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.155,
+            "mean_minutes": 339.205,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6629,
+            "brier": 0.2744,
+            "ece": 0.2143,
+            "log_loss": 0.764
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.522,
+            "brier": 0.1615,
+            "items": 5.396,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6033,
+            "attempt_brier": 0.214,
+            "attempt_ece": 0.1295,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.155,
+            "mean_minutes": 427.295,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6606,
+            "brier": 0.2545,
+            "ece": 0.1588,
+            "log_loss": 0.7376
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5086,
+            "brier": 0.1465,
+            "items": 2.88,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.035,
+            "attempt_auc": 0.4454,
+            "attempt_brier": 0.2361,
+            "attempt_ece": 0.1955,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.205,
+            "mean_minutes": 341.1,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6758,
+            "brier": 0.277,
+            "ece": 0.2106,
+            "log_loss": 0.7547
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0012,
+                0.0027
+              ],
+              "diff": 0.0007
+            },
+            "diag_items": {
+              "ci95": [
+                0.864,
+                1.308
+              ],
+              "diff": 1.084
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.085,
+                -0.02
+              ],
+              "diff": -0.05
+            },
+            "minutes": {
+              "ci95": [
+                -3.55,
+                -0.185
+              ],
+              "diff": -1.895
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0033,
+                -0.0021
+              ],
+              "diff": -0.0027
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0115,
+                0.0186
+              ],
+              "diff": 0.0151
+            },
+            "diag_items": {
+              "ci95": [
+                2.336,
+                2.684
+              ],
+              "diff": 2.516
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.085,
+                -0.02
+              ],
+              "diff": -0.05
+            },
+            "minutes": {
+              "ci95": [
+                84.425,
+                88.01
+              ],
+              "diff": 86.195
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0243,
+                -0.0209
+              ],
+              "diff": -0.0226
+            }
+          }
+        }
+      }
+    },
+    "S3": {
+      "4-node": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.6305,
+            "brier": 0.211,
+            "items": 3.168,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.005,
+            "attempt_auc": 0.6341,
+            "attempt_brier": 0.2516,
+            "attempt_ece": 0.1713,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.235,
+            "mean_minutes": 48.16,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6418,
+            "brier": 0.2815,
+            "ece": 0.2119,
+            "log_loss": 0.7816
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.6242,
+            "brier": 0.2429,
+            "items": 3.576,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.005,
+            "attempt_auc": 0.6323,
+            "attempt_brier": 0.2423,
+            "attempt_ece": 0.1245,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.255,
+            "mean_minutes": 62.535,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6394,
+            "brier": 0.2601,
+            "ece": 0.1596,
+            "log_loss": 0.7556
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5913,
+            "brier": 0.2246,
+            "items": 2.728,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.005,
+            "attempt_auc": 0.5372,
+            "attempt_brier": 0.2555,
+            "attempt_ece": 0.1527,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.23,
+            "mean_minutes": 47.18,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.628,
+            "brier": 0.2966,
+            "ece": 0.2434,
+            "log_loss": 0.8088
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.033,
+                0.0055
+              ],
+              "diff": -0.0136
+            },
+            "diag_items": {
+              "ci95": [
+                0.288,
+                0.596
+              ],
+              "diff": 0.44
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.02,
+                0.025
+              ],
+              "diff": 0.005
+            },
+            "minutes": {
+              "ci95": [
+                0.395,
+                1.58
+              ],
+              "diff": 0.98
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0221,
+                -0.0083
+              ],
+              "diff": -0.0151
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0076,
+                0.0293
+              ],
+              "diff": 0.0183
+            },
+            "diag_items": {
+              "ci95": [
+                0.712,
+                0.976
+              ],
+              "diff": 0.848
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.025,
+                0.075
+              ],
+              "diff": 0.025
+            },
+            "minutes": {
+              "ci95": [
+                14.22,
+                16.565
+              ],
+              "diff": 15.355
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0414,
+                -0.0318
+              ],
+              "diff": -0.0365
+            }
+          }
+        }
+      },
+      "8-node": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5854,
+            "brier": 0.1977,
+            "items": 3.532,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6181,
+            "attempt_brier": 0.2556,
+            "attempt_ece": 0.1747,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.115,
+            "mean_minutes": 79.475,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6442,
+            "brier": 0.2788,
+            "ece": 0.211,
+            "log_loss": 0.7735
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5879,
+            "brier": 0.2129,
+            "items": 4.12,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6237,
+            "attempt_brier": 0.2441,
+            "attempt_ece": 0.1189,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.07,
+            "mean_minutes": 96.91,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6466,
+            "brier": 0.2568,
+            "ece": 0.154,
+            "log_loss": 0.7413
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5638,
+            "brier": 0.2038,
+            "items": 3.028,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.5321,
+            "attempt_brier": 0.2566,
+            "attempt_ece": 0.1444,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.08,
+            "mean_minutes": 77.385,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6409,
+            "brier": 0.2859,
+            "ece": 0.2222,
+            "log_loss": 0.7795
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0165,
+                0.004
+              ],
+              "diff": -0.0062
+            },
+            "diag_items": {
+              "ci95": [
+                0.304,
+                0.724
+              ],
+              "diff": 0.504
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.01,
+                0.065
+              ],
+              "diff": 0.035
+            },
+            "minutes": {
+              "ci95": [
+                1.505,
+                2.675
+              ],
+              "diff": 2.09
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0109,
+                -0.0036
+              ],
+              "diff": -0.0071
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0031,
+                0.0153
+              ],
+              "diff": 0.0091
+            },
+            "diag_items": {
+              "ci95": [
+                0.968,
+                1.212
+              ],
+              "diff": 1.092
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.045,
+                0.025
+              ],
+              "diff": -0.01
+            },
+            "minutes": {
+              "ci95": [
+                18.6,
+                20.475
+              ],
+              "diff": 19.525
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0322,
+                -0.0263
+              ],
+              "diff": -0.0291
+            }
+          }
+        }
+      },
+      "8-node-x10": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5956,
+            "brier": 0.1935,
+            "items": 3.644,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.5807,
+            "attempt_brier": 0.2264,
+            "attempt_ece": 0.142,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.125,
+            "mean_minutes": 82.8,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6604,
+            "brier": 0.2717,
+            "ece": 0.2013,
+            "log_loss": 0.7592
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.6203,
+            "brier": 0.2485,
+            "items": 4.732,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.5966,
+            "attempt_brier": 0.2262,
+            "attempt_ece": 0.1022,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.065,
+            "mean_minutes": 98.89,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6559,
+            "brier": 0.2506,
+            "ece": 0.1382,
+            "log_loss": 0.73
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5358,
+            "brier": 0.2112,
+            "items": 2.852,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.5102,
+            "attempt_brier": 0.2387,
+            "attempt_ece": 0.1755,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.145,
+            "mean_minutes": 73.73,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6466,
+            "brier": 0.2847,
+            "ece": 0.2239,
+            "log_loss": 0.7774
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0295,
+                -0.0065
+              ],
+              "diff": -0.0177
+            },
+            "diag_items": {
+              "ci95": [
+                0.572,
+                1.016
+              ],
+              "diff": 0.792
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.07,
+                0.035
+              ],
+              "diff": -0.02
+            },
+            "minutes": {
+              "ci95": [
+                7.725,
+                10.43
+              ],
+              "diff": 9.07
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0161,
+                -0.0097
+              ],
+              "diff": -0.013
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0225,
+                0.0527
+              ],
+              "diff": 0.0374
+            },
+            "diag_items": {
+              "ci95": [
+                1.692,
+                2.064
+              ],
+              "diff": 1.88
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.13,
+                -0.03
+              ],
+              "diff": -0.08
+            },
+            "minutes": {
+              "ci95": [
+                23.73,
+                26.57
+              ],
+              "diff": 25.16
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0378,
+                -0.0301
+              ],
+              "diff": -0.0341
+            }
+          }
+        }
+      },
+      "synth-20": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5361,
+            "brier": 0.1943,
+            "items": 3.808,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6219,
+            "attempt_brier": 0.2534,
+            "attempt_ece": 0.1561,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.0,
+            "mean_minutes": 152.985,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.648,
+            "brier": 0.2827,
+            "ece": 0.2237,
+            "log_loss": 0.781
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5365,
+            "brier": 0.2026,
+            "items": 4.492,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6377,
+            "attempt_brier": 0.2394,
+            "attempt_ece": 0.0959,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.0,
+            "mean_minutes": 195.04,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6435,
+            "brier": 0.2593,
+            "ece": 0.1635,
+            "log_loss": 0.7443
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5352,
+            "brier": 0.197,
+            "items": 3.316,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.527,
+            "attempt_brier": 0.2579,
+            "attempt_ece": 0.1385,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.0,
+            "mean_minutes": 150.765,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6532,
+            "brier": 0.2841,
+            "ece": 0.2205,
+            "log_loss": 0.7717
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0072,
+                0.002
+              ],
+              "diff": -0.0027
+            },
+            "diag_items": {
+              "ci95": [
+                0.24,
+                0.728
+              ],
+              "diff": 0.492
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                1.61,
+                2.825
+              ],
+              "diff": 2.22
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0031,
+                0.0002
+              ],
+              "diff": -0.0014
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0028,
+                0.0089
+              ],
+              "diff": 0.0056
+            },
+            "diag_items": {
+              "ci95": [
+                1.048,
+                1.3
+              ],
+              "diff": 1.176
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                43.58,
+                44.95
+              ],
+              "diff": 44.275
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0264,
+                -0.0231
+              ],
+              "diff": -0.0248
+            }
+          }
+        }
+      },
+      "synth-20-x10": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5288,
+            "brier": 0.195,
+            "items": 3.64,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.5848,
+            "attempt_brier": 0.2282,
+            "attempt_ece": 0.1323,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.0,
+            "mean_minutes": 154.26,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6591,
+            "brier": 0.2769,
+            "ece": 0.2168,
+            "log_loss": 0.7709
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5494,
+            "brier": 0.219,
+            "items": 5.036,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6115,
+            "attempt_brier": 0.2266,
+            "attempt_ece": 0.0881,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.0,
+            "mean_minutes": 200.31,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6542,
+            "brier": 0.2569,
+            "ece": 0.1622,
+            "log_loss": 0.7456
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5211,
+            "brier": 0.1989,
+            "items": 3.056,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.4976,
+            "attempt_brier": 0.241,
+            "attempt_ece": 0.1648,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.01,
+            "mean_minutes": 148.36,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6655,
+            "brier": 0.2821,
+            "ece": 0.2213,
+            "log_loss": 0.7675
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0086,
+                0.0006
+              ],
+              "diff": -0.0039
+            },
+            "diag_items": {
+              "ci95": [
+                0.348,
+                0.824
+              ],
+              "diff": 0.584
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.025,
+                0.0
+              ],
+              "diff": -0.01
+            },
+            "minutes": {
+              "ci95": [
+                4.935,
+                6.905
+              ],
+              "diff": 5.9
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0064,
+                -0.004
+              ],
+              "diff": -0.0052
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0134,
+                0.0268
+              ],
+              "diff": 0.0201
+            },
+            "diag_items": {
+              "ci95": [
+                1.76,
+                2.176
+              ],
+              "diff": 1.98
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.025,
+                0.0
+              ],
+              "diff": -0.01
+            },
+            "minutes": {
+              "ci95": [
+                50.88,
+                53.105
+              ],
+              "diff": 51.95
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0266,
+                -0.0235
+              ],
+              "diff": -0.0251
+            }
+          }
+        }
+      },
+      "synth-50": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5152,
+            "brier": 0.1908,
+            "items": 4.0,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6412,
+            "attempt_brier": 0.2398,
+            "attempt_ece": 0.1093,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.0,
+            "mean_minutes": 349.515,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.646,
+            "brier": 0.2825,
+            "ece": 0.2241,
+            "log_loss": 0.7806
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.516,
+            "brier": 0.1947,
+            "items": 4.824,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6386,
+            "attempt_brier": 0.2376,
+            "attempt_ece": 0.0711,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.0,
+            "mean_minutes": 420.495,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6451,
+            "brier": 0.2593,
+            "ece": 0.1628,
+            "log_loss": 0.7439
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5142,
+            "brier": 0.1917,
+            "items": 3.4,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.4943,
+            "attempt_brier": 0.2686,
+            "attempt_ece": 0.1506,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.0,
+            "mean_minutes": 403.56,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6589,
+            "brier": 0.2815,
+            "ece": 0.2147,
+            "log_loss": 0.7647
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0026,
+                0.001
+              ],
+              "diff": -0.0009
+            },
+            "diag_items": {
+              "ci95": [
+                0.36,
+                0.84
+              ],
+              "diff": 0.6
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                -54.975,
+                -53.105
+              ],
+              "diff": -54.045
+            },
+            "next_answer_brier": {
+              "ci95": [
+                0.0002,
+                0.0017
+              ],
+              "diff": 0.001
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0016,
+                0.0044
+              ],
+              "diff": 0.003
+            },
+            "diag_items": {
+              "ci95": [
+                1.324,
+                1.524
+              ],
+              "diff": 1.424
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                15.915,
+                17.93
+              ],
+              "diff": 16.935
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0232,
+                -0.0212
+              ],
+              "diff": -0.0222
+            }
+          }
+        }
+      },
+      "synth-50-x10": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5135,
+            "brier": 0.1908,
+            "items": 3.88,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.5962,
+            "attempt_brier": 0.2345,
+            "attempt_ece": 0.102,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.0,
+            "mean_minutes": 338.705,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6588,
+            "brier": 0.2786,
+            "ece": 0.2215,
+            "log_loss": 0.7746
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5212,
+            "brier": 0.2022,
+            "items": 5.412,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6137,
+            "attempt_brier": 0.234,
+            "attempt_ece": 0.0689,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.0,
+            "mean_minutes": 427.065,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.656,
+            "brier": 0.2585,
+            "ece": 0.1668,
+            "log_loss": 0.7489
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5082,
+            "brier": 0.1929,
+            "items": 3.164,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.4742,
+            "attempt_brier": 0.2563,
+            "attempt_ece": 0.145,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.0,
+            "mean_minutes": 347.28,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6714,
+            "brier": 0.2805,
+            "ece": 0.2176,
+            "log_loss": 0.7626
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0041,
+                -0.0003
+              ],
+              "diff": -0.0021
+            },
+            "diag_items": {
+              "ci95": [
+                0.484,
+                0.948
+              ],
+              "diff": 0.716
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                -9.555,
+                -7.67
+              ],
+              "diff": -8.575
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0025,
+                -0.0013
+              ],
+              "diff": -0.0019
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0065,
+                0.012
+              ],
+              "diff": 0.0093
+            },
+            "diag_items": {
+              "ci95": [
+                2.056,
+                2.432
+              ],
+              "diff": 2.248
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                78.69,
+                80.87
+              ],
+              "diff": 79.785
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0229,
+                -0.0212
+              ],
+              "diff": -0.0221
+            }
+          }
+        }
+      }
+    },
+    "S4": {
+      "4-node": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.7787,
+            "brier": 0.1142,
+            "items": 2.628,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.195,
+            "attempt_auc": 0.5655,
+            "attempt_brier": 0.2493,
+            "attempt_ece": 0.0872,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.36,
+            "mean_minutes": 52.88,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6664,
+            "brier": 0.1892,
+            "ece": 0.0626,
+            "log_loss": 0.5627
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.7842,
+            "brier": 0.128,
+            "items": 3.668,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.3,
+            "attempt_auc": 0.5561,
+            "attempt_brier": 0.2606,
+            "attempt_ece": 0.1281,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.43,
+            "mean_minutes": 66.26,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6692,
+            "brier": 0.1999,
+            "ece": 0.1017,
+            "log_loss": 0.5928
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.7753,
+            "brier": 0.1127,
+            "items": 2.468,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.175,
+            "attempt_auc": 0.6375,
+            "attempt_brier": 0.2342,
+            "attempt_ece": 0.0088,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.355,
+            "mean_minutes": 52.14,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.685,
+            "brier": 0.1801,
+            "ece": 0.0049,
+            "log_loss": 0.5419
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.01,
+                0.013
+              ],
+              "diff": 0.0015
+            },
+            "diag_items": {
+              "ci95": [
+                0.064,
+                0.26
+              ],
+              "diff": 0.16
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.02,
+                0.03
+              ],
+              "diff": 0.005
+            },
+            "minutes": {
+              "ci95": [
+                0.345,
+                1.11
+              ],
+              "diff": 0.74
+            },
+            "next_answer_brier": {
+              "ci95": [
+                0.0035,
+                0.0151
+              ],
+              "diff": 0.0091
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0057,
+                0.0248
+              ],
+              "diff": 0.0153
+            },
+            "diag_items": {
+              "ci95": [
+                1.072,
+                1.32
+              ],
+              "diff": 1.2
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.035,
+                0.12
+              ],
+              "diff": 0.075
+            },
+            "minutes": {
+              "ci95": [
+                13.43,
+                14.765
+              ],
+              "diff": 14.12
+            },
+            "next_answer_brier": {
+              "ci95": [
+                0.0153,
+                0.0243
+              ],
+              "diff": 0.0198
+            }
+          }
+        }
+      },
+      "8-node": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.6731,
+            "brier": 0.13,
+            "items": 2.812,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.035,
+            "attempt_auc": 0.5686,
+            "attempt_brier": 0.2479,
+            "attempt_ece": 0.0815,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.24,
+            "mean_minutes": 81.92,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6315,
+            "brier": 0.1932,
+            "ece": 0.0569,
+            "log_loss": 0.5734
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.6788,
+            "brier": 0.1367,
+            "items": 4.06,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.055,
+            "attempt_auc": 0.5575,
+            "attempt_brier": 0.2606,
+            "attempt_ece": 0.1265,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.26,
+            "mean_minutes": 97.14,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6337,
+            "brier": 0.2044,
+            "ece": 0.1095,
+            "log_loss": 0.6045
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.6704,
+            "brier": 0.1293,
+            "items": 2.64,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.02,
+            "attempt_auc": 0.6366,
+            "attempt_brier": 0.2339,
+            "attempt_ece": 0.0146,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.235,
+            "mean_minutes": 80.245,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.641,
+            "brier": 0.1869,
+            "ece": 0.0083,
+            "log_loss": 0.5582
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0055,
+                0.0071
+              ],
+              "diff": 0.0007
+            },
+            "diag_items": {
+              "ci95": [
+                0.052,
+                0.292
+              ],
+              "diff": 0.172
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.01,
+                0.025
+              ],
+              "diff": 0.005
+            },
+            "minutes": {
+              "ci95": [
+                1.245,
+                2.1
+              ],
+              "diff": 1.675
+            },
+            "next_answer_brier": {
+              "ci95": [
+                0.0032,
+                0.0096
+              ],
+              "diff": 0.0063
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0023,
+                0.0124
+              ],
+              "diff": 0.0074
+            },
+            "diag_items": {
+              "ci95": [
+                1.308,
+                1.528
+              ],
+              "diff": 1.42
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.005,
+                0.055
+              ],
+              "diff": 0.025
+            },
+            "minutes": {
+              "ci95": [
+                16.37,
+                17.405
+              ],
+              "diff": 16.895
+            },
+            "next_answer_brier": {
+              "ci95": [
+                0.0146,
+                0.0204
+              ],
+              "diff": 0.0176
+            }
+          }
+        }
+      },
+      "8-node-x10": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.6632,
+            "brier": 0.1315,
+            "items": 2.824,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.035,
+            "attempt_auc": 0.624,
+            "attempt_brier": 0.2368,
+            "attempt_ece": 0.0516,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.245,
+            "mean_minutes": 84.01,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6333,
+            "brier": 0.1932,
+            "ece": 0.0635,
+            "log_loss": 0.5737
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.7114,
+            "brier": 0.1445,
+            "items": 4.308,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.04,
+            "attempt_auc": 0.5824,
+            "attempt_brier": 0.2422,
+            "attempt_ece": 0.1178,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.24,
+            "mean_minutes": 98.985,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6473,
+            "brier": 0.2069,
+            "ece": 0.1245,
+            "log_loss": 0.6102
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.6733,
+            "brier": 0.1276,
+            "items": 2.592,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.045,
+            "attempt_auc": 0.6165,
+            "attempt_brier": 0.2399,
+            "attempt_ece": 0.0166,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.26,
+            "mean_minutes": 81.25,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.654,
+            "brier": 0.1829,
+            "ece": 0.0122,
+            "log_loss": 0.5485
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0019,
+                0.0098
+              ],
+              "diff": 0.0039
+            },
+            "diag_items": {
+              "ci95": [
+                0.12,
+                0.352
+              ],
+              "diff": 0.232
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.04,
+                0.01
+              ],
+              "diff": -0.015
+            },
+            "minutes": {
+              "ci95": [
+                1.98,
+                3.635
+              ],
+              "diff": 2.76
+            },
+            "next_answer_brier": {
+              "ci95": [
+                0.0076,
+                0.013
+              ],
+              "diff": 0.0103
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0083,
+                0.0257
+              ],
+              "diff": 0.0169
+            },
+            "diag_items": {
+              "ci95": [
+                1.576,
+                1.852
+              ],
+              "diff": 1.716
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.05,
+                0.005
+              ],
+              "diff": -0.02
+            },
+            "minutes": {
+              "ci95": [
+                16.975,
+                18.61
+              ],
+              "diff": 17.735
+            },
+            "next_answer_brier": {
+              "ci95": [
+                0.0208,
+                0.0273
+              ],
+              "diff": 0.024
+            }
+          }
+        }
+      },
+      "synth-20": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5681,
+            "brier": 0.1478,
+            "items": 2.948,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.5872,
+            "attempt_brier": 0.244,
+            "attempt_ece": 0.0783,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.205,
+            "mean_minutes": 150.49,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6047,
+            "brier": 0.1991,
+            "ece": 0.0568,
+            "log_loss": 0.5881
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.576,
+            "brier": 0.1487,
+            "items": 4.248,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.5903,
+            "attempt_brier": 0.2534,
+            "attempt_ece": 0.1109,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.205,
+            "mean_minutes": 193.06,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6068,
+            "brier": 0.2093,
+            "ece": 0.1101,
+            "log_loss": 0.6174
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5784,
+            "brier": 0.1456,
+            "items": 2.736,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6449,
+            "attempt_brier": 0.2318,
+            "attempt_ece": 0.0173,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.205,
+            "mean_minutes": 150.295,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6181,
+            "brier": 0.1928,
+            "ece": 0.004,
+            "log_loss": 0.5718
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0002,
+                0.0045
+              ],
+              "diff": 0.0021
+            },
+            "diag_items": {
+              "ci95": [
+                0.064,
+                0.356
+              ],
+              "diff": 0.212
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                -0.515,
+                0.88
+              ],
+              "diff": 0.195
+            },
+            "next_answer_brier": {
+              "ci95": [
+                0.0049,
+                0.0078
+              ],
+              "diff": 0.0063
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0013,
+                0.005
+              ],
+              "diff": 0.003
+            },
+            "diag_items": {
+              "ci95": [
+                1.396,
+                1.624
+              ],
+              "diff": 1.512
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                42.035,
+                43.51
+              ],
+              "diff": 42.765
+            },
+            "next_answer_brier": {
+              "ci95": [
+                0.0149,
+                0.0181
+              ],
+              "diff": 0.0165
+            }
+          }
+        }
+      },
+      "synth-20-x10": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5693,
+            "brier": 0.1487,
+            "items": 2.896,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6438,
+            "attempt_brier": 0.2324,
+            "attempt_ece": 0.0537,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.205,
+            "mean_minutes": 152.295,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6087,
+            "brier": 0.2006,
+            "ece": 0.0644,
+            "log_loss": 0.5918
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5997,
+            "brier": 0.1512,
+            "items": 4.392,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.601,
+            "attempt_brier": 0.2384,
+            "attempt_ece": 0.1166,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.205,
+            "mean_minutes": 196.795,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6175,
+            "brier": 0.212,
+            "ece": 0.1197,
+            "log_loss": 0.6244
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5578,
+            "brier": 0.1491,
+            "items": 2.512,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6383,
+            "attempt_brier": 0.2349,
+            "attempt_ece": 0.0096,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.205,
+            "mean_minutes": 151.195,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.618,
+            "brier": 0.1945,
+            "ece": 0.0026,
+            "log_loss": 0.5755
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0031,
+                0.0023
+              ],
+              "diff": -0.0004
+            },
+            "diag_items": {
+              "ci95": [
+                0.24,
+                0.536
+              ],
+              "diff": 0.384
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                0.325,
+                1.88
+              ],
+              "diff": 1.1
+            },
+            "next_answer_brier": {
+              "ci95": [
+                0.0048,
+                0.0074
+              ],
+              "diff": 0.006
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                -0.0019,
+                0.0059
+              ],
+              "diff": 0.002
+            },
+            "diag_items": {
+              "ci95": [
+                1.732,
+                2.028
+              ],
+              "diff": 1.88
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                44.81,
+                46.42
+              ],
+              "diff": 45.6
+            },
+            "next_answer_brier": {
+              "ci95": [
+                0.0158,
+                0.0191
+              ],
+              "diff": 0.0175
+            }
+          }
+        }
+      },
+      "synth-50": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5299,
+            "brier": 0.1525,
+            "items": 3.008,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6476,
+            "attempt_brier": 0.232,
+            "attempt_ece": 0.0692,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.21,
+            "mean_minutes": 345.115,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.5921,
+            "brier": 0.2012,
+            "ece": 0.0588,
+            "log_loss": 0.5931
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5335,
+            "brier": 0.1527,
+            "items": 4.496,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6238,
+            "attempt_brier": 0.245,
+            "attempt_ece": 0.095,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.21,
+            "mean_minutes": 414.845,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.5935,
+            "brier": 0.2112,
+            "ece": 0.1095,
+            "log_loss": 0.6214
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5349,
+            "brier": 0.1515,
+            "items": 2.844,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.666,
+            "attempt_brier": 0.2286,
+            "attempt_ece": 0.0058,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.21,
+            "mean_minutes": 400.9,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6047,
+            "brier": 0.1956,
+            "ece": 0.004,
+            "log_loss": 0.578
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                0.0001,
+                0.0021
+              ],
+              "diff": 0.0011
+            },
+            "diag_items": {
+              "ci95": [
+                0.016,
+                0.308
+              ],
+              "diff": 0.164
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                -56.98,
+                -54.565
+              ],
+              "diff": -55.785
+            },
+            "next_answer_brier": {
+              "ci95": [
+                0.005,
+                0.0064
+              ],
+              "diff": 0.0057
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                0.0004,
+                0.0022
+              ],
+              "diff": 0.0012
+            },
+            "diag_items": {
+              "ci95": [
+                1.564,
+                1.732
+              ],
+              "diff": 1.652
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                12.75,
+                15.205
+              ],
+              "diff": 13.945
+            },
+            "next_answer_brier": {
+              "ci95": [
+                0.0147,
+                0.0166
+              ],
+              "diff": 0.0156
+            }
+          }
+        }
+      },
+      "synth-50-x10": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5296,
+            "brier": 0.1528,
+            "items": 2.972,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6708,
+            "attempt_brier": 0.2246,
+            "attempt_ece": 0.0427,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.21,
+            "mean_minutes": 333.86,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.5979,
+            "brier": 0.2021,
+            "ece": 0.0656,
+            "log_loss": 0.5955
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5455,
+            "brier": 0.1543,
+            "items": 4.844,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6298,
+            "attempt_brier": 0.2305,
+            "attempt_ece": 0.1047,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.21,
+            "mean_minutes": 420.045,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6023,
+            "brier": 0.2138,
+            "ece": 0.1199,
+            "log_loss": 0.6289
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5261,
+            "brier": 0.153,
+            "items": 2.58,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.6586,
+            "attempt_brier": 0.23,
+            "attempt_ece": 0.0062,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.21,
+            "mean_minutes": 344.745,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6087,
+            "brier": 0.1961,
+            "ece": 0.0023,
+            "log_loss": 0.5792
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0012,
+                0.0009
+              ],
+              "diff": -0.0001
+            },
+            "diag_items": {
+              "ci95": [
+                0.244,
+                0.54
+              ],
+              "diff": 0.392
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                -11.975,
+                -9.8
+              ],
+              "diff": -10.885
+            },
+            "next_answer_brier": {
+              "ci95": [
+                0.0054,
+                0.0065
+              ],
+              "diff": 0.006
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                -0.0004,
+                0.003
+              ],
+              "diff": 0.0013
+            },
+            "diag_items": {
+              "ci95": [
+                2.128,
+                2.396
+              ],
+              "diff": 2.264
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                74.125,
+                76.425
+              ],
+              "diff": 75.3
+            },
+            "next_answer_brier": {
+              "ci95": [
+                0.0167,
+                0.0185
+              ],
+              "diff": 0.0176
+            }
+          }
+        }
+      }
+    },
+    "S4-assist09": {
+      "4-node": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.6913,
+            "brier": 0.3917,
+            "items": 3.08,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.755,
+            "attempt_auc": 0.6859,
+            "attempt_brier": 0.2381,
+            "attempt_ece": 0.1575,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.87,
+            "mean_minutes": 48.39,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6826,
+            "brier": 0.2652,
+            "ece": 0.1989,
+            "log_loss": 0.7396
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.7216,
+            "brier": 0.377,
+            "items": 3.612,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.81,
+            "attempt_auc": 0.693,
+            "attempt_brier": 0.226,
+            "attempt_ece": 0.1149,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.88,
+            "mean_minutes": 61.735,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6923,
+            "brier": 0.2386,
+            "ece": 0.1368,
+            "log_loss": 0.6896
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.6554,
+            "brier": 0.4363,
+            "items": 2.684,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.74,
+            "attempt_auc": 0.5694,
+            "attempt_brier": 0.2507,
+            "attempt_ece": 0.1495,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.86,
+            "mean_minutes": 47.08,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6591,
+            "brier": 0.2836,
+            "ece": 0.228,
+            "log_loss": 0.7758
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0681,
+                -0.0228
+              ],
+              "diff": -0.0446
+            },
+            "diag_items": {
+              "ci95": [
+                0.236,
+                0.564
+              ],
+              "diff": 0.396
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.01,
+                0.03
+              ],
+              "diff": 0.01
+            },
+            "minutes": {
+              "ci95": [
+                0.825,
+                1.83
+              ],
+              "diff": 1.31
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0258,
+                -0.0111
+              ],
+              "diff": -0.0184
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                -0.0669,
+                -0.0515
+              ],
+              "diff": -0.0594
+            },
+            "diag_items": {
+              "ci95": [
+                0.796,
+                1.072
+              ],
+              "diff": 0.928
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.01,
+                0.05
+              ],
+              "diff": 0.02
+            },
+            "minutes": {
+              "ci95": [
+                13.565,
+                15.78
+              ],
+              "diff": 14.655
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0501,
+                -0.0398
+              ],
+              "diff": -0.045
+            }
+          }
+        }
+      },
+      "8-node": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.6187,
+            "brier": 0.4268,
+            "items": 3.396,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.555,
+            "attempt_auc": 0.6836,
+            "attempt_brier": 0.2381,
+            "attempt_ece": 0.1546,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.78,
+            "mean_minutes": 79.255,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6797,
+            "brier": 0.271,
+            "ece": 0.213,
+            "log_loss": 0.752
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.6392,
+            "brier": 0.4178,
+            "items": 4.116,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.575,
+            "attempt_auc": 0.6853,
+            "attempt_brier": 0.2282,
+            "attempt_ece": 0.1188,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.775,
+            "mean_minutes": 96.405,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6841,
+            "brier": 0.2446,
+            "ece": 0.1515,
+            "log_loss": 0.7035
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5952,
+            "brier": 0.451,
+            "items": 2.98,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.53,
+            "attempt_auc": 0.5813,
+            "attempt_brier": 0.2487,
+            "attempt_ece": 0.1436,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.79,
+            "mean_minutes": 76.915,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6611,
+            "brier": 0.2827,
+            "ece": 0.2231,
+            "log_loss": 0.77
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0363,
+                -0.013
+              ],
+              "diff": -0.0242
+            },
+            "diag_items": {
+              "ci95": [
+                0.212,
+                0.636
+              ],
+              "diff": 0.416
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.03,
+                0.01
+              ],
+              "diff": -0.01
+            },
+            "minutes": {
+              "ci95": [
+                1.79,
+                2.915
+              ],
+              "diff": 2.34
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0158,
+                -0.0078
+              ],
+              "diff": -0.0117
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                -0.0379,
+                -0.0286
+              ],
+              "diff": -0.0332
+            },
+            "diag_items": {
+              "ci95": [
+                1.012,
+                1.256
+              ],
+              "diff": 1.136
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.04,
+                0.01
+              ],
+              "diff": -0.015
+            },
+            "minutes": {
+              "ci95": [
+                18.71,
+                20.325
+              ],
+              "diff": 19.49
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0413,
+                -0.0351
+              ],
+              "diff": -0.0381
+            }
+          }
+        }
+      },
+      "8-node-x10": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.6382,
+            "brier": 0.4163,
+            "items": 3.572,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.58,
+            "attempt_auc": 0.6853,
+            "attempt_brier": 0.2085,
+            "attempt_ece": 0.1299,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.79,
+            "mean_minutes": 80.975,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6976,
+            "brier": 0.2622,
+            "ece": 0.2037,
+            "log_loss": 0.7335
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.6524,
+            "brier": 0.399,
+            "items": 4.616,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.555,
+            "attempt_auc": 0.6858,
+            "attempt_brier": 0.2056,
+            "attempt_ece": 0.0987,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.77,
+            "mean_minutes": 97.145,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6949,
+            "brier": 0.2392,
+            "ece": 0.1398,
+            "log_loss": 0.6972
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5778,
+            "brier": 0.4529,
+            "items": 2.876,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.56,
+            "attempt_auc": 0.6093,
+            "attempt_brier": 0.2271,
+            "attempt_ece": 0.1643,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.83,
+            "mean_minutes": 71.615,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6721,
+            "brier": 0.2787,
+            "ece": 0.2191,
+            "log_loss": 0.7614
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0487,
+                -0.0251
+              ],
+              "diff": -0.0366
+            },
+            "diag_items": {
+              "ci95": [
+                0.5,
+                0.904
+              ],
+              "diff": 0.696
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.07,
+                -0.01
+              ],
+              "diff": -0.04
+            },
+            "minutes": {
+              "ci95": [
+                8.075,
+                10.71
+              ],
+              "diff": 9.36
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0198,
+                -0.0134
+              ],
+              "diff": -0.0166
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                -0.0682,
+                -0.0399
+              ],
+              "diff": -0.0539
+            },
+            "diag_items": {
+              "ci95": [
+                1.564,
+                1.908
+              ],
+              "diff": 1.74
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.095,
+                -0.03
+              ],
+              "diff": -0.06
+            },
+            "minutes": {
+              "ci95": [
+                24.13,
+                26.92
+              ],
+              "diff": 25.53
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0429,
+                -0.0361
+              ],
+              "diff": -0.0395
+            }
+          }
+        }
+      },
+      "synth-20": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5572,
+            "brier": 0.4595,
+            "items": 3.632,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.085,
+            "attempt_auc": 0.6846,
+            "attempt_brier": 0.2353,
+            "attempt_ece": 0.1379,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.735,
+            "mean_minutes": 152.63,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.677,
+            "brier": 0.2804,
+            "ece": 0.2345,
+            "log_loss": 0.7732
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5602,
+            "brier": 0.4589,
+            "items": 4.3,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.105,
+            "attempt_auc": 0.6913,
+            "attempt_brier": 0.2242,
+            "attempt_ece": 0.1049,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.735,
+            "mean_minutes": 194.78,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6763,
+            "brier": 0.2534,
+            "ece": 0.1734,
+            "log_loss": 0.725
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.538,
+            "brier": 0.4741,
+            "items": 3.028,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.09,
+            "attempt_auc": 0.5713,
+            "attempt_brier": 0.2508,
+            "attempt_ece": 0.1326,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.735,
+            "mean_minutes": 150.195,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6626,
+            "brier": 0.2883,
+            "ece": 0.2335,
+            "log_loss": 0.7803
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0194,
+                -0.01
+              ],
+              "diff": -0.0145
+            },
+            "diag_items": {
+              "ci95": [
+                0.372,
+                0.836
+              ],
+              "diff": 0.604
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                1.805,
+                3.075
+              ],
+              "diff": 2.435
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0096,
+                -0.0064
+              ],
+              "diff": -0.0079
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                -0.017,
+                -0.0134
+              ],
+              "diff": -0.0151
+            },
+            "diag_items": {
+              "ci95": [
+                1.152,
+                1.392
+              ],
+              "diff": 1.272
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                43.835,
+                45.335
+              ],
+              "diff": 44.585
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0366,
+                -0.0332
+              ],
+              "diff": -0.0349
+            }
+          }
+        }
+      },
+      "synth-20-x10": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5662,
+            "brier": 0.4572,
+            "items": 3.616,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.165,
+            "attempt_auc": 0.6884,
+            "attempt_brier": 0.2045,
+            "attempt_ece": 0.1394,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.745,
+            "mean_minutes": 153.17,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6968,
+            "brier": 0.2719,
+            "ece": 0.2261,
+            "log_loss": 0.7556
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.562,
+            "brier": 0.453,
+            "items": 4.776,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.175,
+            "attempt_auc": 0.6965,
+            "attempt_brier": 0.2024,
+            "attempt_ece": 0.0981,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.735,
+            "mean_minutes": 199.555,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6905,
+            "brier": 0.2482,
+            "ece": 0.1704,
+            "log_loss": 0.7196
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5353,
+            "brier": 0.4743,
+            "items": 2.896,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.175,
+            "attempt_auc": 0.6154,
+            "attempt_brier": 0.2263,
+            "attempt_ece": 0.1611,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.75,
+            "mean_minutes": 147.495,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6825,
+            "brier": 0.2834,
+            "ece": 0.2298,
+            "log_loss": 0.7693
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0221,
+                -0.0123
+              ],
+              "diff": -0.0171
+            },
+            "diag_items": {
+              "ci95": [
+                0.48,
+                0.948
+              ],
+              "diff": 0.72
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.025,
+                0.01
+              ],
+              "diff": -0.005
+            },
+            "minutes": {
+              "ci95": [
+                4.63,
+                6.705
+              ],
+              "diff": 5.675
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0128,
+                -0.0102
+              ],
+              "diff": -0.0116
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                -0.0271,
+                -0.0155
+              ],
+              "diff": -0.0213
+            },
+            "diag_items": {
+              "ci95": [
+                1.664,
+                2.088
+              ],
+              "diff": 1.88
+            },
+            "goal_mastery": {
+              "ci95": [
+                -0.035,
+                0.0
+              ],
+              "diff": -0.015
+            },
+            "minutes": {
+              "ci95": [
+                50.94,
+                53.16
+              ],
+              "diff": 52.06
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0369,
+                -0.0336
+              ],
+              "diff": -0.0353
+            }
+          }
+        }
+      },
+      "synth-50": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5282,
+            "brier": 0.4752,
+            "items": 3.956,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.7127,
+            "attempt_brier": 0.2182,
+            "attempt_ece": 0.1168,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.715,
+            "mean_minutes": 348.875,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6774,
+            "brier": 0.2829,
+            "ece": 0.241,
+            "log_loss": 0.7789
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5287,
+            "brier": 0.4752,
+            "items": 4.636,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.005,
+            "attempt_auc": 0.6989,
+            "attempt_brier": 0.2175,
+            "attempt_ece": 0.0926,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.715,
+            "mean_minutes": 419.405,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6776,
+            "brier": 0.2547,
+            "ece": 0.1801,
+            "log_loss": 0.728
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5189,
+            "brier": 0.482,
+            "items": 3.124,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.0,
+            "attempt_auc": 0.5527,
+            "attempt_brier": 0.2513,
+            "attempt_ece": 0.1231,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.715,
+            "mean_minutes": 402.39,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6727,
+            "brier": 0.2874,
+            "ece": 0.2325,
+            "log_loss": 0.7766
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.0089,
+                -0.0048
+              ],
+              "diff": -0.0067
+            },
+            "diag_items": {
+              "ci95": [
+                0.6,
+                1.064
+              ],
+              "diff": 0.832
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                -54.7,
+                -52.34
+              ],
+              "diff": -53.515
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0052,
+                -0.0037
+              ],
+              "diff": -0.0044
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                -0.0076,
+                -0.0059
+              ],
+              "diff": -0.0067
+            },
+            "diag_items": {
+              "ci95": [
+                1.42,
+                1.596
+              ],
+              "diff": 1.512
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                16.015,
+                18.09
+              ],
+              "diff": 17.015
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0337,
+                -0.0316
+              ],
+              "diff": -0.0326
+            }
+          }
+        }
+      },
+      "synth-50-x10": {
+        "fitted_assist09": {
+          "diagnostic": {
+            "auc": 0.5309,
+            "brier": 0.4751,
+            "items": 3.924,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.005,
+            "attempt_auc": 0.6985,
+            "attempt_brier": 0.1987,
+            "attempt_ece": 0.1167,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.715,
+            "mean_minutes": 337.505,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6961,
+            "brier": 0.2756,
+            "ece": 0.235,
+            "log_loss": 0.7642
+          }
+        },
+        "fitted_ct": {
+          "diagnostic": {
+            "auc": 0.5306,
+            "brier": 0.4716,
+            "items": 5.264,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.005,
+            "attempt_auc": 0.7006,
+            "attempt_brier": 0.1987,
+            "attempt_ece": 0.0854,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.715,
+            "mean_minutes": 426.145,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6935,
+            "brier": 0.2503,
+            "ece": 0.1795,
+            "log_loss": 0.7242
+          }
+        },
+        "heuristic": {
+          "diagnostic": {
+            "auc": 0.5175,
+            "brier": 0.4823,
+            "items": 3.004,
+            "n": 250
+          },
+          "episodes": {
+            "all_required_rate": 0.005,
+            "attempt_auc": 0.5573,
+            "attempt_brier": 0.2339,
+            "attempt_ece": 0.1434,
+            "executed_prereq_violations": 0,
+            "goal_mastery_rate": 0.715,
+            "mean_minutes": 342.4,
+            "n": 200
+          },
+          "next_answer": {
+            "auc": 0.6903,
+            "brier": 0.2839,
+            "ece": 0.231,
+            "log_loss": 0.7691
+          }
+        },
+        "paired_vs_heuristic": {
+          "fitted_assist09": {
+            "diag_brier": {
+              "ci95": [
+                -0.009,
+                -0.0054
+              ],
+              "diff": -0.0071
+            },
+            "diag_items": {
+              "ci95": [
+                0.708,
+                1.144
+              ],
+              "diff": 0.92
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                -6.115,
+                -3.625
+              ],
+              "diff": -4.895
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0089,
+                -0.0078
+              ],
+              "diff": -0.0083
+            }
+          },
+          "fitted_ct": {
+            "diag_brier": {
+              "ci95": [
+                -0.0132,
+                -0.0082
+              ],
+              "diff": -0.0107
+            },
+            "diag_items": {
+              "ci95": [
+                2.06,
+                2.448
+              ],
+              "diff": 2.26
+            },
+            "goal_mastery": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "diff": 0.0
+            },
+            "minutes": {
+              "ci95": [
+                82.51,
+                85.06
+              ],
+              "diff": 83.745
+            },
+            "next_answer_brier": {
+              "ci95": [
+                -0.0344,
+                -0.0328
+              ],
+              "diff": -0.0336
+            }
+          }
+        }
+      }
+    }
+  }
+}

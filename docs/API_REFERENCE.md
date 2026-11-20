@@ -116,6 +116,11 @@ Immutable dataclass holding engine runtime parameters, bounds, and thresholds.
   - `oracle_node_limit: int = 1000` — Search node limit for the exact bin-packing feasibility oracle.
 - **`__post_init__(self)`:** Validates all parameters: $0 < d_{\min} < d_{\max} < 1$, $0 \le p_0 \le 1$, $0 < \theta \le 1$, $T \in [0, 1]$, positive caps, $k_{\text{responses}} \ge 1$, target success $\in (0, 1)$, thresholds in $(0, 1)$, positive half-life growth, non-empty allowed budgets, and positive oracle node limit. Raises `ValidationError` on bad config.
 
+### `config_from_file(path: str, base: EngineConfig = DEFAULT_CONFIG) -> EngineConfig`
+- **Parameters:** `path` to a JSON object whose keys are `EngineConfig` field names; `base` config.
+- **Returns:** `dataclasses.replace(base, **overrides)`, so `__post_init__` validates every value (including the `model_profile` path).
+- **Raises:** `ValidationError` for a missing or unreadable file, invalid JSON, a non-object, or unknown keys (the message lists the allowed keys). JSON lists become tuples for tuple fields such as `allowed_budgets`. Used by the CLI's `--config` (Plan 2.5, D89).
+
 ### `config_hash(cfg: EngineConfig) -> str`
 - **Parameters:** `cfg` (`EngineConfig`).
 - **Returns:** Deterministic 64-character SHA-256 hexadecimal string.
@@ -411,7 +416,8 @@ The central facade for AdaptEngine, acting as the single mutation boundary.
   - `replan`: Dynamic horizon replanning after recorded events or constraint updates. Pure read-only computation from canonical snapshot. Supports `--json`.
   - `import-legacy`: Explicitly imports separate legacy learner and log files into a canonical snapshot.
   - `export-legacy`: Explicitly exports canonical snapshot into separate legacy learner and log files.
-  - Subcommands `plan`, `replan`, `update`, `failed-assessment`, and `missed-day` support `--model {custombkt,pybkt}` (defaults to `custombkt` continuous oracle, or select genuine `pybkt` adapter wrapper).
+  - Subcommands `plan`, `replan`, `update`, `failed-assessment`, `missed-day`, `change-deadline` and `change-budget` accept `--model {custombkt,pybkt}`. When `--model` is not given, the Engine builds its model from the config (`CustomBKT` for the heuristic, `ClassBKT` for a fitted profile). When it is given, the model is built from the effective config.
+  - **Every subcommand** accepts `--config <file.json>` (EngineConfig field overrides, read with `config_from_file`) and `--model-profile <path>` (D89). Precedence: `DEFAULT_CONFIG` < `--config` < `--model-profile`. The resulting config is passed to every `Engine.from_files` call. `--model` together with a non-heuristic profile is an error (exit code 2). With a non-default config the CLI prints `INFO: config: model_profile=<…>, config_hash=<12 chars>` to stderr. Without these options the CLI behaves exactly as before Plan 2.5.
 
 
 ---

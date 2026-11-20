@@ -145,6 +145,17 @@ def reliability_bins(pairs: Sequence[Tuple[float, bool]], n_bins: int = 10) -> l
     ]
 
 
+def ece(pairs: Sequence[Tuple[float, bool]], n_bins: int = 10) -> Optional[float]:
+    """Expected calibration error: bin-weighted |mean prediction - observed frequency|."""
+    if not pairs:
+        return None
+    sums = [[0, 0.0, 0.0] for _ in range(n_bins)]  # count, sum of p, sum of y (same bins as above)
+    for p, y in pairs:
+        b = sums[min(n_bins - 1, int(p * n_bins))]
+        b[0], b[1], b[2] = b[0] + 1, b[1] + p, b[2] + float(y)
+    return round(sum(abs(sp - sy) for _, sp, sy in sums) / len(pairs), 4)
+
+
 def brier_decomposition(pairs: Sequence[Tuple[float, bool]], n_bins: int = 10) -> dict:
     """Murphy decomposition over equal-width bins: Brier ~ reliability - resolution + uncertainty
     (exact up to within-bin variance of the predictions)."""

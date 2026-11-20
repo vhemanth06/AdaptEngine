@@ -604,6 +604,28 @@ def write_profile(path: str, class_fit: dict, meta: dict) -> dict:
     return profile
 
 
+def write_ct_profile(
+    results_path: str = os.path.join(RESULTS, "bkt_fit_ct.json"),
+    out_path: str = os.path.join(REPO_ROOT, "config", "fitted_ct.json"),
+) -> dict:
+    """config/fitted_ct.json from the class fit already in bkt_fit_ct.json (cross-check, D60)."""
+    with open(results_path, encoding="utf-8") as f:
+        res = json.load(f)
+    meta = {
+        "profile": "fitted_ct",
+        "source": "Cognitive Tutor (ct.csv), multigs by D6 difficulty class, shared prior/learn "
+        f"across {res['cleaning']['skills_final']} skills",
+        "source_results": "experiments/results/bkt_fit_ct.json",
+        "code_hash": res["meta"]["code_hash"],
+        "timestamp_utc": res["meta"]["timestamp_utc"],
+        "caveat": "Fitted on MATHS tutor data, not Python programming, and on only "
+        f"{res['cleaning']['rows_final']} answers. A robustness cross-check for fitted_assist09 "
+        "(D60), never the recommended profile.",
+        "ci95": res["class_fit"]["bootstrap"],
+    }
+    return write_profile(out_path, res["class_fit"], meta)
+
+
 # ---------------------------------------------------------------- runners
 
 
@@ -744,13 +766,16 @@ def run_domain(name: str, boot: int, seed: int = SEED) -> dict:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="BKT fitting on real data (WP7)")
-    ap.add_argument("cmd", choices=["pybkt", "assist09", "ct"])
+    ap.add_argument("cmd", choices=["pybkt", "assist09", "ct", "ct-profile"])
     ap.add_argument("--data", default=os.path.join(EXTERNAL, "ct.csv"))
     ap.add_argument("--boot", type=int, default=200)
     ap.add_argument("--seed", type=int, default=SEED)
     ap.add_argument("--out", default=None)
     args = ap.parse_args(argv)
 
+    if args.cmd == "ct-profile":  # Plan 2 F2-T3: profile from the stored class fit, no refit
+        write_ct_profile()
+        return 0
     if args.cmd == "pybkt":
         res = pybkt_pipeline(args.data, seed=args.seed)
         res["meta"] = {
