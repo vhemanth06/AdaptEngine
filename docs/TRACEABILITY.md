@@ -93,8 +93,8 @@ This document tracks all 23 verification scenarios (the authoritative Assignment
 | **FE-TC5** | Plan FE | API plan = direct `Engine` call, including `8node_x10` × bisection × CP-SAT | `frontend/api/tests/test_api.py::test_end_to_end_plan_matches_direct_engine` | **Verified** |
 | **FE-TC6** | Plan FE | The demo preset shows every step the walkthrough claims (dropped claims stated) | `frontend/api/tests/test_api.py::test_demo_preset`; `docs/FRONTEND_NOTES.md` (preset record) | **Verified** |
 | **FE-TC7** | Plan FE | The demo walkthrough runs end to end in the browser | `frontend/web/e2e/demo.spec.ts` | **Verified** |
-| **FE-TC8** | Plan FE | All 8 screens render in light and dark without errors; no Policy Lab, Authoring Studio or Evaluation tab | `frontend/web/e2e/screens.spec.ts` (all screens render, light and dark) | **Verified** |
+| **FE-TC8** | Plan FE | All screens render in light and dark without errors (8 in Plan FE; 6 after D97); no Policy Lab, Authoring Studio or Evaluation tab (nor Disruptions, Autopilot after D97) | `frontend/web/e2e/screens.spec.ts` (all screens render, light and dark) | **Verified** |
 | **FE-TC9** | Plan FE | Failure states: an unknown session recovers; the API down shows Retry | `frontend/web/e2e/screens.spec.ts` | **Verified** |
-| **FE-TC10** | Plan FE | Screenshots of every screen in both themes in `docs/figures/ui_*.png`; no pixel comparison | `make demo-figures` (16 files); `grep -r toHaveScreenshot frontend/web/e2e` finds nothing | **Verified** |
+| **FE-TC10** | Plan FE | Screenshots of every screen in both themes in `docs/figures/ui_*.png`; no pixel comparison | `make demo-figures` (16 files; 12 after D97); `grep -r toHaveScreenshot frontend/web/e2e` finds nothing | **Verified** |
 | **FE-TC11** | Plan FE | `src/` untouched: code hash and default config hash unchanged; pins and CLI golden runs pass | FE-T0 vs FE-T8 values in `docs/FRONTEND_NOTES.md`; `make check` | **Verified** |
 | **FE-TC12** | Plan FE | Decisions D92–D95 and FE-TC1–FE-TC12 recorded | `docs/DECISIONS.md` §9, this table | **Verified** |

@@ -11,15 +11,6 @@ export const C = {
   purple: "#CC79A7",
   grey: "#8C8C8C",
 };
-// redo's simulation arms, plus the two diagnostics of the Autopilot comparison
-export const ARM_COLOR: Record<string, string> = {
-  adapt: C.blue,
-  no_review: C.sky,
-  no_replan: C.orange,
-  static: C.purple,
-  sweep: C.vermillion,
-  bisection: C.green,
-};
 // Engine-state colours come from the design tokens (light/dark aware).
 export const STATE = {
   mastered: { color: "var(--mastered)", soft: "var(--mastered-soft)", icon: "✓", label: "Mastered" },

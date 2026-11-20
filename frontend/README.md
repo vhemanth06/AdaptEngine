@@ -33,27 +33,23 @@ preset uses CP-SAT, so install the extra for the walkthrough.
   colour, an icon and a label:
   - mastered: emerald ✓; in progress: indigo; remediation: amber ↻; locked: zinc 🔒;
   - the bisection badges: inferred ◇ (dashed border), check pending ⧗, confirmed ✓✓.
-- **Sidebar groups:**
-  - Learner: Overview, Setup, Diagnostic, Curriculum map, Plan + Why?, Study.
-  - Adaptation: Disruptions.
-  - Evidence: Autopilot.
+- **Sidebar:** Overview, Setup, Diagnostic, Curriculum map, Plan + Why?, Study.
 - **Top bar:**
   - the session chip (id · curriculum · diagnostic · item model · planner);
   - plan status and the day, deadline and budget chips;
   - **Next day →**: ends today, and the engine replans the remaining work from the next day
     (D96). The learner is assumed to keep to the daily budget. A finished day stays on screen as
-    "Day N complete" (Study has the same button) until Next day is pressed or a day is marked
-    missed. The deadline day is the last day;
+    "Day N complete" (Study has the same button) until Next day is pressed. The deadline day is the last day;
   - the demo-mode switch, the theme toggle and Reset demo.
 - **⌘K / Ctrl+K:** opens the command palette (jump to a screen, and other actions).
 - **Robustness:** loading skeletons, empty states with a next step, inline errors with Retry,
   and an error boundary per screen.
-- **Bundle:** the React Flow and Recharts screens are lazy-loaded (about 247 kB of JS gzipped
+- **Bundle:** the React Flow screen (Curriculum map) is lazy-loaded (about 141 kB of JS gzipped
   in total, 76 kB for the first screen).
-- **Removed (D92):** Policy Lab, Authoring Studio, the agent features and the Evaluation tab.
-  The `/api/evaluation` route stays.
+- **Removed:** Policy Lab, Authoring Studio, the agent features and the Evaluation tab (D92);
+  Disruptions and Autopilot (D97). The `/api/evaluation` and `/api/simulate` routes stay.
 
-## The 8 screens
+## The 6 screens
 
 | Screen | What it shows (data source) |
 |---|---|
@@ -63,8 +59,6 @@ preset uses CP-SAT, so install the extra for the walkthrough.
 | **Curriculum map** | Prerequisite DAG with the engine's states, plus the inferred / check pending / confirmed badges; a drawer explains each one |
 | **Plan + Why?** | Day timeline with "Check" badges; the Why panel shows the engine's trace for the clicked card: confirmation checks ("Short check instead of the full workload"), CP-SAT's earliest day and its reason, review and solve records |
 | **Study** | Today's cards. A "Confirmation check" badge on checks. Closed-loop replan after each answer, with the replan toast, the remediation flag and the explanation. When the day's work is done: "Day N complete" with Next day → |
-| **Disruptions** | Missed day, budget change, deadline −2: old vs new plan, moved activities, replan time in ms (the session's planner) |
-| **Autopilot** | Simulated learners. Compare the four arms (default engine) or the sweep and bisection diagnostics (same arm, item model and planner). Numbers only, no claim text |
 
 ## Demo mode and the preset (D94)
 
@@ -97,8 +91,7 @@ Automated in `web/e2e/demo.spec.ts`. Turn on demo mode and press Reset demo firs
 | 3 | Curriculum map | Look | Inferred / check pending badges next to the usual states |
 | 4 | Plan + Why? | Click a "Check" card, then a lesson card | "Short check instead of the full workload"; then "Earliest possible: day …, because …" |
 | 5 | Study | Work through the cards ("Demo learner answers", "Mark lesson done") until `E-C2-0.1`, then "Answer wrong" | Replan toast at once (7 activities moved); C2 stays **check pending**, because confirmation is still within reach of the remaining checks |
-| 6 | Disruptions | "Missed day" | Old vs new plan, replan time in ms |
-| 7 | Autopilot | Compare: "Diagnostics", planner greedy, 100 learners, Run | Questions asked per learner and outcomes, sweep and bisection side by side |
+| 6 | Top bar | "Next day →" | Day 2; the engine replans the remaining work from day 2 (D96) |
 
 Two notes on what the preset does **not** show, so the walkthrough does not claim it:
 
@@ -109,13 +102,6 @@ Two notes on what the preset does **not** show, so the walkthrough does not clai
   C1 was inferred with p = 0.9992, so even after a wrong answer its observation-only posterior
   stays above 1 − ε, and the engine confirms it. Step 5 therefore uses the first check where a
   wrong answer does not confirm.
-
-**Autopilot timings** (this laptop, calm scenario, 15 min/day):
-- The four arms take about 2 s for 100 learners.
-- The diagnostics comparison with greedy takes about 2 s. It gives 2.75 sweep vs 6.87 bisection
-  questions per learner, and a goal-mastered share of 0.41 vs 0.46.
-- With CP-SAT the comparison takes about 3 minutes, because every replan is a solver call. The
-  screen warns about this, and the test uses 20 learners with greedy.
 
 ## Honesty footer
 
@@ -159,7 +145,7 @@ api/schemas.py             pydantic request/response models
 api/store.py               sessions in frontend/.sessions/<id>.snapshot.json + .meta.json
 api/demo.py                the demo preset (D94)
 api/select_demo_preset.py  the §FE.6 selection script (not imported by the app)
-web/                       Vite + React + TypeScript, Tailwind, React Flow, Recharts, TanStack Query
+web/                       Vite + React + TypeScript, Tailwind, React Flow, TanStack Query
 web/src/shell/             app shell (sidebar, top bar, footer) and the ⌘K palette
 web/src/styles/tokens.css  design tokens (light and dark)
 web/src/api/schema.d.ts    generated from the OpenAPI schema: npm run gen:types (also writes openapi.json)

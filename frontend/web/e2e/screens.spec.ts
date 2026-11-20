@@ -3,7 +3,7 @@
 import { resolve } from "node:path";
 import { expect, test } from "@playwright/test";
 
-const TABS = ["overview", "setup", "diagnostic", "map", "plan", "study", "disruptions", "autopilot"];
+const TABS = ["overview", "setup", "diagnostic", "map", "plan", "study"];
 const OUT = process.env.AE_FIGURES ? resolve("../../docs/figures") : resolve("test-results/screens");
 const shotPath = (t: string, theme: string) =>
   process.env.AE_FIGURES ? `${OUT}/ui_${t}_${theme}.png` : `${OUT}/${t}-${theme}.png`;
@@ -51,15 +51,11 @@ for (const theme of ["light", "dark"] as const) {
       await expect(page.getByTestId(`tab-${t}`)).toHaveAttribute("aria-current", "page");
       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
       await expect(page.getByText(/screen failed to render/)).toHaveCount(0);
-      if (t === "autopilot") {
-        await page.getByTestId("run-autopilot").click(); // 20 learners: a figure with results
-        await expect(page.getByTestId("autopilot-results")).toBeVisible({ timeout: 60_000 });
-      }
       await page.waitForLoadState("networkidle");
       await page.screenshot({ path: shotPath(t, theme) });
     }
-    // removed in Plan FE (D92)
-    for (const gone of ["Policy Lab", "Authoring Studio", "Evaluation"])
+    // removed in Plan FE (D92) and by the owner (D97)
+    for (const gone of ["Policy Lab", "Authoring Studio", "Evaluation", "Disruptions", "Autopilot"])
       await expect(page.getByRole("navigation", { name: "Screens" }).getByText(gone, { exact: true })).toHaveCount(0);
   });
 }
@@ -85,9 +81,9 @@ test("command palette jumps to a screen", async ({ page }) => {
   await page.goto("/");
   await page.keyboard.press("Control+k");
   await expect(page.getByTestId("palette")).toBeVisible();
-  await page.getByLabel("Search commands").fill("Autopilot");
+  await page.getByLabel("Search commands").fill("Curriculum map");
   await page.keyboard.press("Enter");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Autopilot");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Curriculum map");
 });
 
 test("theme toggle switches data-theme", async ({ page }) => {

@@ -225,3 +225,31 @@ passed.
 - The Playwright test "a finished day shows as complete until Next day" replaces the earlier
   next-day test.
 - API: 27 passed. Playwright: 10 passed.
+
+## Disruptions and Autopilot removed (2026-11-21, D97)
+
+At the owner's request, the UI keeps six screens: Overview, Setup, Diagnostic, Curriculum map,
+Plan + Why? and Study. Replans come from Study (closed loop), "Next day →" and Setup's re-plan.
+
+**Removed:**
+- `src/pages/Disruptions.tsx` and `src/pages/Autopilot.tsx`, with their tabs and icons.
+- The palette's "Miss today" command.
+- `ARM_COLOR` in `ui.tsx`.
+- The `simulate` client call and its types.
+- The `recharts` dependency (`npm uninstall recharts`).
+- The 4 `ui_disruptions_*` and `ui_autopilot_*` screenshots.
+
+**Other changes:**
+- Overview's "Adapt" step now links to Setup. It counts as done once the learner has moved past
+  day 1 or the log has a non-study event.
+- The walkthrough's steps 6 (Disruptions) and 7 (Autopilot) became one step 6, "Next day →".
+- `screens.spec.ts` covers the 6 screens and checks that both tabs are absent. The palette test
+  jumps to the Curriculum map.
+
+**API: unchanged.** `/api/events` (with `MISSED`, `BUDGET_CHANGED`, `DEADLINE_CHANGED`) and
+`/api/simulate`, with their tests, stay.
+
+**Bundle:** 141 kB of JS gzipped in total (first screen 75.9 kB, Curriculum map 64.7 kB), down
+from about 247 kB.
+
+**Tests:** Playwright 10 passed.

@@ -10,8 +10,6 @@ const ICON: Record<Tab, string> = {
   map: "⌘",
   plan: "▤",
   study: "✎",
-  disruptions: "⚡",
-  autopilot: "▶",
 };
 
 export function Sidebar({ tab, go }: { tab: Tab; go: (t: Tab) => void }) {

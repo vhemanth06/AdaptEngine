@@ -10,9 +10,6 @@ export type PlanDay = S["PlanDayOut"];
 export type ConceptState = S["ConceptState"];
 export type EventResult = S["EventResult"];
 export type Trace = S["TraceOut"];
-export type SimulateOut = S["SimulateOut"];
-export type SimulateRequest = S["SimulateRequest"];
-export type SimEpisode = S["SimEpisode"];
 export type TraceRecord = Record<string, unknown>;
 export type Health = S["Health"];
 export type DemoPreset = S["DemoPreset"];
@@ -48,8 +45,6 @@ export const api = {
   nextDay: (sid: string) => req<Session>(`/sessions/${sid}/next-day`, {}),
   trace: (sid: string, aid: string) =>
     req<Trace>(`/sessions/${sid}/trace?activity_id=${encodeURIComponent(aid)}`),
-  simulate: (b: Partial<SimulateRequest> & Pick<SimulateRequest, "curriculum" | "goal">) =>
-    req<SimulateOut>("/simulate", b),
   health: () => req<Health>("/health"),
   demoPreset: () => req<DemoPreset>("/demo-preset"),
 };

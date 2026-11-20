@@ -102,20 +102,10 @@ test("demo walkthrough", async ({ page, request }) => {
     await expect(page.getByTestId(`badge-confirmed-${concept}`)).toHaveCount(0);
   }
 
-  // 6. Disruptions: missed day -> old vs new plan with the replan time.
-  await page.getByTestId("tab-disruptions").click();
-  await page.getByTestId("missed-day").click();
-  await expect(page.getByTestId("diff")).toBeVisible();
-  await expect(page.getByTestId("latency")).toHaveText(/\d+(\.\d+)? ms/);
-  await expect(page.getByTestId("new-plan")).toBeVisible();
-
-  // 7. Autopilot: sweep vs bisection on the preset's curriculum and goal (20 learners in the test).
-  await page.getByTestId("tab-autopilot").click();
-  await page.getByTestId("compare-mode").getByRole("radio", { name: /Diagnostics/ }).click();
-  await page.getByLabel("Planner").selectOption("greedy");
-  await page.getByLabel("Learners").fill("20");
-  await page.getByTestId("run-autopilot").click();
-  await expect(page.getByTestId("autopilot-results")).toBeVisible({ timeout: 180_000 });
-  await expect(page.getByTestId("diag-items-sweep")).toHaveText(/\d/);
-  await expect(page.getByTestId("diag-items-bisection")).toHaveText(/\d/);
+  // 6. Next day: end day 1; the engine replans the remaining work from day 2 (D96).
+  await page.getByTestId("tab-study").click();
+  await page.getByTestId("next-day").click();
+  await expect(page.getByTestId("day-chip")).toHaveText("Day 2");
+  await expect(page.getByTestId("toast").last()).toContainText("Day 2");
+  await expect(page.getByTestId("study-card")).toContainText("Day 2");
 });

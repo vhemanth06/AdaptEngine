@@ -10,11 +10,9 @@ import Setup from "./pages/Setup";
 import Diagnostic from "./pages/Diagnostic";
 import PlanPage from "./pages/PlanPage";
 import Study from "./pages/Study";
-import Disruptions from "./pages/Disruptions";
 
 // React Flow and Recharts screens are loaded on demand (H.16 bundle budget).
 const CurriculumMap = lazy(() => import("./pages/CurriculumMap"));
-const Autopilot = lazy(() => import("./pages/Autopilot"));
 
 const SUBTITLE: Record<Tab, string> = {
   overview: "Where the learner is and what happens next.",
@@ -23,8 +21,6 @@ const SUBTITLE: Record<Tab, string> = {
   map: "Prerequisite structure, and what the diagnostic inferred, still has to check, or confirmed.",
   plan: "The day-by-day plan; every card explains itself.",
   study: "Lessons, questions and confirmation checks; the closed loop replans after every answer.",
-  disruptions: "Missed days, budget and deadline changes; old vs new plan from the session's planner.",
-  autopilot: "Simulated learners: compare arms, or the sweep and bisection diagnostics.",
 };
 
 function initialTheme() {
@@ -105,15 +101,6 @@ function Shell() {
   const commands: Command[] = useMemo(
     () => [
       ...TABS.map(([key, label]) => ({ id: `go-${key}`, label, group: "Go to", run: () => setTab(key) })),
-      {
-        id: "miss",
-        label: "Miss today (MISSED event)",
-        group: "Action",
-        run: () => {
-          if (sid) sendEvent({ kind: "MISSED" }, "palette").catch((e) => toast(String(e), "violation"));
-          setTab("disruptions");
-        },
-      },
       { id: "theme", label: "Toggle light / dark theme", group: "Action", run: () => setTheme((t) => (t === "dark" ? "light" : "dark")) },
       { id: "reset", label: "Reset demo", group: "Action", run: reset },
     ],
@@ -128,8 +115,6 @@ function Shell() {
     map: CurriculumMap,
     plan: PlanPage,
     study: Study,
-    disruptions: Disruptions,
-    autopilot: Autopilot,
   }[tab];
   const title = TABS.find((t) => t[0] === tab)![1];
 

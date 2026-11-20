@@ -11,11 +11,9 @@ export const TABS = [
   ["map", "Curriculum map", "Learner"],
   ["plan", "Plan + Why?", "Learner"],
   ["study", "Study", "Learner"],
-  ["disruptions", "Disruptions", "Adaptation"],
-  ["autopilot", "Autopilot", "Evidence"],
 ] as const;
 export type Tab = (typeof TABS)[number][0];
-export const GROUPS = ["Learner", "Adaptation", "Evidence"] as const;
+export const GROUPS = ["Learner"] as const;
 
 export type LastEvent = { result: EventResult; oldPlan?: Plan | null; label: string };
 
@@ -83,7 +81,7 @@ export const store = {
   },
 };
 
-// Display names of redo's three switches (Setup, top bar, Autopilot)
+// Display names of redo's three switches (Setup, top bar)
 export const DIAGNOSTICS = ["sweep", "bisection"] as const;
 export const MODELS = ["heuristic", "fitted_assist09", "fitted_ct"] as const;
 export const PLANNERS = ["greedy", "hybrid", "cpsat"] as const;

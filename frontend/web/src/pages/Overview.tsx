@@ -33,7 +33,7 @@ export default function Overview({ session, cur, go }: Ctx) {
     ["Diagnose", session.diagnostic.done, "diagnostic"],
     ["Plan", !!session.plan, "plan"],
     ["Study", session.events.some((e) => e.kind === "COMPLETED"), "study"],
-    ["Adapt", session.events.some((e) => e.kind !== "COMPLETED"), "disruptions"],
+    ["Adapt", calendarDay(session) > 1 || session.events.some((e) => e.kind !== "COMPLETED"), "setup"],
   ];
   const next = steps.find((s) => !s[1]);
   return (
