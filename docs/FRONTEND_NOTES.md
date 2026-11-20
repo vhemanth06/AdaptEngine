@@ -273,3 +273,11 @@ Display only; the engine fields are unchanged (D45).
 
 **Test:** `e2e/screens.spec.ts` ("check pending only where the plan schedules checks"):
 flagged concepts, no `CONFIRMATION` record, no badge. Playwright: 11 passed.
+
+## Study: "Answer right" / "Answer wrong" on every exercise (2026-11-21)
+
+At the owner's request, as in the Diagnostic: Study's demo-mode buttons ("Demo learner answers
+(right/wrong)" and "Answer wrong") are replaced by **✓ Answer right** and **✗ Answer wrong**
+(`answer-right`, `answer-wrong`). They show on every exercise, demo mode or not. The old "1 ·
+Right / 2 · Wrong" fallback for curricula without question text is gone: the two buttons and keys
+1 and 2 cover it. The walkthrough's step 5 now picks the button from the preset's known set.

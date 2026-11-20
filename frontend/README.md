@@ -62,11 +62,11 @@ preset uses CP-SAT, so install the extra for the walkthrough.
 
 ## Demo mode and the preset (D94)
 
-With demo mode on (top bar), the "Use demo preset" button in Setup fills in the preset, and the
-"Demo learner answers" button in Study answers for a scripted learner. That learner answers
-right exactly on the preset's known concepts, with no slips and no guesses. In the Diagnostic,
-every question has "Answer right" and "Answer wrong" buttons (demo mode or not), so you play the
-learner yourself. Either way the buttons only answer questions; the engine makes every decision.
+With demo mode on (top bar), the "Use demo preset" button in Setup fills in the preset. Every
+question in the Diagnostic and every exercise in Study has "Answer right" and "Answer wrong"
+buttons (demo mode or not), so you play the learner yourself. The walkthrough plays a scripted
+learner who answers right exactly on the preset's known concepts. The buttons only answer
+questions; the engine makes every decision.
 
 The preset is served by `GET /api/demo-preset` from `api/demo.py`. It was chosen by the fixed
 procedure of Plan FE §FE.6 (`api/select_demo_preset.py`; record in `docs/FRONTEND_NOTES.md`):
@@ -90,7 +90,7 @@ Automated in `web/e2e/demo.spec.ts`. Turn on demo mode and press Reset demo firs
 | 2 | Diagnostic | "Answer right" on C1, C2, C3 and C6 questions, "Answer wrong" on the others, until done | 8 questions (budget 10); C1, C2, C7 and C8 marked **Inferred: not asked** |
 | 3 | Curriculum map | Look | Inferred / check pending badges next to the usual states |
 | 4 | Plan + Why? | Click a "Check" card, then a lesson card | "Short check instead of the full workload"; then "Earliest possible: day …, because …" |
-| 5 | Study | Work through the cards ("Demo learner answers", "Mark lesson done") until `E-C2-0.1`, then "Answer wrong" | Replan toast at once (7 activities moved); C2 stays **check pending**, because confirmation is still within reach of the remaining checks |
+| 5 | Study | Work through the cards ("Answer right" on C1/C2/C3/C6 exercises, "Answer wrong" on others, "Mark lesson done") until `E-C2-0.1`, then "Answer wrong" | Replan toast at once (7 activities moved); C2 stays **check pending**, because confirmation is still within reach of the remaining checks |
 | 6 | Top bar | "Next day →" | Day 2; the engine replans the remaining work from day 2 (D96) |
 
 Two notes on what the preset does **not** show, so the walkthrough does not claim it:

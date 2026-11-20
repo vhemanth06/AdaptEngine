@@ -84,11 +84,12 @@ test("demo walkthrough", async ({ page, request }) => {
     if ((p.has_check && aid === p.wrong_check) || (!p.has_check && aid.startsWith("E-"))) {
       if (p.has_check) await expect(page.getByTestId("study-check")).toBeVisible();
       concept = aid.split("-")[1];
-      await page.getByTestId("demo-wrong").click();
+      await page.getByTestId("answer-wrong").click();
     } else if (await page.getByTestId("lesson-done").isVisible()) {
       await page.getByTestId("lesson-done").click();
     } else {
-      await page.getByTestId("demo-answer").click();
+      // the scripted learner: right exactly on the preset's known concepts
+      await page.getByTestId(p.known.includes(aid.split("-")[1]) ? "answer-right" : "answer-wrong").click();
     }
     await expect(page.getByTestId("study-card")).not.toHaveText(before!);
   }

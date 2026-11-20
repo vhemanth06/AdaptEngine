@@ -1,13 +1,12 @@
 import { useCallback, useState } from "react";
 import { contentOf } from "../api/client";
-import { calendarDay, lastDay, useDemoPreset, useDigitKeys, type Ctx } from "../ctx";
+import { calendarDay, lastDay, useDigitKeys, type Ctx } from "../ctx";
 import { Button, C, Card, ErrorBox, Markdown, PBar, StateBadge, checkRecords, checksPlanned, conceptName, inline } from "../components/ui";
 import NoSession from "./NoSession";
 
-export default function Study({ session, cur, demo, sendEvent, lastEvent, go, nextDay }: Ctx) {
+export default function Study({ session, cur, sendEvent, lastEvent, go, nextDay }: Ctx) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<unknown>(null);
-  const preset = useDemoPreset();
   const aid = session?.today?.activities[0];
   const act = cur?.activities.find((a) => a.activity_id === aid);
   const entry = aid ? contentOf(cur, aid) : undefined;
@@ -41,7 +40,6 @@ export default function Study({ session, cur, demo, sendEvent, lastEvent, go, ne
   if (!session) return <NoSession go={go} />;
   const fb = lastEvent?.label === "study" ? lastEvent.result : null;
   const up = fb?.update;
-  const scripted = act ? (preset.data?.known ?? []).includes(act.target_concept) : false;
   const after = up ? session.concepts.find((c) => c.concept_id === up.concept_id) : undefined;
   return (
     <div className="grid gap-4 lg:grid-cols-2">
@@ -90,24 +88,15 @@ export default function Study({ session, cur, demo, sendEvent, lastEvent, go, ne
                 </ol>
               </>
             ) : (
-              <div className="flex gap-3">
-                <Button disabled={busy} onClick={() => onDigit(0)}>
-                  1 · Right
-                </Button>
-                <Button kind="danger" disabled={busy} onClick={() => onDigit(1)}>
-                  2 · Wrong
-                </Button>
-              </div>
+              <p className="text-[var(--text-muted)]">No question text for this curriculum. Report the result (keys 1 / 2):</p>
             )}
-            {demo && act.type === "EXERCISE" && (
+            {act.type === "EXERCISE" && (
               <div className="flex flex-wrap gap-3">
-                {preset.data && (
-                  <Button kind="secondary" testId="demo-answer" disabled={busy} onClick={() => send({ correct: scripted })}>
-                    Demo learner answers ({scripted ? "right" : "wrong"})
-                  </Button>
-                )}
-                <Button kind="secondary" testId="demo-wrong" disabled={busy} onClick={() => send({ correct: false })}>
-                  Answer wrong
+                <Button kind="secondary" testId="answer-right" disabled={busy} onClick={() => send({ correct: true })}>
+                  ✓ Answer right
+                </Button>
+                <Button kind="secondary" testId="answer-wrong" disabled={busy} onClick={() => send({ correct: false })}>
+                  ✗ Answer wrong
                 </Button>
               </div>
             )}
