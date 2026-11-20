@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { Ctx } from "../ctx";
+import { calendarDay, lastDay, type Ctx } from "../ctx";
 import { Button, Card, Chip, EmptyState, StatusBadge, cx } from "../components/ui";
 
 function Kpi({ label, value, sub, testId }: { label: string; value: ReactNode; sub?: ReactNode; testId?: string }) {
@@ -19,7 +19,6 @@ export default function Overview({ session, cur, go }: Ctx) {
         Choose a goal, a deadline and daily minutes; the engine answers with a plan or an honest "not feasible".
       </EmptyState>
     );
-  const eff = session.effective;
   const goal = session.context.goal;
   const path = new Set([goal]);
   const pre = new Map(cur?.concepts.map((c) => [c.concept_id, c.prerequisites]) ?? []);
@@ -29,7 +28,7 @@ export default function Overview({ session, cur, go }: Ctx) {
   const mastered = onPath.filter((c) => c.evidence_mastered).length;
   const used = session.events.reduce((a, e) => a + (e.minutes_elapsed ?? 0), 0);
   const available = session.context.deadline_day * session.context.budget;
-  const daysLeft = eff ? eff.deadline_day - eff.current_day + 1 : 0;
+  const daysLeft = lastDay(session) - calendarDay(session) + 1;
   const steps: [string, boolean, Parameters<typeof go>[0]][] = [
     ["Diagnose", session.diagnostic.done, "diagnostic"],
     ["Plan", !!session.plan, "plan"],
@@ -42,7 +41,7 @@ export default function Overview({ session, cur, go }: Ctx) {
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <Kpi testId="kpi-mastered" label="Goal-path concepts mastered (evidence)" value={`${mastered} / ${onPath.length}`} sub={`goal ${goal}`} />
         <Kpi label="Minutes used / available" value={`${used} / ${available}`} sub={`${session.context.budget} min/day`} />
-        <Kpi label="Days left" value={eff ? daysLeft : "—"} sub={eff ? `today is day ${eff.current_day}` : "past the deadline"} />
+        <Kpi label="Days left" value={daysLeft > 0 ? daysLeft : "—"} sub={daysLeft > 0 ? `today is day ${calendarDay(session)}` : "past the deadline"} />
         <Kpi label="Plan status" value={<StatusBadge plan={session.plan} />} sub={session.replan_ms != null ? `last replan ${session.replan_ms} ms` : undefined} />
       </div>
       <Card title="Learning journey">

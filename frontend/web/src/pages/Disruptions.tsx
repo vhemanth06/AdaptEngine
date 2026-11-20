@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PLANNER_LABEL, type Ctx } from "../ctx";
+import { PLANNER_LABEL, calendarDay, type Ctx } from "../ctx";
 import { Button, Card, ErrorBox, StatusBadge, fieldCls } from "../components/ui";
 import PlanTimeline from "../components/PlanTimeline";
 import NoSession from "./NoSession";
@@ -33,8 +33,8 @@ export default function Disruptions({ session, cur, sendEvent, lastEvent, go }: 
           <p>The session is past its deadline.</p>
         ) : (
           <div className="flex flex-wrap items-center gap-3">
-            <Button testId="missed-day" disabled={busy} onClick={() => fire({ kind: "MISSED" }, `Missed day ${eff.current_day}`)}>
-              Missed day {eff.current_day}
+            <Button testId="missed-day" disabled={busy} onClick={() => fire({ kind: "MISSED" }, `Missed day ${calendarDay(session)}`)}>
+              Missed day {calendarDay(session)}
             </Button>
             <span className="flex items-center gap-2">
               <select
@@ -59,7 +59,7 @@ export default function Disruptions({ session, cur, sendEvent, lastEvent, go }: 
             </span>
             <Button
               testId="deadline-cut"
-              disabled={busy || eff.deadline_day - 2 < eff.current_day}
+              disabled={busy || eff.deadline_day - 2 < calendarDay(session)}
               onClick={() =>
                 fire({ kind: "DEADLINE_CHANGED", value: eff.deadline_day - 2 }, `Deadline ${eff.deadline_day} → ${eff.deadline_day - 2}`)
               }

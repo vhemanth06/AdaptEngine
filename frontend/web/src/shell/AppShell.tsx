@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import type { Health, Session } from "../api/client";
-import { GROUPS, MODEL_LABEL, PLANNER_LABEL, TABS, type Tab } from "../ctx";
+import { GROUPS, MODEL_LABEL, PLANNER_LABEL, TABS, calendarDay, lastDay, type Tab } from "../ctx";
 import { Button, Chip, StatusBadge, cx } from "../components/ui";
 
 const ICON: Record<Tab, string> = {
@@ -91,6 +91,8 @@ export function TopBar({
   nextDay: () => void;
 }) {
   const eff = session?.effective;
+  const day = calendarDay(session);
+  const last = lastDay(session);
   return (
     <header className="sticky top-0 z-20 flex flex-wrap items-center gap-2 border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--surface)_85%,transparent)] px-5 py-3 backdrop-blur">
       {session ? (
@@ -102,17 +104,19 @@ export function TopBar({
         <Chip tone="neutral">no session</Chip>
       )}
       <StatusBadge plan={session?.plan} testId="plan-status" />
-      {eff && (
+      {session && (
         <span data-testid="effective" className="flex flex-wrap items-center gap-2">
-          <Chip tone="accent">Day {eff.current_day}</Chip>
-          <Chip tone="neutral">deadline {eff.deadline_day}</Chip>
-          <Chip tone="neutral">{eff.budget} min/day</Chip>
+          <Chip tone="accent" testId="day-chip">
+            Day {day}
+          </Chip>
+          <Chip tone="neutral">deadline {last}</Chip>
+          <Chip tone="neutral">{eff?.budget ?? session.context.budget} min/day</Chip>
           <Button
             kind="ghost"
             size="sm"
             testId="next-day"
-            disabled={!session?.plan || eff.current_day >= eff.deadline_day}
-            title={eff.current_day >= eff.deadline_day ? "Today is the deadline day" : "End today; the engine replans the rest from the next day"}
+            disabled={!session.plan || day >= last}
+            title={day >= last ? "Today is the deadline day" : "End today; the engine replans the rest from the next day"}
             onClick={nextDay}
           >
             Next day →

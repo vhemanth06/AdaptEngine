@@ -181,3 +181,47 @@ is followed strictly.
 
 **Tests:** API 27 passed (2 new); Playwright 9 passed (1 new); `make check` green; code hash
 unchanged.
+
+## Setup: switches locked after the first plan (2026-11-21)
+
+**Before.** Changing the curriculum, diagnostic, item model or planner on a session that already
+had a plan turned the button into "Start session and plan". One click then moved the app to a new
+session from day 1. The old session stayed on disk, but its progress was silently left behind.
+
+**Now:**
+- Once the session has a plan, the curriculum select and the other switch options are disabled,
+  with the reason in the tooltip. The selected option stays readable.
+- "New session…" unlocks them. "Keep current session" restores the session's values and locks
+  them again. "Use demo preset" also unlocks, because it starts a new session.
+- Goal, deadline and daily time still re-plan the current session.
+- The form now follows the session shown, including one that loads after the screen opens.
+- Web only, no API change.
+
+**Test:** `e2e/screens.spec.ts` ("setup locks the curriculum and switches …"). Playwright: 10
+passed.
+
+## A finished day waits for "Next day" (2026-11-21, D96 amended)
+
+**Before.**
+- Once the day's budget was used, the engine's next slice (day 2) was shown as "today" at once:
+  the Day chip jumped to 2 and the work was recorded on day 2.
+- With minutes left but nothing that fits, only the top-bar button moved on.
+
+**Now:**
+- `ctx.current_day` is the learner's day.
+- `_run_plan` shows the engine's slice as `today` only when it is for that day.
+- Events are recorded on that day.
+- A `MISSED` event moves the day on. It is not moved on the deadline day.
+- `POST /next-day` moves it by one. It returns 409 on the deadline day; after a deadline
+  extension, the context's deadline moves with the day.
+
+**Web:**
+- Day chip, Overview and Disruptions use the learner's day.
+- Study shows "✓ Day N complete" (minutes used, plan status) with its own Next day → button.
+
+**Tests:**
+- `test_finished_day_waits_for_next_day` replaces `test_next_day_ends_a_stuck_day`.
+- `test_end_to_end_plan_matches_direct_engine` expects `today` only for the learner's day.
+- The Playwright test "a finished day shows as complete until Next day" replaces the earlier
+  next-day test.
+- API: 27 passed. Playwright: 10 passed.

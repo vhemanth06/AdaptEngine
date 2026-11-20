@@ -110,24 +110,57 @@ test("keys 1-4 answer in the diagnostic", async ({ page, request }) => {
   await expect(page.getByTestId("diag-items").locator("li")).toHaveCount(1);
 });
 
-test("next day ends today and the engine replans from the next day", async ({ page, request }) => {
+test("a finished day shows as complete until Next day", async ({ page, request }) => {
   const s = await (
     await request.post("/api/sessions", { data: { curriculum: "8node", goal: "C8", deadline_day: 10, budget: 10 } })
   ).json();
   const sid = s.session_id;
   let view = await (await request.post(`/api/sessions/${sid}/plan`, { data: {} })).json();
-  while (view.today && view.effective.current_day === 1) {
+  const first: string = view.today.activities[0];
+  await page.addInitScript((id) => localStorage.setItem("ae.sid", id), sid);
+  await page.goto("/");
+  await page.getByTestId("tab-study").click();
+  await expect(page.getByTestId("day-chip")).toHaveText("Day 1");
+  while (view.today) {
     // do day 1's work through the API (right on every exercise)
     const aid: string = view.today.activities[0];
     const data = aid.startsWith("E-") ? { kind: "COMPLETED", activity_id: aid, correct: true } : { kind: "COMPLETED", activity_id: aid };
     view = (await (await request.post(`/api/sessions/${sid}/events`, { data })).json()).session;
   }
-  const day: number = view.effective.current_day;
-  await page.addInitScript((id) => localStorage.setItem("ae.sid", id), sid);
-  await page.goto("/");
+  await page.reload();
   await page.getByTestId("tab-study").click();
-  await expect(page.getByTestId("effective")).toContainText(`Day ${day}`);
-  await page.getByTestId("next-day").click();
-  await expect(page.getByTestId("effective")).toContainText(`Day ${day + 1}`);
-  await expect(page.getByTestId("study-card")).toContainText(`Day ${day + 1} ·`);
+  await expect(page.getByTestId("day-complete")).toHaveText("✓ Day 1 complete");
+  await expect(page.getByTestId("day-chip")).toHaveText("Day 1"); // stays on day 1
+  await page.getByTestId("study-next-day").click();
+  await expect(page.getByTestId("day-chip")).toHaveText("Day 2");
+  await expect(page.getByTestId("study-card")).toContainText("Day 2 ·");
+  await expect(page.getByTestId("study-card").locator("code").first()).not.toHaveText(first);
+  await page.getByTestId("next-day").click(); // the top-bar button does the same
+  await expect(page.getByTestId("day-chip")).toHaveText("Day 3");
+});
+
+test("setup locks the curriculum and switches once the session has a plan", async ({ page, request }) => {
+  const s = await (
+    await request.post("/api/sessions", { data: { curriculum: "8node", goal: "C8", deadline_day: 10, budget: 10 } })
+  ).json();
+  await request.post(`/api/sessions/${s.session_id}/plan`, { data: {} });
+  await page.addInitScript((id) => localStorage.setItem("ae.sid", id), s.session_id);
+  await page.goto("/");
+  await page.getByTestId("tab-setup").click();
+  const bisection = page.getByTestId("switch-diagnostic").getByRole("radio", { name: "bisection" });
+  await expect(bisection).toBeDisabled();
+  await expect(page.getByLabel("Curriculum")).toBeDisabled();
+  await expect(page.getByTestId("make-plan")).toHaveText("Re-plan");
+  // goal, deadline and budget still re-plan the same session
+  await page.getByLabel("Deadline (day)").fill("12");
+  await page.getByTestId("make-plan").click();
+  await expect(page.getByTestId("session-chip")).toContainText(s.session_id.slice(0, 6));
+
+  await page.getByTestId("new-session").click();
+  await expect(bisection).toBeEnabled();
+  await bisection.click();
+  await expect(page.getByTestId("make-plan")).toHaveText("Start session and plan");
+  await page.getByTestId("keep-session").click(); // back to the current session's switches, locked
+  await expect(bisection).toBeDisabled();
+  await expect(page.getByTestId("make-plan")).toHaveText("Re-plan");
 });

@@ -1,10 +1,10 @@
 import { useCallback, useState } from "react";
 import { contentOf } from "../api/client";
-import { useDemoPreset, useDigitKeys, type Ctx } from "../ctx";
+import { calendarDay, lastDay, useDemoPreset, useDigitKeys, type Ctx } from "../ctx";
 import { Button, C, Card, ErrorBox, Markdown, PBar, StateBadge, checkRecords, conceptName, inline } from "../components/ui";
 import NoSession from "./NoSession";
 
-export default function Study({ session, cur, demo, sendEvent, lastEvent, go }: Ctx) {
+export default function Study({ session, cur, demo, sendEvent, lastEvent, go, nextDay }: Ctx) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<unknown>(null);
   const preset = useDemoPreset();
@@ -45,14 +45,12 @@ export default function Study({ session, cur, demo, sendEvent, lastEvent, go }: 
   const after = up ? session.concepts.find((c) => c.concept_id === up.concept_id) : undefined;
   return (
     <div className="grid gap-4 lg:grid-cols-2">
-      <Card title={act ? `Day ${session.today?.day} · ${act.type === "LESSON" ? "Lesson" : check ? "Confirmation check" : "Question"}` : "Study"} testId="study-card">
+      <Card
+        title={act ? `Day ${session.today?.day} · ${act.type === "LESSON" ? "Lesson" : check ? "Confirmation check" : "Question"}` : `Day ${calendarDay(session)}`}
+        testId="study-card"
+      >
         {!act ? (
-          <p data-testid="nothing-today">
-            Nothing scheduled. Plan status: <b>{session.plan?.status ?? "none"}</b>.
-            {session.effective && session.effective.current_day < session.effective.deadline_day && (
-              <> Today's work is done: use “Next day →” in the top bar to continue.</>
-            )}
-          </p>
+          <DayDone session={session} nextDay={nextDay} />
         ) : (
           <div className="space-y-4">
             <p className="flex flex-wrap items-center gap-2 text-[var(--text-muted)]">
@@ -174,6 +172,47 @@ export default function Study({ session, cur, demo, sendEvent, lastEvent, go }: 
           </div>
         )}
       </Card>
+    </div>
+  );
+}
+
+// Today's planned work is done (or nothing is planned): the day stays until "Next day" (D96)
+function DayDone({ session, nextDay }: { session: NonNullable<Ctx["session"]>; nextDay: Ctx["nextDay"] }) {
+  const [busy, setBusy] = useState(false);
+  const day = calendarDay(session);
+  const minutes = session.events.filter((e) => e.day === day).reduce((m, e) => m + e.minutes_elapsed, 0);
+  const budget = session.effective?.budget ?? session.context.budget;
+  const plan = session.plan;
+  const left = plan ? (plan.days.length ? plan.days : plan.best_effort_days).some((d) => d.activities.length) : false;
+  const canMove = day < lastDay(session);
+  return (
+    <div className="space-y-3" data-testid="nothing-today">
+      {minutes > 0 ? (
+        <p className="text-lg font-semibold" data-testid="day-complete">
+          ✓ Day {day} complete
+        </p>
+      ) : (
+        <p className="text-lg font-semibold">Nothing scheduled for day {day}.</p>
+      )}
+      <p className="text-[var(--text-muted)]">
+        <span className="tabular">
+          {minutes} of {budget} min
+        </span>{" "}
+        used today. Plan status: <b>{plan?.status ?? "none"}</b>.{" "}
+        {!left ? "Nothing is left in the plan." : canMove ? "The rest is planned from the next day." : "Today is the deadline day."}
+      </p>
+      {left && canMove && (
+        <Button
+          testId="study-next-day"
+          disabled={busy}
+          onClick={async () => {
+            setBusy(true);
+            await nextDay().finally(() => setBusy(false));
+          }}
+        >
+          Next day →
+        </Button>
+      )}
     </div>
   );
 }

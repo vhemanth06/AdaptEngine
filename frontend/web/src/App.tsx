@@ -77,7 +77,7 @@ function Shell() {
       const s = await api.nextDay(sid!);
       setSession(s);
       setLastEvent(null);
-      toast(`Day ${s.effective?.current_day}: the engine replanned the remaining work`, "neutral");
+      toast(`Day ${s.context.current_day}: the engine replanned the remaining work`, "neutral");
     } catch (e) {
       toast(String(e), "violation");
     }
@@ -100,7 +100,7 @@ function Shell() {
     return result;
   };
 
-  const ctx: Ctx = { sid, session, cur: curQ.data, demo, setSession, go: setTab, lastEvent, sendEvent };
+  const ctx: Ctx = { sid, session, cur: curQ.data, demo, setSession, go: setTab, lastEvent, sendEvent, nextDay };
 
   const commands: Command[] = useMemo(
     () => [

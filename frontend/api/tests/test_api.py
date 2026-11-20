@@ -249,6 +249,9 @@ def test_end_to_end_plan_matches_direct_engine(
     def check(api_view):
         today, plan = engine.next_activities(state, log, ctx)
         assert api_view["plan"] == _norm(serialize_plan(plan, engine.config))
+        assert api_view["context"]["current_day"] == ctx.current_day  # the learner's day
+        if today is not None and today.day != ctx.current_day:
+            today = None  # budget used: that is the next day's work, after "Next day" (D96)
         want = today and {"day": today.day, "activities": list(today.activities)}
         assert api_view["today"] == (want and want | {"duration": today.duration})
 
@@ -274,9 +277,10 @@ def test_end_to_end_plan_matches_direct_engine(
         )
         state, log = engine.record(state, log, ev)
         check(view)
-    day = view["effective"]["current_day"]
+    day = view["context"]["current_day"]
     view = client.post(f"/api/sessions/{sid}/events", json={"kind": "MISSED"}).json()["session"]
     state, log = engine.record(state, log, Event(day=day, kind=EventType.MISSED))
+    ctx = replace(ctx, current_day=day + 1)  # a missed day ends it
     check(view)
 
 
@@ -451,31 +455,40 @@ def test_demo_preset(client):
 # ------------------------------------------------------------------------------ next day (D96)
 
 
-def test_next_day_ends_a_stuck_day(client):
-    """Today's work done with minutes left: no slice and no way on until "Next day"."""
+def test_finished_day_waits_for_next_day(client):
+    """A finished day stays complete (no slice), also once its budget is used; only "Next day"
+    moves on, and work is recorded on the learner's day (D96)."""
     sid = _new(client)["session_id"]
     view = client.post(f"/api/sessions/{sid}/plan", json={}).json()
-    while view["today"] and view["effective"]["current_day"] == 1:
+    assert view["today"]["day"] == 1
+    while view["today"]:
         aid = view["today"]["activities"][0]
         body = {"kind": "COMPLETED", "activity_id": aid}
         if aid.startswith("E-"):
             body["correct"] = aid.split("-")[1] in KNOWN
         view = client.post(f"/api/sessions/{sid}/events", json=body).json()["session"]
-    day = view["effective"]["current_day"]
+        assert view["events"][-1]["day"] == 1
+    assert view["context"]["current_day"] == 1 and view["today"] is None  # day 1 complete
+    nxt = next(
+        d for d in view["plan"]["days"] or view["plan"]["best_effort_days"] if d["activities"]
+    )
     view = client.post(f"/api/sessions/{sid}/next-day").json()
-    assert view["effective"]["current_day"] == day + 1 == view["context"]["current_day"]
-    assert view["today"]["day"] == day + 1
+    assert view["context"]["current_day"] == 2
+    assert view["today"]["day"] == 2 and view["today"]["activities"] == nxt["activities"]
+    # a missed day moves on too
     assert client.post(f"/api/sessions/{sid}/events", json={"kind": "MISSED"}).status_code == 200
+    view = client.get(f"/api/sessions/{sid}").json()
+    assert view["events"][-1]["day"] == 2 and view["context"]["current_day"] == 3
     # a Setup re-plan keeps the day
     view = client.post(f"/api/sessions/{sid}/plan", json={}).json()
-    assert view["effective"]["current_day"] == day + 2
+    assert view["context"]["current_day"] == 3
 
 
 def test_next_day_not_past_the_deadline(client):
     sid = _new(client, deadline_day=2)["session_id"]
     client.post(f"/api/sessions/{sid}/plan", json={})
-    assert client.post(f"/api/sessions/{sid}/next-day").json()["effective"]["current_day"] == 2
+    assert client.post(f"/api/sessions/{sid}/next-day").json()["context"]["current_day"] == 2
     assert client.post(f"/api/sessions/{sid}/next-day").status_code == 409  # day 2 = deadline
     client.post(f"/api/sessions/{sid}/events", json={"kind": "DEADLINE_CHANGED", "value": 4})
     view = client.post(f"/api/sessions/{sid}/next-day").json()
-    assert view["effective"]["current_day"] == 3 and view["effective"]["deadline_day"] == 4
+    assert view["context"]["current_day"] == 3 and view["effective"]["deadline_day"] == 4

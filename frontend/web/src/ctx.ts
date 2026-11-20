@@ -28,7 +28,16 @@ export type Ctx = {
   go: (t: Tab) => void;
   lastEvent: LastEvent | null;
   sendEvent: (body: components["schemas"]["EventRequest"], label: string) => Promise<EventResult>;
+  nextDay: () => Promise<void>; // end the learner's day; the engine replans from the next (D96)
 };
+
+/** The learner's day (the session context). The engine's start day can be later once the day's
+ * budget is used; the next day starts only with "Next day" (D96). */
+export const calendarDay = (s?: { context: { current_day: number } }) => s?.context.current_day ?? 1;
+
+/** The last study day: the effective deadline (the log folds deadline changes). */
+export const lastDay = (s?: { context: { deadline_day: number }; effective?: { deadline_day: number } | null }) =>
+  s?.effective?.deadline_day ?? s?.context.deadline_day ?? 0;
 
 // The fixed demo preset and scripted learner (D94) come from the API, never from the browser.
 export const useDemoPreset = () =>

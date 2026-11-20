@@ -328,7 +328,9 @@ def _run_plan(engine: Engine, state, log, ctx, meta: dict) -> None:
     today, plan = engine.next_activities(state, log, ctx)
     meta["replan_ms"] = round((time.perf_counter() - t0) * 1000, 2)
     meta["plan"] = serialize_plan(plan, engine.config)
-    meta["today"] = _day_dict(today)
+    # ctx.current_day is the learner's day. Once its budget is used the engine's slice is the next
+    # day's work: that day starts only with "Next day" (D96), so today shows as complete.
+    meta["today"] = _day_dict(today) if today and today.day == ctx.current_day else None
 
 
 def _view(b: Bundle, sid: str, state, log, ctx, meta: dict) -> dict:
@@ -461,21 +463,17 @@ def post_event(sid: str, req: EventRequest):
     b, state, log, ctx, meta = _open(sid)
     eng = b.engine
     kind = EventType(req.kind)
-    eff, _, _ = compute_effective_context(ctx, log)
+    _, _, deadline = compute_effective_context(ctx, log)
     act = None
     if req.activity_id is not None:
         act = eng.activities.get(req.activity_id)
         if act is None:
             raise HTTPException(422, f"unknown activity {req.activity_id}")
     day = req.day
-    if day is None:
-        today = meta.get("today")
-        if kind in (EventType.COMPLETED, EventType.FAILED_ASSESSMENT) and today:
-            day = today["day"]
-        elif eff is not None:
-            day = eff.current_day
-        else:
+    if day is None:  # the learner's day (D96)
+        if ctx.current_day > deadline:
             raise HTTPException(409, "the session is past its deadline; send day explicitly")
+        day = ctx.current_day
     correct = None
     if act is not None and act.type == ActivityType.EXERCISE:
         correct = _grade(b, act.activity_id, req.choice, req.correct)
@@ -489,6 +487,8 @@ def post_event(sid: str, req: EventRequest):
     )
     before = state.concepts[act.target_concept] if act is not None else None
     state, log = eng.record(state, log, event)
+    if kind == EventType.MISSED and day < deadline:  # D30: the missed day is over; move on
+        ctx = _move_to_day(ctx, max(ctx.current_day, day + 1))
     old_plan = meta.get("plan")
     _run_plan(eng, state, log, ctx, meta)
     store.save(sid, state, log, ctx, meta)
@@ -519,18 +519,22 @@ def post_event(sid: str, req: EventRequest):
     }
 
 
+def _move_to_day(ctx: PlanContext, day: int) -> PlanContext:
+    """The learner's new day. Callers keep it <= the effective deadline; a DEADLINE_CHANGED
+    extension in the log can put that past ctx.deadline_day, which the log then overrides."""
+    return replace(ctx, current_day=day, deadline_day=max(ctx.deadline_day, day))
+
+
 @app.post("/api/sessions/{sid}/next-day", response_model=SessionOut)
 def next_day(sid: str):
-    """End today and start the next day (D96). The engine moves on by itself only once the daily
-    budget is used; with minutes left but nothing that fits, today would never end. Unused minutes
-    are not carried over, nothing is logged, and the engine replans from the new day."""
+    """End the learner's day and start the next one (D96). Only this moves the day on (or a missed
+    day): a finished day stays on screen as complete. Unused minutes are not carried over, nothing
+    is logged, and the engine replans the remaining work from the new day."""
     b, state, log, ctx, meta = _open(sid)
-    eff, _, deadline = compute_effective_context(ctx, log)
-    if eff is None or eff.current_day >= deadline:
+    _, _, deadline = compute_effective_context(ctx, log)
+    if ctx.current_day >= deadline:
         raise HTTPException(409, "today is the deadline day: there is no next day")
-    day = eff.current_day + 1
-    # a DEADLINE_CHANGED extension in the log can put day past ctx.deadline_day; the log wins
-    ctx = replace(ctx, current_day=day, deadline_day=max(ctx.deadline_day, day))
+    ctx = _move_to_day(ctx, ctx.current_day + 1)
     _run_plan(b.engine, state, log, ctx, meta)
     store.save(sid, state, log, ctx, meta)
     return _view(b, sid, state, log, ctx, meta)

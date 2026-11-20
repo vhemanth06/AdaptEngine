@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { api, type DemoPreset } from "../api/client";
 import { DIAGNOSTICS, MODELS, MODEL_LABEL, PLANNERS, PLANNER_LABEL, useDemoPreset, useHealth, type Ctx } from "../ctx";
@@ -39,6 +39,18 @@ export default function Setup({ session, sid, setSession, go, demo }: Ctx) {
         }
       : DEFAULT_FORM,
   );
+  // Follow the session shown (it may load after this screen opens, or be replaced)
+  const sessionId = session?.session_id;
+  useEffect(() => {
+    if (!session) return;
+    setForm({
+      curriculum: session.curriculum,
+      ...session.context,
+      model_profile: session.model_profile as Form["model_profile"],
+      diagnostic_method: session.diagnostic_method as Form["diagnostic_method"],
+      planner_method: session.planner_method as Form["planner_method"],
+    });
+  }, [sessionId]);
   const health = useHealth();
   const preset = useDemoPreset();
   const curricula = useQuery({ queryKey: ["curricula"], queryFn: api.curricula });
@@ -51,6 +63,23 @@ export default function Setup({ session, sid, setSession, go, demo }: Ctx) {
     session.diagnostic_method === form.diagnostic_method &&
     session.planner_method === form.planner_method;
   const ctx = { goal: form.goal, deadline_day: form.deadline_day, budget: form.budget };
+  // Once the session has a plan, the curriculum and switches are locked; "New session…" unlocks
+  const [unlocked, setUnlocked] = useState(false);
+  const locked = !!session?.plan && !unlocked;
+  const LOCK = "fixed for this session; use New session… to start another";
+  const lockOthers = <T extends string>(opts: readonly T[], value: T) =>
+    (locked ? Object.fromEntries(opts.filter((o) => o !== value).map((o) => [o, LOCK])) : {}) as Partial<Record<T, string>>;
+  const keepSession = () => {
+    setUnlocked(false);
+    if (session)
+      setForm({
+        ...form,
+        curriculum: session.curriculum,
+        model_profile: session.model_profile as Form["model_profile"],
+        diagnostic_method: session.diagnostic_method as Form["diagnostic_method"],
+        planner_method: session.planner_method as Form["planner_method"],
+      });
+  };
 
   const run = useMutation({
     mutationFn: async () => {
@@ -67,7 +96,10 @@ export default function Setup({ session, sid, setSession, go, demo }: Ctx) {
           ).session_id;
       return api.plan(id, ctx);
     },
-    onSuccess: setSession,
+    onSuccess: (s) => {
+      setSession(s);
+      setUnlocked(false);
+    },
   });
 
   const noOrtools = health.data && !health.data.ortools_available ? "needs the [cpsat] extra" : undefined;
@@ -85,6 +117,7 @@ export default function Setup({ session, sid, setSession, go, demo }: Ctx) {
               testId="use-demo-preset"
               onClick={() => {
                 const p = preset.data!;
+                setUnlocked(true); // the preset starts a new session
                 setForm({
                   curriculum: p.curriculum,
                   goal: p.goal,
@@ -106,6 +139,8 @@ export default function Setup({ session, sid, setSession, go, demo }: Ctx) {
           <select
             id="cur"
             className={fieldCls}
+            disabled={locked}
+            title={locked ? LOCK : undefined}
             value={form.curriculum}
             onChange={(e) => setForm({ ...form, curriculum: e.target.value })}
           >
@@ -150,6 +185,7 @@ export default function Setup({ session, sid, setSession, go, demo }: Ctx) {
               testId="switch-diagnostic"
               value={form.diagnostic_method}
               options={DIAGNOSTICS}
+              disabled={lockOthers(DIAGNOSTICS, form.diagnostic_method)}
               onChange={(v) => setForm({ ...form, diagnostic_method: v })}
             />
             <span className="ml-2 text-sm text-[var(--text-muted)]">bisection adds confirmation checks</span>
@@ -161,6 +197,7 @@ export default function Setup({ session, sid, setSession, go, demo }: Ctx) {
             value={form.model_profile}
             options={MODELS}
             labels={MODEL_LABEL}
+            disabled={lockOthers(MODELS, form.model_profile)}
             onChange={(v) => setForm({ ...form, model_profile: v })}
           />
           <span>Planner</span>
@@ -171,7 +208,7 @@ export default function Setup({ session, sid, setSession, go, demo }: Ctx) {
               value={form.planner_method}
               options={PLANNERS}
               labels={PLANNER_LABEL}
-              disabled={{ hybrid: noOrtools, cpsat: noOrtools }}
+              disabled={{ hybrid: noOrtools, cpsat: noOrtools, ...lockOthers(PLANNERS, form.planner_method) }}
               onChange={(v) => setForm({ ...form, planner_method: v })}
             />
             {noOrtools && <span className="ml-2 text-sm text-[var(--text-muted)]">CP-SAT and hybrid {noOrtools}</span>}
@@ -182,14 +219,27 @@ export default function Setup({ session, sid, setSession, go, demo }: Ctx) {
             {goalInfo.description} · prerequisites: {goalInfo.prerequisites.join(", ") || "none"}
           </p>
         )}
-        <p className="mt-2 text-sm text-[var(--text-faint)]">
-          The switches and the curriculum are fixed per session: changing one starts a new session. Goal, deadline and daily time
-          re-plan the current one.
+        <p className="mt-2 text-sm text-[var(--text-faint)]" data-testid="switch-lock">
+          {locked
+            ? "Curriculum and switches are fixed for this session. Goal, deadline and daily time re-plan it."
+            : session?.plan
+              ? "Changing the curriculum or a switch starts a new session from day 1; the current one is left as it is."
+              : "The curriculum and switches are fixed once the session has a plan. Goal, deadline and daily time can always re-plan it."}
         </p>
-        <div className="mt-4 flex gap-3">
+        <div className="mt-4 flex flex-wrap gap-3">
           <Button testId="make-plan" onClick={() => run.mutate()} disabled={run.isPending}>
             {run.isPending ? "Planning…" : sameSession ? "Re-plan" : "Start session and plan"}
           </Button>
+          {locked && (
+            <Button kind="secondary" testId="new-session" onClick={() => setUnlocked(true)}>
+              New session…
+            </Button>
+          )}
+          {session?.plan && unlocked && (
+            <Button kind="ghost" testId="keep-session" onClick={keepSession}>
+              Keep current session
+            </Button>
+          )}
         </div>
         <ErrorBox error={run.error} onRetry={() => run.mutate()} />
       </Card>

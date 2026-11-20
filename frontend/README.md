@@ -41,9 +41,9 @@ preset uses CP-SAT, so install the extra for the walkthrough.
   - the session chip (id · curriculum · diagnostic · item model · planner);
   - plan status and the day, deadline and budget chips;
   - **Next day →**: ends today, and the engine replans the remaining work from the next day
-    (D96). The learner is assumed to keep to the daily budget; the engine moves on by itself once
-    the budget is used, and this button ends a day that has minutes left but nothing that fits.
-    The deadline day is the last day;
+    (D96). The learner is assumed to keep to the daily budget. A finished day stays on screen as
+    "Day N complete" (Study has the same button) until Next day is pressed or a day is marked
+    missed. The deadline day is the last day;
   - the demo-mode switch, the theme toggle and Reset demo.
 - **⌘K / Ctrl+K:** opens the command palette (jump to a screen, and other actions).
 - **Robustness:** loading skeletons, empty states with a next step, inline errors with Retry,
@@ -58,11 +58,11 @@ preset uses CP-SAT, so install the extra for the walkthrough.
 | Screen | What it shows (data source) |
 |---|---|
 | **Overview** | Goal-path mastery, minutes used / available, days left, plan status; the Diagnose → Plan → Study → Adapt stepper; recent events |
-| **Setup** | Curriculum, goal, deadline, minutes per day, and the three switches (diagnostic, item model, planner). Changing a switch or the curriculum starts a new session; goal, deadline and budget replan the current one. Shows the verdict, the shortfall, the plan's options as given (CP-SAT's are exact) and the best-effort plan |
+| **Setup** | Curriculum, goal, deadline, minutes per day, and the three switches (diagnostic, item model, planner). Once the session has a plan, the curriculum and the switches are locked; "New session…" unlocks them, and changing one then starts a new session from day 1 ("Keep current session" goes back). Goal, deadline and budget always replan the current one. Shows the verdict, the shortfall, the plan's options as given (CP-SAT's are exact) and the best-effort plan |
 | **Diagnostic** | One question at a time (keys 1–4), belief bars (`live_p`), "Question n · budget n_max" for bisection. When done: each concept's stop reason in plain words; inferred concepts get the inferred chip ("not asked") |
 | **Curriculum map** | Prerequisite DAG with the engine's states, plus the inferred / check pending / confirmed badges; a drawer explains each one |
 | **Plan + Why?** | Day timeline with "Check" badges; the Why panel shows the engine's trace for the clicked card: confirmation checks ("Short check instead of the full workload"), CP-SAT's earliest day and its reason, review and solve records |
-| **Study** | Today's cards. A "Confirmation check" badge on checks. Closed-loop replan after each answer, with the replan toast, the remediation flag and the explanation |
+| **Study** | Today's cards. A "Confirmation check" badge on checks. Closed-loop replan after each answer, with the replan toast, the remediation flag and the explanation. When the day's work is done: "Day N complete" with Next day → |
 | **Disruptions** | Missed day, budget change, deadline −2: old vs new plan, moved activities, replan time in ms (the session's planner) |
 | **Autopilot** | Simulated learners. Compare the four arms (default engine) or the sweep and bisection diagnostics (same arm, item model and planner). Numbers only, no claim text |
 
