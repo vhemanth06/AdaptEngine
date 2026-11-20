@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { Ctx } from "../ctx";
-import { Button, Card, ErrorBox, StatusBadge } from "../components/ui";
+import { PLANNER_LABEL, type Ctx } from "../ctx";
+import { Button, Card, ErrorBox, StatusBadge, fieldCls } from "../components/ui";
 import PlanTimeline from "../components/PlanTimeline";
 import NoSession from "./NoSession";
 
@@ -39,7 +39,7 @@ export default function Disruptions({ session, cur, sendEvent, lastEvent, go }: 
             <span className="flex items-center gap-2">
               <select
                 aria-label="New daily budget"
-                className="rounded-lg border border-slate-400 bg-white px-3 py-2"
+                className={fieldCls}
                 value={budget}
                 onChange={(e) => setBudget(Number(e.target.value))}
               >
@@ -81,7 +81,8 @@ export default function Disruptions({ session, cur, sendEvent, lastEvent, go }: 
           }
         >
           <p className="mb-3">
-            {ev.result.changes.length} activity move(s). Highlighted cards moved.
+            {ev.result.changes.length} activity move(s), replanned by the session's planner (
+            {PLANNER_LABEL[session.planner_method] ?? session.planner_method}). Highlighted cards moved.
           </p>
           <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
             <div>
@@ -101,7 +102,7 @@ export default function Disruptions({ session, cur, sendEvent, lastEvent, go }: 
           </div>
           <table className="mt-3 text-left">
             <thead>
-              <tr className="border-b">
+              <tr className="border-b border-[var(--border)]">
                 <th className="pr-6">Activity</th>
                 <th className="pr-6">Old day</th>
                 <th>New day</th>
@@ -109,7 +110,7 @@ export default function Disruptions({ session, cur, sendEvent, lastEvent, go }: 
             </thead>
             <tbody>
               {ev.result.changes.map((c) => (
-                <tr key={c.activity_id} className="border-b border-slate-200">
+                <tr key={c.activity_id} className="border-b border-[var(--border)]">
                   <td className="pr-6">
                     <code>{c.activity_id}</code>
                   </td>

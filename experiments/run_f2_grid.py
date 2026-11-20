@@ -19,7 +19,7 @@ Per cell (world, curriculum, profile):
 Paired differences fitted - heuristic over learners, with 95% bootstrap CIs.
 
 Pre-registration: docs/preregistration/F2_2026-11-20.md.
-8-node-x10 content: AI-checked, human review pending (D88); loaded with allow_unreviewed=True.
+8-node-x10 content: reviewed by the owner (D93; AI-checked, pending under D88 before).
 
     python experiments/run_f2_grid.py                     # full run -> experiments/results/f2_grid.json
     python experiments/run_f2_grid.py --n-diag 2 --n-episodes 2 --worlds S0 --curricula 4-node --out X
@@ -63,7 +63,7 @@ CURRICULA = (
     "synth-20-x10",
     "synth-50-x10",
 )
-REVIEWED = ("4-node", "8-node")
+REVIEWED = ("4-node", "8-node", "8-node-x10")  # 8-node-x10 reviewed by the owner (D93)
 BUDGET, SCENARIO = 15, "calm"
 
 

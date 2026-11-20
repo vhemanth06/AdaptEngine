@@ -87,7 +87,7 @@ jobs:
       run: |
         npm ci
         npm run build
-    - name: Playwright demo script
+    - name: Playwright demo walkthrough and smoke tests
       working-directory: frontend/web
       env:
         PYTHON: python

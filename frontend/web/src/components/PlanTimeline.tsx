@@ -1,10 +1,12 @@
 import type { Curriculum, Plan } from "../api/client";
-import { C, planDays } from "./ui";
+import { C, checkRecords, planDays } from "./ui";
 
 const TAG: Record<string, [string, string]> = {
   REMEDIATION_INSERTED: ["Remediation", C.vermillion],
   REVIEW_DUE: ["Review", C.purple],
+  REVIEW_SCHEDULED: ["Review", C.purple],
   ORACLE_ASSIGNED: ["Solver", C.orange],
+  CPSAT_ASSIGNED: ["CP-SAT", C.orange],
 };
 
 export default function PlanTimeline({
@@ -25,11 +27,12 @@ export default function PlanTimeline({
   testId?: string;
 }) {
   const days = planDays(plan);
+  const checks = checkRecords(plan);
   const reasonAt = new Map<string, string>();
   for (const r of plan.trace) {
     if (r.decision === "SELECTED") reasonAt.set(`${r.day}|${r.activity_id}`, String(r.reason));
   }
-  if (!days.length) return <p className="text-slate-600">No days scheduled.</p>;
+  if (!days.length) return <p className="text-[var(--text-muted)]">No days scheduled.</p>;
   return (
     <div data-testid={testId}>
       {plan.status !== "FEASIBLE" && (
@@ -39,7 +42,7 @@ export default function PlanTimeline({
       )}
       <div className="flex gap-3 overflow-x-auto pb-2">
         {days.map((d) => (
-          <div key={d.day} className="w-52 shrink-0 rounded-lg border border-slate-300 bg-slate-50 p-2">
+          <div key={d.day} className="w-52 shrink-0 rounded-[var(--radius)] border border-[var(--border)] bg-[var(--surface-2)] p-2">
             <div className="flex justify-between font-semibold">
               <span>Day {d.day}</span>
               <span className="font-mono">
@@ -63,18 +66,27 @@ export default function PlanTimeline({
                       type="button"
                       data-testid={`card-${aid}`}
                       onClick={() => onSelect?.(aid)}
-                      className={`w-full rounded-md border bg-white px-2 py-1 text-left text-base ${
-                        sel ? "border-4 border-slate-900" : "border-slate-300"
+                      className={`w-full rounded-md border bg-[var(--surface)] px-2 py-1 text-left text-sm transition-colors hover:border-[var(--accent)] ${
+                        sel ? "border-2 border-[var(--accent)]" : "border-[var(--border)]"
                       } ${highlight?.has(aid) ? "ring-4 ring-[#E69F00]" : ""}`}
                     >
                       <div className="flex justify-between">
                         <code>{aid}</code>
                         <span className="font-mono">{a?.duration}′</span>
                       </div>
-                      <div className="text-sm text-slate-600">
+                      <div className="flex flex-wrap items-center gap-1 text-sm text-[var(--text-muted)]">
                         {a?.type === "LESSON" ? "Lesson" : `Exercise d=${a?.difficulty}`}
+                        {checks.has(aid) && (
+                          <span
+                            data-testid={`badge-check-${aid}`}
+                            className="rounded border px-1 font-semibold"
+                            style={{ color: "var(--check)", background: "var(--check-soft)", borderColor: "var(--check)" }}
+                          >
+                            ⧗ Check
+                          </span>
+                        )}
                         {tag && (
-                          <span className="ml-2 rounded px-1 font-semibold text-white" style={{ background: tag[1] }}>
+                          <span className="rounded px-1 font-semibold text-white" style={{ background: tag[1] }}>
                             {tag[0]}
                           </span>
                         )}

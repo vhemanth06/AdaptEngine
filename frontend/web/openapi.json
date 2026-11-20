@@ -400,6 +400,42 @@
      }
     }
    }
+  },
+  "/api/health": {
+   "get": {
+    "summary": "Health",
+    "operationId": "health_api_health_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Health"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/demo-preset": {
+   "get": {
+    "summary": "Demo Preset",
+    "operationId": "demo_preset_api_demo_preset_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/DemoPreset"
+        }
+       }
+      }
+     }
+    }
+   }
   }
  },
  "components": {
@@ -535,6 +571,16 @@
      "needs_remediation": {
       "type": "boolean",
       "title": "Needs Remediation"
+     },
+     "diag_confident": {
+      "type": "boolean",
+      "title": "Diag Confident",
+      "default": false
+     },
+     "confirmed": {
+      "type": "boolean",
+      "title": "Confirmed",
+      "default": false
      }
     },
     "type": "object",
@@ -835,6 +881,110 @@
     ],
     "title": "CurriculumSummary"
    },
+   "DemoPreset": {
+    "properties": {
+     "curriculum": {
+      "type": "string",
+      "title": "Curriculum"
+     },
+     "goal": {
+      "type": "string",
+      "title": "Goal"
+     },
+     "deadline_day": {
+      "type": "integer",
+      "title": "Deadline Day"
+     },
+     "budget": {
+      "type": "integer",
+      "title": "Budget"
+     },
+     "model_profile": {
+      "type": "string",
+      "enum": [
+       "heuristic",
+       "fitted_assist09",
+       "fitted_ct"
+      ],
+      "title": "Model Profile"
+     },
+     "diagnostic_method": {
+      "type": "string",
+      "enum": [
+       "sweep",
+       "bisection"
+      ],
+      "title": "Diagnostic Method"
+     },
+     "planner_method": {
+      "type": "string",
+      "enum": [
+       "greedy",
+       "cpsat",
+       "hybrid"
+      ],
+      "title": "Planner Method"
+     },
+     "known": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Known"
+     },
+     "tight": {
+      "$ref": "#/components/schemas/DemoTight"
+     },
+     "has_check": {
+      "type": "boolean",
+      "title": "Has Check"
+     },
+     "wrong_check": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Wrong Check"
+     }
+    },
+    "type": "object",
+    "required": [
+     "curriculum",
+     "goal",
+     "deadline_day",
+     "budget",
+     "model_profile",
+     "diagnostic_method",
+     "planner_method",
+     "known",
+     "tight",
+     "has_check"
+    ],
+    "title": "DemoPreset",
+    "description": "The fixed demo setup (D94), chosen by frontend/api/select_demo_preset.py."
+   },
+   "DemoTight": {
+    "properties": {
+     "deadline_day": {
+      "type": "integer",
+      "title": "Deadline Day"
+     },
+     "budget": {
+      "type": "integer",
+      "title": "Budget"
+     }
+    },
+    "type": "object",
+    "required": [
+     "deadline_day",
+     "budget"
+    ],
+    "title": "DemoTight"
+   },
    "DiagnosticAnswer": {
     "properties": {
      "activity_id": {
@@ -968,6 +1118,18 @@
       "type": "array",
       "title": "Concept Results",
       "default": []
+     },
+     "info": {
+      "anyOf": [
+       {
+        "additionalProperties": true,
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Info"
      }
     },
     "type": "object",
@@ -1214,6 +1376,77 @@
     },
     "type": "object",
     "title": "HTTPValidationError"
+   },
+   "Health": {
+    "properties": {
+     "status": {
+      "type": "string",
+      "title": "Status"
+     },
+     "engine_version": {
+      "type": "string",
+      "title": "Engine Version"
+     },
+     "api_version": {
+      "type": "string",
+      "title": "Api Version"
+     },
+     "code_hash": {
+      "type": "string",
+      "title": "Code Hash"
+     },
+     "config_hash_default": {
+      "type": "string",
+      "title": "Config Hash Default"
+     },
+     "ortools_available": {
+      "type": "boolean",
+      "title": "Ortools Available"
+     },
+     "web_build": {
+      "type": "string",
+      "enum": [
+       "fresh",
+       "stale",
+       "missing"
+      ],
+      "title": "Web Build"
+     },
+     "content_review": {
+      "additionalProperties": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "type": "object",
+      "title": "Content Review"
+     },
+     "curriculum_review": {
+      "additionalProperties": {
+       "type": "boolean"
+      },
+      "type": "object",
+      "title": "Curriculum Review"
+     }
+    },
+    "type": "object",
+    "required": [
+     "status",
+     "engine_version",
+     "api_version",
+     "code_hash",
+     "config_hash_default",
+     "ortools_available",
+     "web_build",
+     "content_review",
+     "curriculum_review"
+    ],
+    "title": "Health"
    },
    "PlanChange": {
     "properties": {
@@ -1556,6 +1789,78 @@
      "total_activities_completed": {
       "type": "integer",
       "title": "Total Activities Completed"
+     },
+     "diag_items": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Diag Items"
+     },
+     "diag_minutes": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Diag Minutes"
+     },
+     "confirmed_at_diag": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string"
+        },
+        "type": "array"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Confirmed At Diag"
+     },
+     "false_confirm_at_diag": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "False Confirm At Diag"
+     },
+     "confirmed_at_end": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string"
+        },
+        "type": "array"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Confirmed At End"
+     },
+     "false_confirm_at_end": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "False Confirm At End"
      }
     },
     "type": "object",
@@ -1682,6 +1987,53 @@
       "minimum": 1.0,
       "title": "N Seeds",
       "default": 1
+     },
+     "model_profile": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "heuristic",
+         "fitted_assist09",
+         "fitted_ct"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Model Profile"
+     },
+     "diagnostic_method": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "sweep",
+         "bisection"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Diagnostic Method"
+     },
+     "planner_method": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "greedy",
+         "cpsat",
+         "hybrid"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Planner Method"
      }
     },
     "type": "object",
@@ -1719,6 +2071,18 @@
       },
       "type": "array",
       "title": "Deferred Same Day"
+     },
+     "confirmation": {
+      "anyOf": [
+       {
+        "additionalProperties": true,
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Confirmation"
      }
     },
     "type": "object",

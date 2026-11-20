@@ -9,6 +9,8 @@ Run from the repo root:  .venv/bin/python -m uvicorn frontend.api.app:app --port
 """
 
 import functools
+import importlib.metadata
+import importlib.util
 import json
 import sys
 import time
@@ -21,7 +23,7 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from adaptengine.api import Engine
-from adaptengine.core.config import DEFAULT_CONFIG
+from adaptengine.core.config import DEFAULT_CONFIG, config_hash
 from adaptengine.core.errors import ValidationError
 from adaptengine.core.validators import check_budget
 from adaptengine.core.schema import ActivityType, Event, EventType, PlanContext
@@ -32,16 +34,18 @@ from adaptengine.planner import serialize_plan
 from adaptengine.replanner import compute_effective_context
 from adaptengine.session import serialize_log
 
-from . import store
+from . import demo, store
 from .schemas import (
     ConceptInfo,
     CreateSession,
     CurriculumDetail,
     CurriculumSummary,
+    DemoPreset,
     DiagnosticAnswer,
     EvaluationOut,
     EventRequest,
     EventResult,
+    Health,
     PlanRequest,
     SessionOut,
     SimulateOut,
@@ -117,9 +121,20 @@ def _bundle(
     return Bundle(Engine(concepts, acts, cfg), concepts, content)
 
 
+def _manifest() -> dict:
+    return json.loads(MANIFEST.read_text(encoding="utf-8")) if MANIFEST.exists() else {}
+
+
+def _content_reviewer(manifest: dict, cid: str) -> Optional[str]:
+    content_key = f"data/content/content_{cid}.json"
+    if not (REPO / content_key).exists():
+        return None
+    return manifest.get(content_key, {}).get("reviewer")
+
+
 @app.get("/api/curricula", response_model=list[CurriculumSummary])
 def list_curricula():
-    manifest = json.loads(MANIFEST.read_text(encoding="utf-8")) if MANIFEST.exists() else {}
+    manifest = _manifest()
     out = []
     for cid in _curriculum_ids():
         content_key = f"data/content/content_{cid}.json"
@@ -219,11 +234,17 @@ def _item_rows(result) -> list[dict]:
     ]
 
 
+def _info(result) -> dict:
+    """DiagnosticResult.info as JSON (tuples become lists)."""
+    return json.loads(json.dumps(dict(result.info)))
+
+
 def _diagnostic_view(engine: Engine, answers: list, sid: str) -> dict:
     result, pending = _replay(engine, answers, sid)
     if result is not None:
         return {
             "done": True,
+            "info": _info(result),
             "items": _item_rows(result),
             "live_p": {c: x.p for c, x in result.state.concepts.items()},
             "concept_results": [
@@ -257,6 +278,7 @@ def _diagnostic_view(engine: Engine, answers: list, sid: str) -> dict:
         rows = _item_rows(prefix) if prefix is not None else []
         if [r["activity_id"] for r in rows] == [a for a, _ in answers]:
             view["items"] = rows
+            view["info"] = _info(prefix)
             view["live_p"] = {c: x.p for c, x in prefix.state.concepts.items()}
         else:
             view["live_p"] = None
@@ -327,6 +349,8 @@ def _view(b: Bundle, sid: str, state, log, ctx, meta: dict) -> dict:
                 "status": c.status.value,
                 "evidence_mastered": is_evidence_mastered(c, cfg),
                 "needs_remediation": c.needs_remediation,
+                "diag_confident": c.diag_confident,
+                "confirmed": c.confirmed,
             }
             for cid, c in state.concepts.items()
         ],
@@ -509,7 +533,20 @@ def get_trace(sid: str, activity_id: Optional[str] = None):
         and r.get("day") in days
         and r.get("activity_id") != activity_id
     ]
-    return {"activity_id": activity_id, "records": records, "deferred_same_day": deferred}
+    confirmation = next(
+        (
+            r
+            for r in trace
+            if r.get("decision") == "CONFIRMATION" and activity_id in r.get("activity_ids", ())
+        ),
+        None,
+    )
+    return {
+        "activity_id": activity_id,
+        "records": records,
+        "deferred_same_day": deferred,
+        "confirmation": confirmation,
+    }
 
 
 # ---------------------------------------------------------------------- autopilot / eval
@@ -522,7 +559,17 @@ def simulate(req: SimulateRequest):
     from experiments.arms import get_scenario, run_episode
     from experiments.sim import PROFILES
 
-    eng = _bundle(req.curriculum).engine
+    switches = (req.model_profile, req.diagnostic_method, req.planner_method)
+    if switches == (None, None, None):
+        eng = _bundle(req.curriculum).engine  # today's call: the default engine
+    else:
+        eng = _bundle(
+            req.curriculum,
+            req.model_profile or "heuristic",
+            req.diagnostic_method or "sweep",
+            req.planner_method or "greedy",
+        ).engine
+    diagnose = req.diagnostic_method is not None
     if req.goal not in eng.graph.concepts():
         raise HTTPException(422, f"unknown goal concept {req.goal}")
     sc = get_scenario(req.scenario, eng, eng.init_learner(), goal=req.goal, budget=req.budget)
@@ -530,7 +577,14 @@ def simulate(req: SimulateRequest):
         return {"episodes": [], "note": f"{req.scenario} does not apply at budget {req.budget}"}
     episodes = []
     for seed in range(req.seed, req.seed + req.n_seeds):
-        ep = run_episode(eng, seed=seed, scenario=sc, arm=req.arm, profile=PROFILES[req.profile])
+        ep = run_episode(
+            eng,
+            seed=seed,
+            scenario=sc,
+            arm=req.arm,
+            profile=PROFILES[req.profile],
+            diagnose=diagnose,
+        )
         ep["executed_minutes_per_day"] = {
             str(d): m for d, m in ep["executed_minutes_per_day"].items()
         }
@@ -570,6 +624,57 @@ def evaluation():
         if isinstance(data, dict):
             files.append({"name": name, "data": _compact(data)})
     return {"files": files}
+
+
+# ------------------------------------------------------------------- Plan FE: health, demo
+
+
+@functools.cache
+def _code_hash() -> str:
+    if str(REPO) not in sys.path:
+        sys.path.insert(0, str(REPO))  # experiments/ is a repo-root package, not installed
+    from experiments.provenance import code_hash
+
+    return code_hash()
+
+
+def _engine_version() -> str:
+    try:
+        return importlib.metadata.version("adaptengine")
+    except importlib.metadata.PackageNotFoundError:
+        return "unknown"
+
+
+def _web_build() -> str:
+    """ "missing" without dist/index.html; "stale" when any file in web/src is newer."""
+    index = DIST / "index.html"
+    if not index.exists():
+        return "missing"
+    src = REPO / "frontend" / "web" / "src"
+    newest = max((p.stat().st_mtime for p in src.rglob("*") if p.is_file()), default=0)
+    return "stale" if newest > index.stat().st_mtime else "fresh"
+
+
+@app.get("/api/health", response_model=Health)
+def health():
+    manifest = _manifest()
+    ids = _curriculum_ids()
+    return {
+        "status": "ok",
+        "engine_version": _engine_version(),
+        "api_version": app.version,
+        "code_hash": _code_hash(),
+        "config_hash_default": config_hash(DEFAULT_CONFIG),
+        "ortools_available": importlib.util.find_spec("ortools") is not None,
+        "web_build": _web_build(),
+        "content_review": {cid: _content_reviewer(manifest, cid) for cid in ids},
+        "curriculum_review": {r["id"]: r["reviewed"] for r in list_curricula()},
+    }
+
+
+@app.get("/api/demo-preset", response_model=DemoPreset)
+def demo_preset():
+    return demo.PRESET
 
 
 if DIST.is_dir():  # serve the built web app (one-command demo); API routes take precedence

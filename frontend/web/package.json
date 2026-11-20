@@ -8,7 +8,8 @@
     "build": "tsc --noEmit -p . && vite build",
     "preview": "vite preview",
     "gen:types": "node scripts/gen-types.mjs",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "figures": "AE_FIGURES=1 playwright test e2e/screens.spec.ts"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.107.1",

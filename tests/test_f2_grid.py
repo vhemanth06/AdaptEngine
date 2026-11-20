@@ -31,7 +31,7 @@ def test_smoke_schema_and_determinism(tmp_path):
     assert md["preregistration"].startswith("docs/preregistration/F2_")
     assert md["profiles"]["heuristic"] is None
     assert md["profiles"]["fitted_assist09"]["profile"] == "fitted_assist09"
-    assert md["content_review"]["8-node-x10"] == "AI-checked, human review pending (D88)"
+    assert md["content_review"]["8-node-x10"] == "reviewed"  # D93
     for w in r["worlds"].values():
         for cell in w.values():
             assert set(cell) == {*PROFILE_FILES, "paired_vs_heuristic"}
@@ -56,6 +56,7 @@ def test_full_results_match_registration_f2_tc6():
     reg_time = re.search(r"\*\*Registered:\*\* (\S+Z)", prereg).group(1)
     assert md["timestamp_utc"] > reg_time.replace("Z", "+00:00")
     assert md["diag_seeds"] == [101, 599, "odd"] and md["episode_seeds"] == [1000, 1199]
+    # stored results were produced before D93 (identical data); fresh runs say "reviewed"
     assert md["content_review"]["8-node-x10"] == "AI-checked, human review pending (D88)"
     assert set(r["worlds"]) == set(ALL_WORLDS)
     for row in r["worlds"].values():

@@ -9,8 +9,8 @@ worlds S0-S4, with the W7 seeds:
   (as experiments/run_w7_grid.py), paired x10 - 8node.
 
 Pre-registration: docs/preregistration/F5_2026-11-20.md (registered before the full run, D47).
-8-node-x10 is recorded as PENDING_HUMAN_REVIEW (D88) and loaded with allow_unreviewed=True; the
-result file says whether each curriculum file passed the review gate.
+8-node-x10 was recorded as PENDING_HUMAN_REVIEW (D88) when the registered run was made; the owner
+has since reviewed it (D93). The result file says whether each curriculum file passed the gate.
 
     python experiments/run_f5_baseline.py              # full run -> experiments/results/f5_baseline.json
     python experiments/run_f5_baseline.py --n-diag 2 --n-episodes 2 --out /tmp/f5.json   # smoke

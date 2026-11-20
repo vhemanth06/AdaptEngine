@@ -17,7 +17,7 @@ def test_smoke_and_schema(tmp_path):
     md = r["metadata"]
     assert md["preregistration"].startswith("docs/preregistration/F5_")
     assert md["content_review"]["8-node"] == "reviewed"
-    assert md["content_review"]["8-node-x10"].startswith("AI-checked, human review pending (D88)")
+    assert md["content_review"]["8-node-x10"] == "reviewed"  # D93
     assert set(md["content_review"]) == set(CURRICULA)
     assert set(r["worlds"]) == {"S0", "S3"}
     for w in r["worlds"].values():
@@ -52,6 +52,7 @@ def test_full_results_file_matches_registration():
     reg_time = re.search(r"\*\*Registered:\*\* (\S+Z)", prereg).group(1)
     assert md["timestamp_utc"] > reg_time.replace("Z", "+00:00")
     assert md["content_review"]["8-node"] == "reviewed"
+    # stored results were produced before D93 (identical data); fresh runs say "reviewed"
     assert md["content_review"]["8-node-x10"].startswith("AI-checked, human review pending (D88)")
     assert md["diag_seeds"] == [101, 599, "odd"] and md["episode_seeds"] == [1000, 1199]
     assert set(r["worlds"]) == {"S0", "S1", "S2", "S3", "S4"}

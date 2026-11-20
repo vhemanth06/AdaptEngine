@@ -174,6 +174,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/health": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Health */
+        get: operations["health_api_health_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/demo-preset": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Demo Preset */
+        get: operations["demo_preset_api_demo_preset_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -232,6 +266,16 @@ export interface components {
             evidence_mastered: boolean;
             /** Needs Remediation */
             needs_remediation: boolean;
+            /**
+             * Diag Confident
+             * @default false
+             */
+            diag_confident: boolean;
+            /**
+             * Confirmed
+             * @default false
+             */
+            confirmed: boolean;
         };
         /** ConceptUpdate */
         ConceptUpdate: {
@@ -324,6 +368,49 @@ export interface components {
             /** Content Reviewer */
             content_reviewer?: string | null;
         };
+        /**
+         * DemoPreset
+         * @description The fixed demo setup (D94), chosen by frontend/api/select_demo_preset.py.
+         */
+        DemoPreset: {
+            /** Curriculum */
+            curriculum: string;
+            /** Goal */
+            goal: string;
+            /** Deadline Day */
+            deadline_day: number;
+            /** Budget */
+            budget: number;
+            /**
+             * Model Profile
+             * @enum {string}
+             */
+            model_profile: "heuristic" | "fitted_assist09" | "fitted_ct";
+            /**
+             * Diagnostic Method
+             * @enum {string}
+             */
+            diagnostic_method: "sweep" | "bisection";
+            /**
+             * Planner Method
+             * @enum {string}
+             */
+            planner_method: "greedy" | "cpsat" | "hybrid";
+            /** Known */
+            known: string[];
+            tight: components["schemas"]["DemoTight"];
+            /** Has Check */
+            has_check: boolean;
+            /** Wrong Check */
+            wrong_check?: string | null;
+        };
+        /** DemoTight */
+        DemoTight: {
+            /** Deadline Day */
+            deadline_day: number;
+            /** Budget */
+            budget: number;
+        };
         /** DiagnosticAnswer */
         DiagnosticAnswer: {
             /** Activity Id */
@@ -362,6 +449,10 @@ export interface components {
              * @default []
              */
             concept_results: components["schemas"]["ConceptResult"][];
+            /** Info */
+            info?: {
+                [key: string]: unknown;
+            } | null;
         };
         /** EvaluationFile */
         EvaluationFile: {
@@ -428,6 +519,34 @@ export interface components {
         HTTPValidationError: {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
+        };
+        /** Health */
+        Health: {
+            /** Status */
+            status: string;
+            /** Engine Version */
+            engine_version: string;
+            /** Api Version */
+            api_version: string;
+            /** Code Hash */
+            code_hash: string;
+            /** Config Hash Default */
+            config_hash_default: string;
+            /** Ortools Available */
+            ortools_available: boolean;
+            /**
+             * Web Build
+             * @enum {string}
+             */
+            web_build: "fresh" | "stale" | "missing";
+            /** Content Review */
+            content_review: {
+                [key: string]: string | null;
+            };
+            /** Curriculum Review */
+            curriculum_review: {
+                [key: string]: boolean;
+            };
         };
         /** PlanChange */
         PlanChange: {
@@ -552,6 +671,18 @@ export interface components {
             minutes_used: number;
             /** Total Activities Completed */
             total_activities_completed: number;
+            /** Diag Items */
+            diag_items?: number | null;
+            /** Diag Minutes */
+            diag_minutes?: number | null;
+            /** Confirmed At Diag */
+            confirmed_at_diag?: string[] | null;
+            /** False Confirm At Diag */
+            false_confirm_at_diag?: number | null;
+            /** Confirmed At End */
+            confirmed_at_end?: string[] | null;
+            /** False Confirm At End */
+            false_confirm_at_end?: number | null;
         };
         /** SimulateOut */
         SimulateOut: {
@@ -603,6 +734,12 @@ export interface components {
              * @default 1
              */
             n_seeds: number;
+            /** Model Profile */
+            model_profile?: ("heuristic" | "fitted_assist09" | "fitted_ct") | null;
+            /** Diagnostic Method */
+            diagnostic_method?: ("sweep" | "bisection") | null;
+            /** Planner Method */
+            planner_method?: ("greedy" | "cpsat" | "hybrid") | null;
         };
         /** TraceOut */
         TraceOut: {
@@ -616,6 +753,10 @@ export interface components {
             deferred_same_day: {
                 [key: string]: unknown;
             }[];
+            /** Confirmation */
+            confirmation?: {
+                [key: string]: unknown;
+            } | null;
         };
         /** ValidationError */
         ValidationError: {
@@ -941,6 +1082,46 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["EvaluationOut"];
+                };
+            };
+        };
+    };
+    health_api_health_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Health"];
+                };
+            };
+        };
+    };
+    demo_preset_api_demo_preset_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DemoPreset"];
                 };
             };
         };

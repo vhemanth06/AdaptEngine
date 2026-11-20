@@ -19,7 +19,7 @@ the arm's overrides (heuristic item model unless stated):
    minutes (diagnostic + plan), executed violations (D46), idle days, confirmation false passes.
 
 Curricula: 4-node, 8-node, synth-20, synth-50, 8-node-x10, synth-20-x10, synth-50-x10.
-8-node-x10 content: AI-checked, human review pending (D88); loaded with allow_unreviewed=True.
+8-node-x10 content: reviewed by the owner (D93; AI-checked, pending under D88 before).
 
     python experiments/run_f1_grid.py           # full run -> experiments/results/f1_grid.json
 """

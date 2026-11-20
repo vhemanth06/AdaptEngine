@@ -103,6 +103,11 @@ class SimulateRequest(BaseModel):
     profile: Literal["nominal", "high_slip", "fast_forgetter", "rapid_learner"] = "nominal"
     seed: int = Field(default=100, ge=0, le=10**6)
     n_seeds: int = Field(default=1, ge=1, le=100)
+    # Plan FE: all None = the default engine without a diagnostic (today's call); any set = that
+    # session bundle; diagnostic_method set = the diagnostic runs first (run_episode diagnose=True)
+    model_profile: Optional[ModelProfile] = None
+    diagnostic_method: Optional[DiagnosticMethod] = None
+    planner_method: Optional[PlannerMethod] = None
 
 
 class PlanDayOut(BaseModel):
@@ -142,6 +147,8 @@ class ConceptState(BaseModel):
     status: str
     evidence_mastered: bool
     needs_remediation: bool
+    diag_confident: bool = False  # F1 flags (D57), read from the learner state
+    confirmed: bool = False
 
 
 class DiagnosticItem(BaseModel):
@@ -166,6 +173,9 @@ class DiagnosticOut(BaseModel):
     # p per concept after the answers so far (None if the engine could not replay a prefix)
     live_p: Optional[dict[str, float]] = None
     concept_results: list[ConceptResult] = []
+    # the engine's DiagnosticResult.info (bisection: mode, n_states, bits, n_max, q_bit, top_state,
+    # top_state_p, scope; the sweep: {}); while running, the prefix replay's info when one exists
+    info: Optional[dict[str, Any]] = None
 
 
 class EventOut(BaseModel):
@@ -221,6 +231,8 @@ class TraceOut(BaseModel):
     activity_id: Optional[str] = None
     records: list[dict[str, Any]]
     deferred_same_day: list[dict[str, Any]]
+    # the plan's CONFIRMATION record whose activity_ids contain activity_id (F1, D57), if any
+    confirmation: Optional[dict[str, Any]] = None
 
 
 class SimEpisode(BaseModel):
@@ -239,6 +251,13 @@ class SimEpisode(BaseModel):
     idle_days: int
     minutes_used: int
     total_activities_completed: int
+    # present only when the diagnostic ran first (SimulateRequest.diagnostic_method set)
+    diag_items: Optional[int] = None
+    diag_minutes: Optional[int] = None
+    confirmed_at_diag: Optional[list[str]] = None
+    false_confirm_at_diag: Optional[int] = None
+    confirmed_at_end: Optional[list[str]] = None
+    false_confirm_at_end: Optional[int] = None
 
 
 class SimulateOut(BaseModel):
@@ -254,3 +273,38 @@ class EvaluationFile(BaseModel):
 
 class EvaluationOut(BaseModel):
     files: list[EvaluationFile]
+
+
+class Health(BaseModel):
+    status: str
+    engine_version: str
+    api_version: str
+    code_hash: str
+    config_hash_default: str
+    ortools_available: bool
+    web_build: Literal["fresh", "stale", "missing"]
+    # curriculum id -> reviewer of data/content/content_<id>.json (None: no content file)
+    content_review: dict[str, Optional[str]]
+    # curriculum id -> passes the review gate (same check as /api/curricula)
+    curriculum_review: dict[str, bool]
+
+
+class DemoTight(BaseModel):
+    deadline_day: int
+    budget: int
+
+
+class DemoPreset(BaseModel):
+    """The fixed demo setup (D94), chosen by frontend/api/select_demo_preset.py."""
+
+    curriculum: str
+    goal: str
+    deadline_day: int
+    budget: int
+    model_profile: ModelProfile
+    diagnostic_method: DiagnosticMethod
+    planner_method: PlannerMethod
+    known: list[str]
+    tight: DemoTight
+    has_check: bool
+    wrong_check: Optional[str] = None  # the check Study step 5 answers wrong (None: no check)

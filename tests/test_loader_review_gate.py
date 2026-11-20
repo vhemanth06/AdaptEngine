@@ -159,8 +159,30 @@ def _pending_curriculum_files():
 PENDING_REVIEW = _pending_curriculum_files()
 
 
-def test_pending_set_is_derived_from_manifest():
-    assert {"curriculum_8node_x10.json", "activities_8node_x10.json"} <= PENDING_REVIEW
+X10 = (
+    "data/curriculum/curriculum_8node_x10.json",
+    "data/curriculum/activities_8node_x10.json",
+    "data/content/content_8node_x10.json",
+)
+
+
+def test_8node_x10_review_recorded_d93():
+    """FE-TC1 (D93): the owner's review of the three 8node_x10 files is recorded (reviewer
+    vhemanth06, ai_assisted, edges reviewed), the hashes match the files, and both curriculum files
+    pass the gate without allow_unreviewed. PENDING_REVIEW stays derived from the manifest."""
+    import hashlib
+
+    with open("data/review_manifest.json", encoding="utf-8") as f:
+        manifest = json.load(f)
+    for path in X10:
+        entry = manifest[path]
+        assert entry["reviewer"] == "vhemanth06" and entry["ai_assisted"] is True
+        with open(path, "rb") as f:
+            assert entry["sha256"] == hashlib.sha256(f.read()).hexdigest()
+    assert manifest[X10[0]]["edges_reviewed"] is True
+    assert not {"curriculum_8node_x10.json", "activities_8node_x10.json"} & PENDING_REVIEW
+    assert manifest["data/content/content_8node.json"]["reviewer"] == "PENDING_HUMAN_REVIEW"
+    assert len(load_activities(X10[1], load_curriculum(X10[0]))) == 88
 
 
 def test_pending_curricula_record_edges_not_reviewed():
@@ -306,23 +328,12 @@ def test_record_review_needs_reviewer_or_pending(tmp_path):
         )
 
 
-def test_8node_x10_pending_loads_with_allow_unreviewed_and_named_review_unblocks(tmp_path):
-    """F5-TC7 (reworded, D88): blocked while pending, loads with allow_unreviewed, and a named
-    human review (recorded in a temporary manifest) unblocks the real files."""
-    cur, act = (
-        "data/curriculum/curriculum_8node_x10.json",
-        "data/curriculum/activities_8node_x10.json",
+def test_8node_x10_loads_with_and_without_allow_unreviewed():
+    """F5-TC7 (D93): after the owner's review the real files load with and without
+    allow_unreviewed, and give the same 88 activities."""
+    cur, act = X10[0], X10[1]
+    gated = load_activities(act, load_curriculum(cur))
+    opened = load_activities(
+        act, load_curriculum(cur, allow_unreviewed=True), allow_unreviewed=True
     )
-    concepts = load_curriculum(cur, allow_unreviewed=True)
-    assert len(load_activities(act, concepts, allow_unreviewed=True)) == 88
-
-    with open("data/review_manifest.json", encoding="utf-8") as f:
-        manifest = json.load(f)
-    for path in (cur, act):
-        assert manifest[path]["reviewer"] == "PENDING_HUMAN_REVIEW"
-        manifest[path] = {**manifest[path], "reviewer": "test-reviewer"}
-    manifest[cur]["edges_reviewed"] = True
-    man = tmp_path / "manifest.json"
-    man.write_text(json.dumps(manifest))
-    concepts = load_curriculum(os.path.abspath(cur), manifest_path=str(man))
-    assert len(load_activities(os.path.abspath(act), concepts, manifest_path=str(man))) == 88
+    assert len(gated) == len(opened) == 88 and gated == opened

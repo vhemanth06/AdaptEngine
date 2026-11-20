@@ -3,7 +3,7 @@ PYTHON = $(if $(wildcard $(VENV)/bin/python),$(VENV)/bin/python,python3)
 PYTEST = $(if $(wildcard $(VENV)/bin/pytest),$(VENV)/bin/pytest,pytest)
 RUFF = $(if $(wildcard $(VENV)/bin/ruff),$(VENV)/bin/ruff,ruff)
 
-.PHONY: all w3 w4 w5 w6 poc eval eval-quick test lint format check demo-api demo-web demo-test
+.PHONY: all w3 w4 w5 w6 poc eval eval-quick test lint format check demo demo-api demo-web demo-test demo-figures
 
 all: check w3 w4 w5 w6 poc eval
 
@@ -44,6 +44,10 @@ format:
 check: lint test
 
 
+# Plan FE: one command (builds web/dist if src is newer, starts uvicorn, prints the URL)
+demo:
+	$(PYTHON) scripts/demo.py
+
 # Demo frontend (W7 WP8). Needs: pip install -e ".[demo]" and npm ci in frontend/web.
 demo-api:
 	$(PYTHON) -m uvicorn frontend.api.app:app --port 8000
@@ -54,3 +58,7 @@ demo-web:
 demo-test:
 	$(PYTEST) -q frontend/api/tests
 	cd frontend/web && npm run build && npx playwright test
+
+# Plan FE (D95): screenshots of every screen in both themes -> docs/figures/ui_<screen>_<theme>.png
+demo-figures:
+	cd frontend/web && npm run build && npm run figures

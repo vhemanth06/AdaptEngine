@@ -16,13 +16,13 @@ stay empty.
 | `content_8node.json` | Every activity in `data/curriculum/activities_8node.json` (8 lessons, 32 exercises) |
 | `content_8node_x10.json` | Every activity in `data/curriculum/activities_8node_x10.json` (8 lessons, 80 exercises): the 40 `content_8node.json` entries verbatim plus 48 new exercises (Plan 1, D81) |
 
-> **`8node_x10` status: AI-checked, human review pending (D88).** The 48 new exercises were
-> drafted by Claude on 2026-11-20, passed `scripts/check_content.py` (all 42 runnable answers
+> **`8node_x10` status: human-reviewed by the owner (D93, 2026-11-20).** The 48 new exercises
+> were drafted by Claude on 2026-11-20, passed `scripts/check_content.py` (all 42 runnable answers
 > verified), and were reviewed item by item by the AI
-> (`docs/content_reviews/8node_x10_ai_review.md`; one item fixed). All three `8node_x10` files are
-> recorded in `data/review_manifest.json` as `PENDING_HUMAN_REVIEW` with `ai_assisted: true`. The
-> loader treats a pending entry as unreviewed, so the curriculum and activity files load only with
-> `allow_unreviewed=True`, and the demo lists `8node_x10` as unreviewed.
+> (`docs/content_reviews/8node_x10_ai_review.md`; one item fixed). The owner then reviewed all
+> three `8node_x10` files; `data/review_manifest.json` records reviewer `vhemanth06` with
+> `ai_assisted: true` (unchanged sha256). The files load without `allow_unreviewed`, and the demo
+> lists `8node_x10` as reviewed. `content_8node.json` is still pending.
 
 ## Schema (`schema_version: 1`)
 
@@ -117,7 +117,7 @@ The script rewrites the entry. Pass `--ai-assisted` to keep `"ai_assisted": true
 
 ### Optional human review (outside the plans)
 
-A named human review unblocks the files. After reading every new exercise and the catalogue:
+A named human review unblocks the files (done for `8node_x10` on 2026-11-20, D93). After reading every new exercise and the catalogue:
 
 ```bash
 .venv/bin/python scripts/record_review.py data/curriculum/curriculum_8node_x10.json \
