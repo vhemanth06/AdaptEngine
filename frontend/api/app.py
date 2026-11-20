@@ -88,7 +88,12 @@ def _curriculum_ids() -> list[str]:
 
 
 @functools.cache
-def _bundle(cid: str, model_profile: str = "heuristic", diagnostic_method: str = "sweep") -> Bundle:
+def _bundle(
+    cid: str,
+    model_profile: str = "heuristic",
+    diagnostic_method: str = "sweep",
+    planner_method: str = "greedy",
+) -> Bundle:
     if cid not in _curriculum_ids():
         raise HTTPException(404, f"unknown curriculum {cid}")
     concepts = load_curriculum(str(DATA / "curriculum" / f"curriculum_{cid}.json"), str(MANIFEST))
@@ -107,6 +112,8 @@ def _bundle(cid: str, model_profile: str = "heuristic", diagnostic_method: str =
     )
     if diagnostic_method == "bisection":  # F1 preset: bisection with the confirmation path
         cfg = replace(cfg, diagnostic_method="bisection", confirm_diag_confident=True)
+    if planner_method != "greedy":
+        cfg = replace(cfg, planner_method=planner_method)
     return Bundle(Engine(concepts, acts, cfg), concepts, content)
 
 
@@ -265,6 +272,7 @@ def _open(sid: str):
         meta["curriculum"],
         meta.get("model_profile", "heuristic"),
         meta.get("diagnostic_method", "sweep"),
+        meta.get("planner_method", "greedy"),
     )
     state, log, ctx = store.load_state(sid, b.engine.graph.concepts())
     return b, state, log, ctx, meta
@@ -307,6 +315,7 @@ def _view(b: Bundle, sid: str, state, log, ctx, meta: dict) -> dict:
         "curriculum": meta["curriculum"],
         "model_profile": meta.get("model_profile", "heuristic"),
         "diagnostic_method": meta.get("diagnostic_method", "sweep"),
+        "planner_method": meta.get("planner_method", "greedy"),
         "context": _ctx_dict(ctx),
         "effective": _ctx_dict(eff),
         "concepts": [
@@ -344,7 +353,8 @@ def _grade(b: Bundle, activity_id: str, choice: Optional[int], correct: Optional
 def create_session(req: CreateSession):
     profile = req.model_profile or "heuristic"
     method = req.diagnostic_method or "sweep"
-    b = _bundle(req.curriculum, profile, method)
+    planner = req.planner_method or "greedy"
+    b = _bundle(req.curriculum, profile, method, planner)
     ctx = PlanContext(goal=req.goal, deadline_day=req.deadline_day, budget=req.budget)
     check_budget(ctx.budget, b.engine.config.allowed_budgets)  # config-driven since W7 T5.1
     if req.goal not in b.engine.graph.concepts():
@@ -356,6 +366,7 @@ def create_session(req: CreateSession):
         "diag_answers": [],
         "model_profile": profile,
         "diagnostic_method": method,
+        "planner_method": planner,
     }
     store.save(sid, state, log, ctx, meta)
     return _view(b, sid, state, log, ctx, meta)

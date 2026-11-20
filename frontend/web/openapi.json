@@ -691,6 +691,22 @@
        }
       ],
       "title": "Diagnostic Method"
+     },
+     "planner_method": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "greedy",
+         "cpsat",
+         "hybrid"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Planner Method"
      }
     },
     "type": "object",
@@ -1397,6 +1413,11 @@
       "type": "string",
       "title": "Diagnostic Method",
       "default": "sweep"
+     },
+     "planner_method": {
+      "type": "string",
+      "title": "Planner Method",
+      "default": "greedy"
      },
      "context": {
       "$ref": "#/components/schemas/ContextOut"

@@ -194,15 +194,23 @@ def test_evaluation_tolerates_missing_and_broken_files(client, tmp_path, monkeyp
 
 
 @pytest.mark.parametrize(
-    "profile,method",
-    [("heuristic", "sweep"), ("fitted_assist09", "sweep"), ("heuristic", "bisection")],
+    "profile,method,planner",
+    [
+        ("heuristic", "sweep", "greedy"),
+        ("fitted_assist09", "sweep", "greedy"),
+        ("heuristic", "bisection", "greedy"),
+        ("heuristic", "sweep", "cpsat"),
+        ("heuristic", "sweep", "hybrid"),
+    ],
 )
-def test_end_to_end_plan_matches_direct_engine(client, engine, profile, method):
+def test_end_to_end_plan_matches_direct_engine(client, engine, profile, method, planner):
     """create -> diagnose -> plan -> answer -> disrupt; the API plan equals a direct Engine call.
 
-    Also with a fitted item model (F2-TC7) and the bisection preset (F1-TC11, D45).
+    Also with a fitted item model (F2-TC7), the bisection preset (F1-TC11) and each planner (F3-TC11).
     """
-    if (profile, method) != ("heuristic", "sweep"):
+    if planner != "greedy":
+        pytest.importorskip("ortools")
+    if (profile, method, planner) != ("heuristic", "sweep", "greedy"):
         cfg = (
             replace(DEFAULT_CONFIG, model_profile=f"config/{profile}.json")
             if profile != "heuristic"
@@ -210,6 +218,8 @@ def test_end_to_end_plan_matches_direct_engine(client, engine, profile, method):
         )
         if method == "bisection":
             cfg = replace(cfg, diagnostic_method="bisection", confirm_diag_confident=True)
+        if planner != "greedy":
+            cfg = replace(cfg, planner_method=planner)
         engine = Engine.from_files(
             str(app_module.DATA / "curriculum" / "curriculum_8node.json"),
             str(app_module.DATA / "curriculum" / "activities_8node.json"),
@@ -219,8 +229,11 @@ def test_end_to_end_plan_matches_direct_engine(client, engine, profile, method):
     extra = {"model_profile": profile} if profile != "heuristic" else {}
     if method != "sweep":
         extra["diagnostic_method"] = method
+    if planner != "greedy":
+        extra["planner_method"] = planner
     created = _new(client, **extra)
     assert created["model_profile"] == profile and created["diagnostic_method"] == method
+    assert created["planner_method"] == planner
     sid = created["session_id"]
     view = _run_diagnostic(client, sid)
     direct = engine.diagnose(

@@ -18,6 +18,9 @@ pybkt = [
     "scipy>=1.10.0",
     "scikit-learn>=1.3.0,<1.6.0",
 ]
+cpsat = [
+    "ortools==9.14.6206",  # F3 CP-SAT planners (Plan 4, D69); imported only when selected
+]
 demo = [
     "fastapi",
     "uvicorn",

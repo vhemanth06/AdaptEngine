@@ -80,6 +80,15 @@ class EngineConfig:
     confirm_epsilon: float = 0.02  # acceptable false-confirm rate: confirm at 1 - epsilon
     confirm_max_checks: int = 3
     confirm_min_direct: int = 1
+    # F3 (Plan 4, D62-D69): which scheduler packs the workload. "greedy" is the current planner
+    # (with its oracle), "cpsat" schedules every plan with CP-SAT, "hybrid" uses CP-SAT only when
+    # greedy misses the deadline. CP-SAT needs the optional [cpsat] extra (ortools).
+    planner_method: str = "greedy"
+    cpsat_seed: int = 0
+    cpsat_max_work_units: float = 10.0  # deterministic time limit per solve (D68)
+    cpsat_use_greedy_hint: bool = True
+    cpsat_max_reviews_per_concept: int = 3
+    cpsat_review_lateness_penalty: float = 0.1
 
     def __post_init__(self):
         if not (0.0 < self.d_min < self.d_max < 1.0):
@@ -209,6 +218,20 @@ class EngineConfig:
         ):
             raise ValidationError(f"bisection_alpha must be None or a finite number > 0, got {a!r}")
         check_bool(self.confirm_diag_confident, "confirm_diag_confident")
+        if self.planner_method not in ("greedy", "cpsat", "hybrid"):
+            raise ValidationError(
+                f"planner_method must be one of ('greedy', 'cpsat', 'hybrid'), got {self.planner_method!r}"
+            )
+        if isinstance(self.cpsat_seed, bool) or not isinstance(self.cpsat_seed, int):
+            raise ValidationError(f"cpsat_seed must be an int, got {self.cpsat_seed!r}")
+        w = self.cpsat_max_work_units
+        if isinstance(w, bool) or not isinstance(w, (int, float)) or not math.isfinite(w) or w <= 0:
+            raise ValidationError(f"cpsat_max_work_units must be a finite number > 0, got {w!r}")
+        check_bool(self.cpsat_use_greedy_hint, "cpsat_use_greedy_hint")
+        check_positive_int(self.cpsat_max_reviews_per_concept, "cpsat_max_reviews_per_concept")
+        lam = self.cpsat_review_lateness_penalty
+        if isinstance(lam, bool) or not isinstance(lam, (int, float)) or not 0.0 <= lam <= 1.0:
+            raise ValidationError(f"cpsat_review_lateness_penalty must be in [0, 1], got {lam!r}")
         if not isinstance(self.model_profile, str) or not self.model_profile:
             raise ValidationError(
                 f"model_profile must be a non-empty string, got {self.model_profile!r}"

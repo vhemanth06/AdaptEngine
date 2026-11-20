@@ -308,6 +308,8 @@ To use AdaptEngine effectively, developers interact with four primary file types
 
 **Bisection diagnostic** (Plan 3, D49–D57): `diagnostic_method="bisection"` diagnoses the learner's prerequisite-consistent knowledge state like binary search (each answer moves many concepts), with a question budget that grows with the curriculum and the item model; `confirm_diag_confident=True` lets the planner confirm inferred concepts with a few checks instead of full lessons. `bisection_config()` turns both on; the sweep stays the default. See `docs/DIAGNOSTIC.md` §6.
 
+**Planners** (Plan 4, D62–D72): `planner_method` is `"greedy"` (default), `"cpsat"` (OR-Tools CP-SAT schedules every plan, with exact infeasibility advice) or `"hybrid"` (greedy, with CP-SAT taking over when greedy misses the deadline). CP-SAT needs `pip install 'adaptengine[cpsat]'`. See `docs/PLANNER_CPSAT.md`.
+
 ---
 
 ### 3. Command Reference Cheat Sheet

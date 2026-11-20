@@ -54,7 +54,10 @@ class CurriculumDetail(BaseModel):
 # F2 (D60): named item-model profiles only; a client never sends a file path, and fitted_sim
 # (fitted on our own simulator) is not offered
 ModelProfile = Literal["heuristic", "fitted_assist09", "fitted_ct"]
-DiagnosticMethod = Literal["sweep", "bisection"]  # F1 (D49); "bisection" = bisection_config()
+DiagnosticMethod = Literal["sweep", "bisection"]
+PlannerMethod = Literal[
+    "greedy", "cpsat", "hybrid"
+]  # F3 (D62); cpsat/hybrid need the [cpsat] extra  # F1 (D49); "bisection" = bisection_config()
 
 
 class CreateSession(BaseModel):
@@ -64,6 +67,7 @@ class CreateSession(BaseModel):
     budget: int = Field(ge=1, le=600)
     model_profile: Optional[ModelProfile] = None  # None = "heuristic"
     diagnostic_method: Optional[DiagnosticMethod] = None  # None = "sweep"
+    planner_method: Optional[PlannerMethod] = None  # None = "greedy"
 
 
 class PlanRequest(BaseModel):
@@ -179,6 +183,7 @@ class SessionOut(BaseModel):
     curriculum: str
     model_profile: str = "heuristic"
     diagnostic_method: str = "sweep"
+    planner_method: str = "greedy"
     context: ContextOut
     effective: Optional[ContextOut] = None  # engine's context after folding the log; None = over
     concepts: list[ConceptState]

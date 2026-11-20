@@ -283,6 +283,8 @@ export interface components {
             model_profile?: ("heuristic" | "fitted_assist09" | "fitted_ct") | null;
             /** Diagnostic Method */
             diagnostic_method?: ("sweep" | "bisection") | null;
+            /** Planner Method */
+            planner_method?: ("greedy" | "cpsat" | "hybrid") | null;
         };
         /** CurriculumDetail */
         CurriculumDetail: {
@@ -499,6 +501,11 @@ export interface components {
              * @default sweep
              */
             diagnostic_method: string;
+            /**
+             * Planner Method
+             * @default greedy
+             */
+            planner_method: string;
             context: components["schemas"]["ContextOut"];
             effective?: components["schemas"]["ContextOut"] | null;
             /** Concepts */

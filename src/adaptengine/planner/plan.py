@@ -63,6 +63,20 @@ def _best_effort(
             continue
         if not any(workload.values()):
             continue
+        if cfg.planner_method != "greedy":  # F3: best effort with the selected planner
+            from .cpsat_planner import cpsat_best_effort
+
+            days, trace = cpsat_best_effort(
+                graph, activities, state, replace(ctx, goal=target), workload, model, cfg
+            )
+            if not days:
+                continue
+            head = {
+                "decision": "BEST_EFFORT",
+                "target_concept": target,
+                "reason": "DEEPEST_REACHABLE",
+            }
+            return days, [head] + [{**t, "best_effort": True} for t in trace]
         days, trace = run_greedy_schedule(
             graph,
             workload,
@@ -157,7 +171,7 @@ def _plan_goal(
 
     # 2. Check initial mathematical feasibility bounds (before greedy)
     bound_res = check_feasibility_bounds(graph, workload, ctx, cfg=cfg)
-    if not bound_res.is_feasible:
+    if not bound_res.is_feasible and cfg.planner_method == "greedy":
         return Plan(
             status=PlanStatus.INFEASIBLE,
             days=(),
@@ -183,6 +197,28 @@ def _plan_goal(
 
     last_day = greedy_days[-1].day if greedy_days else ctx.current_day
     greedy_days_count = len(greedy_days)
+
+    # F3 (D62, D64): pure CP-SAT schedules every plan; hybrid keeps greedy's plan when it meets the
+    # deadline and lets CP-SAT take over (instead of the oracle) when it does not
+    if cfg.planner_method == "cpsat" or (
+        cfg.planner_method == "hybrid" and last_day > ctx.deadline_day
+    ):
+        from .cpsat_planner import cpsat_plan
+
+        return cpsat_plan(
+            graph,
+            activities,
+            state,
+            ctx,
+            workload,
+            init_trace,
+            greedy_days,
+            greedy_trace,
+            model,
+            cfg,
+            review_urgency,
+            takeover=cfg.planner_method == "hybrid",
+        )
 
     if last_day <= ctx.deadline_day:
         # Greedy schedule successfully meets the deadline
