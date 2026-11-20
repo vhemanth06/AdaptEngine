@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { contentOf } from "../api/client";
 import { calendarDay, lastDay, useDemoPreset, useDigitKeys, type Ctx } from "../ctx";
-import { Button, C, Card, ErrorBox, Markdown, PBar, StateBadge, checkRecords, conceptName, inline } from "../components/ui";
+import { Button, C, Card, ErrorBox, Markdown, PBar, StateBadge, checkRecords, checksPlanned, conceptName, inline } from "../components/ui";
 import NoSession from "./NoSession";
 
 export default function Study({ session, cur, demo, sendEvent, lastEvent, go, nextDay }: Ctx) {
@@ -132,7 +132,7 @@ export default function Study({ session, cur, demo, sendEvent, lastEvent, go, ne
               {conceptName(cur, up.concept_id)}: p {up.p_before.toFixed(2)} → {up.p_after.toFixed(2)}
               <PBar p={up.p_after} theta={cur?.theta} />
             </div>
-            {after && (after.diag_confident || after.confirmed) && (
+            {after && (after.confirmed || (after.diag_confident && checksPlanned(session.plan, after.concept_id))) && (
               <p className="flex items-center gap-2" data-testid="study-flags">
                 {after.confirmed ? <StateBadge state="confirmed" /> : <StateBadge state="check" />}
                 {after.confirmed ? "The checks confirmed the diagnostic's belief." : "More checks are planned."}

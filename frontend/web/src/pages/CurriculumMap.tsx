@@ -15,7 +15,7 @@ const LEGEND: [string, string, string][] = [
 // F1 badges (bisection sessions): what each one means, from the engine's fields
 const BADGE_WHY: Record<"inferred" | "check" | "confirmed", string> = {
   inferred: "the bisection diagnostic never asked about it; its p comes from answers on other concepts (stop reason INFERRED)",
-  check: "the diagnostic believes it is known; the planner schedules short checks instead of the full workload (diag_confident)",
+  check: "the diagnostic believes it is known, and the plan schedules short checks instead of the full workload (CONFIRMATION in the trace)",
   confirmed: "the checks passed the ε test, so it counts as mastered (confirmed)",
 };
 

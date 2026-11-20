@@ -253,3 +253,23 @@ Plan + Why? and Study. Replans come from Study (closed loop), "Next day →" and
 from about 247 kB.
 
 **Tests:** Playwright 10 passed.
+
+## "Check pending" badge follows the plan (2026-11-21)
+
+**Before.** The badge showed whenever `diag_confident && !confirmed`. That flag only means up to
+3 right answers *could* confirm the concept. The planner still gives such a concept the full
+workload when the checks are not cheaper on average (`T_checks < P_pass · T_full`, D57). So a
+beginner, who answered every diagnostic question wrong, saw "check pending" on C1, C2, C3 and C6
+with no check in the plan. On the demo preset, C4, C5, C7 and C8 had the badge too, while only C1,
+C2 and C6 had checks.
+
+**Now:**
+- `f1Badges` shows "check pending" only when the concept is `diag_confident`, not confirmed,
+  **and** the plan's trace has a `CONFIRMATION` record for it (`checksPlanned` in `ui.tsx`).
+- Study's "More checks are planned." line uses the same rule.
+- The map legend text says so.
+
+Display only; the engine fields are unchanged (D45).
+
+**Test:** `e2e/screens.spec.ts` ("check pending only where the plan schedules checks"):
+flagged concepts, no `CONFIRMATION` record, no badge. Playwright: 11 passed.

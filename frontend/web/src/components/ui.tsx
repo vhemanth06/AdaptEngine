@@ -353,13 +353,19 @@ export function checkRecords(plan?: Plan | null): Map<string, TraceRecord> {
   return out;
 }
 
-// F1 badges, read from engine fields only (D45): stop_reason INFERRED, diag_confident, confirmed.
+/** True when the engine's plan schedules confirmation checks for the concept (a CONFIRMATION record). */
+export const checksPlanned = (plan: Plan | null | undefined, conceptId: string) =>
+  !!plan?.trace.some((r) => r.decision === "CONFIRMATION" && r.concept_id === conceptId);
+
+// F1 badges, read from engine output only (D45): stop_reason INFERRED; "check pending" = the plan
+// schedules checks for it (diag_confident alone only means checks could confirm it; the planner
+// may still choose the full workload when checks are not cheaper); confirmed.
 export function f1Badges(s: Session, conceptId: string): (keyof typeof STATE)[] {
   const c = s.concepts.find((x) => x.concept_id === conceptId);
   const r = s.diagnostic.concept_results.find((x) => x.concept_id === conceptId);
   const out: (keyof typeof STATE)[] = [];
   if (r?.stop_reason === "INFERRED") out.push("inferred");
-  if (c?.diag_confident && !c.confirmed) out.push("check");
+  if (c?.diag_confident && !c.confirmed && checksPlanned(s.plan, conceptId)) out.push("check");
   if (c?.confirmed) out.push("confirmed");
   return out;
 }

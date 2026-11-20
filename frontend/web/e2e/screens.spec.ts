@@ -51,6 +51,11 @@ for (const theme of ["light", "dark"] as const) {
       await expect(page.getByTestId(`tab-${t}`)).toHaveAttribute("aria-current", "page");
       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
       await expect(page.getByText(/screen failed to render/)).toHaveCount(0);
+      if (t === "map") {
+        // React Flow measures and fits the nodes after mounting: wait until their text is painted
+        await expect(page.getByTestId("node-C8")).toContainText("C8");
+        await page.waitForTimeout(500);
+      }
       await page.waitForLoadState("networkidle");
       await page.screenshot({ path: shotPath(t, theme) });
     }
@@ -159,4 +164,27 @@ test("setup locks the curriculum and switches once the session has a plan", asyn
   await page.getByTestId("keep-session").click(); // back to the current session's switches, locked
   await expect(bisection).toBeDisabled();
   await expect(page.getByTestId("make-plan")).toHaveText("Re-plan");
+});
+
+test("check pending only where the plan schedules checks", async ({ page, request }) => {
+  // a beginner (every diagnostic answer wrong): the diagnostic flags C1 (diag_confident), but the
+  // planner gives it the full workload, so the map must not say "check pending"
+  const body = { curriculum: "8node_x10", goal: "C8", deadline_day: 21, budget: 15, diagnostic_method: "bisection" };
+  const s = await (await request.post("/api/sessions", { data: body })).json();
+  let view = s;
+  while (!view.diagnostic.done)
+    view = await (
+      await request.post(`/api/sessions/${s.session_id}/diagnostic/answer`, {
+        data: { activity_id: view.diagnostic.next_item.activity_id, correct: false },
+      })
+    ).json();
+  view = await (await request.post(`/api/sessions/${s.session_id}/plan`, { data: {} })).json();
+  const flagged = view.concepts.filter((c: { diag_confident: boolean }) => c.diag_confident).map((c: { concept_id: string }) => c.concept_id);
+  expect(flagged.length).toBeGreaterThan(0);
+  expect(view.plan.trace.filter((r: { decision: string }) => r.decision === "CONFIRMATION")).toHaveLength(0);
+  await page.addInitScript((id) => localStorage.setItem("ae.sid", id), s.session_id);
+  await page.goto("/");
+  await page.getByTestId("tab-map").click();
+  await expect(page.getByTestId(`node-${flagged[0]}`)).toBeVisible();
+  await expect(page.locator("[data-testid^=badge-check-]")).toHaveCount(0);
 });
