@@ -76,15 +76,27 @@ check. The regression test failed before the fix and passes after it; the four w
 with the fix had 0 violations. Amendment 1 to the pre-registration (design unchanged) was registered
 before run 2.
 
-## F1-T8 run 2: pending
+## Plan 3.5: Plan 3 closed without its full grid (D90)
 
-Run 2 was started after Amendment 1 (registered with code hash `54119df5…`) and stopped by the owner
-after about 5 minutes because the laptop was needed; nothing had been written. **Plan 3 is not
-complete until run 2 has finished.** To finish:
+The owner chose to run every full experiment grid at the end, in Plan 7 (D90). Plan 3.5 closed
+everything else in Plan 3; no file under `src/` changed (code hash still `54119df5…`).
 
-1. Do not change anything under `src/` first (the results must carry the amendment's code hash;
-   `tests/test_f1_grid.py::test_full_results_match_registration_f1_tc10` checks it).
-2. Run `.venv/bin/python experiments/run_f1_grid.py` from the repository root (about 75 minutes on
-   15 workers; `--procs 4` with `nice -n 19` keeps the laptop usable but takes about 3–4 hours).
-3. Then: report the results in this file (H1–H4, every losing cell explained), set F1-TC10 in
-   `docs/TRACEABILITY.md`, and run `make check` (the results test stops skipping).
+- **Safety re-check (P3.5-T1, not the registered result):** `experiments/run_f1_safety_check.py`
+  re-ran all 37 closed-loop cells that had at least one violation in run 1, with the fixed code,
+  run 1's frozen settings (stop 0.9, ceiling 20) and all of run 1's seeds (1000–1199, N = 200 per
+  cell; 10.7 min wall on 15 workers). **0 executed prerequisite violations in every cell** (run 1:
+  513 in these cells). Results: `experiments/results/f1_safety_check.json`, labelled "safety
+  re-check, not the registered result".
+- **Ruling (safety-check N):** the plan suggested the first 40 learners per cell. A 40-learner pass
+  also gave 0, but run 1's failing episodes include seeds outside that range (for example S4
+  synth-20 `bisect_confirm`: seeds 1060 and 1081), so the recorded check uses all 200 seeds and
+  re-runs every episode that failed. Cost if wrong: about 9 extra minutes of compute.
+- **Amendment 2** to `docs/preregistration/F1_2026-11-20.md` (registered before any further F1
+  run): run 2 is deferred to Plan 7 with the design unchanged; Plan 7 records the final code hash
+  in the amendment before running. Run 1 stays reported as the result of the original registration.
+- **Tests:** `tests/test_f1_grid.py::test_safety_check_after_planner_fix_p35_tc1`,
+  `::test_latest_amendment_hash_is_used_p35_tc3`; the results test now checks the latest amended
+  hash and skips with "full F1 grid runs in Plan 7 (D90)".
+
+Plan 3 is complete except its full grid (run 2, including the F2 Stage-2 2×2 and hypotheses
+H1–H4), which Plan 7 owns.

@@ -72,15 +72,16 @@ def test_full_results_match_registration_f1_tc10():
     import pytest
 
     if not os.path.exists(RESULTS):
-        pytest.skip("F1 run 2 pending: python experiments/run_f1_grid.py (docs/PLAN3_NOTES.md)")
+        pytest.skip("full F1 grid runs in Plan 7 (D90)")
     with open(RESULTS, encoding="utf-8") as f:
         r = json.load(f)
     with open(PREREG, encoding="utf-8") as f:
         prereg = f.read()
-    amended = re.search(r"code_hash \(amendment 1\):\*\*\s*`([0-9a-f]{64})`", prereg).group(1)
+    # the latest amendment that records a code hash is the one the run must carry (P3.5-TC3)
+    amended = re.findall(r"code_hash \(amendment \d+\):\*\*\s*`([0-9a-f]{64})`", prereg)[-1]
     md = r["metadata"]
     assert md["code_hash"] == amended
-    t = re.search(r"\*\*Amendment registered:\*\* (\S+Z)", prereg).group(1)
+    t = re.findall(r"\*\*Amendment registered:\*\* (\S+Z)", prereg)[-1]
     assert md["timestamp_utc"] > t.replace("Z", "+00:00")
     assert md["diag_seeds"] == [101, 599, "odd"] and md["episode_seeds"] == [1000, 1199]
     for row in r["closed_loop"].values():
@@ -88,3 +89,43 @@ def test_full_results_match_registration_f1_tc10():
             for arm, v in cell.items():
                 if arm != "paired":
                     assert v["n"] == 200 and v["executed_prereq_violations"] == 0, arm
+
+
+SAFETY = os.path.join(repo_root, "experiments/results/f1_safety_check.json")
+
+
+def test_safety_check_after_planner_fix_p35_tc1():
+    """P3.5-TC1: every run-1 violation cell, re-run with the fixed planner, has 0 violations."""
+    import json
+
+    import pytest
+
+    from experiments.run_f1_safety_check import LABEL, RUN1, violation_cells
+
+    if not os.path.exists(SAFETY):
+        pytest.skip("experiments/run_f1_safety_check.py has not been run")
+    with open(SAFETY, encoding="utf-8") as f:
+        r = json.load(f)
+    with open(RUN1, encoding="utf-8") as f:
+        run1 = json.load(f)
+    assert r["metadata"]["label"] == LABEL
+    assert sorted((x["world"], x["curriculum"], x["arm"]) for x in r["cells"]) == violation_cells(
+        run1
+    )
+    assert (
+        r["metadata"]["frozen_bisection_settings"] == run1["metadata"]["frozen_bisection_settings"]
+    )
+    for x in r["cells"]:
+        assert x["run1_violations"] > 0 and x["n"] == r["metadata"]["n_per_cell"]
+        assert x["executed_prereq_violations"] == 0, x
+
+
+def test_latest_amendment_hash_is_used_p35_tc3():
+    """Amendment 2 records no hash yet, so the latest registered hash is amendment 1's."""
+    import re
+
+    with open(PREREG, encoding="utf-8") as f:
+        prereg = f.read()
+    hashes = re.findall(r"code_hash \(amendment \d+\):\*\*\s*`([0-9a-f]{64})`", prereg)
+    assert hashes[-1].startswith("54119df5")
+    assert "## Amendment 2" in prereg and "deferred to Plan 7" in prereg
