@@ -19,7 +19,7 @@ from adaptengine.core.config import DEFAULT_CONFIG, EngineConfig  # noqa: E402
 from adaptengine.core.errors import ValidationError  # noqa: E402
 from adaptengine.core.schema import Activity, ActivityType, Concept, PlanContext, PlanStatus  # noqa: E402
 from adaptengine.learner.state import LearnerState  # noqa: E402
-from experiments.checks import count_budget_violations, count_plan_prereq_violations  # noqa: E402
+from experiments.core.audit import budget_violations, plan_violations  # noqa: E402
 
 CUR = os.path.join(repo_root, "data", "curriculum")
 
@@ -84,6 +84,12 @@ def test_missing_ortools_clear_error_f3_tc10(monkeypatch):
     assert e.plan(e.init_learner(), CONTEXTS[0]).status == PlanStatus.FEASIBLE
 
 
+def _plan_prereq(e, state, plan, days):
+    """Plan-level prerequisite violations of `days` (replaces experiments/checks.py::
+    count_plan_prereq_violations); budget and deadline do not affect the prerequisite count."""
+    return plan_violations(e, state, plan, budget=10**6, deadline=10**6, days=days)["prereq"]
+
+
 # ---------------- F3-T2: constraints, determinism, never worse than greedy ----------------
 
 
@@ -93,9 +99,9 @@ def test_cpsat_plans_respect_constraints_f3_tc2(ctx):
     st = e.init_learner()
     p = e.plan(st, ctx)
     days = p.days or p.best_effort_days
-    assert count_plan_prereq_violations(e, st, days) == 0
+    assert _plan_prereq(e, st, p, days) == 0
     cap = lambda d: ctx.budget - (ctx.minutes_used_today if d == ctx.current_day else 0)  # noqa: E731
-    assert count_budget_violations(e, days, cap) == 0
+    assert budget_violations(e, days, cap) == 0
     assert all(ctx.current_day <= d.day <= ctx.deadline_day for d in days)
     # within-concept order: lessons before exercises (D16)
     order = [a for d in days for a in d.activities]
@@ -226,7 +232,7 @@ def test_best_effort_uses_selected_planner():
     assert p.status == PlanStatus.INFEASIBLE and p.best_effort_days
     assert all(d.day <= 3 for d in p.best_effort_days)
     assert any(t.get("reason") == "CPSAT_ASSIGNED" and t.get("best_effort") for t in p.trace)
-    assert count_plan_prereq_violations(e, e.init_learner(), p.best_effort_days) == 0
+    assert _plan_prereq(e, e.init_learner(), p, p.best_effort_days) == 0
 
 
 def test_state_with_remediation_puts_it_early():

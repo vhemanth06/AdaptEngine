@@ -1,5 +1,7 @@
 # Evaluation Protocol (Milestone M8)
 
+> Historical: the harness described here was removed on 21 Nov 2026 (archived).
+
 > **Status:** **Implemented (W6, M8)** (Implemented in `experiments/` harness; verified by `make eval`, `make eval-quick`, and `tests/test_evaluation.py`).
 
 This document specifies the experimental protocol, simulator dynamics, frozen baselines, evaluation workloads, and metrics for benchmarking AdaptEngine.

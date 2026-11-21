@@ -1,5 +1,6 @@
 """Plan 3 (F1-T2, F1-T4): knowledge-space inference (F1-TC3, F1-TC5, F1-TC12)."""
 
+import json
 import math
 import os
 import sys
@@ -37,9 +38,14 @@ def _chain(n):
 
 
 def _synth(n, x=4):
-    from experiments.synth_curriculum import write_synthetic_curriculum
+    # replaces experiments/synth_curriculum.py::write_synthetic_curriculum (same generator, seed 2026)
+    from experiments.core.curricula import generate_synthetic
 
-    cp, ap = write_synthetic_curriculum(tempfile.mkdtemp(), n, exercises_per_concept=x)
+    d, (cur, act) = tempfile.mkdtemp(), generate_synthetic(n, x)
+    cp, ap = os.path.join(d, "curriculum.json"), os.path.join(d, "activities.json")
+    for path, obj in ((cp, cur), (ap, act)):
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(obj, f)
     return Engine.from_files(cp, ap, allow_unreviewed=True)
 
 

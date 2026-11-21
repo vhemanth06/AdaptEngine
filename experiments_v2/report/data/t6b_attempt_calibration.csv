@@ -1,6 +1,0 @@
-experiment,source_file,code_hash,status,world,n,brier,log_loss,auc,ece
-E1_safety_outcomes,experiments_v2/results/E1_safety_outcomes.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,S0,455590,0.2524,0.6986,0.5201,0.1482
-E1_safety_outcomes,experiments_v2/results/E1_safety_outcomes.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,S1,478915,0.2512,0.6962,0.5576,0.1081
-E1_safety_outcomes,experiments_v2/results/E1_safety_outcomes.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,S2,428819,0.2513,0.6962,0.5195,0.1567
-E1_safety_outcomes,experiments_v2/results/E1_safety_outcomes.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,S3,426931,0.2559,0.706,0.5196,0.1287
-E1_safety_outcomes,experiments_v2/results/E1_safety_outcomes.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,S4,412014,0.2334,0.6593,0.6453,0.0091

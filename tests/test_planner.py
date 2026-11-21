@@ -641,13 +641,36 @@ def test_oracle_path_selected_trace_tc7_1(engine, monkeypatch):
     assert json.dumps(serialized)
 
 
+def _trace_coverage(plan) -> float:
+    """Replaces the removed experiments/stats.py::audit_plan_trace_coverage: 0.0 if a DEFERRED or
+    OMITTED record lacks its fields, else the share of planned (day, activity) occurrences explained
+    by exactly one SELECTED record (extra or duplicate SELECTED records count against it)."""
+    import collections
+
+    for tr in plan.trace:
+        need = {"DEFERRED": ("reason",), "OMITTED": ("reason", "p", "responses")}
+        if any(k not in tr for k in need.get(tr.get("decision"), ())):
+            return 0.0
+    days = plan.days or plan.best_effort_days
+    planned = collections.Counter((d.day, a) for d in days for a in d.activities)
+    if not planned:
+        return 1.0
+    sel: collections.Counter = collections.Counter()
+    for tr in plan.trace:
+        if tr.get("decision") == "SELECTED" and tr.get("activity_id") and tr.get("reason"):
+            if tr.get("day") is not None and (
+                tr["reason"] == "ORACLE_ASSIGNED" or tr.get("score_components") is not None
+            ):
+                sel[(tr["day"], tr["activity_id"])] += 1
+    covered = sum(min(n, sel[k]) for k, n in planned.items())
+    extra = sum(max(0, n - planned[k]) for k, n in sel.items())
+    return round(covered / (sum(planned.values()) + extra), 4)
+
+
 def test_oracle_path_trace_natural_case_t1_4():
     """W7 T1.4 (R§2.8): natural oracle case (8-node, budget 5, deadline 12, no monkeypatching).
     W6 code left 45 SELECTED records for 21 planned activities; now exactly one per activity."""
     import collections
-
-    sys.path.insert(0, ".")
-    from experiments.stats import audit_plan_trace_coverage
 
     e = Engine.from_files(
         "data/curriculum/curriculum_8node.json", "data/curriculum/activities_8node.json"
@@ -661,7 +684,7 @@ def test_oracle_path_trace_natural_case_t1_4():
     planned = collections.Counter((d.day, a) for d in p.days for a in d.activities)
     assert sel == planned and sum(sel.values()) == 21
     assert all(t["superseded"] for t in p.trace if t.get("decision") == "GREEDY_ATTEMPT")
-    assert audit_plan_trace_coverage(p) == 1.0
+    assert _trace_coverage(p) == 1.0
 
 
 def test_oracle_respects_used_first_day_t2_1():

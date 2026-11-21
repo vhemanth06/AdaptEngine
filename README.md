@@ -684,39 +684,34 @@ AdaptEngine provides comprehensive Makefile targets and standalone Python script
 # 1. Full Quality Gate: Ruff linting, formatting check, architecture layering, pytest + 84% coverage gate
 make check
 
-# 2. Week 6 Acceptance Runner: Milestone M8 evaluation determinism, frontier equivalence, violation audit, latency benchmark
-make w6
-# Or execute directly:
-python scripts/run_w6.py
-
-# 3. Week 5 Acceptance Runner: Spaced review decay, dynamic replanning, remediation, decision audit traces
+# 2. Week 5 Acceptance Runner: Spaced review decay, dynamic replanning, remediation, decision audit traces
 make w5
 # Or execute directly:
 python scripts/run_w5.py
 
-# 4. Week 4 Acceptance Runner: Time-budgeted path planning, bin-packing oracle, bounds proofs
+# 3. Week 4 Acceptance Runner: Time-budgeted path planning, bin-packing oracle, bounds proofs
 make w4
 # Or execute directly:
 python scripts/run_w4.py
 
-# 5. Week 3 Acceptance Runner: Curriculum DAG validation, EIG diagnostic, continuous BKT
+# 4. Week 3 Acceptance Runner: Curriculum DAG validation, EIG diagnostic, continuous BKT
 make w3
 # Or execute directly:
 python scripts/run_w3.py
 
-# 6. Evaluation Simulation (100-seed full run, bitwise identical output):
-make eval
-
-# 7. Quick Evaluation Simulation (10-seed fast run for CI):
-make eval-quick
-
-# 8. Clean Working-Tree Reproduction (isolated /tmp virtualenv verification):
-bash scripts/verify_clean_checkout.sh
+# 5. Final study (experiments/, Plan V2): harness tests, smoke runs, report from the stored results
+make exp-test
+make exp-smoke
+make exp-report    # results/*.json -> report/data/*.csv -> report/tables, report/figures
 ```
 
 ---
 
 ## Evaluation & Benchmark Highlights (Milestone M8)
+
+> **Historical (Week 6).** These numbers came from the old evaluation harness, removed on 21 Nov 2026
+> (archived outside the repository). The final study is in `experiments/` (see
+> `experiments/README.md` and `experiments/NOTES.md`).
 
 The Week 6 evaluation benchmarks AdaptEngine across a paired, closed-loop 2PL Item Response Theory (IRT) simulation on a 50/50 seed split (50 tuning learners, 50 held-out learners) comparing four planning arms:
 - **`adapt`:** Full dynamic replanning on disruption events + Bayesian mastery updates.
@@ -785,7 +780,7 @@ AdaptEngine adheres to a rigorous, formal acceptance register of 23 test categor
 | **TC6.3** | Timeline adaptation on deadline/budget changes | `tests/test_replanner.py` | **Verified** |
 | **TC7.1** | Machine-readable constraint and decision traces | `tests/test_traces.py` | **Verified** |
 | **TC7.2** | Plan JSON serialization and SHA-256 config hash | `tests/test_traces.py` | **Verified** |
-| **TC8.1** | Deterministic byte-identical evaluation reruns | `tests/test_evaluation.py` | **Verified** |
+| **TC8.1** | Deterministic byte-identical evaluation reruns | `tests/test_evaluation.py` (file removed with the old harness; archived) | **Verified** |
 | **TC8.2** | Frontier replanning decision equivalence and latency | `tests/test_replan_frontier.py` | **Verified** |
 
 ---

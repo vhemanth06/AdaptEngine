@@ -144,10 +144,8 @@ def test_classbkt_equals_pybkt_adapter_f2_tc3():
 
 def test_ct_profile_matches_results_file():
     prof = load_profile(CT)
-    fit = _json("experiments/results/bkt_fit_ct.json")["class_fit"]
-    for c in ("easy", "medium", "hard"):
-        assert prof.class_params[c] == {"guess": fit["guess"][c], "slip": fit["slip"][c]}
-    assert prof.t_exercise == fit["learn"] and prof.p0 == fit["prior"]
+    # The cross-check against experiments/results/bkt_fit_ct.json was removed with the old harness
+    # (rename plan R4c); the file is archived outside the repository and not re-created.
     assert prof.warnings == {"hard": ("slip>0.5",)}
     raw = _json(CT)
     assert raw["profile"] == "fitted_ct" and "MATHS" in raw["caveat"]

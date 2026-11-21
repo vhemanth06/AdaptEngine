@@ -2,9 +2,13 @@
 """Plan 0 (P0-T1/T2): record regression pins for "default unchanged" tests.
 
 A pin file holds, for one EngineConfig: sweep-diagnostic outcomes on the 4- and 8-node
-curricula, a small slice of the diagnostic matrix (experiments/results/w7_diag_matrix.json, S0),
-one closed-loop next_activities episode, and the scripts/poc_demo.py output. Floats round-trip
-exactly through JSON, so tests compare with ==.
+curricula (simulated learners from experiments/core/simulator.py), serialized plans, and the
+scripts/poc_demo.py output. Floats round-trip exactly through JSON, so tests compare with ==.
+
+The pin files also hold "diag_matrix_S0" and "episode" parts. They were computed by the old
+harness (experiments/run_diag_matrix.py, experiments/arms.py), removed when experiments_v2/ was
+renamed to experiments/; the current harness has no code that produces those record layouts, so
+they are no longer computed or compared (rename plan R5). The JSON files are left untouched.
 
     python scripts/record_pins.py population -> tests/fixtures/pins/population_prior.json
                                                 (population_prior_config())
@@ -29,9 +33,7 @@ sys.path[:0] = [p for p in (repo_root, os.path.join(repo_root, "src")) if p not 
 
 from adaptengine.api import Engine  # noqa: E402
 from adaptengine.core.config import DEFAULT_CONFIG, EngineConfig  # noqa: E402
-from experiments.arms import get_scenario, run_episode  # noqa: E402
-from experiments.run_diag_matrix import run_world  # noqa: E402
-from experiments.sim import PROFILES, make_sim  # noqa: E402
+from experiments.core.simulator import make_learner  # noqa: E402
 
 PIN_DIR = os.path.join(repo_root, "tests", "fixtures", "pins")
 CURRICULA = {
@@ -39,7 +41,6 @@ CURRICULA = {
     "8node": ("data/curriculum/curriculum_8node.json", "data/curriculum/activities_8node.json"),
 }
 DIAG_SEEDS = tuple(range(101, 121, 2))  # 10 held-out (odd) simulated learners
-MATRIX_SEEDS = tuple(range(101, 111, 2))  # 5 learners: a cheap slice of the diagnostic matrix
 
 
 def _engine(name: str, cfg: EngineConfig) -> Engine:
@@ -60,7 +61,6 @@ def _diag_record(result) -> dict:
 
 def diagnostic_pins(cfg: EngineConfig) -> dict:
     out = {}
-    prof = PROFILES["nominal"]
     for name in CURRICULA:
         eng = _engine(name, cfg)
         runs = {
@@ -68,7 +68,7 @@ def diagnostic_pins(cfg: EngineConfig) -> dict:
             "all_right": eng.diagnose(eng.init_learner(), lambda a: True, session_id="pin"),
         }
         for s in DIAG_SEEDS:
-            sim = make_sim(eng, s, prof)
+            sim = make_learner(eng, s, "S0", "nominal")
             runs[f"sim{s}"] = eng.diagnose(
                 eng.init_learner(),
                 lambda a, sim=sim: sim.respond(
@@ -78,17 +78,6 @@ def diagnostic_pins(cfg: EngineConfig) -> dict:
             )
         out[name] = {k: _diag_record(r) for k, r in runs.items()}
     return out
-
-
-def matrix_pins(cfg: EngineConfig) -> dict:
-    return run_world("S0", list(MATRIX_SEEDS), PROFILES["nominal"], base=cfg)
-
-
-def episode_pins(cfg: EngineConfig) -> dict:
-    eng = _engine("4node", cfg)
-    sc = get_scenario("missed_day", eng, eng.init_learner(), goal="C4", budget=15)
-    res = run_episode(eng, seed=42, scenario=sc, arm="adapt", profile=PROFILES["nominal"])
-    return json.loads(json.dumps(res, sort_keys=True, default=str))
 
 
 def plan_pins(cfg: EngineConfig) -> dict:
@@ -122,8 +111,6 @@ def poc_pins(cfg: EngineConfig) -> str:
 def compute_pins(cfg: EngineConfig) -> dict:
     return {
         "diagnostic": diagnostic_pins(cfg),
-        "diag_matrix_S0": matrix_pins(cfg),
-        "episode": episode_pins(cfg),
         "plans": plan_pins(cfg),
         "config": json.loads(json.dumps(dataclasses.asdict(cfg))),
         "poc_demo": poc_pins(cfg),

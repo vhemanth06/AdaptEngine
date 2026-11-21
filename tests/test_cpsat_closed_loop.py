@@ -22,12 +22,10 @@ from adaptengine.core.schema import Event, EventType, PlanContext, PlanStatus  #
 from adaptengine.learner.state import ExecutionLog  # noqa: E402
 from adaptengine.planner import serialize_plan  # noqa: E402
 from adaptengine.session import load_snapshot, save_snapshot  # noqa: E402
-from experiments.arms import get_scenario, run_episode  # noqa: E402
-from experiments.checks import (  # noqa: E402
-    count_executed_prereq_violations,
-    count_plan_prereq_violations,
-)
-from experiments.sim import PROFILES  # noqa: E402
+from experiments.core.arms import E1_ARMS  # noqa: E402
+from experiments.core.audit import executed_violations, plan_violations  # noqa: E402
+from experiments.core.episode import run_episode  # noqa: E402
+from experiments.core.scenarios import make_scenario  # noqa: E402
 
 CUR = os.path.join(repo_root, "data", "curriculum")
 METHODS = ("greedy", "cpsat", "hybrid")
@@ -43,15 +41,21 @@ def _eng(method, name="8node", base=DEFAULT_CONFIG, **kw):
     )
 
 
+def _plan_prereq(e, state, plan, days):
+    """Plan-level prerequisite violations of `days` (replaces experiments/checks.py::
+    count_plan_prereq_violations); budget and deadline do not affect the prerequisite count."""
+    return plan_violations(e, state, plan, budget=10**6, deadline=10**6, days=days)["prereq"]
+
+
 @pytest.mark.parametrize("method", METHODS)
 @pytest.mark.parametrize("scenario", ["missed_day", "budget_drop", "deadline_cut"])
 def test_scripted_episodes_have_no_violations(method, scenario):
     e = _eng(method)
-    sc = get_scenario(scenario, e, e.init_learner(), goal="C8", budget=15)
+    sc = make_scenario(scenario, e, "C8", 15)
     for seed in (1000, 1001):
-        r = run_episode(e, seed, sc, "adapt", PROFILES["nominal"])
-        assert r["executed_prereq_violations"] == 0
-        assert r["plan_prereq_violations"] == 0 and r["budget_violations"] == 0
+        r = run_episode(e, seed, sc, E1_ARMS["adapt"], "S0", "nominal")
+        assert r["exec_viol"] == 0
+        assert r["plan_checks"]["prereq"] == 0 and r["exec_budget_viol"] == 0
 
 
 @pytest.mark.parametrize("method", METHODS)
@@ -86,7 +90,7 @@ def test_events_and_mid_day_replans(method):
         _, plan = e.next_activities(st, log, dataclasses.replace(ctx, current_day=ev.day))
         assert plan.status in (PlanStatus.FEASIBLE, PlanStatus.INFEASIBLE, PlanStatus.UNKNOWN)
         days = plan.days or plan.best_effort_days
-        assert count_plan_prereq_violations(e, st, days) == 0
+        assert _plan_prereq(e, st, plan, days) == 0
 
 
 @pytest.mark.parametrize("method", ["cpsat", "hybrid"])
@@ -112,7 +116,7 @@ def test_with_f1_confirmation_checks_gate_dependants(method):
                     attempt_id=f"{a}-{d.day}-{len(log.events)}",
                 )
             )
-    assert count_executed_prereq_violations(e, st, log) == 0
+    assert executed_violations(e, st, log) == 0
 
 
 @pytest.mark.parametrize("method", ["cpsat", "hybrid"])
@@ -121,7 +125,7 @@ def test_with_fitted_profile_plans_are_valid(method):
     for dl in (5, 10):
         plan = e.plan(e.init_learner(), PlanContext(goal="C8", deadline_day=dl, budget=15))
         days = plan.days or plan.best_effort_days
-        assert count_plan_prereq_violations(e, e.init_learner(), days) == 0
+        assert _plan_prereq(e, e.init_learner(), plan, days) == 0
 
 
 # ---------------- CLI (D89) ----------------

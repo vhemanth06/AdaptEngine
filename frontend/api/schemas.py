@@ -94,22 +94,6 @@ class EventRequest(BaseModel):
     value: Optional[int] = Field(default=None, ge=0, le=600)
 
 
-class SimulateRequest(BaseModel):
-    curriculum: str = _id()
-    goal: str = _id()
-    budget: int = Field(default=15, ge=1, le=600)
-    arm: Literal["adapt", "no_review", "no_replan", "static"] = "adapt"
-    scenario: Literal["calm", "missed_day", "budget_drop", "deadline_cut"] = "missed_day"
-    profile: Literal["nominal", "high_slip", "fast_forgetter", "rapid_learner"] = "nominal"
-    seed: int = Field(default=100, ge=0, le=10**6)
-    n_seeds: int = Field(default=1, ge=1, le=100)
-    # Plan FE: all None = the default engine without a diagnostic (today's call); any set = that
-    # session bundle; diagnostic_method set = the diagnostic runs first (run_episode diagnose=True)
-    model_profile: Optional[ModelProfile] = None
-    diagnostic_method: Optional[DiagnosticMethod] = None
-    planner_method: Optional[PlannerMethod] = None
-
-
 class PlanDayOut(BaseModel):
     day: int
     activities: list[str]
@@ -233,46 +217,6 @@ class TraceOut(BaseModel):
     deferred_same_day: list[dict[str, Any]]
     # the plan's CONFIRMATION record whose activity_ids contain activity_id (F1, D57), if any
     confirmation: Optional[dict[str, Any]] = None
-
-
-class SimEpisode(BaseModel):
-    arm: str
-    scenario: str
-    seed: int
-    goal_true_mastery: float
-    goal_mastered: bool
-    mean_true_mastery_goal_and_ancestors: float
-    retention: float
-    days_used: int
-    executed_minutes_per_day: dict[str, int]
-    plan_prereq_violations: int
-    executed_prereq_violations: int
-    budget_violations: int
-    idle_days: int
-    minutes_used: int
-    total_activities_completed: int
-    # present only when the diagnostic ran first (SimulateRequest.diagnostic_method set)
-    diag_items: Optional[int] = None
-    diag_minutes: Optional[int] = None
-    confirmed_at_diag: Optional[list[str]] = None
-    false_confirm_at_diag: Optional[int] = None
-    confirmed_at_end: Optional[list[str]] = None
-    false_confirm_at_end: Optional[int] = None
-
-
-class SimulateOut(BaseModel):
-    scenario: Optional[dict[str, Any]] = None
-    episodes: list[SimEpisode]
-    note: Optional[str] = None
-
-
-class EvaluationFile(BaseModel):
-    name: str
-    data: dict[str, Any]
-
-
-class EvaluationOut(BaseModel):
-    files: list[EvaluationFile]
 
 
 class Health(BaseModel):

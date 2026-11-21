@@ -17,7 +17,8 @@ from adaptengine.core.errors import UnknownConceptError, ValidationError  # noqa
 from adaptengine.core.schema import Activity, ActivityType, Concept  # noqa: E402
 from adaptengine.diagnostic import DIAGNOSTICS, AdaptiveDiagnostic, StopReason  # noqa: E402
 from adaptengine.diagnostic.bisection import BisectionDiagnostic, item_information  # noqa: E402
-from experiments.sim import PROFILES, make_sim  # noqa: E402
+from experiments.core.curricula import paths as synth_paths  # noqa: E402
+from experiments.core.simulator import make_learner  # noqa: E402
 
 CUR = os.path.join(repo_root, "data", "curriculum")
 ALL8 = {f"C{i}" for i in range(1, 9)}
@@ -97,7 +98,7 @@ def test_noiseless_chain_is_binary_search_f1_tc4(cut):
 
 
 def _sim_run(e, seed, world="S0", **kw):
-    sim = make_sim(e, seed, PROFILES["nominal"], world)
+    sim = make_learner(e, seed, world, "nominal")
     return e.diagnose(
         e.init_learner(),
         lambda a: sim.respond(a.target_concept, a.activity_id, a.difficulty, "diag"),
@@ -212,10 +213,7 @@ def test_independent_p0_prior_arm():
 
 
 def test_sampling_mode_on_wide_dag():
-    from experiments.synth_curriculum import write_synthetic_curriculum
-    import tempfile
-
-    cp, ap = write_synthetic_curriculum(tempfile.mkdtemp(), 50, exercises_per_concept=10)
+    cp, ap = synth_paths("synth-50-x10")  # same generator and seed as the removed synth_curriculum
     e = Engine.from_files(cp, ap, config=bisection_config(), allow_unreviewed=True)
     r = _sim_run(e, 109)
     assert r.info["mode"] == "sampling" and r.info["n_states"] is None

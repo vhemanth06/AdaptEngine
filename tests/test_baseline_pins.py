@@ -43,7 +43,8 @@ def default_pins():
     return compute_pins(DEFAULT_CONFIG)
 
 
-PARTS = ["diagnostic", "diag_matrix_S0", "episode", "plans", "poc_demo"]
+# "diag_matrix_S0" and "episode" are no longer computed (old harness removed; rename plan R5)
+PARTS = ["diagnostic", "plans", "poc_demo"]
 
 
 @pytest.mark.parametrize("part", PARTS)
@@ -79,7 +80,6 @@ def test_default_differs_from_population_prior_only_in_sweep_prior(default_pins)
     assert DEFAULT_CONFIG.prior_mode == "flat"
     assert config_hash(DEFAULT_CONFIG) != BASELINE_DEFAULT_HASH
     baseline = _load("population_prior.json")
-    assert default_pins["episode"] == baseline["episode"]
     for name in ("4node", "8node"):
         assert default_pins["plans"][name]["cold_start"] == baseline["plans"][name]["cold_start"]
 

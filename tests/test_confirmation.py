@@ -33,7 +33,7 @@ from adaptengine.session import (  # noqa: E402
     save_snapshot,
     serialize_learner,
 )
-from experiments.checks import count_executed_prereq_violations  # noqa: E402
+from experiments.core.audit import executed_violations as count_executed_prereq_violations  # noqa: E402
 
 CUR = os.path.join(repo_root, "data", "curriculum")
 ALL8 = {f"C{i}" for i in range(1, 9)}

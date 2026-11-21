@@ -16,7 +16,7 @@ import sys
 import time
 from dataclasses import dataclass, replace
 from pathlib import Path
-from typing import Any, Optional
+from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
@@ -42,21 +42,17 @@ from .schemas import (
     CurriculumSummary,
     DemoPreset,
     DiagnosticAnswer,
-    EvaluationOut,
     EventRequest,
     EventResult,
     Health,
     PlanRequest,
     SessionOut,
-    SimulateOut,
-    SimulateRequest,
     TraceOut,
 )
 
 REPO = Path(__file__).resolve().parents[2]
 DATA = REPO / "data"
 MANIFEST = DATA / "review_manifest.json"
-RESULTS_DIR = REPO / "experiments" / "results"
 DIST = REPO / "frontend" / "web" / "dist"
 
 app = FastAPI(title="AdaptEngine demo API", version="0.1.0")
@@ -573,83 +569,6 @@ def get_trace(sid: str, activity_id: Optional[str] = None):
     }
 
 
-# ---------------------------------------------------------------------- autopilot / eval
-
-
-@app.post("/api/simulate", response_model=SimulateOut)
-def simulate(req: SimulateRequest):
-    if str(REPO) not in sys.path:
-        sys.path.insert(0, str(REPO))  # experiments/ is a repo-root package, not installed
-    from experiments.arms import get_scenario, run_episode
-    from experiments.sim import PROFILES
-
-    switches = (req.model_profile, req.diagnostic_method, req.planner_method)
-    if switches == (None, None, None):
-        eng = _bundle(req.curriculum).engine  # today's call: the default engine
-    else:
-        eng = _bundle(
-            req.curriculum,
-            req.model_profile or "heuristic",
-            req.diagnostic_method or "sweep",
-            req.planner_method or "greedy",
-        ).engine
-    diagnose = req.diagnostic_method is not None
-    if req.goal not in eng.graph.concepts():
-        raise HTTPException(422, f"unknown goal concept {req.goal}")
-    sc = get_scenario(req.scenario, eng, eng.init_learner(), goal=req.goal, budget=req.budget)
-    if sc is None:
-        return {"episodes": [], "note": f"{req.scenario} does not apply at budget {req.budget}"}
-    episodes = []
-    for seed in range(req.seed, req.seed + req.n_seeds):
-        ep = run_episode(
-            eng,
-            seed=seed,
-            scenario=sc,
-            arm=req.arm,
-            profile=PROFILES[req.profile],
-            diagnose=diagnose,
-        )
-        ep["executed_minutes_per_day"] = {
-            str(d): m for d, m in ep["executed_minutes_per_day"].items()
-        }
-        episodes.append(ep)
-    scenario = {
-        "name": sc.name,
-        "budget": sc.budget,
-        "deadline": sc.deadline,
-        "goal": sc.goal,
-        "events": [[d, k.value, v] for d, k, v in sc.events],
-    }
-    return {"scenario": scenario, "episodes": episodes}
-
-
-def _compact(x: Any) -> Any:
-    if isinstance(x, dict):
-        return {
-            k: _compact(v)
-            for k, v in x.items()
-            if not str(k).startswith("per_seed") and k != "attempts"
-        }
-    if isinstance(x, list):
-        return [_compact(v) for v in x[:200]]
-    return x
-
-
-@app.get("/api/evaluation", response_model=EvaluationOut)
-def evaluation():
-    names = ["evaluation_results.json", "replan_latency.json"]
-    names += sorted(p.name for p in RESULTS_DIR.glob("w7_*.json"))
-    files = []
-    for name in names:
-        try:
-            data = json.loads((RESULTS_DIR / name).read_text(encoding="utf-8"))
-        except (OSError, ValueError):
-            continue  # missing or half-written results are simply not shown
-        if isinstance(data, dict):
-            files.append({"name": name, "data": _compact(data)})
-    return {"files": files}
-
-
 # ------------------------------------------------------------------- Plan FE: health, demo
 
 
@@ -657,7 +576,7 @@ def evaluation():
 def _code_hash() -> str:
     if str(REPO) not in sys.path:
         sys.path.insert(0, str(REPO))  # experiments/ is a repo-root package, not installed
-    from experiments.provenance import code_hash
+    from experiments.core.provenance import code_hash
 
     return code_hash()
 

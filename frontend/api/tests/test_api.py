@@ -171,27 +171,6 @@ def test_trace_filters_one_activity(client):
     assert len(full["records"]) == len(view["plan"]["trace"])
 
 
-def test_simulate(client):
-    body = {"curriculum": "4node", "goal": "C4", "budget": 15, "n_seeds": 2, "arm": "static"}
-    out = client.post("/api/simulate", json=body).json()
-    assert [e["seed"] for e in out["episodes"]] == [100, 101]
-    assert out["scenario"]["name"] == "missed_day"
-    again = client.post("/api/simulate", json=body).json()
-    assert again == out  # deterministic
-    out = client.post("/api/simulate", json={**body, "budget": 5, "scenario": "budget_drop"})
-    assert out.json()["episodes"] == [] and out.json()["note"]
-    assert client.post("/api/simulate", json={**body, "arm": "x"}).status_code == 422
-
-
-def test_evaluation_tolerates_missing_and_broken_files(client, tmp_path, monkeypatch):
-    monkeypatch.setattr(app_module, "RESULTS_DIR", tmp_path)
-    assert client.get("/api/evaluation").json() == {"files": []}
-    (tmp_path / "evaluation_results.json").write_text("{not json")
-    (tmp_path / "w7_matrix.json").write_text(json.dumps({"a": 1, "per_seed_runs": [1]}))
-    files = client.get("/api/evaluation").json()["files"]
-    assert files == [{"name": "w7_matrix.json", "data": {"a": 1}}]
-
-
 @pytest.mark.parametrize(
     "profile,method,planner,curriculum",
     [
@@ -308,7 +287,7 @@ def _engine(curriculum, cfg=DEFAULT_CONFIG):
 
 def test_health_fields(client):
     """FE-TC2 / FE.3 item 1."""
-    from experiments.provenance import code_hash
+    from experiments.core.provenance import code_hash
 
     from adaptengine.core.config import config_hash
 
@@ -374,60 +353,6 @@ def test_trace_confirmation_record(client):
     other = next(a for d in view["plan"]["days"] for a in d["activities"] if a not in checks)
     tr = client.get(f"/api/sessions/{sid}/trace", params={"activity_id": other}).json()
     assert tr["confirmation"] is None
-
-
-def _direct_episodes(engine, body, diagnose):
-    from experiments.arms import get_scenario, run_episode
-    from experiments.sim import PROFILES
-
-    sc = get_scenario(
-        body.get("scenario", "missed_day"),
-        engine,
-        engine.init_learner(),
-        goal=body["goal"],
-        budget=body.get("budget", 15),
-    )
-    out = []
-    for seed in range(100, 100 + body["n_seeds"]):
-        ep = run_episode(
-            engine,
-            seed=seed,
-            scenario=sc,
-            arm=body.get("arm", "adapt"),
-            profile=PROFILES["nominal"],
-            diagnose=diagnose,
-        )
-        ep["executed_minutes_per_day"] = {
-            str(d): m for d, m in ep["executed_minutes_per_day"].items()
-        }
-        out.append(ep)
-    return out
-
-
-def _same(api_eps, direct_eps):
-    for a, d in zip(api_eps, direct_eps, strict=True):
-        assert {k: v for k, v in a.items() if v is not None} == {
-            k: v for k, v in _norm(d).items() if k in a
-        }
-
-
-def test_simulate_default_unchanged(client):
-    """FE-TC3: without the new fields /simulate is today's call (default engine, no diagnostic)."""
-    body = {"curriculum": "8node", "goal": "C8", "budget": 15, "n_seeds": 2}
-    eps = client.post("/api/simulate", json=body).json()["episodes"]
-    assert all(e["diag_items"] is None for e in eps)
-    _same(eps, _direct_episodes(app_module._bundle("8node").engine, body, diagnose=False))
-
-
-def test_simulate_diagnostics_compare(client):
-    """FE.3 item 6: sweep vs bisection, the diagnostic first; equal to direct run_episode calls."""
-    body = {"curriculum": "8node", "goal": "C8", "budget": 15, "n_seeds": 2, "scenario": "calm"}
-    for method in ("sweep", "bisection"):
-        eps = client.post("/api/simulate", json=body | {"diagnostic_method": method}).json()
-        eps = eps["episodes"]
-        assert all(isinstance(e["diag_items"], int) and e["diag_items"] > 0 for e in eps)
-        engine = app_module._bundle("8node", "heuristic", method, "greedy").engine
-        _same(eps, _direct_episodes(engine, body, diagnose=True))
 
 
 def test_demo_preset(client):

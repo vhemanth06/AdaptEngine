@@ -1,4 +1,0 @@
-experiment,source_file,code_hash,status,planner,cells,first_verdict_agreement_with_greedy,unknown_rate,probe_plans,probe_not_feasible,probe_mean_shortfall_days,probe_shortfall_below_greedy
-E5_planners,experiments_v2/results/E5_planners.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,greedy,434,1.0,0.0,19,16,1.625,0
-E5_planners,experiments_v2/results/E5_planners.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,hybrid,434,1.0,0.0,19,14,1.6429,0
-E5_planners,experiments_v2/results/E5_planners.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,cpsat,94,1.0,0.0,19,14,1.6429,0

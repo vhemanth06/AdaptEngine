@@ -134,9 +134,9 @@ export interface paths {
         put?: never;
         /**
          * Next Day
-         * @description End today and start the next day (D96). The engine moves on by itself only once the daily
-         *     budget is used; with minutes left but nothing that fits, today would never end. Unused minutes
-         *     are not carried over, nothing is logged, and the engine replans from the new day.
+         * @description End the learner's day and start the next one (D96). Only this moves the day on (or a missed
+         *     day): a finished day stays on screen as complete. Unused minutes are not carried over, nothing
+         *     is logged, and the engine replans the remaining work from the new day.
          */
         post: operations["next_day_api_sessions__sid__next_day_post"];
         delete?: never;
@@ -154,40 +154,6 @@ export interface paths {
         };
         /** Get Trace */
         get: operations["get_trace_api_sessions__sid__trace_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/simulate": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Simulate */
-        post: operations["simulate_api_simulate_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/evaluation": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Evaluation */
-        get: operations["evaluation_api_evaluation_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -476,20 +442,6 @@ export interface components {
                 [key: string]: unknown;
             } | null;
         };
-        /** EvaluationFile */
-        EvaluationFile: {
-            /** Name */
-            name: string;
-            /** Data */
-            data: {
-                [key: string]: unknown;
-            };
-        };
-        /** EvaluationOut */
-        EvaluationOut: {
-            /** Files */
-            files: components["schemas"]["EvaluationFile"][];
-        };
         /** EventOut */
         EventOut: {
             /** Day */
@@ -658,110 +610,6 @@ export interface components {
             replan_ms?: number | null;
             /** Events */
             events: components["schemas"]["EventOut"][];
-        };
-        /** SimEpisode */
-        SimEpisode: {
-            /** Arm */
-            arm: string;
-            /** Scenario */
-            scenario: string;
-            /** Seed */
-            seed: number;
-            /** Goal True Mastery */
-            goal_true_mastery: number;
-            /** Goal Mastered */
-            goal_mastered: boolean;
-            /** Mean True Mastery Goal And Ancestors */
-            mean_true_mastery_goal_and_ancestors: number;
-            /** Retention */
-            retention: number;
-            /** Days Used */
-            days_used: number;
-            /** Executed Minutes Per Day */
-            executed_minutes_per_day: {
-                [key: string]: number;
-            };
-            /** Plan Prereq Violations */
-            plan_prereq_violations: number;
-            /** Executed Prereq Violations */
-            executed_prereq_violations: number;
-            /** Budget Violations */
-            budget_violations: number;
-            /** Idle Days */
-            idle_days: number;
-            /** Minutes Used */
-            minutes_used: number;
-            /** Total Activities Completed */
-            total_activities_completed: number;
-            /** Diag Items */
-            diag_items?: number | null;
-            /** Diag Minutes */
-            diag_minutes?: number | null;
-            /** Confirmed At Diag */
-            confirmed_at_diag?: string[] | null;
-            /** False Confirm At Diag */
-            false_confirm_at_diag?: number | null;
-            /** Confirmed At End */
-            confirmed_at_end?: string[] | null;
-            /** False Confirm At End */
-            false_confirm_at_end?: number | null;
-        };
-        /** SimulateOut */
-        SimulateOut: {
-            /** Scenario */
-            scenario?: {
-                [key: string]: unknown;
-            } | null;
-            /** Episodes */
-            episodes: components["schemas"]["SimEpisode"][];
-            /** Note */
-            note?: string | null;
-        };
-        /** SimulateRequest */
-        SimulateRequest: {
-            /** Curriculum */
-            curriculum: string;
-            /** Goal */
-            goal: string;
-            /**
-             * Budget
-             * @default 15
-             */
-            budget: number;
-            /**
-             * Arm
-             * @default adapt
-             * @enum {string}
-             */
-            arm: "adapt" | "no_review" | "no_replan" | "static";
-            /**
-             * Scenario
-             * @default missed_day
-             * @enum {string}
-             */
-            scenario: "calm" | "missed_day" | "budget_drop" | "deadline_cut";
-            /**
-             * Profile
-             * @default nominal
-             * @enum {string}
-             */
-            profile: "nominal" | "high_slip" | "fast_forgetter" | "rapid_learner";
-            /**
-             * Seed
-             * @default 100
-             */
-            seed: number;
-            /**
-             * N Seeds
-             * @default 1
-             */
-            n_seeds: number;
-            /** Model Profile */
-            model_profile?: ("heuristic" | "fitted_assist09" | "fitted_ct") | null;
-            /** Diagnostic Method */
-            diagnostic_method?: ("sweep" | "bisection") | null;
-            /** Planner Method */
-            planner_method?: ("greedy" | "cpsat" | "hybrid") | null;
         };
         /** TraceOut */
         TraceOut: {
@@ -1082,59 +930,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    simulate_api_simulate_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["SimulateRequest"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SimulateOut"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    evaluation_api_evaluation_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["EvaluationOut"];
                 };
             };
         };
