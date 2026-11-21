@@ -69,7 +69,7 @@ learner who answers right exactly on the preset's known concepts. The buttons on
 questions; the engine makes every decision.
 
 The preset is served by `GET /api/demo-preset` from `api/demo.py`. It was chosen by the fixed
-procedure of Plan FE §FE.6 (`api/select_demo_preset.py`; record in `docs/FRONTEND_NOTES.md`):
+procedure of Plan FE §FE.6 (`api/select_demo_preset.py`; record in `docs/archive/notes/FRONTEND_NOTES.md`):
 
 | Field | Value |
 |---|---|

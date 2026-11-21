@@ -125,7 +125,7 @@ def test_sampling_matches_exact_f1_tc5(which):
         errs += [abs(sp.marginal(c) - ex.marginal(c)) for c in s]
     # Plan F1-TC5 says 0.02; at 4,000 samples the Monte Carlo standard error is about 0.008, and
     # the measured worst case over seeds 0-4 is 0.022 (4-node, seed 0). The test allows 0.025 and
-    # checks the mean absolute error separately, which catches bias (ruling in docs/PLAN3_NOTES.md).
+    # checks the mean absolute error separately, which catches bias (ruling in docs/archive/notes/PLAN3_NOTES.md).
     assert max(errs) <= 0.025, errs
     assert sum(errs) / len(errs) <= 0.012, errs
 
@@ -159,7 +159,7 @@ def test_synth50_sampling_runs_in_time():
     for c in s[::5]:
         sp.update(c, 0.85, 0.2)
     elapsed = time.perf_counter() - t
-    assert elapsed < 20.0, elapsed  # recorded in docs/PLAN3_NOTES.md
+    assert elapsed < 20.0, elapsed  # recorded in docs/archive/notes/PLAN3_NOTES.md
 
 
 def test_goal_scope():

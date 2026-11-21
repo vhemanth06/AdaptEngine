@@ -1,6 +1,6 @@
 """Real learner data for E3 Part A: ASSISTments 2009 skill-builder and the Cognitive Tutor sample.
 
-Cleaning follows docs/data_manifest.md. The model is standard BKT (prior, learn, guess, slip; no
+Cleaning follows docs/reference/data_manifest.md. The model is standard BKT (prior, learn, guess, slip; no
 forgetting), optionally with guess/slip per D6 difficulty class. `fast_em` is a vectorised
 Baum-Welch with pyBKT 1.4.3's random-init ranges (prior U(0,1), learn U(0,.4), guess U(0,.4),
 slip U(0,.3)), best of 5 restarts by log-likelihood, and pyBKT's stopping rule (|dLL| <= 0.005,

@@ -19,7 +19,7 @@ stay empty.
 > **`8node_x10` status: human-reviewed by the owner (D93, 2026-11-20).** The 48 new exercises
 > were drafted by Claude on 2026-11-20, passed `scripts/check_content.py` (all 42 runnable answers
 > verified), and were reviewed item by item by the AI
-> (`docs/content_reviews/8node_x10_ai_review.md`; one item fixed). The owner then reviewed all
+> (`docs/project/content_reviews/8node_x10_ai_review.md`; one item fixed). The owner then reviewed all
 > three `8node_x10` files; `data/review_manifest.json` records reviewer `vhemanth06` with
 > `ai_assisted: true` (unchanged sha256). The files load without `allow_unreviewed`, and the demo
 > lists `8node_x10` as reviewed. `content_8node.json` is still pending.
@@ -103,7 +103,7 @@ The script rewrites the entry. Pass `--ai-assisted` to keep `"ai_assisted": true
 
 1. Draft the content and run `scripts/check_content.py` (it also runs every `verify: output`
    snippet).
-2. Review every new item and write the result to `docs/content_reviews/<name>_ai_review.md`; fix or
+2. Review every new item and write the result to `docs/project/content_reviews/<name>_ai_review.md`; fix or
    replace items that fail.
 3. Record each new file honestly as pending (no `--edges-reviewed` for curricula):
 

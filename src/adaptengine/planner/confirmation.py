@@ -2,8 +2,9 @@
 
 A diag_confident concept gets short confirmation checks instead of its full workload when testing
 first is cheaper in expected minutes (F1.4.4):
-1. n = the smallest number of correct checks (most informative unseen item each time) that lifts
-   the observation-only posterior to 1 - confirm_epsilon; more than confirm_max_checks -> study.
+1. n = checks added one at a time (most informative unseen item each time) until correct answers
+   would lift the observation-only posterior to 1 - confirm_epsilon. This greedy order does not
+   always give the smallest possible n. More than confirm_max_checks -> study.
 2. P_pass = p * prod(1 - s_i) + (1 - p) * prod(g_i) over the chosen checks.
 3. Check first iff T_checks < P_pass * T_full (minutes of the checks vs the normal workload).
 """

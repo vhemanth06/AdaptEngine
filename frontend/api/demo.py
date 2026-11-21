@@ -1,5 +1,5 @@
 """The demo preset (D94). Chosen by frontend/api/select_demo_preset.py (fixed procedure, Plan FE
-§FE.6); the values below are that script's output (2026-11-20, docs/FRONTEND_NOTES.md). The
+§FE.6); the values below are that script's output (2026-11-20, docs/archive/notes/FRONTEND_NOTES.md). The
 scripted demo learner answers right exactly on the concepts in KNOWN (no slips, no guesses); it
 only answers questions, the engine decides.
 """

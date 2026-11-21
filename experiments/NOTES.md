@@ -481,3 +481,24 @@ results_schema). No test or harness logic changed: the only edits are two import
 `752a73171c093a402b96ce540b132106b381fb7836ee1c6b956d55cefd65f5be` →
 `68b8ee80ecac0694c328cd5f339011ad76cc9c7dc468fffee69882b73423b68c` (it includes relative file
 paths). Results JSONs are not touched and keep the hash they were produced with.
+
+## Documentation moved (2026-11-21)
+
+`docs/` was reorganised into `concepts/`, `reference/`, `project/` and `archive/` (D103). The
+docstring of `core/realdata.py` now names `docs/reference/data_manifest.md`; that one-line path
+change moved the harness hash from `68b8ee80…` to `80d25cef1eff4b82ca7c906cf5624b12592f79c068357f09e170b2a2e64f096f`.
+No harness logic changed. Earlier entries in this file keep the old doc paths as written. In
+`preregistration/E3_2026-11-21.md` the one doc path (`docs/data_manifest.md`) was updated to
+`docs/reference/data_manifest.md` at the owner's request; the registration status, time and code
+hash lines are unchanged.
+
+## Engine code hash after docstring fixes (2026-11-21)
+
+At the owner's request, three stale docstrings and one comment in `src/` were corrected
+(`learner/profiles.py`, `planner/confirmation.py`, `replanner/replan.py`); no logic changed.
+`make check` 403 passed, coverage 92.64 %, `config_hash(DEFAULT_CONFIG)` unchanged
+(`1e26bd7d…`). The engine code hash changed from
+`9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef` to
+`03297fadb410b3605898432961b5c23387ce1c7c2f8659622be7428778b885fb`. All results files and
+pre-registrations keep `9a40c4d8…`, under which they were produced with the same logic; a new full
+run would be refused by the pre-registration guard until registered again under the new hash.

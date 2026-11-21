@@ -78,7 +78,8 @@ def replan(
 
     Rules:
     - Derive effective context from log events (D29).
-    - Exclude completed activities from new plan (TC6.1, REPLAN_PRESERVED_COMPLETED).
+    - Exclude completed lessons from new plan (TC6.1, REPLAN_PRESERVED_COMPLETED); a completed
+      exercise can be scheduled again once its concept's unseen exercises run out (D41).
     - If deadline tightened past start day, return INFEASIBLE proof with options.
     - If revised plan feasible, return new valid schedule without duplication.
     """

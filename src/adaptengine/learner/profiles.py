@@ -1,6 +1,6 @@
 """Fitted item-model profiles (Plan 2, F2, D60).
 
-A profile file (config/fitted_*.json, written by experiments/fit_bkt.py) holds guess/slip per D6
+A profile file (config/fitted_*.json, written by the removed experiments/fit_bkt.py, D102) holds guess/slip per D6
 difficulty class, plus the fitted prior and learn rate. The engine uses the class guess/slip
 through ClassBKT. The profile's prior is never used (the learner prior comes from p0 /
 population_p0), and its learn rate only when EngineConfig.use_profile_learn is on.
@@ -69,7 +69,7 @@ def load_profile(path: str) -> Profile:
     for c in CLASSES:
         g = _prob(cp[c].get("guess"), f"{c} guess", path)
         s = _prob(cp[c].get("slip"), f"{c} slip", path)
-        if g + s >= 1.0:  # an item that knowing makes no likelier to answer right (as fit_bkt)
+        if g + s >= 1.0:  # an item that knowing makes no likelier to answer right (as old fit_bkt)
             raise ValidationError(f"Profile {path}: {c} guess + slip >= 1")
         params[c] = {"guess": g, "slip": s}
     t = data.get("t_exercise")

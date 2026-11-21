@@ -1,10 +1,10 @@
 # AdaptEngine
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
-[![Coverage](https://img.shields.io/badge/coverage-89.9%25-brightgreen.svg)](docs/TEST_SUITE.md)
-[![Tests](https://img.shields.io/badge/tests-171%20passed-success.svg)](docs/TEST_SUITE.md)
-[![Verification](https://img.shields.io/badge/acceptance-23%2F23%20TCs%20Verified-brightgreen.svg)](docs/TRACEABILITY.md)
-[![Architecture](https://img.shields.io/badge/architecture-strictly%20layered-blueviolet.svg)](docs/ARCHITECTURE.md)
+[![Coverage](https://img.shields.io/badge/coverage-89.9%25-brightgreen.svg)](docs/reference/TESTING.md)
+[![Tests](https://img.shields.io/badge/tests-171%20passed-success.svg)](docs/reference/TESTING.md)
+[![Verification](https://img.shields.io/badge/acceptance-23%2F23%20TCs%20Verified-brightgreen.svg)](docs/project/TRACEABILITY.md)
+[![Architecture](https://img.shields.io/badge/architecture-strictly%20layered-blueviolet.svg)](docs/reference/ARCHITECTURE.md)
 [![Course](https://img.shields.io/badge/project-CS5903%20Group%2015-orange.svg)](#)
 
 > **A deterministic, mathematically grounded adaptive learning, diagnostic assessment, and personalized path-planning engine.**
@@ -90,23 +90,14 @@ AdaptEngine enforces a strict unidirectional dependency rule: **a layer imports 
 
 ## Technical Documentation
 
-All specifications, mathematical proofs, and architectural records are located under `docs/`:
+The documentation is under `docs/` (index: [`docs/README.md`](docs/README.md)):
 
-| Document | Description |
+| Folder | What it holds |
 |:---|:---|
-| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | System architecture, layering rules, class diagrams, and structural constraints. |
-| [`docs/API_REFERENCE.md`](docs/API_REFERENCE.md) | Complete Python library reference, dataclass schemas, and engine method signatures. |
-| [`docs/DECISIONS.md`](docs/DECISIONS.md) | Architectural and pedagogical decision records (**D1 through D40**). |
-| [`docs/TRACEABILITY.md`](docs/TRACEABILITY.md) | Authoritative requirements-to-tests verification matrix (**TC1.1 through TC8.2**). |
-| [`docs/MASTERY_MODEL.md`](docs/MASTERY_MODEL.md) | Mathematical equations, BKT formulation, parameter derivations, and entropy metrics. |
-| [`docs/DIAGNOSTIC.md`](docs/DIAGNOSTIC.md) | Detailed specification of the M2 Expected Information Gain (EIG) diagnostic algorithm. |
-| [`docs/EVALUATION_PROTOCOL.md`](docs/EVALUATION_PROTOCOL.md) | Closed-loop simulation protocol, synthetic IRT learner profiles, and baseline arms. |
-| [`docs/WEEK6_REPORT_NOTES.md`](docs/WEEK6_REPORT_NOTES.md) | Week 6 empirical findings, benchmark tables, defect analyses, and verification receipts. |
-| [`docs/TEST_SUITE.md`](docs/TEST_SUITE.md) | Detailed test suite organization, categorization, fixtures, and execution guide. |
-| [`docs/verification_guide.md`](docs/verification_guide.md) | Comprehensive step-by-step verification checklist and script manual. |
-| [`docs/IMPLEMENTATION_PLAN.md`](docs/IMPLEMENTATION_PLAN.md) | Milestone roadmap, weekly delivery schedules, risk matrix, and contingency plans. |
-| [`docs/TECHNICAL_FEASIBILITY.md`](docs/TECHNICAL_FEASIBILITY.md) | Algorithmic feasibility analyses, complexity bounds, and bin-packing guarantees. |
-| [`docs/reuse_inventory.md`](docs/reuse_inventory.md) | Inventory of third-party libraries and runtime dependencies. |
+| [`docs/concepts/`](docs/concepts/README.md) | One file per idea, with the maths, a worked example, the code and the tests (curriculum graph, mastery, item models, diagnostics, planning, CP-SAT, review, replanning, evaluation, study statistics). |
+| [`docs/reference/`](docs/reference/ARCHITECTURE.md) | How the system is built and used: [`ARCHITECTURE.md`](docs/reference/ARCHITECTURE.md), [`API_REFERENCE.md`](docs/reference/API_REFERENCE.md), [`TESTING.md`](docs/reference/TESTING.md), data manifest, reuse inventory. |
+| [`docs/project/`](docs/project/DECISIONS.md) | Governance records: [`DECISIONS.md`](docs/project/DECISIONS.md) (by topic, with status and current settings), [`TRACEABILITY.md`](docs/project/TRACEABILITY.md) (requirements to tests), AI use, content reviews. |
+| [`docs/archive/`](docs/archive/README.md) | History, read-only: weekly submissions and notes, superseded specifications, old pre-registrations. |
 
 ---
 
@@ -304,11 +295,11 @@ To use AdaptEngine effectively, developers interact with four primary file types
 
 **Bundled curricula** (`data/curriculum/`): `4node` and `8node` (1 lesson + 4 exercises per concept, reviewed) and `8node_x10` (the 8-node graph with 10 exercises per concept, 3 easy / 4 medium / 3 hard; AI-drafted and AI-checked, **human review pending** (D88), so pass `--allow-unreviewed`). Display text for the demo is in `data/content/`; check it with `scripts/check_content.py` (see `data/content/README.md`). The synthetic generator (`experiments/synth_curriculum.py`) also makes 10-exercise catalogues (`exercises_per_concept=10`, runner names `synth-N-x10`).
 
-**Item model** (Plan 2, D60): `EngineConfig.model_profile` is `"heuristic"` (default) or a fitted profile such as `config/fitted_assist09.json` (guess/slip per difficulty class, fitted on ASSISTments maths data; `config/fitted_ct.json` is a cross-check). The engine then uses that model for the diagnostic, planning and answer updates; the profile's prior is never used, and its learn rate only with `use_profile_learn=True`. See `docs/MASTERY_MODEL.md` §7.
+**Item model** (Plan 2, D60): `EngineConfig.model_profile` is `"heuristic"` (default) or a fitted profile such as `config/fitted_assist09.json` (guess/slip per difficulty class, fitted on ASSISTments maths data; `config/fitted_ct.json` is a cross-check). The engine then uses that model for the diagnostic, planning and answer updates; the profile's prior is never used, and its learn rate only with `use_profile_learn=True`. See `docs/concepts/03_item_models.md`.
 
-**Bisection diagnostic** (Plan 3, D49–D57): `diagnostic_method="bisection"` diagnoses the learner's prerequisite-consistent knowledge state like binary search (each answer moves many concepts), with a question budget that grows with the curriculum and the item model; `confirm_diag_confident=True` lets the planner confirm inferred concepts with a few checks instead of full lessons. `bisection_config()` turns both on; the sweep stays the default. See `docs/DIAGNOSTIC.md` §6.
+**Bisection diagnostic** (Plan 3, D49–D57): `diagnostic_method="bisection"` diagnoses the learner's prerequisite-consistent knowledge state like binary search (each answer moves many concepts), with a question budget that grows with the curriculum and the item model; `confirm_diag_confident=True` lets the planner confirm inferred concepts with a few checks instead of full lessons. `bisection_config()` turns both on; the sweep stays the default. See `docs/concepts/05_diagnostic_bisection.md`.
 
-**Planners** (Plan 4, D62–D72): `planner_method` is `"greedy"` (default), `"cpsat"` (OR-Tools CP-SAT schedules every plan, with exact infeasibility advice) or `"hybrid"` (greedy, with CP-SAT taking over when greedy misses the deadline). CP-SAT needs `pip install 'adaptengine[cpsat]'`. See `docs/PLANNER_CPSAT.md`.
+**Planners** (Plan 4, D62–D72): `planner_method` is `"greedy"` (default), `"cpsat"` (OR-Tools CP-SAT schedules every plan, with exact infeasibility advice) or `"hybrid"` (greedy, with CP-SAT taking over when greedy misses the deadline). CP-SAT needs `pip install 'adaptengine[cpsat]'`. See `docs/concepts/07_cpsat.md`.
 
 ---
 
