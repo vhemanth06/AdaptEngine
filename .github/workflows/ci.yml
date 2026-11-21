@@ -28,7 +28,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install -r requirements-dev.txt
-        pip install -e .
+        pip install -e ".[cpsat]"
     - name: Lint with ruff
       run: |
         ruff check .
@@ -71,7 +71,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install -r requirements-dev.txt
-        pip install -e ".[demo]"
+        pip install -e ".[demo,cpsat]"
     - name: API tests
       run: pytest -q frontend/api/tests
     - uses: actions/setup-node@v4

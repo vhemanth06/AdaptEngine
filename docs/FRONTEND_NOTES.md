@@ -137,8 +137,8 @@ the same. The F1, F2 and F3 pre-registrations each got a dated content-status no
 
 **CI:** the demo job installs `.[demo]` without the `[cpsat]` extra. The preset uses CP-SAT, so
 `e2e/demo.spec.ts` and the screens test need OR-Tools there. Following the plan, the CI was
-changed only in the step name. The job is `continue-on-error`. To run the walkthrough in CI,
-install `.[demo,cpsat]`.
+changed only in the step name. The job is `continue-on-error`. Since 21 Nov 2026 the job installs
+`.[demo,cpsat]` (and the `test` job `.[cpsat]`), so the walkthrough and the CP-SAT tests run in CI.
 
 **D91 (Plans 5 and 6 skipped)** is referenced by Plan FE but has no row in `docs/DECISIONS.md`.
 It was not added here, because Plan FE did not ask for it.
