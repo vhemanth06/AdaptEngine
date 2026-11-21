@@ -11,7 +11,7 @@ Checks, on top of the schema and catalogue match done by load_content:
 - every exercise marked "verify": "output" is run in a sandboxed subprocess, and what it prints
   (or the name of the exception it raises) must equal the correct option.
 
-    python scripts/check_content.py data/content/content_8node_x10.json --spread 3,4,3
+    python scripts/content/check_content.py data/content/content_8node_x10.json --spread 3,4,3
 
 Exit status 1 and one line per problem if any check fails. The catalogue and curriculum are read
 with allow_unreviewed=True: this script checks content, the review gate (D9) is separate.
@@ -30,7 +30,7 @@ import sys
 import tempfile
 from collections import Counter
 
-repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 if os.path.join(repo_root, "src") not in sys.path:
     sys.path.insert(0, os.path.join(repo_root, "src"))
 

@@ -23,7 +23,7 @@ Every file below exists in `src/adaptengine/` (checked 21 Nov 2026).
 
 - `frontend/api/`: a thin FastAPI adapter over `Engine` (`app.py`), per-session snapshot storage (`store.py`), request and response models (`schemas.py`), and the fixed demo preset (`demo.py`, chosen by `select_demo_preset.py`). It holds no planning, mastery or eligibility logic; engine `ValidationError` becomes HTTP 422. Install with `pip install -e ".[demo]"`.
 - `frontend/web/`: a React and Vite single-page app that talks only to `frontend/api`. Playwright tests are in `frontend/web/e2e/`.
-- Start both with `make demo` (`scripts/demo.py`).
+- Start both with `make demo` (`scripts/demo/demo.py`).
 
 ## Evaluation study (`experiments/`)
 
@@ -34,7 +34,9 @@ The pre-registered study E1 to E6 (Plan V2, D98; renamed from `experiments_v2/`,
 ```
 frontend/api  -->  adaptengine  <--  experiments
 frontend/web  -->  frontend/api
-scripts/      -->  adaptengine (and may import anything; nothing imports scripts/)
+scripts/      -->  adaptengine (and may import anything; only tests/ and other scripts import scripts/,
+              never src/, experiments/ or frontend/)
+              (grouped as demo/, content/, datasets/, testing/, acceptance/; see scripts/README.md)
 ```
 
 `frontend/` and `experiments/` import `adaptengine`; `adaptengine` never imports them (no such import exists in `src/`). `tests/tooling/test_architecture.py` enforces the layering inside `src/adaptengine` (section 1) and the library rules below.
@@ -51,7 +53,7 @@ The architecture enforces strict unidirectional dependency flow verified by auto
 
 ```
 core  <--  curriculum  <--  learner  <--  diagnostic / planner / review  <--  replanner  <--  session / api  <--  cli
-                                                                                             scripts/ (may import anything; nothing imports scripts/)
+                                                                                             scripts/ (may import anything; imported only by tests/ and other scripts)
 ```
 
 - A package may import only from its own layer or layers to its left. No upward imports.

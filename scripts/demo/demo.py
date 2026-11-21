@@ -2,7 +2,7 @@
 """Plan FE: one-command demo. Checks the environment, rebuilds frontend/web/dist when any file
 in frontend/web/src is newer than dist/index.html, then starts uvicorn and prints the URL.
 
-  python scripts/demo.py [--port 8000] [--no-build]
+  python scripts/demo/demo.py [--port 8000] [--no-build]
 """
 
 import argparse
@@ -13,7 +13,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parents[1]
+REPO = Path(__file__).resolve().parents[2]
 WEB = REPO / "frontend" / "web"
 
 

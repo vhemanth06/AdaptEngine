@@ -21,7 +21,7 @@
 ## External learner data (WP7)
 
 Raw files live in `data/external/` and are not committed. Rebuild and verify them with
-`python scripts/download_data.py` (`--verify-only` needs no network). SHA-256 values are in
+`python scripts/datasets/download_data.py` (`--verify-only` needs no network). SHA-256 values are in
 `data/external/CHECKSUMS` (`sha256sum` format). Access date for all sources: **8 Nov 2026**.
 
 Both datasets are **maths**, not Python programming. Fitted parameters give realistic ranges and

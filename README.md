@@ -293,7 +293,7 @@ To use AdaptEngine effectively, developers interact with four primary file types
 | **Review Manifest** | `--manifest <path.json>` | SHA-256 review gate verifying cryptographic authenticity of educational content. Pass `--allow-unreviewed` during content authoring to bypass. |
 | **Learner Snapshot** | `--snapshot <path.json>` | Single canonical JSON state combining concept mastery probabilities ($p$), Shannon entropy uncertainties ($H$), append-only event logs, and active planning context. Written via atomic rename. |
 
-**Bundled curricula** (`data/curriculum/`): `4node` and `8node` (1 lesson + 4 exercises per concept, reviewed) and `8node_x10` (the 8-node graph with 10 exercises per concept, 3 easy / 4 medium / 3 hard; AI-drafted and AI-checked, **human review pending** (D88), so pass `--allow-unreviewed`). Display text for the demo is in `data/content/`; check it with `scripts/check_content.py` (see `data/content/README.md`). The synthetic generator (`experiments/synth_curriculum.py`) also makes 10-exercise catalogues (`exercises_per_concept=10`, runner names `synth-N-x10`).
+**Bundled curricula** (`data/curriculum/`): `4node` and `8node` (1 lesson + 4 exercises per concept, reviewed) and `8node_x10` (the 8-node graph with 10 exercises per concept, 3 easy / 4 medium / 3 hard; AI-drafted and AI-checked, **human review pending** (D88), so pass `--allow-unreviewed`). Display text for the demo is in `data/content/`; check it with `scripts/content/check_content.py` (see `data/content/README.md`). The synthetic generator (`experiments/synth_curriculum.py`) also makes 10-exercise catalogues (`exercises_per_concept=10`, runner names `synth-N-x10`).
 
 **Item model** (Plan 2, D60): `EngineConfig.model_profile` is `"heuristic"` (default) or a fitted profile such as `config/fitted_assist09.json` (guess/slip per difficulty class, fitted on ASSISTments maths data; `config/fitted_ct.json` is a cross-check). The engine then uses that model for the diagnostic, planning and answer updates; the profile's prior is never used, and its learn rate only with `use_profile_learn=True`. See `docs/concepts/03_item_models.md`.
 
@@ -670,6 +670,7 @@ AdaptEngine adheres to standard UNIX exit code conventions to facilitate integra
 ## Verification & Acceptance Runners
 
 AdaptEngine provides comprehensive Makefile targets and standalone Python scripts for automated verification, regression gating, and reproducible evaluation:
+The scripts are grouped by purpose under `scripts/` (`demo/`, `content/`, `datasets/`, `testing/`, `acceptance/`); see [`scripts/README.md`](scripts/README.md).
 
 ```bash
 # 1. Full Quality Gate: Ruff linting, formatting check, architecture layering, pytest + 84% coverage gate
@@ -678,17 +679,17 @@ make check
 # 2. Week 5 Acceptance Runner: Spaced review decay, dynamic replanning, remediation, decision audit traces
 make w5
 # Or execute directly:
-python scripts/run_w5.py
+python scripts/acceptance/run_w5.py
 
 # 3. Week 4 Acceptance Runner: Time-budgeted path planning, bin-packing oracle, bounds proofs
 make w4
 # Or execute directly:
-python scripts/run_w4.py
+python scripts/acceptance/run_w4.py
 
 # 4. Week 3 Acceptance Runner: Curriculum DAG validation, EIG diagnostic, continuous BKT
 make w3
 # Or execute directly:
-python scripts/run_w3.py
+python scripts/acceptance/run_w3.py
 
 # 5. Final study (experiments/, Plan V2): harness tests, smoke runs, report from the stored results
 make exp-test

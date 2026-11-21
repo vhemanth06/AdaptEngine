@@ -1,4 +1,4 @@
-"""Test suite for Section 9: End-to-end Demonstration (scripts/poc_demo.py).
+"""Test suite for Section 9: End-to-end Demonstration (scripts/demo/poc_demo.py).
 
 Validates:
 1. Profiles receive different valid day plans (plans differ).
@@ -13,7 +13,7 @@ import os
 repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 from adaptengine.core.schema import PlanStatus  # noqa: E402
-from scripts.poc_demo import run_demo  # noqa: E402
+from scripts.demo.poc_demo import run_demo  # noqa: E402
 
 
 def test_poc_demo_execution_and_invariants():

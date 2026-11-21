@@ -1,33 +1,37 @@
-# Byte-compiled / optimized / DLL files
+# Python bytecode and packaging
 __pycache__/
 *.py[cod]
 *$py.class
+build/
+dist/
+*.egg-info/
+src/*.egg-info/
 
-# Environments
-venv/
+# Virtual environments
 .venv/
-.env
+venv/
 env/
+.env
 
-# Pytest / Coverage
+# Test, coverage and lint caches
 .pytest_cache/
 .coverage
 .coverage.*
 htmlcov/
+.ruff_cache/
+.mypy_cache/
 
-# Editor
+# Editors
 .vscode/
 .idea/
 *.swp
 
-# Build
-dist/
-build/
-*.egg-info/
-src/*.egg-info/
-
-# Temporary / Run files
+# Local working folders (not part of the project)
 runs/
+Claude outputs/
+.superpowers/
+
+# Temporary files written by manual CLI use
 data/my_learner.json
 data/my_log.json
 dummy_activities.json
@@ -38,15 +42,13 @@ test_snapshot.json
 graphify-out/
 *.tmp
 
-# Downloaded datasets (W7 T0.4; rebuild with scripts/download_data.py)
-data/external/*
-!data/external/CHECKSUMS
+# Downloaded datasets (rebuild with scripts/datasets/download_data.py)
+# data/external/*
+# !data/external/CHECKSUMS
 
-# Demo frontend (W7 WP8)
+# Web demo
 frontend/.sessions/
 frontend/web/node_modules/
 frontend/web/dist/
 frontend/web/test-results/
 frontend/web/playwright-report/
-
-Claude outputs/

@@ -19,7 +19,7 @@ import json
 import platform
 import datetime
 
-repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 venv_py = os.path.join(repo_root, ".venv", "bin", "python")
 if (
     os.path.isfile(venv_py)
@@ -366,7 +366,7 @@ To reproduce this exact run:
 
 ```bash
 # Execute standalone runner
-python scripts/run_w3.py
+python scripts/acceptance/run_w3.py
 ```
 
 Or via Makefile:

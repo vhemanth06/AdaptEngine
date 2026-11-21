@@ -17,7 +17,7 @@ stay empty.
 | `content_8node_x10.json` | Every activity in `data/curriculum/activities_8node_x10.json` (8 lessons, 80 exercises): the 40 `content_8node.json` entries verbatim plus 48 new exercises (Plan 1, D81) |
 
 > **`8node_x10` status: human-reviewed by the owner (D93, 2026-11-20).** The 48 new exercises
-> were drafted by Claude on 2026-11-20, passed `scripts/check_content.py` (all 42 runnable answers
+> were drafted by Claude on 2026-11-20, passed `scripts/content/check_content.py` (all 42 runnable answers
 > verified), and were reviewed item by item by the AI
 > (`docs/project/content_reviews/8node_x10_ai_review.md`; one item fixed). The owner then reviewed all
 > three `8node_x10` files; `data/review_manifest.json` records reviewer `vhemanth06` with
@@ -58,12 +58,12 @@ stay empty.
 - Exercise hardness follows the activity's `difficulty`, which is not repeated here.
 - Optional `"verify": "output"` on an exercise: its prompt holds exactly one ```` ```python ````
   block, and what the block prints (or the name of the exception it raises) must equal the
-  correct option. `scripts/check_content.py` runs it in a sandbox.
+  correct option. `scripts/content/check_content.py` runs it in a sandbox.
 
 ## Checking content
 
 ```bash
-.venv/bin/python scripts/check_content.py data/content/content_8node_x10.json --spread 3,4,3
+.venv/bin/python scripts/content/check_content.py data/content/content_8node_x10.json --spread 3,4,3
 ```
 
 The checker runs `load_content`, then checks that correct-answer positions are balanced within
@@ -93,7 +93,7 @@ does not apply the review-manifest gate.
 After you edit or review the file, record it with your name:
 
 ```bash
-.venv/bin/python scripts/record_review.py data/content/content_8node.json \
+.venv/bin/python scripts/content/record_review.py data/content/content_8node.json \
   --reviewer <your-name> --source "ai-drafted, human-reviewed"
 ```
 
@@ -101,14 +101,14 @@ The script rewrites the entry. Pass `--ai-assisted` to keep `"ai_assisted": true
 
 ## Review process for AI-drafted content (D88)
 
-1. Draft the content and run `scripts/check_content.py` (it also runs every `verify: output`
+1. Draft the content and run `scripts/content/check_content.py` (it also runs every `verify: output`
    snippet).
 2. Review every new item and write the result to `docs/project/content_reviews/<name>_ai_review.md`; fix or
    replace items that fail.
 3. Record each new file honestly as pending (no `--edges-reviewed` for curricula):
 
    ```bash
-   .venv/bin/python scripts/record_review.py <file> --pending --ai-assisted --source "ai-drafted, ai-checked"
+   .venv/bin/python scripts/content/record_review.py <file> --pending --ai-assisted --source "ai-drafted, ai-checked"
    ```
 
    `--pending` sets `reviewer` to `PENDING_HUMAN_REVIEW`. The loader rejects that reviewer like a
@@ -120,11 +120,11 @@ The script rewrites the entry. Pass `--ai-assisted` to keep `"ai_assisted": true
 A named human review unblocks the files (done for `8node_x10` on 2026-11-20, D93). After reading every new exercise and the catalogue:
 
 ```bash
-.venv/bin/python scripts/record_review.py data/curriculum/curriculum_8node_x10.json \
+.venv/bin/python scripts/content/record_review.py data/curriculum/curriculum_8node_x10.json \
   --reviewer <your-name> --ai-assisted --source "copy of curriculum_8node.json" --edges-reviewed
-.venv/bin/python scripts/record_review.py data/curriculum/activities_8node_x10.json \
+.venv/bin/python scripts/content/record_review.py data/curriculum/activities_8node_x10.json \
   --reviewer <your-name> --ai-assisted --source "ai-drafted, human-reviewed"
-.venv/bin/python scripts/record_review.py data/content/content_8node_x10.json \
+.venv/bin/python scripts/content/record_review.py data/content/content_8node_x10.json \
   --reviewer <your-name> --ai-assisted --source "ai-drafted, human-reviewed"
 ```
 

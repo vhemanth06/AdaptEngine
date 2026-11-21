@@ -84,8 +84,8 @@ Descriptions come from each file's module docstring, or from its test names wher
 | File | Checks |
 |---|---|
 | `test_architecture.py` | AST scan of `src/adaptengine`: layer order (section 1 of ARCHITECTURE.md), NetworkX only in `curriculum/graph.py`, pyBKT only in `learner/adapter.py`, no `time`, `datetime`, `random` or LLM SDK imports. |
-| `test_check_content.py` | `scripts/check_content.py` and the `8node_x10` content (Plan 1, F5-TC3, TC4). |
-| `test_poc_demo.py` | `scripts/poc_demo.py`: different plans per profile, constraints hold, infeasible request gives shortfall and options, completed work is not repeated, events and spaced review. |
+| `test_check_content.py` | `scripts/content/check_content.py` and the `8node_x10` content (Plan 1, F5-TC3, TC4). |
+| `test_poc_demo.py` | `scripts/demo/poc_demo.py`: different plans per profile, constraints hold, infeasible request gives shortfall and options, completed work is not repeated, events and spaced review. |
 | `test_quickstart.py` | `examples/api_quickstart.py` runs cleanly. |
 
 ### `experiments/tests/` (57 tests)
@@ -167,7 +167,7 @@ make exp-smoke                               # every runner with --smoke (1-2 le
 ```bash
 make demo-test                               # pytest -q frontend/api/tests, then npm run build and npx playwright test
 cd frontend/web && npx playwright test       # browser tests only (needs npm ci and a built dist/)
-make demo                                    # start the demo (scripts/demo.py)
+make demo                                    # start the demo (scripts/demo/demo.py)
 ```
 
 Needs `pip install -e ".[demo]"`, `npm ci` in `frontend/web`, and once `npx playwright install chromium`.
@@ -176,10 +176,10 @@ Needs `pip install -e ".[demo]"`, `npm ci` in `frontend/web`, and once `npx play
 
 | Command | What it does |
 |---|---|
-| `make w3` (`scripts/run_w3.py`) | Week 3 runner: ruff, pytest with coverage gate 84 %, reference constants, layering check, diagnostic persona demo. Writes `runs/w3/<run-id>/`. |
-| `make w4` (`scripts/run_w4.py`) | Week 4 runner: planner and difficulty-policy scenarios (TC2.3, TC3.1 to TC3.6, TC4.2). Writes `runs/w4/<run-id>/`. |
-| `make w5` (`scripts/run_w5.py`) | Week 5 runner: review and remediation, replanning, traces (TC5.1 to TC5.3, TC6.1 to TC6.4, TC7.1). Writes `runs/w5/<run-id>/`. |
-| `make poc` (`scripts/poc_demo.py`) | End-to-end proof of concept on the 4-node curriculum. |
+| `make w3` (`scripts/acceptance/run_w3.py`) | Week 3 runner: ruff, pytest with coverage gate 84 %, reference constants, layering check, diagnostic persona demo. Writes `runs/w3/<run-id>/`. |
+| `make w4` (`scripts/acceptance/run_w4.py`) | Week 4 runner: planner and difficulty-policy scenarios (TC2.3, TC3.1 to TC3.6, TC4.2). Writes `runs/w4/<run-id>/`. |
+| `make w5` (`scripts/acceptance/run_w5.py`) | Week 5 runner: review and remediation, replanning, traces (TC5.1 to TC5.3, TC6.1 to TC6.4, TC7.1). Writes `runs/w5/<run-id>/`. |
+| `make poc` (`scripts/demo/poc_demo.py`) | End-to-end proof of concept on the 4-node curriculum. |
 
 `runs/` is in `.gitignore`. There is no W6 runner and no `make eval` target.
 
@@ -215,13 +215,14 @@ adaptengine validate --curriculum tests/fixtures/invalid/cycle.json \
 
 ## Scripts
 
+What each script does, how to run it and what it writes is in [`scripts/README.md`](../../scripts/README.md).
+
 | Script | Run as | What it does |
 |---|---|---|
-| `scripts/record_review.py` | `python scripts/record_review.py FILE --reviewer NAME --source SRC [--edges-reviewed] [--manifest PATH]` | Records a file's SHA-256 and reviewer in `data/review_manifest.json` (or `--manifest`). `--pending` records `PENDING_HUMAN_REVIEW` instead of a name. |
-| `scripts/check_content.py` | `python scripts/check_content.py data/content/content_8node_x10.json --activities data/curriculum/activities_8node_x10.json --curriculum data/curriculum/curriculum_8node_x10.json` | Content quality checks (answer positions balanced, no duplicates). |
-| `scripts/download_data.py` | `python scripts/download_data.py --verify-only` | Checks the hashes of `data/external/`; without `--verify-only` it downloads the public files. |
-| `scripts/demo.py` | `make demo` or `python scripts/demo.py [--port 8000] [--no-build]` | Rebuilds `frontend/web/dist` if needed and starts the demo server. |
-| `scripts/record_pins.py` | `python scripts/record_pins.py {population\|default}` | Re-records `tests/fixtures/pins/*.json`. Only on a deliberate default change; not run here. |
-| `scripts/make_fixtures.py` | `python scripts/make_fixtures.py` | Rewrites the 4- and 8-node curricula, `data/learner_novice.json` and `tests/fixtures/invalid/`. Not run here. |
+| `scripts/content/record_review.py` | `python scripts/content/record_review.py FILE --reviewer NAME --source SRC [--edges-reviewed] [--manifest PATH]` | Records a file's SHA-256 and reviewer in `data/review_manifest.json` (or `--manifest`). `--pending` records `PENDING_HUMAN_REVIEW` instead of a name. |
+| `scripts/content/check_content.py` | `python scripts/content/check_content.py data/content/content_8node_x10.json --activities data/curriculum/activities_8node_x10.json --curriculum data/curriculum/curriculum_8node_x10.json` | Content quality checks (answer positions balanced, no duplicates). |
+| `scripts/datasets/download_data.py` | `python scripts/datasets/download_data.py --verify-only` | Checks the hashes of `data/external/`; without `--verify-only` it downloads the public files. |
+| `scripts/demo/demo.py` | `make demo` or `python scripts/demo/demo.py [--port 8000] [--no-build]` | Rebuilds `frontend/web/dist` if needed and starts the demo server. |
+| `scripts/testing/record_pins.py` | `python scripts/testing/record_pins.py {population\|default}` | Re-records `tests/fixtures/pins/*.json`. Only on a deliberate default change; not run here. |
 
 The last two rewrite tracked files, so they were not run for this page. The `run_w*.py` and `poc_demo.py` scripts are in the acceptance runners table above.

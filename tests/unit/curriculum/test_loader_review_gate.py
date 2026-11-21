@@ -286,7 +286,9 @@ def test_ai_reviewer_still_rejected_with_correct_hash(tmp_path):
 def _record_review_main():
     import importlib.util
 
-    spec = importlib.util.spec_from_file_location("record_review", "scripts/record_review.py")
+    spec = importlib.util.spec_from_file_location(
+        "record_review", "scripts/content/record_review.py"
+    )
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod.main

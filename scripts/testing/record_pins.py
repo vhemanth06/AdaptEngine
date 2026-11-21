@@ -3,16 +3,16 @@
 
 A pin file holds, for one EngineConfig: sweep-diagnostic outcomes on the 4- and 8-node
 curricula (simulated learners from experiments/core/simulator.py), serialized plans, and the
-scripts/poc_demo.py output. Floats round-trip exactly through JSON, so tests compare with ==.
+scripts/demo/poc_demo.py output. Floats round-trip exactly through JSON, so tests compare with ==.
 
 The pin files also hold "diag_matrix_S0" and "episode" parts. They were computed by the old
 harness (experiments/run_diag_matrix.py, experiments/arms.py), removed when experiments_v2/ was
 renamed to experiments/; the current harness has no code that produces those record layouts, so
 they are no longer computed or compared (rename plan R5). The JSON files are left untouched.
 
-    python scripts/record_pins.py population -> tests/fixtures/pins/population_prior.json
+    python scripts/testing/record_pins.py population -> tests/fixtures/pins/population_prior.json
                                                 (population_prior_config())
-    python scripts/record_pins.py default    -> tests/fixtures/pins/default.json  (DEFAULT_CONFIG)
+    python scripts/testing/record_pins.py default    -> tests/fixtures/pins/default.json  (DEFAULT_CONFIG)
 
 population_prior.json was recorded before any Plan 0 change; it must never be re-recorded
 (tests/regression/test_baseline_pins.py checks population_prior_config() against it).
@@ -28,7 +28,7 @@ import os
 import re
 import sys
 
-repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path[:0] = [p for p in (repo_root, os.path.join(repo_root, "src")) if p not in sys.path]
 
 from adaptengine.api import Engine  # noqa: E402
@@ -100,7 +100,7 @@ def plan_pins(cfg: EngineConfig) -> dict:
 
 
 def poc_pins(cfg: EngineConfig) -> str:
-    from scripts.poc_demo import run_demo
+    from scripts.demo.poc_demo import run_demo
 
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):

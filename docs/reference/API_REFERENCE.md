@@ -21,17 +21,17 @@ Modules not covered here (`diagnostic/bisection.py`, `knowledge_space.py`, `stat
 12. [`session.py` — Session Orchestration & Atomic Persistence](#12-sessionpy--session-orchestration--atomic-persistence)
 13. [`api.py` — Engine Facade & Public Mutation Boundary](#13-apipy--engine-facade--public-mutation-boundary)
 14. [`cli.py` — Command Line Interface](#14-clipy--command-line-interface)
-15. [`scripts/run_w3.py` — Week 3 Standalone Acceptance Runner](#15-scriptsrun_w3py--week-3-standalone-acceptance-runner)
+15. [`scripts/acceptance/run_w3.py` — Week 3 Standalone Acceptance Runner](#15-scriptsacceptancerun_w3py--week-3-standalone-acceptance-runner)
 16. [`planner/difficulty.py` — Next-Exercise Difficulty Policy](#16-plannerdifficultypy--next-exercise-difficulty-policy)
 17. [`planner/workload.py` — Required Concepts & Workload Projection](#17-plannerworkloadpy--required-concepts--workload-projection)
 18. [`planner/feasibility.py` — Analytical Feasibility Bounds](#18-plannerfeasibilitypy--analytical-feasibility-bounds)
 19. [`planner/schedule.py` — Greedy Schedule & Day Packing](#19-plannerschedulepy--greedy-schedule--day-packing)
 20. [`planner/oracle.py` — Exact Bin-Packing Feasibility Oracle](#20-planneroraclepy--exact-bin-packing-feasibility-oracle)
 21. [`planner/plan.py` — Master Planning Orchestrator](#21-plannerplanpy--master-planning-orchestrator)
-22. [`scripts/run_w4.py` — Week 4 Standalone Acceptance Runner](#22-scriptsrun_w4py--week-4-standalone-acceptance-runner)
+22. [`scripts/acceptance/run_w4.py` — Week 4 Standalone Acceptance Runner](#22-scriptsacceptancerun_w4py--week-4-standalone-acceptance-runner)
 23. [`review/forgetting.py` — Spaced Review & Memory Decay Model](#23-reviewforgettingpy--spaced-review--memory-decay-model)
 24. [`replanner/replan.py` — Dynamic Horizon Replanning](#24-replannerreplanpy--dynamic-horizon-replanning)
-25. [`scripts/run_w5.py` — Week 5 Standalone Acceptance Runner](#25-scriptsrun_w5py--week-5-standalone-acceptance-runner)
+25. [`scripts/acceptance/run_w5.py` — Week 5 Standalone Acceptance Runner](#25-scriptsacceptancerun_w5py--week-5-standalone-acceptance-runner)
 
 ---
 
@@ -429,7 +429,7 @@ The central facade for AdaptEngine, acting as the single mutation boundary.
 
 ---
 
-## 15. `scripts/run_w3.py` — Week 3 Standalone Acceptance Runner
+## 15. `scripts/acceptance/run_w3.py` — Week 3 Standalone Acceptance Runner
 
 ### `run_cmd(cmd: list[str]) -> tuple[int, str]`
 Helper executing shell commands via `subprocess.run`, capturing returncode and output.
@@ -541,7 +541,7 @@ Small holder with `activity_id` and `duration`, used as oracle input.
 
 ---
 
-## 22. `scripts/run_w4.py` — Week 4 Standalone Acceptance Runner
+## 22. `scripts/acceptance/run_w4.py` — Week 4 Standalone Acceptance Runner
 
 ### `run_cmd(cmd: list[str]) -> tuple[int, str]`
 Helper executing shell commands via `subprocess.run`, capturing returncode and output.
@@ -617,7 +617,7 @@ Returns $(1 - r)(1 + \text{descendant\_count})$ (D25).
 
 ---
 
-## 25. `scripts/run_w5.py` — Week 5 Standalone Acceptance Runner
+## 25. `scripts/acceptance/run_w5.py` — Week 5 Standalone Acceptance Runner
 
 ### `main() -> None`
 Executes complete Week 5 verification pipeline:

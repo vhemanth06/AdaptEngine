@@ -44,7 +44,7 @@ This document tracks all 23 verification scenarios (the authoritative Assignment
 | **F5-TC6** | Plan 1 | Synthetic generator with 10 exercises is deterministic and has the specified spread | `tests/test_synth.py::test_x10_spread_and_same_graph_f5_tc6`, `::test_x10_deterministic_f5_tc6` (file removed; archived) | **Verified** |
 | **F5-TC7** | Plan 1 / 1.5 | (Reworded, D88) While recorded as `PENDING_HUMAN_REVIEW`, the `8node_x10` curriculum and activity files are blocked without `allow_unreviewed` and load with it; a named human review recorded in a temporary manifest unblocks them | `tests/unit/curriculum/test_loader_review_gate.py::test_8node_x10_pending_loads_with_allow_unreviewed_and_named_review_unblocks`, `::test_pending_review_files_blocked_until_recorded` (pending set read from the manifest), `tests/unit/curriculum/test_curriculum_x10.py::test_review_gate_follows_manifest_f5_tc7`; demo: `frontend/api/tests/test_curricula.py::test_8node_x10_listed_as_pending_human_review` | **Verified** |
 | **P1.5-TC1** | Plan 1.5 | The gate rejects a `PENDING_HUMAN_REVIEW` reviewer even with a correct hash; `"AI"` still rejected; named reviewers still accepted | `tests/unit/curriculum/test_loader_review_gate.py::test_pending_reviewer_blocked_even_with_correct_hash`, `::test_ai_reviewer_still_rejected_with_correct_hash`, `::test_named_reviewer_unblocks`, `::test_record_review_pending_ai_assisted` | **Verified** |
-| **P1.5-TC2** | Plan 1.5 | All 48 new exercises have an AI review row; every failing item fixed; checker passes with all `verify: output` items verified | `docs/project/content_reviews/8node_x10_ai_review.md` (48 rows, 1 fixed: `E-C2-0.1`); `scripts/check_content.py data/content/content_8node_x10.json --spread 3,4,3` OK (42/42 snippets match); `tests/tooling/test_check_content.py` | **Verified** |
+| **P1.5-TC2** | Plan 1.5 | All 48 new exercises have an AI review row; every failing item fixed; checker passes with all `verify: output` items verified | `docs/project/content_reviews/8node_x10_ai_review.md` (48 rows, 1 fixed: `E-C2-0.1`); `scripts/content/check_content.py data/content/content_8node_x10.json --spread 3,4,3` OK (42/42 snippets match); `tests/tooling/test_check_content.py` | **Verified** |
 | **P1.5-TC3** | Plan 1.5 | Pre-registration registered (time + code hash) before the run; `f5_baseline.json` from the full run, with matching `code_hash` and the D88 label | `docs/archive/preregistration/F5_2026-11-20.md`; `tests/test_f5_baseline.py::test_full_results_file_matches_registration`; registered 2026-11-19T23:39:12Z, results stamped 23:39:17Z with the same code hash `4129b2bf…` (file removed; archived) | **Verified** |
 | **F2-TC1** | Plan 2 | `model_profile = "heuristic"` gives outputs identical to the engine without F2 (same defaults, including D59) | `tests/unit/learner/test_profiles.py::test_heuristic_default_f2_tc1`, `::test_profile_changes_diagnostic_but_heuristic_matches_default`, `::test_provenance_in_serialized_plan_only_with_profile`; `tests/regression/test_baseline_pins.py` (all pins unchanged) | **Verified** |
 | **F2-TC2** | Plan 2 | Profile files are validated; malformed files rejected; file warnings exposed | `tests/unit/learner/test_profiles.py::test_load_assist09_exposes_warnings_and_provenance_f2_tc2`, `::test_malformed_profiles_rejected_f2_tc2`, `::test_bad_profile_config_rejected` | **Verified** |
@@ -210,3 +210,19 @@ The final study's engine code is commit `256fcf802ca786fb269e0824a54ba9153fe6b4c
 (2026-11-20, "feat: add CP-SAT and hybrid planners with OR-Tools integration"). Before/after counts,
 the report checks and the other details are in the section "Code hash and harness hash removed
 (2026-11-21, D104)" of [experiments/NOTES.md](../../experiments/NOTES.md).
+
+## Scripts and ignore rules (21 Nov 2026)
+
+`scripts/` is grouped by purpose, `scripts/make_fixtures.py` is removed and local working folders
+are ignored by git (D105). No script behaviour, engine code, study file or test assertion changed.
+
+| Item | Before | After |
+|---|---|---|
+| `make check` | 403 passed, 0 skipped, 92.64 % | 403 passed, 0 skipped, 92.64 % |
+| API tests / study tests | 23 / 57 passed | 23 / 57 passed |
+| `scripts/` | 10 files, flat | 9 files in `demo/`, `content/`, `datasets/`, `testing/`, `acceptance/` + [README](../../scripts/README.md) |
+| Removed | — | `scripts/make_fixtures.py` (rewrote reviewed curriculum files, which the review gate would refuse) |
+| `.gitignore` additions | — | `.ruff_cache/`, `.mypy_cache/`, `.superpowers/` (plus regrouping) |
+| Untracked by R1.3 | — | none (no cache or working-folder file was tracked) |
+| `data/external/` | datasets tracked | still tracked, at the owner's choice; the `data/external/*` ignore lines are commented out |
+| Script checks | — | `check_content.py` and `download_data.py --verify-only` exit 0; `record_review.py` checked on a scratch manifest; `make poc`, `make w3/w4/w5` pass and write to `runs/` at the root; `make demo` serves `/api/health` (200) |

@@ -2,7 +2,7 @@
 
 population_prior.json was recorded before any Plan 0 change; population_prior_config() must reproduce it
 exactly. default.json pins the post-D59 defaults for the "default unchanged" tests of later plans.
-Re-record default.json only on a deliberate default change: python scripts/record_pins.py default
+Re-record default.json only on a deliberate default change: python scripts/testing/record_pins.py default
 """
 
 import dataclasses
@@ -20,7 +20,7 @@ from adaptengine.core.config import (  # noqa: E402
     config_hash,
     population_prior_config,
 )
-from scripts.record_pins import PIN_DIR, compute_pins  # noqa: E402
+from scripts.testing.record_pins import PIN_DIR, compute_pins  # noqa: E402
 
 BASELINE_DEFAULT_HASH = "acaccaeea3a2dd649e043a45cf387f73b0f13e5fcdb2f17b55d3e229f6c28252"
 

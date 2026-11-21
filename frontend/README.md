@@ -12,7 +12,7 @@ pip install -e ".[demo,cpsat]"   # once; [cpsat] adds OR-Tools for the CP-SAT an
 make demo                        # builds web/dist if src/ is newer, starts uvicorn, prints the URL
 ```
 
-`make demo` (`scripts/demo.py`) checks that FastAPI and uvicorn are installed and the curriculum
+`make demo` (`scripts/demo/demo.py`) checks that FastAPI and uvicorn are installed and the curriculum
 data is present. It rebuilds the web app when needed (`npm ci` the first time) and serves
 everything from http://127.0.0.1:8000. `GET /api/health` reports:
 - the engine version and the default config hash;

@@ -5,8 +5,8 @@ as.csv and ct.csv come from the pyBKT-examples GitHub repo. The collapsed ASSIST
 only prints instructions for it and verifies its checksum when present.
 
 Usage:
-    python scripts/download_data.py                # download missing/bad files, then verify
-    python scripts/download_data.py --verify-only  # no network; exit 1 on any mismatch/missing
+    python scripts/datasets/download_data.py       # download missing/bad files, then verify
+    python scripts/datasets/download_data.py --verify-only  # no network; exit 1 on any mismatch/missing
 """
 
 import argparse
@@ -15,7 +15,7 @@ import os
 import sys
 import urllib.request
 
-REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 EXTERNAL = os.path.join(REPO_ROOT, "data", "external")
 CHECKSUMS = os.path.join(EXTERNAL, "CHECKSUMS")
 PYBKT_BASE = "https://raw.githubusercontent.com/CAHLR/pyBKT-examples/master/data/"

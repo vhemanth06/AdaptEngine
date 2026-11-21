@@ -4,13 +4,13 @@
   `0.7`, `0.9` for C1–C8; the 40 entries copied from `content_8node.json` are not part of this review).
 - **Reviewer:** Claude (AI), 2026-11-20. **This is not a human review.** Under D88 the file is recorded
   as `PENDING_HUMAN_REVIEW` in `data/review_manifest.json`; a named human review is optional and
-  recorded with `scripts/record_review.py --reviewer <name>`.
+  recorded with `scripts/content/record_review.py --reviewer <name>`.
 - **Method:** each item was read in full (prompt, the four options, correct index, explanation) and
   checked against the columns below. Every `"verify": "output"` item was also run through
-  `scripts/check_content.py::run_snippet` (sandboxed subprocess); its printed output, or the name of
+  `scripts/content/check_content.py::run_snippet` (sandboxed subprocess); its printed output, or the name of
   the exception it raises, was compared with the correct option.
 - **Result:** 48 items reviewed; 1 fixed (`E-C2-0.1`), 47 pass unchanged; 42 of 42 run
-  checks match. After the fix, `python scripts/check_content.py data/content/content_8node_x10.json
+  checks match. After the fix, `python scripts/content/check_content.py data/content/content_8node_x10.json
   --spread 3,4,3` reports OK.
 
 Columns: **Correct & only** = the stated answer is right and no other option is defensible;

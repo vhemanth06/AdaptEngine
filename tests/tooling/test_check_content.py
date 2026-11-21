@@ -1,19 +1,16 @@
-"""Plan 1 (F5-T3, D85): scripts/check_content.py and the 8node_x10 content (F5-TC3, F5-TC4)."""
+"""Plan 1 (F5-T3, D85): scripts/content/check_content.py and the 8node_x10 content (F5-TC3, F5-TC4)."""
 
 import json
 import os
-import sys
 
 import pytest
 
 from adaptengine.curriculum.content import load_content
 from adaptengine.curriculum.loader import load_activities, load_curriculum
 
-repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-if os.path.join(repo_root, "scripts") not in sys.path:
-    sys.path.insert(0, os.path.join(repo_root, "scripts"))
+from scripts.content.check_content import check_content, main, run_snippet
 
-from check_content import check_content, main, run_snippet  # noqa: E402
+repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 X10 = os.path.join(repo_root, "data/content/content_8node_x10.json")
 OLD = os.path.join(repo_root, "data/content/content_8node.json")

@@ -24,7 +24,7 @@ import tempfile
 from typing import Any
 
 # Ensure src is on sys.path
-repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 if os.path.join(repo_root, "src") not in sys.path:
     sys.path.insert(0, os.path.join(repo_root, "src"))
 

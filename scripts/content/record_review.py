@@ -30,7 +30,7 @@ def main(argv=None):
         exit(1)
 
     # Relative path from project root
-    abs_root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+    abs_root = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
     abs_file = os.path.abspath(args.file)
     rel_path = os.path.relpath(abs_file, abs_root)
 

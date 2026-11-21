@@ -48,7 +48,7 @@ records, and `archive/` keeps the project's history.
 
 | File | Purpose |
 |---|---|
-| [DECISIONS.md](project/DECISIONS.md) | Every design decision (D1–D104) by topic, with status and the current settings |
+| [DECISIONS.md](project/DECISIONS.md) | Every design decision (D1–D105) by topic, with status and the current settings |
 | [TRACEABILITY.md](project/TRACEABILITY.md) | Requirements and test cases mapped to the tests and results that verify them |
 | [AI_USE.md](project/AI_USE.md) | Record of AI assistance and model use in the project |
 | [content_reviews/8node_x10_ai_review.md](project/content_reviews/8node_x10_ai_review.md) | Review record of the `8node_x10` curriculum content |

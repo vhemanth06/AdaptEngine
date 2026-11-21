@@ -8,16 +8,16 @@ RUFF = $(if $(wildcard $(VENV)/bin/ruff),$(VENV)/bin/ruff,ruff)
 all: check w3 w4 w5 poc
 
 w3:
-	$(PYTHON) scripts/run_w3.py
+	$(PYTHON) scripts/acceptance/run_w3.py
 
 w4:
-	$(PYTHON) scripts/run_w4.py
+	$(PYTHON) scripts/acceptance/run_w4.py
 
 w5:
-	$(PYTHON) scripts/run_w5.py
+	$(PYTHON) scripts/acceptance/run_w5.py
 
 poc:
-	$(PYTHON) scripts/poc_demo.py
+	$(PYTHON) scripts/demo/poc_demo.py
 
 
 
@@ -37,7 +37,7 @@ check: lint test
 
 # Plan FE: one command (builds web/dist if src is newer, starts uvicorn, prints the URL)
 demo:
-	$(PYTHON) scripts/demo.py
+	$(PYTHON) scripts/demo/demo.py
 
 # Demo frontend (W7 WP8). Needs: pip install -e ".[demo]" and npm ci in frontend/web.
 demo-api:
