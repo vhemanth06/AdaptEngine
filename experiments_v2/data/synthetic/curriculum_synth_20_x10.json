@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "concepts": [
+    {
+      "concept_id": "C1",
+      "description": "Synthetic Concept C1",
+      "prerequisites": []
+    },
+    {
+      "concept_id": "C2",
+      "description": "Synthetic Concept C2",
+      "prerequisites": []
+    },
+    {
+      "concept_id": "C3",
+      "description": "Synthetic Concept C3",
+      "prerequisites": [
+        "C1"
+      ]
+    },
+    {
+      "concept_id": "C4",
+      "description": "Synthetic Concept C4",
+      "prerequisites": [
+        "C1",
+        "C2"
+      ]
+    },
+    {
+      "concept_id": "C5",
+      "description": "Synthetic Concept C5",
+      "prerequisites": [
+        "C1"
+      ]
+    },
+    {
+      "concept_id": "C6",
+      "description": "Synthetic Concept C6",
+      "prerequisites": [
+        "C3"
+      ]
+    },
+    {
+      "concept_id": "C7",
+      "description": "Synthetic Concept C7",
+      "prerequisites": [
+        "C3",
+        "C4"
+      ]
+    },
+    {
+      "concept_id": "C8",
+      "description": "Synthetic Concept C8",
+      "prerequisites": [
+        "C5"
+      ]
+    },
+    {
+      "concept_id": "C9",
+      "description": "Synthetic Concept C9",
+      "prerequisites": [
+        "C4",
+        "C5"
+      ]
+    },
+    {
+      "concept_id": "C10",
+      "description": "Synthetic Concept C10",
+      "prerequisites": [
+        "C9"
+      ]
+    },
+    {
+      "concept_id": "C11",
+      "description": "Synthetic Concept C11",
+      "prerequisites": [
+        "C7",
+        "C8"
+      ]
+    },
+    {
+      "concept_id": "C12",
+      "description": "Synthetic Concept C12",
+      "prerequisites": [
+        "C6",
+        "C8"
+      ]
+    },
+    {
+      "concept_id": "C13",
+      "description": "Synthetic Concept C13",
+      "prerequisites": [
+        "C6",
+        "C8"
+      ]
+    },
+    {
+      "concept_id": "C14",
+      "description": "Synthetic Concept C14",
+      "prerequisites": [
+        "C11",
+        "C12"
+      ]
+    },
+    {
+      "concept_id": "C15",
+      "description": "Synthetic Concept C15",
+      "prerequisites": [
+        "C12"
+      ]
+    },
+    {
+      "concept_id": "C16",
+      "description": "Synthetic Concept C16",
+      "prerequisites": [
+        "C12"
+      ]
+    },
+    {
+      "concept_id": "C17",
+      "description": "Synthetic Concept C17",
+      "prerequisites": [
+        "C11",
+        "C13"
+      ]
+    },
+    {
+      "concept_id": "C18",
+      "description": "Synthetic Concept C18",
+      "prerequisites": [
+        "C17"
+      ]
+    },
+    {
+      "concept_id": "C19",
+      "description": "Synthetic Concept C19",
+      "prerequisites": [
+        "C14",
+        "C15"
+      ]
+    },
+    {
+      "concept_id": "C20",
+      "description": "Synthetic Concept C20",
+      "prerequisites": [
+        "C18",
+        "C19"
+      ]
+    }
+  ]
+}

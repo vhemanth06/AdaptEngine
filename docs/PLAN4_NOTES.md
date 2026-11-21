@@ -87,3 +87,5 @@ and synth-20 is proven in 9 of 12 plans. One synth-20 plan takes about 5 s at 1 
 | `make check` | ruff clean; **462 passed, 1 skipped** (`test_full_results_match_registration_f1_tc10`, Plan 7); coverage **92.84%** |
 | `pytest frontend/api/tests` | **17 passed** |
 | Pending for Plan 7 (D90) | the full F3 grid (`experiments/results/f3_grid.json`), F3-TC9 |
+
+**Plan V2 (D98):** the full F3 grid is superseded by the experiments_v2 study (E5) and not run; see `experiments_v2/README.md` and `experiments_v2/NOTES.md`.

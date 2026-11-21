@@ -1,0 +1,1624 @@
+{
+ "cells": [
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00025,
+      "mean_s": 0.00024,
+      "median_s": 0.00024,
+      "sd_s": 0.0
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "4-node",
+    "deadline": 4,
+    "kind": "cold_start",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00016,
+      "mean_s": 0.00014,
+      "median_s": 0.00014,
+      "sd_s": 1e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "4-node",
+    "deadline": 4,
+    "event": "missed_day",
+    "kind": "replan",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00021,
+      "mean_s": 0.00015,
+      "median_s": 0.00015,
+      "sd_s": 1e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "4-node",
+    "deadline": 4,
+    "event": "wrong_answer",
+    "kind": "replan",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00015,
+      "mean_s": 0.00014,
+      "median_s": 0.00014,
+      "sd_s": 0.0
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "4-node",
+    "deadline": 4,
+    "event": "deadline_change",
+    "kind": "replan",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00015,
+      "mean_s": 0.00015,
+      "median_s": 0.00015,
+      "sd_s": 0.0
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "4-node",
+    "deadline": 4,
+    "event": "budget_change",
+    "kind": "replan",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00026,
+      "mean_s": 0.00025,
+      "median_s": 0.00025,
+      "sd_s": 0.0
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "4-node",
+    "deadline": 4,
+    "kind": "cold_start",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00015,
+      "mean_s": 0.00014,
+      "median_s": 0.00014,
+      "sd_s": 0.0
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "4-node",
+    "deadline": 4,
+    "event": "missed_day",
+    "kind": "replan",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00015,
+      "mean_s": 0.00015,
+      "median_s": 0.00015,
+      "sd_s": 0.0
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "4-node",
+    "deadline": 4,
+    "event": "wrong_answer",
+    "kind": "replan",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00015,
+      "mean_s": 0.00014,
+      "median_s": 0.00014,
+      "sd_s": 0.0
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "4-node",
+    "deadline": 4,
+    "event": "deadline_change",
+    "kind": "replan",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00015,
+      "mean_s": 0.00015,
+      "median_s": 0.00015,
+      "sd_s": 0.0
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "4-node",
+    "deadline": 4,
+    "event": "budget_change",
+    "kind": "replan",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 0.01471,
+      "mean_s": 0.01004,
+      "median_s": 0.00986,
+      "sd_s": 0.00087
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "4-node",
+    "deadline": 4,
+    "kind": "cold_start",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 0.00421,
+      "mean_s": 0.00398,
+      "median_s": 0.00397,
+      "sd_s": 6e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "4-node",
+    "deadline": 4,
+    "event": "missed_day",
+    "kind": "replan",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 0.00597,
+      "mean_s": 0.00578,
+      "median_s": 0.00577,
+      "sd_s": 5e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "4-node",
+    "deadline": 4,
+    "event": "wrong_answer",
+    "kind": "replan",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 0.00423,
+      "mean_s": 0.00401,
+      "median_s": 0.00398,
+      "sd_s": 6e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "4-node",
+    "deadline": 4,
+    "event": "deadline_change",
+    "kind": "replan",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 0.00574,
+      "mean_s": 0.00521,
+      "median_s": 0.00518,
+      "sd_s": 0.00011
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "4-node",
+    "deadline": 4,
+    "event": "budget_change",
+    "kind": "replan",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00045,
+      "mean_s": 0.00044,
+      "median_s": 0.00044,
+      "sd_s": 1e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8-node",
+    "deadline": 6,
+    "kind": "cold_start",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00032,
+      "mean_s": 0.00031,
+      "median_s": 0.00031,
+      "sd_s": 0.0
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8-node",
+    "deadline": 6,
+    "event": "missed_day",
+    "kind": "replan",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00032,
+      "mean_s": 0.00031,
+      "median_s": 0.00031,
+      "sd_s": 0.0
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8-node",
+    "deadline": 6,
+    "event": "wrong_answer",
+    "kind": "replan",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00032,
+      "mean_s": 0.00031,
+      "median_s": 0.00031,
+      "sd_s": 0.0
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8-node",
+    "deadline": 6,
+    "event": "deadline_change",
+    "kind": "replan",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00032,
+      "mean_s": 0.00032,
+      "median_s": 0.00032,
+      "sd_s": 0.0
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8-node",
+    "deadline": 6,
+    "event": "budget_change",
+    "kind": "replan",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00046,
+      "mean_s": 0.00044,
+      "median_s": 0.00044,
+      "sd_s": 1e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8-node",
+    "deadline": 6,
+    "kind": "cold_start",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00032,
+      "mean_s": 0.00031,
+      "median_s": 0.00031,
+      "sd_s": 0.0
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8-node",
+    "deadline": 6,
+    "event": "missed_day",
+    "kind": "replan",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00035,
+      "mean_s": 0.00032,
+      "median_s": 0.00032,
+      "sd_s": 1e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8-node",
+    "deadline": 6,
+    "event": "wrong_answer",
+    "kind": "replan",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00032,
+      "mean_s": 0.00031,
+      "median_s": 0.00031,
+      "sd_s": 0.0
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8-node",
+    "deadline": 6,
+    "event": "deadline_change",
+    "kind": "replan",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00033,
+      "mean_s": 0.00032,
+      "median_s": 0.00032,
+      "sd_s": 0.0
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8-node",
+    "deadline": 6,
+    "event": "budget_change",
+    "kind": "replan",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 0.03721,
+      "mean_s": 0.03645,
+      "median_s": 0.03642,
+      "sd_s": 0.0002
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8-node",
+    "deadline": 6,
+    "kind": "cold_start",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 0.01848,
+      "mean_s": 0.0179,
+      "median_s": 0.01783,
+      "sd_s": 0.00017
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8-node",
+    "deadline": 6,
+    "event": "missed_day",
+    "kind": "replan",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 0.02195,
+      "mean_s": 0.02142,
+      "median_s": 0.02136,
+      "sd_s": 0.00016
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8-node",
+    "deadline": 6,
+    "event": "wrong_answer",
+    "kind": "replan",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 0.01846,
+      "mean_s": 0.01789,
+      "median_s": 0.01783,
+      "sd_s": 0.00016
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8-node",
+    "deadline": 6,
+    "event": "deadline_change",
+    "kind": "replan",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 0.02492,
+      "mean_s": 0.02454,
+      "median_s": 0.02449,
+      "sd_s": 0.00014
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8-node",
+    "deadline": 6,
+    "event": "budget_change",
+    "kind": "replan",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00062,
+      "mean_s": 0.00058,
+      "median_s": 0.00058,
+      "sd_s": 1e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8node_x10",
+    "deadline": 6,
+    "kind": "cold_start",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00052,
+      "mean_s": 0.00048,
+      "median_s": 0.00047,
+      "sd_s": 1e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8node_x10",
+    "deadline": 6,
+    "event": "missed_day",
+    "kind": "replan",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00052,
+      "mean_s": 0.00048,
+      "median_s": 0.00048,
+      "sd_s": 1e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8node_x10",
+    "deadline": 6,
+    "event": "wrong_answer",
+    "kind": "replan",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00051,
+      "mean_s": 0.00047,
+      "median_s": 0.00047,
+      "sd_s": 1e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8node_x10",
+    "deadline": 6,
+    "event": "deadline_change",
+    "kind": "replan",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00052,
+      "mean_s": 0.00048,
+      "median_s": 0.00048,
+      "sd_s": 1e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8node_x10",
+    "deadline": 6,
+    "event": "budget_change",
+    "kind": "replan",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00063,
+      "mean_s": 0.00058,
+      "median_s": 0.00058,
+      "sd_s": 1e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8node_x10",
+    "deadline": 6,
+    "kind": "cold_start",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00054,
+      "mean_s": 0.00049,
+      "median_s": 0.00048,
+      "sd_s": 2e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8node_x10",
+    "deadline": 6,
+    "event": "missed_day",
+    "kind": "replan",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00052,
+      "mean_s": 0.00048,
+      "median_s": 0.00048,
+      "sd_s": 1e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8node_x10",
+    "deadline": 6,
+    "event": "wrong_answer",
+    "kind": "replan",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00052,
+      "mean_s": 0.00048,
+      "median_s": 0.00047,
+      "sd_s": 1e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8node_x10",
+    "deadline": 6,
+    "event": "deadline_change",
+    "kind": "replan",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00051,
+      "mean_s": 0.00048,
+      "median_s": 0.00048,
+      "sd_s": 1e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8node_x10",
+    "deadline": 6,
+    "event": "budget_change",
+    "kind": "replan",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 0.03742,
+      "mean_s": 0.03669,
+      "median_s": 0.03661,
+      "sd_s": 0.00022
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8node_x10",
+    "deadline": 6,
+    "kind": "cold_start",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 0.01845,
+      "mean_s": 0.01811,
+      "median_s": 0.01808,
+      "sd_s": 0.0001
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8node_x10",
+    "deadline": 6,
+    "event": "missed_day",
+    "kind": "replan",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 0.0245,
+      "mean_s": 0.02412,
+      "median_s": 0.02407,
+      "sd_s": 0.00013
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8node_x10",
+    "deadline": 6,
+    "event": "wrong_answer",
+    "kind": "replan",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 0.01833,
+      "mean_s": 0.01812,
+      "median_s": 0.01811,
+      "sd_s": 9e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8node_x10",
+    "deadline": 6,
+    "event": "deadline_change",
+    "kind": "replan",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 0.02524,
+      "mean_s": 0.02444,
+      "median_s": 0.02437,
+      "sd_s": 0.00021
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "8node_x10",
+    "deadline": 6,
+    "event": "budget_change",
+    "kind": "replan",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00127,
+      "mean_s": 0.00124,
+      "median_s": 0.00124,
+      "sd_s": 2e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-20",
+    "deadline": 11,
+    "kind": "cold_start",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00115,
+      "mean_s": 0.00109,
+      "median_s": 0.00108,
+      "sd_s": 2e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-20",
+    "deadline": 11,
+    "event": "missed_day",
+    "kind": "replan",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00117,
+      "mean_s": 0.00111,
+      "median_s": 0.00111,
+      "sd_s": 2e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-20",
+    "deadline": 11,
+    "event": "wrong_answer",
+    "kind": "replan",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00112,
+      "mean_s": 0.00107,
+      "median_s": 0.00106,
+      "sd_s": 2e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-20",
+    "deadline": 11,
+    "event": "deadline_change",
+    "kind": "replan",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00181,
+      "mean_s": 0.00176,
+      "median_s": 0.00175,
+      "sd_s": 3e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-20",
+    "deadline": 11,
+    "event": "budget_change",
+    "kind": "replan",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00132,
+      "mean_s": 0.00126,
+      "median_s": 0.00125,
+      "sd_s": 2e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-20",
+    "deadline": 11,
+    "kind": "cold_start",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00113,
+      "mean_s": 0.00109,
+      "median_s": 0.00109,
+      "sd_s": 2e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-20",
+    "deadline": 11,
+    "event": "missed_day",
+    "kind": "replan",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00115,
+      "mean_s": 0.0011,
+      "median_s": 0.0011,
+      "sd_s": 2e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-20",
+    "deadline": 11,
+    "event": "wrong_answer",
+    "kind": "replan",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00113,
+      "mean_s": 0.00107,
+      "median_s": 0.00106,
+      "sd_s": 2e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-20",
+    "deadline": 11,
+    "event": "deadline_change",
+    "kind": "replan",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 3.90825,
+      "mean_s": 3.82247,
+      "median_s": 3.81599,
+      "sd_s": 0.03075
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-20",
+    "deadline": 11,
+    "event": "budget_change",
+    "kind": "replan",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 3.27823,
+      "mean_s": 3.22749,
+      "median_s": 3.22391,
+      "sd_s": 0.01694
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-20",
+    "deadline": 11,
+    "kind": "cold_start",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 1.94769,
+      "mean_s": 1.9113,
+      "median_s": 1.90716,
+      "sd_s": 0.01062
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-20",
+    "deadline": 11,
+    "event": "missed_day",
+    "kind": "replan",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 1.75063,
+      "mean_s": 1.71161,
+      "median_s": 1.7108,
+      "sd_s": 0.01058
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-20",
+    "deadline": 11,
+    "event": "wrong_answer",
+    "kind": "replan",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 1.94606,
+      "mean_s": 1.91017,
+      "median_s": 1.90653,
+      "sd_s": 0.01004
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-20",
+    "deadline": 11,
+    "event": "deadline_change",
+    "kind": "replan",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 3.91436,
+      "mean_s": 3.82231,
+      "median_s": 3.81803,
+      "sd_s": 0.0281
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-20",
+    "deadline": 11,
+    "event": "budget_change",
+    "kind": "replan",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00513,
+      "mean_s": 0.00506,
+      "median_s": 0.00505,
+      "sd_s": 3e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-50",
+    "deadline": 29,
+    "kind": "cold_start",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00477,
+      "mean_s": 0.00469,
+      "median_s": 0.00469,
+      "sd_s": 3e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-50",
+    "deadline": 29,
+    "event": "missed_day",
+    "kind": "replan",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00489,
+      "mean_s": 0.00477,
+      "median_s": 0.00476,
+      "sd_s": 4e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-50",
+    "deadline": 29,
+    "event": "wrong_answer",
+    "kind": "replan",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.00476,
+      "mean_s": 0.00469,
+      "median_s": 0.00469,
+      "sd_s": 3e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-50",
+    "deadline": 29,
+    "event": "deadline_change",
+    "kind": "replan",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "greedy": {
+     "metrics": {
+      "max_s": 0.0211,
+      "mean_s": 0.02068,
+      "median_s": 0.02064,
+      "sd_s": 0.00013
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-50",
+    "deadline": 29,
+    "event": "budget_change",
+    "kind": "replan",
+    "planner": "greedy"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00515,
+      "mean_s": 0.00506,
+      "median_s": 0.00506,
+      "sd_s": 4e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-50",
+    "deadline": 29,
+    "kind": "cold_start",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00483,
+      "mean_s": 0.00471,
+      "median_s": 0.0047,
+      "sd_s": 4e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-50",
+    "deadline": 29,
+    "event": "missed_day",
+    "kind": "replan",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00543,
+      "mean_s": 0.00481,
+      "median_s": 0.00478,
+      "sd_s": 0.00012
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-50",
+    "deadline": 29,
+    "event": "wrong_answer",
+    "kind": "replan",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 0.00478,
+      "mean_s": 0.00473,
+      "median_s": 0.00472,
+      "sd_s": 3e-05
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-50",
+    "deadline": 29,
+    "event": "deadline_change",
+    "kind": "replan",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "hybrid": {
+     "metrics": {
+      "max_s": 36.44403,
+      "mean_s": 36.34919,
+      "median_s": 36.35123,
+      "sd_s": 0.03515
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-50",
+    "deadline": 29,
+    "event": "budget_change",
+    "kind": "replan",
+    "planner": "hybrid"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 35.03844,
+      "mean_s": 34.81356,
+      "median_s": 34.8138,
+      "sd_s": 0.07052
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-50",
+    "deadline": 29,
+    "kind": "cold_start",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 40.25716,
+      "mean_s": 33.19007,
+      "median_s": 32.55623,
+      "sd_s": 1.89179
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-50",
+    "deadline": 29,
+    "event": "missed_day",
+    "kind": "replan",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 45.93095,
+      "mean_s": 42.22717,
+      "median_s": 41.61255,
+      "sd_s": 1.32492
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-50",
+    "deadline": 29,
+    "event": "wrong_answer",
+    "kind": "replan",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 33.59793,
+      "mean_s": 30.93329,
+      "median_s": 30.55385,
+      "sd_s": 0.85805
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-50",
+    "deadline": 29,
+    "event": "deadline_change",
+    "kind": "replan",
+    "planner": "cpsat"
+   }
+  },
+  {
+   "arms": {
+    "cpsat": {
+     "metrics": {
+      "max_s": 38.75482,
+      "mean_s": 36.81359,
+      "median_s": 36.54911,
+      "sd_s": 0.64027
+     },
+     "n": 30
+    }
+   },
+   "key": {
+    "budget": 15,
+    "curriculum": "synth-50",
+    "deadline": 29,
+    "event": "budget_change",
+    "kind": "replan",
+    "planner": "cpsat"
+   }
+  }
+ ],
+ "code_hash": "9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef",
+ "config_hash_default": "1e26bd7de81c8f56a6e998b33ee531f59470681d78ff71affd05362a910e7b11",
+ "content_review": {
+  "4-node": "reviewed",
+  "8-node": "reviewed",
+  "8node_x10": "reviewed (D93)",
+  "synth-20": "synthetic, unreviewed",
+  "synth-50": "synthetic, unreviewed"
+ },
+ "design": {
+  "budget": 15,
+  "curricula": [
+   "4-node",
+   "8-node",
+   "8node_x10",
+   "synth-20",
+   "synth-50"
+  ],
+  "events": [
+   "missed_day",
+   "wrong_answer",
+   "deadline_change",
+   "budget_change"
+  ],
+  "label": "timing (not deterministic)",
+  "load_average_1_5_15": {
+   "after": [
+    1.02,
+    1.15,
+    1.2
+   ],
+   "before": [
+    1.0,
+    1.07,
+    1.42
+   ]
+  },
+  "replan_state": "day 2 after day 1's work by seed 1000 in S0 (greedy closed loop)",
+  "reps": 30,
+  "seeds": {
+   "replan_state": 1000
+  },
+  "workers": 1
+ },
+ "experiment": "E5_latency",
+ "finished_utc": "2026-11-21T05:56:42+00:00",
+ "harness_hash": "240e95fd4c2cf5a8c1751d8cac5ae555bfd8f74a7be51e35092e57aae68c75d3",
+ "hypotheses": {},
+ "machine": {
+  "cpu": "13th Gen Intel(R) Core(TM) i7-1360P",
+  "cpu_count": 16,
+  "python": "3.11.17"
+ },
+ "preregistration": "experiments_v2/preregistration/E5_2026-11-21.md",
+ "procs": 1,
+ "registered_utc": "2026-11-21T00:11:52+00:00",
+ "reused": {},
+ "smoke": false,
+ "started_utc": "2026-11-21T03:57:17+00:00",
+ "wall_s": 7165.1
+}

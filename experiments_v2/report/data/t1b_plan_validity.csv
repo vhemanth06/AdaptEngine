@@ -1,0 +1,12 @@
+experiment,source_file,code_hash,status,arm,cells,plans_checked,prereq,budget,deadline,plan_level_violations
+E1_safety_outcomes,experiments_v2/results/E1_safety_outcomes.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,adapt,560,1979027,0,0,0,0
+E1_safety_outcomes,experiments_v2/results/E1_safety_outcomes.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,adapt_h7,80,688313,0,0,0,0
+E1_safety_outcomes,experiments_v2/results/E1_safety_outcomes.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,no_replan,560,115200,0,0,0,0
+E1_safety_outcomes,experiments_v2/results/E1_safety_outcomes.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,no_review,560,1918171,0,0,0,0
+E1_safety_outcomes,experiments_v2/results/E1_safety_outcomes.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,no_review_h7,80,546576,0,0,0,0
+E5_planners,experiments_v2/results/E5_planners.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,cpsat,90,189551,0,0,0,0
+E5_planners,experiments_v2/results/E5_planners.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,cpsat_confirm,4,11245,0,0,0,0
+E5_planners,experiments_v2/results/E5_planners.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,greedy,430,1179215,0,0,0,0
+E5_planners,experiments_v2/results/E5_planners.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,greedy_confirm,4,11246,0,0,0,0
+E5_planners,experiments_v2/results/E5_planners.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,hybrid,430,1176575,0,0,0,0
+E5_planners,experiments_v2/results/E5_planners.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,hybrid_confirm,4,11251,0,0,0,0

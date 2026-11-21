@@ -100,3 +100,5 @@ everything else in Plan 3; no file under `src/` changed (code hash still `54119d
 
 Plan 3 is complete except its full grid (run 2, including the F2 Stage-2 2×2 and hypotheses
 H1–H4), which Plan 7 owns.
+
+**Plan V2 (D98):** the full F1 grid (run 2) is superseded by the experiments_v2 study and not run; see `experiments_v2/README.md` and `experiments_v2/NOTES.md`.

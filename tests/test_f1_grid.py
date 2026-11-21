@@ -72,7 +72,7 @@ def test_full_results_match_registration_f1_tc10():
     import pytest
 
     if not os.path.exists(RESULTS):
-        pytest.skip("full F1 grid runs in Plan 7 (D90)")
+        pytest.skip("superseded by experiments_v2, D98")
     with open(RESULTS, encoding="utf-8") as f:
         r = json.load(f)
     with open(PREREG, encoding="utf-8") as f:

@@ -98,3 +98,27 @@ This document tracks all 23 verification scenarios (the authoritative Assignment
 | **FE-TC10** | Plan FE | Screenshots of every screen in both themes in `docs/figures/ui_*.png`; no pixel comparison | `make demo-figures` (16 files; 12 after D97); `grep -r toHaveScreenshot frontend/web/e2e` finds nothing | **Verified** |
 | **FE-TC11** | Plan FE | `src/` untouched: code hash and default config hash unchanged; pins and CLI golden runs pass | FE-T0 vs FE-T8 values in `docs/FRONTEND_NOTES.md`; `make check` | **Verified** |
 | **FE-TC12** | Plan FE | Decisions D92–D95 and FE-TC1–FE-TC12 recorded | `docs/DECISIONS.md` §9, this table | **Verified** |
+
+**Plans 5 and 6 (D91).** The F4 test cases (Plan 5, prerequisite regression handling) and the F5
+Phase B test cases (Plan 6, the 16-concept curriculum, e.g. the `16node` parts of F5-TC3) are not
+part of the project: both plans are skipped (D91).
+
+## Plan V2 — the final study (`experiments_v2/`, D98–D101)
+
+| ID | Plan | Requirement | Evidence | Status |
+|---|---|---|---|---|
+| **V2-TC1** | Plan V2 | The core harness behaves as specified (§V2.3) | `experiments_v2/tests/test_simulator.py`, `test_scenarios.py`, `test_episode.py` | **Verified** |
+| **V2-TC2** | Plan V2 | `experiments_v2/` is independent of `experiments/` | `experiments_v2/tests/test_independence.py` | **Verified** |
+| **V2-TC3** | Plan V2 | The executed-violation audit and metrics are correct | `experiments_v2/tests/test_audit.py`, `test_metrics.py` | **Verified** |
+| **V2-TC4** | Plan V2 | Results are deterministic, independent of worker count | `experiments_v2/tests/test_determinism.py` | **Verified** |
+| **V2-TC5** | Plan V2 | No full run without a registered pre-registration and matching hash | `experiments_v2/tests/test_prereg_guard.py`, `test_runners_smoke.py::test_full_run_refuses_without_registration` | **Verified** |
+| **V2-TC6** | Plan V2 | Every results file is schema-valid and carries code hash, harness hash and seeds | `experiments_v2/tests/test_results_schema.py`, `test_runners_smoke.py` | **Verified** |
+| **V2-TC7** | Plan V2 | v2 reproduces the stored results where the engine is unchanged (one-off check) | `experiments_v2/NOTES.md` (V2-T4 record) | **Verified** |
+| **V2-TC8** | Plan V2 | E1–E6 ran under their registrations; every hypothesis reported, held or failed | `experiments_v2/results/*.json`, `experiments_v2/NOTES.md` | **Verified** |
+| **V2-TC9** | Plan V2 | Safety: executed violations for every arm and cell (E1 H1, E4 H1, E5 H1); every plan and replan checked (E1 H5, E5 H4) | the results files; tables T1, T1b | **Verified** |
+| **V2-TC9b** | Plan V2 | M8 coverage: path feasibility per budget, plan validity, cold-start and replan runtime, mastery prediction on executed attempts | tables T1b, T6b, T12b, T13, T13b; figure F3b | **Verified** |
+| **V2-TC10** | Plan V2 | Every report number traces to a results file and code hash | `experiments_v2/tests/test_report.py` | **Verified** |
+| **V2-TC11** | Plan V2 | Render scripts never read results JSON; restyling needs no experiment | `experiments_v2/tests/test_report.py` (AST scan) | **Verified** |
+| **V2-TC12** | Plan V2 | Re-rendering is byte-identical | `experiments_v2/tests/test_report.py` | **Verified** |
+| **V2-TC13** | Plan V2 | `src/` and `experiments/` unchanged; code hash and default config hash unchanged | V2-T0 vs V2-T8 in `experiments_v2/NOTES.md` | **Verified** |
+| **V2-TC14** | Plan V2 | D91 and D98–D101 recorded; superseded notes added | `docs/DECISIONS.md` §10, `docs/preregistration/F1_2026-11-20.md`, `F3_2026-11-20.md` | **Verified** |

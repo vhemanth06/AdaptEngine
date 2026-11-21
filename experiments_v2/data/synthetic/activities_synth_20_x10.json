@@ -1,0 +1,1965 @@
+{
+  "schema_version": 1,
+  "activities": [
+    {
+      "activity_id": "L-C1",
+      "type": "LESSON",
+      "target_concept": "C1",
+      "duration": 4,
+      "text": "Lesson for C1",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C1-1",
+      "type": "EXERCISE",
+      "target_concept": "C1",
+      "duration": 1,
+      "difficulty": 0.1,
+      "text": "Exercise 1 for C1",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C1-2",
+      "type": "EXERCISE",
+      "target_concept": "C1",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "Exercise 2 for C1",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C1-3",
+      "type": "EXERCISE",
+      "target_concept": "C1",
+      "duration": 1,
+      "difficulty": 0.3,
+      "text": "Exercise 3 for C1",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C1-4",
+      "type": "EXERCISE",
+      "target_concept": "C1",
+      "duration": 2,
+      "difficulty": 0.4,
+      "text": "Exercise 4 for C1",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C1-5",
+      "type": "EXERCISE",
+      "target_concept": "C1",
+      "duration": 2,
+      "difficulty": 0.45,
+      "text": "Exercise 5 for C1",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C1-6",
+      "type": "EXERCISE",
+      "target_concept": "C1",
+      "duration": 2,
+      "difficulty": 0.55,
+      "text": "Exercise 6 for C1",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C1-7",
+      "type": "EXERCISE",
+      "target_concept": "C1",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "Exercise 7 for C1",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C1-8",
+      "type": "EXERCISE",
+      "target_concept": "C1",
+      "duration": 2,
+      "difficulty": 0.7,
+      "text": "Exercise 8 for C1",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C1-9",
+      "type": "EXERCISE",
+      "target_concept": "C1",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "Exercise 9 for C1",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C1-10",
+      "type": "EXERCISE",
+      "target_concept": "C1",
+      "duration": 2,
+      "difficulty": 0.9,
+      "text": "Exercise 10 for C1",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "L-C2",
+      "type": "LESSON",
+      "target_concept": "C2",
+      "duration": 4,
+      "text": "Lesson for C2",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C2-1",
+      "type": "EXERCISE",
+      "target_concept": "C2",
+      "duration": 1,
+      "difficulty": 0.1,
+      "text": "Exercise 1 for C2",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C2-2",
+      "type": "EXERCISE",
+      "target_concept": "C2",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "Exercise 2 for C2",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C2-3",
+      "type": "EXERCISE",
+      "target_concept": "C2",
+      "duration": 1,
+      "difficulty": 0.3,
+      "text": "Exercise 3 for C2",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C2-4",
+      "type": "EXERCISE",
+      "target_concept": "C2",
+      "duration": 2,
+      "difficulty": 0.4,
+      "text": "Exercise 4 for C2",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C2-5",
+      "type": "EXERCISE",
+      "target_concept": "C2",
+      "duration": 2,
+      "difficulty": 0.45,
+      "text": "Exercise 5 for C2",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C2-6",
+      "type": "EXERCISE",
+      "target_concept": "C2",
+      "duration": 2,
+      "difficulty": 0.55,
+      "text": "Exercise 6 for C2",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C2-7",
+      "type": "EXERCISE",
+      "target_concept": "C2",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "Exercise 7 for C2",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C2-8",
+      "type": "EXERCISE",
+      "target_concept": "C2",
+      "duration": 2,
+      "difficulty": 0.7,
+      "text": "Exercise 8 for C2",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C2-9",
+      "type": "EXERCISE",
+      "target_concept": "C2",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "Exercise 9 for C2",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C2-10",
+      "type": "EXERCISE",
+      "target_concept": "C2",
+      "duration": 2,
+      "difficulty": 0.9,
+      "text": "Exercise 10 for C2",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "L-C3",
+      "type": "LESSON",
+      "target_concept": "C3",
+      "duration": 4,
+      "text": "Lesson for C3",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C3-1",
+      "type": "EXERCISE",
+      "target_concept": "C3",
+      "duration": 1,
+      "difficulty": 0.1,
+      "text": "Exercise 1 for C3",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C3-2",
+      "type": "EXERCISE",
+      "target_concept": "C3",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "Exercise 2 for C3",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C3-3",
+      "type": "EXERCISE",
+      "target_concept": "C3",
+      "duration": 1,
+      "difficulty": 0.3,
+      "text": "Exercise 3 for C3",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C3-4",
+      "type": "EXERCISE",
+      "target_concept": "C3",
+      "duration": 2,
+      "difficulty": 0.4,
+      "text": "Exercise 4 for C3",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C3-5",
+      "type": "EXERCISE",
+      "target_concept": "C3",
+      "duration": 2,
+      "difficulty": 0.45,
+      "text": "Exercise 5 for C3",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C3-6",
+      "type": "EXERCISE",
+      "target_concept": "C3",
+      "duration": 2,
+      "difficulty": 0.55,
+      "text": "Exercise 6 for C3",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C3-7",
+      "type": "EXERCISE",
+      "target_concept": "C3",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "Exercise 7 for C3",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C3-8",
+      "type": "EXERCISE",
+      "target_concept": "C3",
+      "duration": 2,
+      "difficulty": 0.7,
+      "text": "Exercise 8 for C3",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C3-9",
+      "type": "EXERCISE",
+      "target_concept": "C3",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "Exercise 9 for C3",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C3-10",
+      "type": "EXERCISE",
+      "target_concept": "C3",
+      "duration": 2,
+      "difficulty": 0.9,
+      "text": "Exercise 10 for C3",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "L-C4",
+      "type": "LESSON",
+      "target_concept": "C4",
+      "duration": 4,
+      "text": "Lesson for C4",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C4-1",
+      "type": "EXERCISE",
+      "target_concept": "C4",
+      "duration": 1,
+      "difficulty": 0.1,
+      "text": "Exercise 1 for C4",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C4-2",
+      "type": "EXERCISE",
+      "target_concept": "C4",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "Exercise 2 for C4",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C4-3",
+      "type": "EXERCISE",
+      "target_concept": "C4",
+      "duration": 1,
+      "difficulty": 0.3,
+      "text": "Exercise 3 for C4",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C4-4",
+      "type": "EXERCISE",
+      "target_concept": "C4",
+      "duration": 2,
+      "difficulty": 0.4,
+      "text": "Exercise 4 for C4",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C4-5",
+      "type": "EXERCISE",
+      "target_concept": "C4",
+      "duration": 2,
+      "difficulty": 0.45,
+      "text": "Exercise 5 for C4",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C4-6",
+      "type": "EXERCISE",
+      "target_concept": "C4",
+      "duration": 2,
+      "difficulty": 0.55,
+      "text": "Exercise 6 for C4",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C4-7",
+      "type": "EXERCISE",
+      "target_concept": "C4",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "Exercise 7 for C4",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C4-8",
+      "type": "EXERCISE",
+      "target_concept": "C4",
+      "duration": 2,
+      "difficulty": 0.7,
+      "text": "Exercise 8 for C4",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C4-9",
+      "type": "EXERCISE",
+      "target_concept": "C4",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "Exercise 9 for C4",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C4-10",
+      "type": "EXERCISE",
+      "target_concept": "C4",
+      "duration": 2,
+      "difficulty": 0.9,
+      "text": "Exercise 10 for C4",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "L-C5",
+      "type": "LESSON",
+      "target_concept": "C5",
+      "duration": 4,
+      "text": "Lesson for C5",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C5-1",
+      "type": "EXERCISE",
+      "target_concept": "C5",
+      "duration": 1,
+      "difficulty": 0.1,
+      "text": "Exercise 1 for C5",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C5-2",
+      "type": "EXERCISE",
+      "target_concept": "C5",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "Exercise 2 for C5",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C5-3",
+      "type": "EXERCISE",
+      "target_concept": "C5",
+      "duration": 1,
+      "difficulty": 0.3,
+      "text": "Exercise 3 for C5",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C5-4",
+      "type": "EXERCISE",
+      "target_concept": "C5",
+      "duration": 2,
+      "difficulty": 0.4,
+      "text": "Exercise 4 for C5",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C5-5",
+      "type": "EXERCISE",
+      "target_concept": "C5",
+      "duration": 2,
+      "difficulty": 0.45,
+      "text": "Exercise 5 for C5",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C5-6",
+      "type": "EXERCISE",
+      "target_concept": "C5",
+      "duration": 2,
+      "difficulty": 0.55,
+      "text": "Exercise 6 for C5",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C5-7",
+      "type": "EXERCISE",
+      "target_concept": "C5",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "Exercise 7 for C5",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C5-8",
+      "type": "EXERCISE",
+      "target_concept": "C5",
+      "duration": 2,
+      "difficulty": 0.7,
+      "text": "Exercise 8 for C5",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C5-9",
+      "type": "EXERCISE",
+      "target_concept": "C5",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "Exercise 9 for C5",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C5-10",
+      "type": "EXERCISE",
+      "target_concept": "C5",
+      "duration": 2,
+      "difficulty": 0.9,
+      "text": "Exercise 10 for C5",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "L-C6",
+      "type": "LESSON",
+      "target_concept": "C6",
+      "duration": 4,
+      "text": "Lesson for C6",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C6-1",
+      "type": "EXERCISE",
+      "target_concept": "C6",
+      "duration": 1,
+      "difficulty": 0.1,
+      "text": "Exercise 1 for C6",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C6-2",
+      "type": "EXERCISE",
+      "target_concept": "C6",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "Exercise 2 for C6",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C6-3",
+      "type": "EXERCISE",
+      "target_concept": "C6",
+      "duration": 1,
+      "difficulty": 0.3,
+      "text": "Exercise 3 for C6",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C6-4",
+      "type": "EXERCISE",
+      "target_concept": "C6",
+      "duration": 2,
+      "difficulty": 0.4,
+      "text": "Exercise 4 for C6",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C6-5",
+      "type": "EXERCISE",
+      "target_concept": "C6",
+      "duration": 2,
+      "difficulty": 0.45,
+      "text": "Exercise 5 for C6",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C6-6",
+      "type": "EXERCISE",
+      "target_concept": "C6",
+      "duration": 2,
+      "difficulty": 0.55,
+      "text": "Exercise 6 for C6",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C6-7",
+      "type": "EXERCISE",
+      "target_concept": "C6",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "Exercise 7 for C6",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C6-8",
+      "type": "EXERCISE",
+      "target_concept": "C6",
+      "duration": 2,
+      "difficulty": 0.7,
+      "text": "Exercise 8 for C6",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C6-9",
+      "type": "EXERCISE",
+      "target_concept": "C6",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "Exercise 9 for C6",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C6-10",
+      "type": "EXERCISE",
+      "target_concept": "C6",
+      "duration": 2,
+      "difficulty": 0.9,
+      "text": "Exercise 10 for C6",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "L-C7",
+      "type": "LESSON",
+      "target_concept": "C7",
+      "duration": 4,
+      "text": "Lesson for C7",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C7-1",
+      "type": "EXERCISE",
+      "target_concept": "C7",
+      "duration": 1,
+      "difficulty": 0.1,
+      "text": "Exercise 1 for C7",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C7-2",
+      "type": "EXERCISE",
+      "target_concept": "C7",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "Exercise 2 for C7",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C7-3",
+      "type": "EXERCISE",
+      "target_concept": "C7",
+      "duration": 1,
+      "difficulty": 0.3,
+      "text": "Exercise 3 for C7",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C7-4",
+      "type": "EXERCISE",
+      "target_concept": "C7",
+      "duration": 2,
+      "difficulty": 0.4,
+      "text": "Exercise 4 for C7",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C7-5",
+      "type": "EXERCISE",
+      "target_concept": "C7",
+      "duration": 2,
+      "difficulty": 0.45,
+      "text": "Exercise 5 for C7",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C7-6",
+      "type": "EXERCISE",
+      "target_concept": "C7",
+      "duration": 2,
+      "difficulty": 0.55,
+      "text": "Exercise 6 for C7",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C7-7",
+      "type": "EXERCISE",
+      "target_concept": "C7",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "Exercise 7 for C7",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C7-8",
+      "type": "EXERCISE",
+      "target_concept": "C7",
+      "duration": 2,
+      "difficulty": 0.7,
+      "text": "Exercise 8 for C7",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C7-9",
+      "type": "EXERCISE",
+      "target_concept": "C7",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "Exercise 9 for C7",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C7-10",
+      "type": "EXERCISE",
+      "target_concept": "C7",
+      "duration": 2,
+      "difficulty": 0.9,
+      "text": "Exercise 10 for C7",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "L-C8",
+      "type": "LESSON",
+      "target_concept": "C8",
+      "duration": 4,
+      "text": "Lesson for C8",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C8-1",
+      "type": "EXERCISE",
+      "target_concept": "C8",
+      "duration": 1,
+      "difficulty": 0.1,
+      "text": "Exercise 1 for C8",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C8-2",
+      "type": "EXERCISE",
+      "target_concept": "C8",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "Exercise 2 for C8",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C8-3",
+      "type": "EXERCISE",
+      "target_concept": "C8",
+      "duration": 1,
+      "difficulty": 0.3,
+      "text": "Exercise 3 for C8",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C8-4",
+      "type": "EXERCISE",
+      "target_concept": "C8",
+      "duration": 2,
+      "difficulty": 0.4,
+      "text": "Exercise 4 for C8",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C8-5",
+      "type": "EXERCISE",
+      "target_concept": "C8",
+      "duration": 2,
+      "difficulty": 0.45,
+      "text": "Exercise 5 for C8",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C8-6",
+      "type": "EXERCISE",
+      "target_concept": "C8",
+      "duration": 2,
+      "difficulty": 0.55,
+      "text": "Exercise 6 for C8",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C8-7",
+      "type": "EXERCISE",
+      "target_concept": "C8",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "Exercise 7 for C8",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C8-8",
+      "type": "EXERCISE",
+      "target_concept": "C8",
+      "duration": 2,
+      "difficulty": 0.7,
+      "text": "Exercise 8 for C8",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C8-9",
+      "type": "EXERCISE",
+      "target_concept": "C8",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "Exercise 9 for C8",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C8-10",
+      "type": "EXERCISE",
+      "target_concept": "C8",
+      "duration": 2,
+      "difficulty": 0.9,
+      "text": "Exercise 10 for C8",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "L-C9",
+      "type": "LESSON",
+      "target_concept": "C9",
+      "duration": 4,
+      "text": "Lesson for C9",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C9-1",
+      "type": "EXERCISE",
+      "target_concept": "C9",
+      "duration": 1,
+      "difficulty": 0.1,
+      "text": "Exercise 1 for C9",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C9-2",
+      "type": "EXERCISE",
+      "target_concept": "C9",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "Exercise 2 for C9",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C9-3",
+      "type": "EXERCISE",
+      "target_concept": "C9",
+      "duration": 1,
+      "difficulty": 0.3,
+      "text": "Exercise 3 for C9",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C9-4",
+      "type": "EXERCISE",
+      "target_concept": "C9",
+      "duration": 2,
+      "difficulty": 0.4,
+      "text": "Exercise 4 for C9",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C9-5",
+      "type": "EXERCISE",
+      "target_concept": "C9",
+      "duration": 2,
+      "difficulty": 0.45,
+      "text": "Exercise 5 for C9",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C9-6",
+      "type": "EXERCISE",
+      "target_concept": "C9",
+      "duration": 2,
+      "difficulty": 0.55,
+      "text": "Exercise 6 for C9",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C9-7",
+      "type": "EXERCISE",
+      "target_concept": "C9",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "Exercise 7 for C9",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C9-8",
+      "type": "EXERCISE",
+      "target_concept": "C9",
+      "duration": 2,
+      "difficulty": 0.7,
+      "text": "Exercise 8 for C9",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C9-9",
+      "type": "EXERCISE",
+      "target_concept": "C9",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "Exercise 9 for C9",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C9-10",
+      "type": "EXERCISE",
+      "target_concept": "C9",
+      "duration": 2,
+      "difficulty": 0.9,
+      "text": "Exercise 10 for C9",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "L-C10",
+      "type": "LESSON",
+      "target_concept": "C10",
+      "duration": 4,
+      "text": "Lesson for C10",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C10-1",
+      "type": "EXERCISE",
+      "target_concept": "C10",
+      "duration": 1,
+      "difficulty": 0.1,
+      "text": "Exercise 1 for C10",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C10-2",
+      "type": "EXERCISE",
+      "target_concept": "C10",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "Exercise 2 for C10",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C10-3",
+      "type": "EXERCISE",
+      "target_concept": "C10",
+      "duration": 1,
+      "difficulty": 0.3,
+      "text": "Exercise 3 for C10",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C10-4",
+      "type": "EXERCISE",
+      "target_concept": "C10",
+      "duration": 2,
+      "difficulty": 0.4,
+      "text": "Exercise 4 for C10",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C10-5",
+      "type": "EXERCISE",
+      "target_concept": "C10",
+      "duration": 2,
+      "difficulty": 0.45,
+      "text": "Exercise 5 for C10",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C10-6",
+      "type": "EXERCISE",
+      "target_concept": "C10",
+      "duration": 2,
+      "difficulty": 0.55,
+      "text": "Exercise 6 for C10",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C10-7",
+      "type": "EXERCISE",
+      "target_concept": "C10",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "Exercise 7 for C10",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C10-8",
+      "type": "EXERCISE",
+      "target_concept": "C10",
+      "duration": 2,
+      "difficulty": 0.7,
+      "text": "Exercise 8 for C10",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C10-9",
+      "type": "EXERCISE",
+      "target_concept": "C10",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "Exercise 9 for C10",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C10-10",
+      "type": "EXERCISE",
+      "target_concept": "C10",
+      "duration": 2,
+      "difficulty": 0.9,
+      "text": "Exercise 10 for C10",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "L-C11",
+      "type": "LESSON",
+      "target_concept": "C11",
+      "duration": 4,
+      "text": "Lesson for C11",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C11-1",
+      "type": "EXERCISE",
+      "target_concept": "C11",
+      "duration": 1,
+      "difficulty": 0.1,
+      "text": "Exercise 1 for C11",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C11-2",
+      "type": "EXERCISE",
+      "target_concept": "C11",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "Exercise 2 for C11",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C11-3",
+      "type": "EXERCISE",
+      "target_concept": "C11",
+      "duration": 1,
+      "difficulty": 0.3,
+      "text": "Exercise 3 for C11",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C11-4",
+      "type": "EXERCISE",
+      "target_concept": "C11",
+      "duration": 2,
+      "difficulty": 0.4,
+      "text": "Exercise 4 for C11",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C11-5",
+      "type": "EXERCISE",
+      "target_concept": "C11",
+      "duration": 2,
+      "difficulty": 0.45,
+      "text": "Exercise 5 for C11",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C11-6",
+      "type": "EXERCISE",
+      "target_concept": "C11",
+      "duration": 2,
+      "difficulty": 0.55,
+      "text": "Exercise 6 for C11",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C11-7",
+      "type": "EXERCISE",
+      "target_concept": "C11",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "Exercise 7 for C11",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C11-8",
+      "type": "EXERCISE",
+      "target_concept": "C11",
+      "duration": 2,
+      "difficulty": 0.7,
+      "text": "Exercise 8 for C11",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C11-9",
+      "type": "EXERCISE",
+      "target_concept": "C11",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "Exercise 9 for C11",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C11-10",
+      "type": "EXERCISE",
+      "target_concept": "C11",
+      "duration": 2,
+      "difficulty": 0.9,
+      "text": "Exercise 10 for C11",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "L-C12",
+      "type": "LESSON",
+      "target_concept": "C12",
+      "duration": 4,
+      "text": "Lesson for C12",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C12-1",
+      "type": "EXERCISE",
+      "target_concept": "C12",
+      "duration": 1,
+      "difficulty": 0.1,
+      "text": "Exercise 1 for C12",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C12-2",
+      "type": "EXERCISE",
+      "target_concept": "C12",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "Exercise 2 for C12",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C12-3",
+      "type": "EXERCISE",
+      "target_concept": "C12",
+      "duration": 1,
+      "difficulty": 0.3,
+      "text": "Exercise 3 for C12",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C12-4",
+      "type": "EXERCISE",
+      "target_concept": "C12",
+      "duration": 2,
+      "difficulty": 0.4,
+      "text": "Exercise 4 for C12",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C12-5",
+      "type": "EXERCISE",
+      "target_concept": "C12",
+      "duration": 2,
+      "difficulty": 0.45,
+      "text": "Exercise 5 for C12",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C12-6",
+      "type": "EXERCISE",
+      "target_concept": "C12",
+      "duration": 2,
+      "difficulty": 0.55,
+      "text": "Exercise 6 for C12",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C12-7",
+      "type": "EXERCISE",
+      "target_concept": "C12",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "Exercise 7 for C12",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C12-8",
+      "type": "EXERCISE",
+      "target_concept": "C12",
+      "duration": 2,
+      "difficulty": 0.7,
+      "text": "Exercise 8 for C12",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C12-9",
+      "type": "EXERCISE",
+      "target_concept": "C12",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "Exercise 9 for C12",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C12-10",
+      "type": "EXERCISE",
+      "target_concept": "C12",
+      "duration": 2,
+      "difficulty": 0.9,
+      "text": "Exercise 10 for C12",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "L-C13",
+      "type": "LESSON",
+      "target_concept": "C13",
+      "duration": 4,
+      "text": "Lesson for C13",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C13-1",
+      "type": "EXERCISE",
+      "target_concept": "C13",
+      "duration": 1,
+      "difficulty": 0.1,
+      "text": "Exercise 1 for C13",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C13-2",
+      "type": "EXERCISE",
+      "target_concept": "C13",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "Exercise 2 for C13",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C13-3",
+      "type": "EXERCISE",
+      "target_concept": "C13",
+      "duration": 1,
+      "difficulty": 0.3,
+      "text": "Exercise 3 for C13",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C13-4",
+      "type": "EXERCISE",
+      "target_concept": "C13",
+      "duration": 2,
+      "difficulty": 0.4,
+      "text": "Exercise 4 for C13",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C13-5",
+      "type": "EXERCISE",
+      "target_concept": "C13",
+      "duration": 2,
+      "difficulty": 0.45,
+      "text": "Exercise 5 for C13",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C13-6",
+      "type": "EXERCISE",
+      "target_concept": "C13",
+      "duration": 2,
+      "difficulty": 0.55,
+      "text": "Exercise 6 for C13",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C13-7",
+      "type": "EXERCISE",
+      "target_concept": "C13",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "Exercise 7 for C13",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C13-8",
+      "type": "EXERCISE",
+      "target_concept": "C13",
+      "duration": 2,
+      "difficulty": 0.7,
+      "text": "Exercise 8 for C13",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C13-9",
+      "type": "EXERCISE",
+      "target_concept": "C13",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "Exercise 9 for C13",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C13-10",
+      "type": "EXERCISE",
+      "target_concept": "C13",
+      "duration": 2,
+      "difficulty": 0.9,
+      "text": "Exercise 10 for C13",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "L-C14",
+      "type": "LESSON",
+      "target_concept": "C14",
+      "duration": 4,
+      "text": "Lesson for C14",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C14-1",
+      "type": "EXERCISE",
+      "target_concept": "C14",
+      "duration": 1,
+      "difficulty": 0.1,
+      "text": "Exercise 1 for C14",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C14-2",
+      "type": "EXERCISE",
+      "target_concept": "C14",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "Exercise 2 for C14",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C14-3",
+      "type": "EXERCISE",
+      "target_concept": "C14",
+      "duration": 1,
+      "difficulty": 0.3,
+      "text": "Exercise 3 for C14",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C14-4",
+      "type": "EXERCISE",
+      "target_concept": "C14",
+      "duration": 2,
+      "difficulty": 0.4,
+      "text": "Exercise 4 for C14",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C14-5",
+      "type": "EXERCISE",
+      "target_concept": "C14",
+      "duration": 2,
+      "difficulty": 0.45,
+      "text": "Exercise 5 for C14",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C14-6",
+      "type": "EXERCISE",
+      "target_concept": "C14",
+      "duration": 2,
+      "difficulty": 0.55,
+      "text": "Exercise 6 for C14",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C14-7",
+      "type": "EXERCISE",
+      "target_concept": "C14",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "Exercise 7 for C14",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C14-8",
+      "type": "EXERCISE",
+      "target_concept": "C14",
+      "duration": 2,
+      "difficulty": 0.7,
+      "text": "Exercise 8 for C14",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C14-9",
+      "type": "EXERCISE",
+      "target_concept": "C14",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "Exercise 9 for C14",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C14-10",
+      "type": "EXERCISE",
+      "target_concept": "C14",
+      "duration": 2,
+      "difficulty": 0.9,
+      "text": "Exercise 10 for C14",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "L-C15",
+      "type": "LESSON",
+      "target_concept": "C15",
+      "duration": 4,
+      "text": "Lesson for C15",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C15-1",
+      "type": "EXERCISE",
+      "target_concept": "C15",
+      "duration": 1,
+      "difficulty": 0.1,
+      "text": "Exercise 1 for C15",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C15-2",
+      "type": "EXERCISE",
+      "target_concept": "C15",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "Exercise 2 for C15",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C15-3",
+      "type": "EXERCISE",
+      "target_concept": "C15",
+      "duration": 1,
+      "difficulty": 0.3,
+      "text": "Exercise 3 for C15",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C15-4",
+      "type": "EXERCISE",
+      "target_concept": "C15",
+      "duration": 2,
+      "difficulty": 0.4,
+      "text": "Exercise 4 for C15",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C15-5",
+      "type": "EXERCISE",
+      "target_concept": "C15",
+      "duration": 2,
+      "difficulty": 0.45,
+      "text": "Exercise 5 for C15",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C15-6",
+      "type": "EXERCISE",
+      "target_concept": "C15",
+      "duration": 2,
+      "difficulty": 0.55,
+      "text": "Exercise 6 for C15",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C15-7",
+      "type": "EXERCISE",
+      "target_concept": "C15",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "Exercise 7 for C15",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C15-8",
+      "type": "EXERCISE",
+      "target_concept": "C15",
+      "duration": 2,
+      "difficulty": 0.7,
+      "text": "Exercise 8 for C15",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C15-9",
+      "type": "EXERCISE",
+      "target_concept": "C15",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "Exercise 9 for C15",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C15-10",
+      "type": "EXERCISE",
+      "target_concept": "C15",
+      "duration": 2,
+      "difficulty": 0.9,
+      "text": "Exercise 10 for C15",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "L-C16",
+      "type": "LESSON",
+      "target_concept": "C16",
+      "duration": 4,
+      "text": "Lesson for C16",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C16-1",
+      "type": "EXERCISE",
+      "target_concept": "C16",
+      "duration": 1,
+      "difficulty": 0.1,
+      "text": "Exercise 1 for C16",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C16-2",
+      "type": "EXERCISE",
+      "target_concept": "C16",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "Exercise 2 for C16",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C16-3",
+      "type": "EXERCISE",
+      "target_concept": "C16",
+      "duration": 1,
+      "difficulty": 0.3,
+      "text": "Exercise 3 for C16",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C16-4",
+      "type": "EXERCISE",
+      "target_concept": "C16",
+      "duration": 2,
+      "difficulty": 0.4,
+      "text": "Exercise 4 for C16",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C16-5",
+      "type": "EXERCISE",
+      "target_concept": "C16",
+      "duration": 2,
+      "difficulty": 0.45,
+      "text": "Exercise 5 for C16",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C16-6",
+      "type": "EXERCISE",
+      "target_concept": "C16",
+      "duration": 2,
+      "difficulty": 0.55,
+      "text": "Exercise 6 for C16",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C16-7",
+      "type": "EXERCISE",
+      "target_concept": "C16",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "Exercise 7 for C16",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C16-8",
+      "type": "EXERCISE",
+      "target_concept": "C16",
+      "duration": 2,
+      "difficulty": 0.7,
+      "text": "Exercise 8 for C16",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C16-9",
+      "type": "EXERCISE",
+      "target_concept": "C16",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "Exercise 9 for C16",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C16-10",
+      "type": "EXERCISE",
+      "target_concept": "C16",
+      "duration": 2,
+      "difficulty": 0.9,
+      "text": "Exercise 10 for C16",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "L-C17",
+      "type": "LESSON",
+      "target_concept": "C17",
+      "duration": 4,
+      "text": "Lesson for C17",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C17-1",
+      "type": "EXERCISE",
+      "target_concept": "C17",
+      "duration": 1,
+      "difficulty": 0.1,
+      "text": "Exercise 1 for C17",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C17-2",
+      "type": "EXERCISE",
+      "target_concept": "C17",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "Exercise 2 for C17",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C17-3",
+      "type": "EXERCISE",
+      "target_concept": "C17",
+      "duration": 1,
+      "difficulty": 0.3,
+      "text": "Exercise 3 for C17",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C17-4",
+      "type": "EXERCISE",
+      "target_concept": "C17",
+      "duration": 2,
+      "difficulty": 0.4,
+      "text": "Exercise 4 for C17",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C17-5",
+      "type": "EXERCISE",
+      "target_concept": "C17",
+      "duration": 2,
+      "difficulty": 0.45,
+      "text": "Exercise 5 for C17",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C17-6",
+      "type": "EXERCISE",
+      "target_concept": "C17",
+      "duration": 2,
+      "difficulty": 0.55,
+      "text": "Exercise 6 for C17",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C17-7",
+      "type": "EXERCISE",
+      "target_concept": "C17",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "Exercise 7 for C17",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C17-8",
+      "type": "EXERCISE",
+      "target_concept": "C17",
+      "duration": 2,
+      "difficulty": 0.7,
+      "text": "Exercise 8 for C17",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C17-9",
+      "type": "EXERCISE",
+      "target_concept": "C17",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "Exercise 9 for C17",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C17-10",
+      "type": "EXERCISE",
+      "target_concept": "C17",
+      "duration": 2,
+      "difficulty": 0.9,
+      "text": "Exercise 10 for C17",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "L-C18",
+      "type": "LESSON",
+      "target_concept": "C18",
+      "duration": 4,
+      "text": "Lesson for C18",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C18-1",
+      "type": "EXERCISE",
+      "target_concept": "C18",
+      "duration": 1,
+      "difficulty": 0.1,
+      "text": "Exercise 1 for C18",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C18-2",
+      "type": "EXERCISE",
+      "target_concept": "C18",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "Exercise 2 for C18",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C18-3",
+      "type": "EXERCISE",
+      "target_concept": "C18",
+      "duration": 1,
+      "difficulty": 0.3,
+      "text": "Exercise 3 for C18",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C18-4",
+      "type": "EXERCISE",
+      "target_concept": "C18",
+      "duration": 2,
+      "difficulty": 0.4,
+      "text": "Exercise 4 for C18",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C18-5",
+      "type": "EXERCISE",
+      "target_concept": "C18",
+      "duration": 2,
+      "difficulty": 0.45,
+      "text": "Exercise 5 for C18",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C18-6",
+      "type": "EXERCISE",
+      "target_concept": "C18",
+      "duration": 2,
+      "difficulty": 0.55,
+      "text": "Exercise 6 for C18",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C18-7",
+      "type": "EXERCISE",
+      "target_concept": "C18",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "Exercise 7 for C18",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C18-8",
+      "type": "EXERCISE",
+      "target_concept": "C18",
+      "duration": 2,
+      "difficulty": 0.7,
+      "text": "Exercise 8 for C18",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C18-9",
+      "type": "EXERCISE",
+      "target_concept": "C18",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "Exercise 9 for C18",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C18-10",
+      "type": "EXERCISE",
+      "target_concept": "C18",
+      "duration": 2,
+      "difficulty": 0.9,
+      "text": "Exercise 10 for C18",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "L-C19",
+      "type": "LESSON",
+      "target_concept": "C19",
+      "duration": 4,
+      "text": "Lesson for C19",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C19-1",
+      "type": "EXERCISE",
+      "target_concept": "C19",
+      "duration": 1,
+      "difficulty": 0.1,
+      "text": "Exercise 1 for C19",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C19-2",
+      "type": "EXERCISE",
+      "target_concept": "C19",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "Exercise 2 for C19",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C19-3",
+      "type": "EXERCISE",
+      "target_concept": "C19",
+      "duration": 1,
+      "difficulty": 0.3,
+      "text": "Exercise 3 for C19",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C19-4",
+      "type": "EXERCISE",
+      "target_concept": "C19",
+      "duration": 2,
+      "difficulty": 0.4,
+      "text": "Exercise 4 for C19",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C19-5",
+      "type": "EXERCISE",
+      "target_concept": "C19",
+      "duration": 2,
+      "difficulty": 0.45,
+      "text": "Exercise 5 for C19",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C19-6",
+      "type": "EXERCISE",
+      "target_concept": "C19",
+      "duration": 2,
+      "difficulty": 0.55,
+      "text": "Exercise 6 for C19",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C19-7",
+      "type": "EXERCISE",
+      "target_concept": "C19",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "Exercise 7 for C19",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C19-8",
+      "type": "EXERCISE",
+      "target_concept": "C19",
+      "duration": 2,
+      "difficulty": 0.7,
+      "text": "Exercise 8 for C19",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C19-9",
+      "type": "EXERCISE",
+      "target_concept": "C19",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "Exercise 9 for C19",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C19-10",
+      "type": "EXERCISE",
+      "target_concept": "C19",
+      "duration": 2,
+      "difficulty": 0.9,
+      "text": "Exercise 10 for C19",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "L-C20",
+      "type": "LESSON",
+      "target_concept": "C20",
+      "duration": 4,
+      "text": "Lesson for C20",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C20-1",
+      "type": "EXERCISE",
+      "target_concept": "C20",
+      "duration": 1,
+      "difficulty": 0.1,
+      "text": "Exercise 1 for C20",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C20-2",
+      "type": "EXERCISE",
+      "target_concept": "C20",
+      "duration": 1,
+      "difficulty": 0.2,
+      "text": "Exercise 2 for C20",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C20-3",
+      "type": "EXERCISE",
+      "target_concept": "C20",
+      "duration": 1,
+      "difficulty": 0.3,
+      "text": "Exercise 3 for C20",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C20-4",
+      "type": "EXERCISE",
+      "target_concept": "C20",
+      "duration": 2,
+      "difficulty": 0.4,
+      "text": "Exercise 4 for C20",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C20-5",
+      "type": "EXERCISE",
+      "target_concept": "C20",
+      "duration": 2,
+      "difficulty": 0.45,
+      "text": "Exercise 5 for C20",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C20-6",
+      "type": "EXERCISE",
+      "target_concept": "C20",
+      "duration": 2,
+      "difficulty": 0.55,
+      "text": "Exercise 6 for C20",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C20-7",
+      "type": "EXERCISE",
+      "target_concept": "C20",
+      "duration": 2,
+      "difficulty": 0.6,
+      "text": "Exercise 7 for C20",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C20-8",
+      "type": "EXERCISE",
+      "target_concept": "C20",
+      "duration": 2,
+      "difficulty": 0.7,
+      "text": "Exercise 8 for C20",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C20-9",
+      "type": "EXERCISE",
+      "target_concept": "C20",
+      "duration": 2,
+      "difficulty": 0.8,
+      "text": "Exercise 9 for C20",
+      "_note": "synthetic unreviewed"
+    },
+    {
+      "activity_id": "E-C20-10",
+      "type": "EXERCISE",
+      "target_concept": "C20",
+      "duration": 2,
+      "difficulty": 0.9,
+      "text": "Exercise 10 for C20",
+      "_note": "synthetic unreviewed"
+    }
+  ]
+}
