@@ -8,15 +8,13 @@ import time
 
 from adaptengine.core.config import DEFAULT_CONFIG, config_hash
 
-from .provenance import REPO_ROOT, code_hash, harness_hash, machine, utc_now
+from .provenance import REPO_ROOT, machine, utc_now
 
 TIMING_FIELDS = ("started_utc", "finished_utc", "wall_s")
 REQUIRED = {
     "experiment": str,
     "preregistration": str,
     "registered_utc": (str, type(None)),
-    "code_hash": str,
-    "harness_hash": str,
     "config_hash_default": str,
     "started_utc": str,
     "finished_utc": str,
@@ -36,15 +34,12 @@ class Run:
     def __init__(self, experiment: str, prereg: dict, procs: int):
         self.experiment, self.prereg, self.procs = experiment, prereg, procs
         self.started, self.t0 = utc_now(), time.time()
-        self.code, self.harness = code_hash(), harness_hash()
 
     def finish(self, design, content_review, cells, hypotheses, reused=None, **extra) -> dict:
         doc = {
             "experiment": self.experiment,
             "preregistration": self.prereg.get("path", ""),
             "registered_utc": self.prereg.get("registered_utc"),
-            "code_hash": self.code,
-            "harness_hash": self.harness,
             "config_hash_default": config_hash(DEFAULT_CONFIG),
             "started_utc": self.started,
             "finished_utc": utc_now(),
@@ -70,9 +65,8 @@ def validate(doc: dict) -> None:
             raise ValueError(f"results: missing field {k!r}")
         if not isinstance(doc[k], t):
             raise ValueError(f"results: field {k!r} has type {type(doc[k]).__name__}")
-    for k in ("code_hash", "harness_hash", "config_hash_default"):
-        if len(doc[k]) != 64:
-            raise ValueError(f"results: {k} is not a SHA-256 hex digest")
+    if len(doc["config_hash_default"]) != 64:
+        raise ValueError("results: config_hash_default is not a SHA-256 hex digest")
     if "seeds" not in doc["design"]:
         raise ValueError("results: design.seeds missing")
     for i, c in enumerate(doc["cells"]):

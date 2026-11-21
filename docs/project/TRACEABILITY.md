@@ -111,16 +111,16 @@ part of the project: both plans are skipped (D91).
 | **V2-TC2** | Plan V2 | `experiments_v2/` is independent of `experiments/` | `experiments_v2/tests/test_independence.py` | Retired — old harness removed; folder renamed (see experiments/NOTES.md) |
 | **V2-TC3** | Plan V2 | The executed-violation audit and metrics are correct | `experiments/tests/unit/test_audit.py`, `unit/test_metrics.py` | **Verified** |
 | **V2-TC4** | Plan V2 | Results are deterministic, independent of worker count | `experiments/tests/integration/test_determinism.py` | **Verified** |
-| **V2-TC5** | Plan V2 | No full run without a registered pre-registration and matching hash | `experiments/tests/tooling/test_prereg_guard.py`, `integration/test_runners_smoke.py::test_full_run_refuses_without_registration` | **Verified** |
-| **V2-TC6** | Plan V2 | Every results file is schema-valid and carries code hash, harness hash and seeds | `experiments/tests/tooling/test_results_schema.py`, `integration/test_runners_smoke.py` | **Verified** |
+| **V2-TC5** | Plan V2 | No full run without a registered pre-registration (status and registration time) (until D104 the guard also required the recorded code hash; every final run passed it) | `experiments/tests/tooling/test_prereg_guard.py`, `integration/test_runners_smoke.py::test_full_run_refuses_without_registration` | **Verified** |
+| **V2-TC6** | Plan V2 | Every results file is schema-valid and carries the default-config hash, times, machine and seeds (final results also carry the code and harness hashes of the time) | `experiments/tests/tooling/test_results_schema.py`, `integration/test_runners_smoke.py` | **Verified** |
 | **V2-TC7** | Plan V2 | v2 reproduces the stored results where the engine is unchanged (one-off check) | `experiments/NOTES.md` (V2-T4 record) | **Verified** |
 | **V2-TC8** | Plan V2 | E1–E6 ran under their registrations; every hypothesis reported, held or failed | `experiments/results/*.json`, `experiments/NOTES.md` | **Verified** |
 | **V2-TC9** | Plan V2 | Safety: executed violations for every arm and cell (E1 H1, E4 H1, E5 H1); every plan and replan checked (E1 H5, E5 H4) | the results files; tables T1, T1b | **Verified** |
 | **V2-TC9b** | Plan V2 | M8 coverage: path feasibility per budget, plan validity, cold-start and replan runtime, mastery prediction on executed attempts | tables T1b, T6b, T12b, T13, T13b; figure F3b | **Verified** |
-| **V2-TC10** | Plan V2 | Every report number traces to a results file and code hash | `experiments/tests/tooling/test_report.py` | **Verified** |
+| **V2-TC10** | Plan V2 | Every report number traces to a results file (each results file records the code hash it was produced with) | `experiments/tests/tooling/test_report.py` | **Verified** |
 | **V2-TC11** | Plan V2 | Render scripts never read results JSON; restyling needs no experiment | `experiments/tests/tooling/test_report.py` (AST scan) | **Verified** |
 | **V2-TC12** | Plan V2 | Re-rendering is byte-identical | `experiments/tests/tooling/test_report.py` | **Verified** |
-| **V2-TC13** | Plan V2 | `src/` and `experiments/` unchanged; code hash and default config hash unchanged | V2-T0 vs V2-T8 in `experiments/NOTES.md`; `src/` and the code hash also unchanged after the rename (D102) | **Verified** |
+| **V2-TC13** | Plan V2 | `src/` and `experiments/` unchanged; code hash and default config hash unchanged | V2-T0 vs V2-T8 in `experiments/NOTES.md`; `src/` and the code hash also unchanged after the rename (D102); code provenance since D104: study commit `256fcf802ca786fb269e0824a54ba9153fe6b4c1` | **Verified** |
 | **V2-TC14** | Plan V2 | D91 and D98–D101 recorded; superseded notes added | `docs/project/DECISIONS.md` §7 (D91, D98–D102), `docs/archive/preregistration/F1_2026-11-20.md`, `F3_2026-11-20.md` | **Verified** |
 
 ## Test layout (reorganised)
@@ -202,3 +202,11 @@ results and pre-registrations keep `9a40c4d8…`, the hash of the same logic whe
 Paths to moved documents in all decision texts were also updated. The test paths in the texts of
 D45, D94 and D96 and the doc path in `experiments/preregistration/E3_2026-11-21.md` were updated at the
 owner's request (see "History of this file" in DECISIONS and `experiments/NOTES.md`).
+
+## Code hash removed (D104)
+
+The engine code hash and the harness hash were removed; the git commit is the code provenance.
+The final study's engine code is commit `256fcf802ca786fb269e0824a54ba9153fe6b4c1`
+(2026-11-20, "feat: add CP-SAT and hybrid planners with OR-Tools integration"). Before/after counts,
+the report checks and the other details are in the section "Code hash and harness hash removed
+(2026-11-21, D104)" of [experiments/NOTES.md](../../experiments/NOTES.md).

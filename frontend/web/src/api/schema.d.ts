@@ -502,8 +502,6 @@ export interface components {
             engine_version: string;
             /** Api Version */
             api_version: string;
-            /** Code Hash */
-            code_hash: string;
             /** Config Hash Default */
             config_hash_default: string;
             /** Ortools Available */

@@ -5,7 +5,6 @@ import os
 
 import pytest
 
-from experiments.core.provenance import code_hash
 from experiments.core.results import load, validate
 
 RUNNERS = {
@@ -30,7 +29,7 @@ def test_smoke_writes_valid_results(module, tmp_path):
     doc = run_smoke(module, out)
     validate(doc)
     assert doc["experiment"] == RUNNERS[module]
-    assert doc["code_hash"] == code_hash() and doc["smoke"] is True
+    assert doc["smoke"] is True and "code_hash" not in doc
     assert doc["cells"] and doc["hypotheses"]
     if module == "e5_planners":
         lat = load(os.path.join(tmp_path, "E5_latency.json"))

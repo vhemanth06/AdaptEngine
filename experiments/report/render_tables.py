@@ -140,7 +140,7 @@ def render(name: str, data_dir: str) -> tuple[str, str]:
         rows = list(csv.DictReader(f))
     head = [c[0] for c in cols]
     body = [[cell(r, kind, cs) for _, kind, cs in cols] for r in rows]
-    sources = sorted({f"{r['source_file']} (code {r['code_hash'][:12] or 'n/a'})" for r in rows})
+    sources = sorted({r["source_file"] for r in rows})
     md = [f"**{name}.** {caption}", "", "| " + " | ".join(head) + " |", "|" + "---|" * len(head)]
     md += ["| " + " | ".join(x.replace("|", "\\|") for x in b) + " |" for b in body]
     md += ["", "Source: " + "; ".join(sources), ""]

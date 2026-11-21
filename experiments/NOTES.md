@@ -502,3 +502,39 @@ At the owner's request, three stale docstrings and one comment in `src/` were co
 `03297fadb410b3605898432961b5c23387ce1c7c2f8659622be7428778b885fb`. All results files and
 pre-registrations keep `9a40c4d8…`, under which they were produced with the same logic; a new full
 run would be refused by the pre-registration guard until registered again under the new hash.
+
+## Code hash and harness hash removed (2026-11-21, D104)
+
+The project's own code fingerprints were removed; code provenance is now the git commit. Removed:
+`tree_hash`, `code_hash`, `harness_hash` and the `__main__` printer in `core/provenance.py`
+(`file_sha256` stays: it verifies the real-data checksums); the guard's code-hash check in
+`core/prereg.py` (status Registered and a `Registered UTC` time remain; a `Code hash:` line in a
+pre-registration is ignored); the `code_hash` and `harness_hash` fields of new results files
+(`core/results.py`); the `code_hash` column of the report CSVs and the code hash in the tables'
+source lines; the `code_hash` field of `/api/health` and the UI footer; and E5's reuse of E1 cells,
+which needed the code hash to show the code was the same. Future E5 runs compute all their greedy
+cells (about 430 more cells); the existing E5 results keep their 430 reused cells.
+
+**Study commit.** The final study's engine code (`src/`, code hash `9a40c4d8…`) is commit
+`256fcf802ca786fb269e0824a54ba9153fe6b4c1` (2026-11-20 20:39 +0530, "feat: add CP-SAT and hybrid
+planners with OR-Tools integration"), the newest commit whose `src/` hashes to `9a40c4d8…`. The runs
+were made from a working tree on top of `07b8d43` with that same `src/`; the harness was first
+committed afterwards (`5134a24`) and the results files in `43a7ae1`. Since then `src/` differs from
+the study commit only in docstrings and one comment of `learner/profiles.py`,
+`planner/confirmation.py` and `replanner/replan.py` (no logic change; see
+`docs/project/TRACEABILITY.md`).
+
+The results files still carry `code_hash 9a40c4d8…` and harness hashes `928630…` (E2, E3) and
+`240e95fd…` (E1, E4, E5, E6) as produced; the pre-registrations keep their `Code hash:` lines.
+
+| Item | Before | After |
+|---|---|---|
+| `make check` | 403 passed, 0 skipped, 92.64 % | 403 passed, 0 skipped, 92.64 % |
+| API tests | 23 passed | 23 passed |
+| Study tests | 57 passed | 57 passed (−2 deleted: `test_other_hash_is_refused`, `test_amendment_hash_counts`; +2 added: `test_missing_registered_utc_is_refused`, `test_existing_results_still_validate`) |
+| Results JSON sha256 (7 files) | recorded | identical |
+| Report CSVs (28) | with `code_hash` column | column dropped; every other value identical |
+| Tables (38) | `Source: … (code 9a40c4d82239)` | `Source: …` only; no other line changed |
+| Figures (20) | — | byte-identical |
+| UI footer | `engine 0.3.0 · code 9a40c4d8` | `engine 0.3.0` (screenshots regenerated; they also differ in the random session id and the "last replan … ms" timing, which vary per run) |
+| Study commit | — | `256fcf802ca786fb269e0824a54ba9153fe6b4c1` |

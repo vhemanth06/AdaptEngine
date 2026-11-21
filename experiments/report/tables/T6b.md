@@ -8,4 +8,4 @@
 | S3 | 426931 | 0.256 | 0.706 | 0.520 | 0.129 |
 | S4 | 412014 | 0.233 | 0.659 | 0.645 | 0.009 |
 
-Source: experiments/results/E1_safety_outcomes.json (code 9a40c4d82239)
+Source: experiments/results/E1_safety_outcomes.json

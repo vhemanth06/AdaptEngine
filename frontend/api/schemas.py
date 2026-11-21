@@ -223,7 +223,6 @@ class Health(BaseModel):
     status: str
     engine_version: str
     api_version: str
-    code_hash: str
     config_hash_default: str
     ortools_available: bool
     web_build: Literal["fresh", "stale", "missing"]

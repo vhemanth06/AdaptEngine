@@ -1,4 +1,4 @@
-"""Provenance without git: content hashes of the engine and of this harness, and UTC time."""
+"""Provenance of a run: UTC time and machine. Code provenance is the git commit (D104)."""
 
 from __future__ import annotations
 
@@ -9,32 +9,6 @@ from datetime import datetime, timezone
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 HARNESS_ROOT = os.path.join(REPO_ROOT, "experiments")
-
-
-def tree_hash(root: str) -> str:
-    """SHA-256 over every *.py file under root (sorted relative path, NUL, bytes, NUL)."""
-    paths = []
-    for d, dirs, files in os.walk(root):
-        dirs[:] = [x for x in dirs if x != "__pycache__"]
-        paths += [os.path.join(d, f) for f in files if f.endswith(".py")]
-    h = hashlib.sha256()
-    for p in sorted(paths, key=lambda p: os.path.relpath(p, root).replace(os.sep, "/")):
-        h.update(os.path.relpath(p, root).replace(os.sep, "/").encode())
-        h.update(b"\0")
-        with open(p, "rb") as f:
-            h.update(f.read())
-        h.update(b"\0")
-    return h.hexdigest()
-
-
-def code_hash() -> str:
-    """The engine's code hash: src/**/*.py (same definition as the rest of the project)."""
-    return tree_hash(os.path.join(REPO_ROOT, "src"))
-
-
-def harness_hash() -> str:
-    """This harness: experiments/**/*.py."""
-    return tree_hash(HARNESS_ROOT)
 
 
 def utc_now() -> str:
@@ -59,8 +33,3 @@ def file_sha256(path: str) -> str:
         for chunk in iter(lambda: f.read(1 << 20), b""):
             h.update(chunk)
     return h.hexdigest()
-
-
-if __name__ == "__main__":
-    print("code_hash", code_hash())
-    print("harness_hash", harness_hash())

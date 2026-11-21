@@ -4,7 +4,10 @@ import copy
 
 import pytest
 
-from experiments.core.results import Run, validate, write
+import glob
+import os
+
+from experiments.core.results import Run, load, validate, write
 
 
 def _doc():
@@ -22,15 +25,16 @@ def _doc():
 def test_valid_document(tmp_path):
     d = _doc()
     validate(d)
-    assert len(d["code_hash"]) == len(d["harness_hash"]) == 64
+    assert "code_hash" not in d and "harness_hash" not in d
+    assert len(d["config_hash_default"]) == 64
     write(d, str(tmp_path / "x.json"))
 
 
 @pytest.mark.parametrize(
     "breaker",
     [
-        lambda d: d.pop("code_hash"),
-        lambda d: d.__setitem__("harness_hash", "abc"),
+        lambda d: d.pop("config_hash_default"),
+        lambda d: d.__setitem__("config_hash_default", "abc"),
         lambda d: d["design"].pop("seeds"),
         lambda d: d["cells"][0].pop("key"),
         lambda d: d["cells"][0]["arms"]["adapt"].pop("n"),
@@ -43,3 +47,14 @@ def test_broken_documents_rejected(breaker):
     breaker(d)
     with pytest.raises(ValueError):
         validate(d)
+
+
+RESULTS = os.path.join(os.path.dirname(__file__), "..", "..", "results")
+
+
+def test_existing_results_still_validate():
+    # the final results carry the code and harness hashes of the time as extra fields (D104)
+    paths = sorted(glob.glob(os.path.join(RESULTS, "*.json")))
+    assert paths
+    for p in paths:
+        validate(load(p))

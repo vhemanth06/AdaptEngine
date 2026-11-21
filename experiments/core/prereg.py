@@ -1,11 +1,10 @@
-"""Pre-registration guard (D47): a full run starts only from a pre-registration whose status is
-"Registered" and whose recorded code hash equals the current one. `--smoke` runs are allowed.
+"""Pre-registration guard (D47, D104): a full run starts only from a pre-registration whose status
+is "Registered" and that records a registration time. `--smoke` runs are allowed.
 
-The file carries three lines the guard reads:
+The guard reads two lines:
     Status: Registered
     Registered UTC: 2026-11-21T10:00:00+00:00
-    Code hash: <64 hex>
-An amendment may update the code hash with a later "Code hash:" line; the last one counts.
+Pre-registrations written before D104 also carry a "Code hash:" line; it is ignored.
 """
 
 from __future__ import annotations
@@ -14,7 +13,7 @@ import glob
 import os
 import re
 
-from .provenance import HARNESS_ROOT, code_hash
+from .provenance import HARNESS_ROOT
 
 PREREG_DIR = os.path.join(HARNESS_ROOT, "preregistration")
 
@@ -43,7 +42,6 @@ def read(path: str) -> dict:
         "path": os.path.relpath(path, os.path.dirname(HARNESS_ROOT)).replace(os.sep, "/"),
         "status": last("Status"),
         "registered_utc": last("Registered UTC"),
-        "code_hash": last("Code hash"),
     }
 
 
@@ -58,11 +56,6 @@ def guard(exp: str, smoke: bool, path: str | None = None) -> dict:
     info = read(path or find(exp))
     if (info["status"] or "").lower() != "registered":
         raise NotRegistered(f"{info['path']}: status is {info['status']!r}, not 'Registered'")
-    if info["code_hash"] != code_hash():
-        raise NotRegistered(
-            f"{info['path']}: code hash {info['code_hash']!r} differs from the current "
-            f"{code_hash()!r}; add a dated amendment before running"
-        )
     if not info["registered_utc"]:
         raise NotRegistered(f"{info['path']}: no 'Registered UTC' time")
     return info

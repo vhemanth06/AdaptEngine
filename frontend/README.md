@@ -15,7 +15,7 @@ make demo                        # builds web/dist if src/ is newer, starts uvic
 `make demo` (`scripts/demo.py`) checks that FastAPI and uvicorn are installed and the curriculum
 data is present. It rebuilds the web app when needed (`npm ci` the first time) and serves
 everything from http://127.0.0.1:8000. `GET /api/health` reports:
-- the engine version, the code hash and the default config hash;
+- the engine version and the default config hash;
 - whether OR-Tools is installed;
 - whether the web build is fresh, stale or missing;
 - the review status of every curriculum and content file.
@@ -110,7 +110,7 @@ The footer shows:
 - the content status of the active curriculum, read from `data/review_manifest.json` through
   `/api/health`: "content: reviewed by vhemanth06" for `8node_x10` (D93), or "content:
   AI-drafted, human review pending" for a pending file;
-- the engine version and the code hash.
+- the engine version.
 
 ## Tests
 

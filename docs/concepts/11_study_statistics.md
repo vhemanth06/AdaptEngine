@@ -64,11 +64,11 @@ recomputed from training students only (items with fewer than 20 answers form an
 class). Predictions on the held-out students of all 5 folds are pooled and scored once ("pooled
 out-of-fold"). No student is ever in both the training and the test part of a fold.
 
-**Pre-registration.** Each experiment has `experiments/preregistration/E<n>_<date>.md` with three
-lines the guard reads: `Status: Registered`, `Registered UTC: <time>`, `Code hash: <SHA-256 over
-src/**/*.py>` (an amendment may add a later `Code hash:` line; the last one counts). A full run
-refuses to start unless the status is Registered, the code hash equals the current one, and the
-time is present; `--smoke` runs are always allowed. The file states the arms, cells, seeds, metrics
+**Pre-registration.** Each experiment has `experiments/preregistration/E<n>_<date>.md`. A full run
+needs the pre-registration's `Status: Registered` and a `Registered UTC` time; `--smoke` runs are
+always allowed. Until 21 Nov 2026 the guard also compared a `Code hash:` line with the current
+engine; all final runs passed that check, and the line is still present in the pre-registrations
+([D104](../project/DECISIONS.md#d104)). The file states the arms, cells, seeds, metrics
 and, per hypothesis, a decision rule written in terms of the intervals above (for example E1 H2:
 "the upper bound of the adapt − static CI is ≥ 0 in both" S1 headline cells). After the run the
 runner applies that rule and writes `held: true` or `false` with an evidence string into the
@@ -158,8 +158,7 @@ stored     {'ci95': [0.025, 0.048], 'diff': 0.036, 'n': 1000}
 | `contrast` (checks seeds match, then `paired`) | `experiments/runners/common.py` | — | — |
 | `crossvalidate`, `fold_students`, `heldout_metrics` | `experiments/core/realdata.py` | `folds`, `SEED` | 5, 42 |
 | `fast_em`, `fit_classes`, `fit_per_skill`, `heuristic_class` | `experiments/core/realdata.py` | `MIN_ITEM_ANSWERS` | 20 |
-| `guard`, `read`, `find`, `NotRegistered` | `experiments/core/prereg.py` | — | — |
-| `code_hash` | `experiments/core/provenance.py` | — | SHA-256 over `src/**/*.py` |
+| `guard` (status Registered and a registration time), `read`, `find`, `NotRegistered` | `experiments/core/prereg.py` | — | — |
 | hypothesis rules (`"held"`) | `experiments/runners/e1_safety_outcomes.py` … `e6_sensitivity.py` | — | — |
 
 ## Tests
@@ -177,11 +176,11 @@ stored     {'ci95': [0.025, 0.048], 'diff': 0.036, 'n': 1000}
 ## Decisions
 
 - [D47](../project/DECISIONS.md#d47) — every world, metric and rule is pre-registered with a
-  timestamp and code hash before running.
+  registration time before running (the code hash was also recorded until D104).
 - [D48](../project/DECISIONS.md#d48) — fitted profiles replace the heuristic only if they beat it
   on held-out data.
 - [D98](../project/DECISIONS.md#d98) — one final study on one code hash, with its own
-  pre-registrations.
+  pre-registrations; see also [D104](../project/DECISIONS.md#d104).
 - [D99](../project/DECISIONS.md#d99) — improvement is claimed only where a pre-registered paired
   contrast shows it.
 - [D100](../project/DECISIONS.md#d100) — results JSON → data files → tables and figures.
@@ -218,4 +217,4 @@ Run with `PYTHONPATH=. .venv/bin/python` from the repository root; all were run 
 - E1 stored: `adapt_minus_static.goal_mastered` for S1 | `8node_x10` | 15 | calm → diff 0.036, ci95 [0.025, 0.048], n 1000 (recomputed with `metrics.paired`)
 - E1 stored: `cells[...].arms.adapt.metrics.attempts` for the same cell → ECE 0.1498, AUC 0.5507
 - `experiments/preregistration/E1_2026-11-21.md` → Status Registered, Registered UTC 2026-11-20T23:37:19+00:00, Code hash 9a40c4d8…66e6ef
-  (the engine's code hash has been `03297fad…` since 21 Nov 2026, after a docstring-only change in `src/`; a new full run would need to be registered again under that hash)
+  (the code is identified by the study commit `256fcf802ca786fb269e0824a54ba9153fe6b4c1` (experiments/NOTES.md); the code hash was removed in [D104](../project/DECISIONS.md#d104))

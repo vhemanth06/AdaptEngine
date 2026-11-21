@@ -12,7 +12,6 @@ import functools
 import importlib.metadata
 import importlib.util
 import json
-import sys
 import time
 from dataclasses import dataclass, replace
 from pathlib import Path
@@ -572,15 +571,6 @@ def get_trace(sid: str, activity_id: Optional[str] = None):
 # ------------------------------------------------------------------- Plan FE: health, demo
 
 
-@functools.cache
-def _code_hash() -> str:
-    if str(REPO) not in sys.path:
-        sys.path.insert(0, str(REPO))  # experiments/ is a repo-root package, not installed
-    from experiments.core.provenance import code_hash
-
-    return code_hash()
-
-
 def _engine_version() -> str:
     try:
         return importlib.metadata.version("adaptengine")
@@ -606,7 +596,6 @@ def health():
         "status": "ok",
         "engine_version": _engine_version(),
         "api_version": app.version,
-        "code_hash": _code_hash(),
         "config_hash_default": config_hash(DEFAULT_CONFIG),
         "ortools_available": importlib.util.find_spec("ortools") is not None,
         "web_build": _web_build(),

@@ -4,8 +4,8 @@ When does CP-SAT change outcomes, verdicts or advice compared with greedy, and a
 time? Arms (no diagnostic, closed loop): planner_method greedy, hybrid, cpsat (frozen: 10 work
 units, seed 0, greedy hint, at most 3 reviews per concept, lateness penalty 0.1).
 - greedy and hybrid: worlds S0-S4 x 4-node, 8-node, 8node_x10, synth-20 x budgets 5/10/15/30 x the
-  8 scenarios, N = 200. Greedy cells reuse E1's adapt cells (identical config and seeds) when E1's
-  results carry the same code hash; E1's N = 1000 headline cells are re-run at N = 200.
+  8 scenarios, N = 200. E5 computes its own greedy cells: reuse of E1's adapt cells needed the
+  code hash to show the code was the same, and was removed with it (D104; see NOTES.md).
 - pure CP-SAT: 4-node, 8-node, 8node_x10; budgets 10 and 15; calm, missed_day, deadline_cut.
 - with confirmation checks: each planner with bisection_config() (diagnostic first), worlds S0
   and S4, 8-node and 8node_x10, calm, budget 15.
@@ -22,7 +22,7 @@ import statistics
 import time
 from dataclasses import replace
 
-from adaptengine.core.config import DEFAULT_CONFIG, config_hash
+from adaptengine.core.config import DEFAULT_CONFIG
 from adaptengine.core.schema import ActivityType, Event, EventType, PlanContext
 from adaptengine.learner.state import ExecutionLog
 
@@ -31,7 +31,7 @@ from ..core import metrics as M
 from ..core.arms import E5_ARMS, E5_CONFIRM_ARMS, PLANNERS, Arm
 from ..core.episode import first_plan, plan_summary, run_episode
 from ..core.parallel import pmap
-from ..core.results import Run, default_out, load, validate, write
+from ..core.results import Run, validate, write
 from ..core.scenarios import BUDGETS, SCENARIOS, applies, horizon, make_scenario, profile_for
 from ..core.simulator import WORLDS, make_learner
 from . import common
@@ -103,28 +103,6 @@ def run_unit(unit) -> dict:
     entry = common.arm_entry(rows)
     entry["metrics"].pop("attempt_histogram")
     return entry
-
-
-def reusable_e1(smoke: bool, run: Run) -> dict:
-    """E1 adapt entries by (world, curriculum, budget, scenario), if E1 ran with the same engine
-    code, harness and default config."""
-    path = default_out("E1_safety_outcomes")
-    if smoke or not os.path.exists(path):
-        return {}
-    e1 = load(path)
-    same = (e1.get("code_hash"), e1.get("harness_hash"), e1.get("config_hash_default")) == (
-        run.code,
-        run.harness,
-        config_hash(DEFAULT_CONFIG),
-    )
-    if not same or e1.get("smoke"):
-        return {}
-    out = {}
-    for c in e1["cells"]:
-        k = c["key"]
-        if c["arms"]["adapt"]["per_learner"]["seed"] == list(common.EPISODE_SEEDS):
-            out[(k["world"], k["curriculum"], k["budget"], k["scenario"])] = c["arms"]["adapt"]
-    return out
 
 
 def agreement(arms: dict) -> dict:
@@ -425,21 +403,9 @@ def main(argv=None) -> dict:
         C.paths(c)
     seeds = common.SMOKE_EPISODE_SEEDS if args.smoke else common.EPISODE_SEEDS
     units = grid(args.smoke)
-    reuse = reusable_e1(args.smoke, run)
-    todo = [u for u in units if not (u[4] == "greedy" and not u[5] and u[:4] in reuse)]
-    done = dict(zip(todo, pmap(run_unit, [(u, seeds) for u in todo], args.procs)))
-    reused = {}
-    for u in units:
-        if u not in done:
-            done[u] = reuse[u[:4]]
-            reused["|".join(map(str, u[:5]))] = "E1_safety_outcomes adapt arm, cell " + "|".join(
-                map(str, u[:4])
-            )
-    cells = assemble(
-        units,
-        [done[u] for u in units],
-        {u[:4] + (False,) for u in units if "|".join(map(str, u[:5])) in reused},
-    )
+    done = dict(zip(units, pmap(run_unit, [(u, seeds) for u in units], args.procs)))
+    reused: dict = {}
+    cells = assemble(units, [done[u] for u in units], set())
     design = {
         "question": "When does CP-SAT change outcomes, verdicts or advice compared with greedy, and at what planning time?",
         "arms": {n: a.describe() for n, a in {**E5_ARMS, **E5_CONFIRM_ARMS}.items()},
@@ -462,7 +428,7 @@ def main(argv=None) -> dict:
         "confirmation_cells": {
             k: (list(v) if isinstance(v, tuple) else v) for k, v in CONFIRM.items()
         },
-        "greedy_reuse": "E1 adapt cells (DEFAULT_CONFIG = planner greedy, same seeds) when E1 ran with the same code hash",
+        "greedy_reuse": "none: E5 computes its own greedy cells (E1 reuse removed with the code hash, D104)",
         "seeds": {"episodes": [1000, 1199]} if not args.smoke else {"episodes": list(seeds)},
     }
     doc = common.finish(

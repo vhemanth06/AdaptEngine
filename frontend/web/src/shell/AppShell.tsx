@@ -163,8 +163,8 @@ export function Footer({ health, curriculum }: { health?: Health; curriculum?: s
       </span>
       <span className="flex-1" />
       {health && (
-        <span className="font-mono" data-testid="code-hash" title={health.code_hash}>
-          engine {health.engine_version} · code {health.code_hash.slice(0, 8)}
+        <span className="font-mono" data-testid="engine-version" title={health.engine_version}>
+          engine {health.engine_version}
           {health.web_build === "stale" && " · web build is stale (make demo rebuilds it)"}
         </span>
       )}

@@ -25,4 +25,4 @@
 | E5_planners | cpsat | – | descriptive (no direction predicted); losing cells listed in cpsat_losses |
 | E6_sensitivity | descriptive | – | E6 is descriptive; no hypotheses were registered |
 
-Source: experiments/results/E1_safety_outcomes.json (code 9a40c4d82239); experiments/results/E2_diagnostic.json (code 9a40c4d82239); experiments/results/E3_calibration.json (code 9a40c4d82239); experiments/results/E4_features.json (code 9a40c4d82239); experiments/results/E5_planners.json (code 9a40c4d82239); experiments/results/E6_sensitivity.json (code 9a40c4d82239)
+Source: experiments/results/E1_safety_outcomes.json; experiments/results/E2_diagnostic.json; experiments/results/E3_calibration.json; experiments/results/E4_features.json; experiments/results/E5_planners.json; experiments/results/E6_sensitivity.json

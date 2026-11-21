@@ -12,13 +12,11 @@ from frontend.api import app as app_module  # noqa: E402
 
 def test_health_fields(client):
     """FE-TC2 / FE.3 item 1."""
-    from experiments.core.provenance import code_hash
-
     from adaptengine.core.config import config_hash
 
     h = client.get("/api/health").json()
     assert h["status"] == "ok" and h["api_version"] == app_module.app.version
-    assert h["code_hash"] == code_hash()
+    assert "code_hash" not in h
     assert h["config_hash_default"] == config_hash(DEFAULT_CONFIG)
     assert isinstance(h["ortools_available"], bool) and isinstance(h["engine_version"], str)
     assert h["content_review"]["8node_x10"] == "vhemanth06"

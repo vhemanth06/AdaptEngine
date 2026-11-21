@@ -38,16 +38,18 @@ diagnostic arms, real-data fits), `integration/` (closed-loop episodes, every ru
 smoke mode, determinism across worker counts) and `tooling/` (report pipeline, pre-registration
 guard, results schema). `make exp-test` runs all three.
 
-- A full run refuses to start unless its pre-registration says `Status: Registered` with the
-  current code hash (SHA-256 over `src/**/*.py`). `--smoke` is always allowed.
+- A full run needs a pre-registration with status Registered and a registration time. `--smoke`
+  is always allowed.
+- Each results file records UTC times, machine, seeds and the default-config hash; the code is
+  identified by the git commit (study commit in NOTES.md).
 - `--procs` defaults to CPU count − 1. Results do not depend on it.
-- E5 reuses E1's adapt cells for greedy (same config and seeds) when E1 ran with the same code hash,
-  so run E1 first. E5 also writes `results/E5_latency.json` (timing, not deterministic).
+- E5 computes its own greedy cells; the final E5 results reused 430 cells from E1 under the former
+  hash check (D104). E5 also writes `results/E5_latency.json` (timing, not deterministic).
 - To keep the machine usable: `nice -n 19 python -m … --procs 4` (about 3× slower).
 
 ## Layout
 
-- `core/` — provenance, curricula (review gate; synthetic generator writing `data/synthetic/`),
+- `core/` — provenance (UTC time, machine), curricula (review gate; synthetic generator writing `data/synthetic/`),
   the simulated learners (`simulator.py`, §V2.3), scenarios, arms, episodes, audits (executed and
   plan-level), diagnostics, real data (BKT EM, CV by student), metrics, parallel map, results schema,
   pre-registration guard.

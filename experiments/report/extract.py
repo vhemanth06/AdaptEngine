@@ -1,7 +1,7 @@
 """Results JSON -> report/data/*.csv: one small CSV per table or figure (D100).
 
-Reads only experiments/results/*.json. Every row carries `experiment`, `source_file`,
-`code_hash` and `status`. A missing results file gives the expected rows with status `not_run`
+Reads only experiments/results/*.json. Every row carries `experiment`, `source_file` and
+`status`. A missing results file gives the expected rows with status `not_run`
 and empty values, never a made-up number.
 
     python -m experiments.report.extract [--results DIR] [--data DIR]
@@ -27,7 +27,7 @@ FILES = {
     "E5L": "E5_latency.json",
     "E6": "E6_sensitivity.json",
 }
-PROV = ["experiment", "source_file", "code_hash", "status"]
+PROV = ["experiment", "source_file", "status"]
 DISRUPTIONS = (
     "missed_day",
     "missed_2days",
@@ -904,7 +904,6 @@ def main(results_dir: str = RESULTS, data_dir: str = DATA) -> dict:
                     {
                         "experiment": src["experiment"],
                         "source_file": src["_source"],
-                        "code_hash": src["code_hash"],
                         "status": "ok",
                         **r,
                     }
@@ -915,7 +914,6 @@ def main(results_dir: str = RESULTS, data_dir: str = DATA) -> dict:
                     {
                         "experiment": FILES[k][:-5],
                         "source_file": f"experiments/results/{FILES[k]}",
-                        "code_hash": "",
                         "status": "not_run",
                     }
                 )

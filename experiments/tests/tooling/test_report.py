@@ -35,17 +35,13 @@ def _csv(data_dir, name):
 
 
 def test_every_csv_has_columns_and_provenance(data_dir, smoke_results):
-    hashes = {
-        json.load(open(os.path.join(smoke_results, f)))["code_hash"]
-        for f in os.listdir(smoke_results)
-    }
     for name, (_, cols, _) in extract.TABLES.items():
         with open(os.path.join(data_dir, f"{name}.csv"), encoding="utf-8") as f:
             reader = csv.DictReader(f)
             assert reader.fieldnames == extract.PROV + cols, name
             for r in reader:
                 assert r["source_file"].startswith("experiments/results/"), name
-                assert r["code_hash"] in hashes and r["status"] == "ok", name
+                assert r["status"] == "ok", name
 
 
 def test_spot_checks_equal_results_json(data_dir, smoke_results):

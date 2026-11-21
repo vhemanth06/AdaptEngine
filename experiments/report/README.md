@@ -1,8 +1,9 @@
 # Report pipeline (D100)
 
 `results/*.json` → `extract.py` → `data/*.csv` (one per table or figure; every row has
-`experiment`, `source_file`, `code_hash`, `status`) → `render_tables.py` → `tables/*.tex` (booktabs)
-and `tables/*.md`; `render_figures.py` → `figures/*.pdf` and `figures/*.png` (300 dpi).
+`experiment`, `source_file`, `status`) → `render_tables.py` → `tables/*.tex` (booktabs)
+and `tables/*.md`; `render_figures.py` → `figures/*.pdf` and `figures/*.png` (300 dpi). Each table ends
+with a source line naming the results file(s) it was built from.
 
 - A missing results file gives rows with `status = not_run` and empty values; tables show "not run".
 - Render scripts read only `data/`. Re-rendering is byte-identical (fixed file metadata).

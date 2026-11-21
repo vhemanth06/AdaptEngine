@@ -100,10 +100,10 @@ Descriptions come from each file's module docstring, or from its test names wher
 | `unit/test_simulator.py` | The simulated learner (V2-TC1). |
 | `integration/test_determinism.py` | Identical results apart from timing fields, whatever the worker count (V2-TC4). |
 | `integration/test_episode.py` | Closed loop, no-replan and static episodes (V2-TC1). |
-| `integration/test_runners_smoke.py` | Every runner's `--smoke` completes and writes a schema-valid file (V2-TC6). |
-| `tooling/test_prereg_guard.py` | No full run without a registered pre-registration carrying the current code hash (V2-TC5). |
+| `integration/test_runners_smoke.py` | Every runner's `--smoke` completes and writes a schema-valid file without a code hash (V2-TC6). |
+| `tooling/test_prereg_guard.py` | No full run without a registered pre-registration (status and registration time) (V2-TC5). Since D104 the tests `test_other_hash_is_refused` and `test_amendment_hash_counts` are gone (they tested the removed code-hash check); `test_missing_registered_utc_is_refused` was added and `test_registered_with_current_hash_runs` is now `test_registered_runs`. |
 | `tooling/test_report.py` | The report pipeline: extract, CSV, tables and figures (V2-TC10 to TC12). |
-| `tooling/test_results_schema.py` | The results schema accepts a valid document and rejects broken ones (V2-TC6). |
+| `tooling/test_results_schema.py` | The results schema accepts a valid document and rejects broken ones (V2-TC6); `test_existing_results_still_validate` (added with D104) checks that every final results file, which still carries the code and harness hashes of the time, validates. |
 
 ### `frontend/api/tests/` (23 tests)
 

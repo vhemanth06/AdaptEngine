@@ -1,5 +1,5 @@
-experiment,source_file,code_hash,status,arm,retention_reviewed,retention_not_reviewed,cells
-E1_safety_outcomes,experiments/results/E1_safety_outcomes.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,adapt,0.4295,0.4278,80
-E1_safety_outcomes,experiments/results/E1_safety_outcomes.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,no_review,,0.4235,80
-E1_safety_outcomes,experiments/results/E1_safety_outcomes.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,adapt_h7,0.4318,0.4421,80
-E1_safety_outcomes,experiments/results/E1_safety_outcomes.json,9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef,ok,no_review_h7,,0.4235,80
+experiment,source_file,status,arm,retention_reviewed,retention_not_reviewed,cells
+E1_safety_outcomes,experiments/results/E1_safety_outcomes.json,ok,adapt,0.4295,0.4278,80
+E1_safety_outcomes,experiments/results/E1_safety_outcomes.json,ok,no_review,,0.4235,80
+E1_safety_outcomes,experiments/results/E1_safety_outcomes.json,ok,adapt_h7,0.4318,0.4421,80
+E1_safety_outcomes,experiments/results/E1_safety_outcomes.json,ok,no_review_h7,,0.4235,80

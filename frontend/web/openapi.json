@@ -1340,10 +1340,6 @@
       "type": "string",
       "title": "Api Version"
      },
-     "code_hash": {
-      "type": "string",
-      "title": "Code Hash"
-     },
      "config_hash_default": {
       "type": "string",
       "title": "Config Hash Default"
@@ -1388,7 +1384,6 @@
      "status",
      "engine_version",
      "api_version",
-     "code_hash",
      "config_hash_default",
      "ortools_available",
      "web_build",
