@@ -10,7 +10,7 @@
 - `planner/`: Deterministic path planner, difficulty policy, feasibility bounds, exact bin-packing oracle.
 - `review/`: Spaced review forgetting model (half-life decay) and review urgency scoring.
 - `replanner/`: Dynamic horizon replanning on events (missed day, failed assessment, deadline changed, budget changed).
-- `experiments/`: Paired synthetic baseline evaluation harness with closed-loop IRT simulated learners (`run_evaluation.py`, `sim.py`, `arms.py`, `diag_eval.py`, `stats.py`, `checks.py`, `synth_curriculum.py`, `run_replan_latency.py`).
+- `experiments/`: The final evaluation study (Plan V2, D98; renamed from `experiments_v2/`, D102). `core/` (simulated learners, scenarios, closed-loop episodes, audits, metrics, real-data loading, pre-registration guard, provenance), `runners/` (E1–E6), `results/` (the results JSONs), `report/` (extract → tables → figures). Outside `src/`; see `experiments/README.md`.
 - `planner/workload.py`: Workload projection memoization via caller-owned `WorkloadCache` (explicit value, no hidden engine state). Keys: concept, learner-concept state, the concept's completed-attempt history, config, model identity and (since W7 T6.1) a curriculum + activity-catalogue fingerprint; bounded at `maxsize=4096` (oldest evicted). Use one cache per engine/curriculum.
 - `curriculum/graph.py`: immutable graph; prerequisite tuples, ancestor/descendant sets, depths and topological order are precomputed once (W7 T6.1).
 - `Engine.next_activities` (W7 T2.2): recommended online loop (rolling horizon: replan from the real state, commit today's slice).
@@ -123,7 +123,7 @@ AdaptEngine acts as an embedded, deterministic learning path and diagnostic engi
 | Review & Remediation | `review/`, `planner/schedule.py` | Implemented (W5, W6) | Half-life decay forgetting baseline, priority tiers, repeat lesson insertion, starvation termination bound |
 | Replanner | `replanner/`, `api.py` | Implemented (W5, W6) | Horizon replanning on missed days, failed assessments, deadline/budget changes; frontier memoization |
 | Explainer & Traces | `planner/plan.py` | Implemented (W5, W6) | Machine-readable decision traces, pure JSON serialization with config hash, 100% activity trace coverage |
-| Simulator & Evaluator | `experiments/` | Implemented (W6, M8) | Transparent paired synthetic evaluation harness with closed-loop IRT learners, matched budgets, 4 arms, and latency benchmark (`checks.py`, `sim.py`, `arms.py`, `diag_eval.py`, `stats.py`, `synth_curriculum.py`, `run_evaluation.py`, `run_replan_latency.py`) |
+| Simulator & Evaluator | `experiments/` | Implemented (Plan V2, D98, D102) | Pre-registered study E1–E6 with simulated learners, closed-loop episodes, executed and plan-level violation audits, and latency (`core/`, `runners/`, `report/`); the W6 harness was removed (archived, D102) |
 
 > **Stateful Purity Note:** The workload cache (`WorkloadCache`) used for frontier replanning is an explicit, caller-owned memoization value passed across calls (`workload_cache=cache`). The `Engine` facade itself maintains no hidden internal state or mutable caches, preserving functional purity and determinism across planning operations.
 

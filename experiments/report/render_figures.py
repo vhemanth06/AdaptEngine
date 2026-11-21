@@ -1,6 +1,6 @@
 """report/data/*.csv -> report/figures/*.pdf and *.png. Reads only report/data/ (V2-TC11).
 
-All styling comes from style.py; restyle with `make v2-figures`.
+All styling comes from style.py; restyle with `make exp-figures`.
 
     python -m experiments.report.render_figures [--data DIR] [--out DIR]
 """

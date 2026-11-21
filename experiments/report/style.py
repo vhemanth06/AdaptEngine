@@ -1,6 +1,6 @@
 """The only place for colours, fonts, sizes and figure dimensions (D100).
 
-Restyle: edit this file, then `make v2-figures` (seconds; no experiment re-runs).
+Restyle: edit this file, then `make exp-figures` (seconds; no experiment re-runs).
 """
 
 from __future__ import annotations

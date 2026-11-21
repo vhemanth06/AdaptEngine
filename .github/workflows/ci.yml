@@ -36,9 +36,6 @@ jobs:
     - name: Test with pytest
       run: |
         pytest -q --cov=adaptengine --cov-fail-under=84
-    - name: Run Week 6 Verification (make w6)
-      run: |
-        make w6
 
   pybkt-parity:
     runs-on: ubuntu-latest

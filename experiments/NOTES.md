@@ -420,7 +420,7 @@ Archive of the old folder (outside the repository, and in git history):
 |---|---|---|
 | Code hash | `9a40c4d822397fa019d69ba64ddc7ab58d5baf8fe04ed0d090b1dfebfe66e6ef` | same |
 | Config hash | `1e26bd7de81c8f56a6e998b33ee531f59470681d78ff71affd05362a910e7b11` | same |
-| Harness hash | `240e95fd4c2cf5a8c1751d8cac5ae555bfd8f74a7be51e35092e57aae68c75d3` | `b40baaf50f315a6e98fcef6a90e7ba1a5f551801af8bfd1087ada173c71df129` (files edited; results keep the old one) |
+| Harness hash | `240e95fd4c2cf5a8c1751d8cac5ae555bfd8f74a7be51e35092e57aae68c75d3` | `752a73171c093a402b96ce540b132106b381fb7836ee1c6b956d55cefd65f5be` (files edited; results keep the old one; was `b40baaf5…` until the `make exp-figures` docstring fix in `report/style.py` and `report/render_figures.py`) |
 | `make check` | 464 passed, 1 skipped, coverage 92.84 % | 403 passed, 0 skipped, coverage 92.64 % (gate 84 %) |
 | API tests | 27 passed | 23 passed |
 | Study tests | 58 passed | 57 passed |

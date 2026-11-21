@@ -61,13 +61,9 @@ The primary way to interact with the AdaptEngine is through the CLI (`python -m 
 
 ## 2. Utility & Verification Scripts
 
-### `scripts/run_w6.py` (or `make w6`)
-*   **What it does:** Standalone Week 6 MVP acceptance runner executing all 8 verification phases: Environment & meta, Ruff lint/format, Pytest with coverage ($\ge 84\%$), AST architecture layering, TC8.1 byte-identical evaluation rerun, TC8.2 frontier replan equivalence and latency benchmark, zero-violation and 100% trace coverage audit, and evidence packaging in `runs/w6/<timestamp>/`.
-*   **Command to check:** `python scripts/run_w6.py` (or `make w6`)
-
-### `experiments/run_evaluation.py` (or `make eval` / `make eval-quick`)
-*   **What it does:** Runs the paired synthetic baseline evaluation across 100 seeded learners (or 10 in `--quick` mode), comparing diagnostic arms at matched budgets and 4 planner arms (`adapt`, `no_review`, `no_replan`, `static`) across 4 scenarios (`calm`, `missed_day`, `budget_drop`, `deadline_cut`). Generates `experiments/results/evaluation_results.json` deterministically.
-*   **Command to check:** `make eval` or `make eval-quick`
+### `experiments/` (the final study: `make exp-test`, `make exp-smoke`, `make exp-report`)
+*   **What it does:** The pre-registered evaluation study E1–E6 (D98; renamed from `experiments_v2/`, D102). `make exp-test` runs the study's own tests, `make exp-smoke` runs every runner with 1–2 learners to temporary output, and `make exp-report` rebuilds the report CSVs, tables and figures from `experiments/results/*.json` without re-running anything. `make exp-run` re-runs the full study (long). See `experiments/README.md`.
+*   **Command to check:** `make exp-test`, `make exp-smoke`, `make exp-report`
 
 ### `scripts/run_w5.py` (or `make w5`)
 *   **What it does:** Standalone Week 5 verification runner executing M5 review/remediation, M6 replanning, and M7 trace serialization acceptance scenarios (TC5.1–TC5.3, TC6.1–TC6.4, TC7.1).
@@ -80,16 +76,6 @@ The primary way to interact with the AdaptEngine is through the CLI (`python -m 
 ### `scripts/run_w3.py` (or `make w3`)
 *   **What it does:** Standalone Week 3 verification runner executing diagnostic persona demos and W3 audit gates.
 *   **Command to check:** `python scripts/run_w3.py` (or `make w3`)
-
-### `experiments/run_smoke.py`
-*   **What it does:** Runs a deterministic, hardcoded 6-step transactional trace of a student interacting with the engine.
-*   **Command to check:** `python experiments/run_smoke.py`
-*   **Pass/Fail:** It will pass and output a JSON stream of state changes. It will fail if the math in `mastery.py` has been tampered with or if non-determinism is introduced.
-
-### `scripts/verify_clean_checkout.sh`
-*   **What it does:** Proves the system works from scratch from an isolated working-tree copy. Creates a fresh venv in `/tmp`, installs editable package and dependencies, runs the test suite, executes the full CLI Quickstart flow, runs `examples/api_quickstart.py`, and verifies TC8.1 byte-identical evaluation outputs.
-*   **Command to check:** `bash scripts/verify_clean_checkout.sh`
-*   **Pass/Fail:** Passes with `CLEAN CHECKOUT OK` only if all dependencies and quickstart commands run without manual intervention.
 
 ### `scripts/record_review.py`
 *   **What it does:** Computes the SHA-256 hash of a file and adds it to `data/review_manifest.json` as "reviewed content".
@@ -151,29 +137,9 @@ Here is a breakdown of every test file, when it passes, and when it fails:
 *   **Passes when:** Core modules only use allowed libraries, isolate File I/O, and preserve the unidirectional dependency graph.
 *   **Fails when:** A developer accidentally imports `time`, `random`, or `openai` into the core engine, or imports NetworkX outside `curriculum/graph.py`.
 
-### `test_eval_checks.py`
-*   **What it tests:** Independent verification of curriculum prerequisites, daily study budgets, and activity duplication.
-*   **Passes when:** Audit catches out-of-order hand-built schedules and confirms engine plans have zero violations.
-
-### `test_sim.py`
-*   **What it tests:** Key-seeded 2PL IRT simulator, paired noise isolation, and memory retention dynamics.
-*   **Passes when:** Seed determinism and power-law memory decay match analytical expectations.
-
-### `test_arms.py`
-*   **What it tests:** Closed-loop episode simulation across 4 planner arms (`adapt`, `no_review`, `no_replan`, `static`).
-*   **Passes when:** `adapt` maintains 0 prerequisite and 0 budget violations across all scenarios.
-
-### `test_diag_eval.py`
-*   **What it tests:** Matched-budget diagnostic evaluation and hyperparameter tuning grid.
-*   **Passes when:** Evaluates error metrics across matched budgets and runs grid search over $(h_{\text{stop}}, \text{concept\_cap}, n_{\text{max}})$.
-
-### `test_stats.py`
-*   **What it tests:** Standard library statistics (Brier calibration score, ROC-AUC, paired bootstrap 95% confidence intervals, and trace explanation coverage).
-*   **Passes when:** Metrics match mathematical ground truths and coverage is strictly 1.0 for adaptive plans.
-
-### `test_evaluation.py` (TC8.1)
-*   **What it tests:** Strict byte-identical reproducibility of evaluation runs across identical seeds.
-*   **Passes when:** Two consecutive runs produce bitwise identical JSON results and confirm zero constraint violations.
+### `experiments/tests/` (`make exp-test`)
+*   **What it tests:** The evaluation study's simulator, scenarios, closed-loop episodes, violation audits, metrics, pre-registration guard, results schema, determinism and report pipeline. The W6 harness tests (`test_eval_checks.py`, `test_sim.py`, `test_arms.py`, `test_diag_eval.py`, `test_stats.py`, `test_evaluation.py`) were removed with that harness (D102).
+*   **Passes when:** `make exp-test` reports all tests passed.
 
 ### `test_replan_frontier.py` (TC8.2)
 *   **What it tests:** Frontier replanning via caller-owned `WorkloadCache` against full recomputation.
