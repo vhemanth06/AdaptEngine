@@ -301,7 +301,7 @@ The comparison itself is unchanged: adaptive vs static and greedy baselines on s
 | **Revisit trigger** | Need for several simultaneous users or remote access, which would require authentication, a database and hosting. |
 
 ---
-
+<!-- 
 ## How to add an ADR
 
-Use the next number, copy the eight-row table, and fill every field. Never delete a superseded record. Set its status to *Superseded by ADR-0NN* and say what replaced it. List the D-records the decision covers in *Evidence & validation*.
+Use the next number, copy the eight-row table, and fill every field. Never delete a superseded record. Set its status to *Superseded by ADR-0NN* and say what replaced it. List the D-records the decision covers in *Evidence & validation*. -->
