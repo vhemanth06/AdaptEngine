@@ -2,7 +2,7 @@
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![Coverage](https://img.shields.io/badge/coverage-89.9%25-brightgreen.svg)](docs/reference/TESTING.md)
-[![Tests](https://img.shields.io/badge/tests-171%20passed-success.svg)](docs/reference/TESTING.md)
+[![Tests](https://img.shields.io/badge/tests-403%20passed-success.svg)](docs/reference/TESTING.md)
 [![Verification](https://img.shields.io/badge/acceptance-23%2F23%20TCs%20Verified-brightgreen.svg)](docs/project/TRACEABILITY.md)
 [![Architecture](https://img.shields.io/badge/architecture-strictly%20layered-blueviolet.svg)](docs/reference/ARCHITECTURE.md)
 [![Course](https://img.shields.io/badge/project-CS5903%20Group%2015-orange.svg)](#)
@@ -97,6 +97,7 @@ The documentation is under `docs/` (index: [`docs/README.md`](docs/README.md)):
 | [`docs/concepts/`](docs/concepts/README.md) | One file per idea, with the maths, a worked example, the code and the tests (curriculum graph, mastery, item models, diagnostics, planning, CP-SAT, review, replanning, evaluation, study statistics). |
 | [`docs/reference/`](docs/reference/ARCHITECTURE.md) | How the system is built and used: [`ARCHITECTURE.md`](docs/reference/ARCHITECTURE.md), [`API_REFERENCE.md`](docs/reference/API_REFERENCE.md), [`TESTING.md`](docs/reference/TESTING.md), data manifest, reuse inventory. |
 | [`docs/project/`](docs/project/DECISIONS.md) | Governance records: [`DECISIONS.md`](docs/project/DECISIONS.md) (by topic, with status and current settings), [`TRACEABILITY.md`](docs/project/TRACEABILITY.md) (requirements to tests), AI use, content reviews. |
+| [`docs/Architecture_Decision_Records.md`](docs/Architecture_Decision_Records.md) | Architecture Decision Records (ADRs): the major design choices, with context, options and consequences. |
 | [`docs/archive/`](docs/archive/README.md) | History, read-only: weekly submissions and notes, superseded specifications, old pre-registrations. |
 
 ---
@@ -293,7 +294,7 @@ To use AdaptEngine effectively, developers interact with four primary file types
 | **Review Manifest** | `--manifest <path.json>` | SHA-256 review gate verifying cryptographic authenticity of educational content. Pass `--allow-unreviewed` during content authoring to bypass. |
 | **Learner Snapshot** | `--snapshot <path.json>` | Single canonical JSON state combining concept mastery probabilities ($p$), Shannon entropy uncertainties ($H$), append-only event logs, and active planning context. Written via atomic rename. |
 
-**Bundled curricula** (`data/curriculum/`): `4node` and `8node` (1 lesson + 4 exercises per concept, reviewed) and `8node_x10` (the 8-node graph with 10 exercises per concept, 3 easy / 4 medium / 3 hard; AI-drafted and AI-checked, **human review pending** (D88), so pass `--allow-unreviewed`). Display text for the demo is in `data/content/`; check it with `scripts/content/check_content.py` (see `data/content/README.md`). The synthetic generator (`experiments/synth_curriculum.py`) also makes 10-exercise catalogues (`exercises_per_concept=10`, runner names `synth-N-x10`).
+**Bundled curricula** (`data/curriculum/`): `4node` and `8node` (1 lesson + 4 exercises per concept, reviewed) and `8node_x10` (the 8-node graph with 10 exercises per concept, 3 easy / 4 medium / 3 hard; AI-drafted and AI-checked, then reviewed by the owner (D93), so it loads without `--allow-unreviewed`). Display text for the demo is in `data/content/`; check it with `scripts/content/check_content.py` (see `data/content/README.md`). Synthetic curricula (seed 2026) come from `experiments/core/curricula.py` (`paths("synth-N")`, or `synth-N-x10` for 10 exercises per concept); they are generated into `experiments/data/synthetic/` and load with `allow_unreviewed=True`.
 
 **Item model** (Plan 2, D60): `EngineConfig.model_profile` is `"heuristic"` (default) or a fitted profile such as `config/fitted_assist09.json` (guess/slip per difficulty class, fitted on ASSISTments maths data; `config/fitted_ct.json` is a cross-check). The engine then uses that model for the diagnostic, planning and answer updates; the profile's prior is never used, and its learn rate only with `use_profile_learn=True`. See `docs/concepts/03_item_models.md`.
 
