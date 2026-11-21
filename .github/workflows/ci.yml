@@ -15,9 +15,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Fail if scratch or raw-data files are tracked (W7 T0.2)
+    - name: Fail if scratch files are tracked (W7 T0.2; raw data in data/external/ is kept)
       run: |
-        tracked=$(git ls-files graphify-out learner_session.json test_snapshot.json 'data/external/*.csv')
+        tracked=$(git ls-files graphify-out learner_session.json test_snapshot.json)
         if [ -n "$tracked" ]; then echo "These paths must not be tracked:"; echo "$tracked"; exit 1; fi
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
