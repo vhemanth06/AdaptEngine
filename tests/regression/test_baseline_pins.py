@@ -9,11 +9,8 @@ import dataclasses
 import hashlib
 import json
 import os
-import sys
 
-repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-if repo_root not in sys.path:
-    sys.path.insert(0, repo_root)
+repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 import pytest  # noqa: E402
 from adaptengine.api import Engine  # noqa: E402

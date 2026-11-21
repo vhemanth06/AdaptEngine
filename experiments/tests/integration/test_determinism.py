@@ -5,7 +5,7 @@ import json
 import pytest
 
 from experiments.core.results import strip_timing
-from experiments.tests.test_runners_smoke import RUNNERS, run_smoke
+from experiments.tests.integration.test_runners_smoke import RUNNERS, run_smoke
 
 
 def _canon(doc):

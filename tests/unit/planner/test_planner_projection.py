@@ -1,5 +1,8 @@
 """W7 WP2 planner behaviour: exercise repeats (T2.3), expected projection (T2.5),
-best-effort plans (T2.4) and the closed-loop entry point (T2.2)."""
+best-effort plans (T2.4) and the closed-loop entry point (T2.2).
+
+Formerly tests/test_w7_planner.py.
+"""
 
 import pytest
 
@@ -139,9 +142,6 @@ def test_best_effort_plan_on_infeasible_t2_4():
 
 
 def test_deadline_cut_episode_never_idle_t2_4():
-    import sys
-
-    sys.path.insert(0, ".")
     from experiments.core.arms import E1_ARMS
     from experiments.core.episode import run_episode
     from experiments.core.scenarios import make_scenario

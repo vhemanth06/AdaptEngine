@@ -754,41 +754,53 @@ The M2 adaptive diagnostic reduces assessment burden by **63%** (averaging 2.96 
 
 ---
 
+## Test layout
+
+The engine tests in `tests/` are grouped by kind, and the unit tests mirror `src/adaptengine/`:
+`tests/unit/<layer>/` (core, curriculum, learner, diagnostic, planner, review, replanner) test one
+module at a time; `tests/integration/` test the public `Engine` API, sessions, the CLI and the closed
+loop; `tests/regression/` hold the defaults-unchanged pins and reproduced past defects;
+`tests/tooling/` check the architecture rules, scripts and examples. `make check` runs them all.
+The evaluation harness has its own tests in `experiments/tests/` (`make exp-test`) and the web API in
+`frontend/api/tests/`.
+
+---
+
 ## Acceptance Test Matrix (TC1.1–TC8.2)
 
 AdaptEngine adheres to a rigorous, formal acceptance register of 23 test categories (**all 23 Verified**):
 
 | Acceptance ID | Requirement Description | Verifying Test Suite | Status |
 |:---:|:---|:---|:---:|
-| **TC1.1** | DAG cycle detection and topological ordering | `tests/test_graph.py` | **Verified** |
+| **TC1.1** | DAG cycle detection and topological ordering | `tests/unit/curriculum/test_graph.py` | **Verified** |
 | **TC1.2** | Immutable learner state and entropy tracking | `tests/test_state.py` | **Verified** |
 | **TC1.3** | Cryptographic review manifest validation | `tests/test_review_gate.py` | **Verified** |
-| **TC2.1** | Adaptive diagnostic stopping criteria and caps | `tests/test_diagnostic.py` | **Verified** |
-| **TC2.2** | Expected Information Gain item selection | `tests/test_diagnostic.py` | **Verified** |
-| **TC3.1** | Prerequisite-valid path schedule generation | `tests/test_planner.py` | **Verified** |
-| **TC3.2** | Daily budget constraint satisfaction | `tests/test_planner.py` | **Verified** |
-| **TC3.3** | Infeasibility detection and option reporting | `tests/test_planner.py` | **Verified** |
+| **TC2.1** | Adaptive diagnostic stopping criteria and caps | `tests/unit/diagnostic/test_diagnostic.py` | **Verified** |
+| **TC2.2** | Expected Information Gain item selection | `tests/unit/diagnostic/test_diagnostic.py` | **Verified** |
+| **TC3.1** | Prerequisite-valid path schedule generation | `tests/unit/planner/test_planner.py` | **Verified** |
+| **TC3.2** | Daily budget constraint satisfaction | `tests/unit/planner/test_planner.py` | **Verified** |
+| **TC3.3** | Infeasibility detection and option reporting | `tests/unit/planner/test_planner.py` | **Verified** |
 | **TC3.4** | Exact bin-packing oracle fallback | `tests/test_oracle.py` | **Verified** |
-| **TC4.1** | Closed-form Bayesian Knowledge Tracing updates | `tests/test_mastery.py` | **Verified** |
+| **TC4.1** | Closed-form Bayesian Knowledge Tracing updates | `tests/unit/learner/test_mastery.py` | **Verified** |
 | **TC4.2** | pyBKT adapter equivalence and parity | `tests/test_bkt_adapter.py` | **Verified** |
 | **TC4.3** | Next-exercise difficulty targeting ($P_c \approx 0.75$) | `tests/test_policy.py` | **Verified** |
-| **TC4.4** | Lesson completion prior shifting | `tests/test_mastery.py` | **Verified** |
-| **TC5.1** | Half-life retention decay ($2^{-\Delta t / h}$) | `tests/test_review.py` | **Verified** |
-| **TC5.2** | Spaced review prioritization under shared budget | `tests/test_review.py` | **Verified** |
+| **TC4.4** | Lesson completion prior shifting | `tests/unit/learner/test_mastery.py` | **Verified** |
+| **TC5.1** | Half-life retention decay ($2^{-\Delta t / h}$) | `tests/unit/review/test_review.py` | **Verified** |
+| **TC5.2** | Spaced review prioritization under shared budget | `tests/unit/review/test_review.py` | **Verified** |
 | **TC6.1** | Dynamic replanning on missed days | `tests/test_replanner.py` | **Verified** |
 | **TC6.2** | Targeted remediation for failed assessments | `tests/test_replanner.py` | **Verified** |
 | **TC6.3** | Timeline adaptation on deadline/budget changes | `tests/test_replanner.py` | **Verified** |
 | **TC7.1** | Machine-readable constraint and decision traces | `tests/test_traces.py` | **Verified** |
 | **TC7.2** | Plan JSON serialization and SHA-256 config hash | `tests/test_traces.py` | **Verified** |
 | **TC8.1** | Deterministic byte-identical evaluation reruns | `tests/test_evaluation.py` (file removed with the old harness; archived) | **Verified** |
-| **TC8.2** | Frontier replanning decision equivalence and latency | `tests/test_replan_frontier.py` | **Verified** |
+| **TC8.2** | Frontier replanning decision equivalence and latency | `tests/unit/replanner/test_replan_frontier.py` | **Verified** |
 
 ---
 
 ## Architectural Guardrails & Enforced Rules
 
 To ensure long-term maintainability, testability, and deterministic behavior, AdaptEngine enforces:
-- **Layering Integrity:** Enforced by `tests/test_architecture.py`. Layers import only from layers to their left. `scripts/`, `experiments/`, and `examples/` are strictly isolated from `src/`.
+- **Layering Integrity:** Enforced by `tests/tooling/test_architecture.py`. Layers import only from layers to their left. `scripts/`, `experiments/`, and `examples/` are strictly isolated from `src/`.
 - **Zero Hidden State:** The `Engine` instance is functional and stateless. All learner state, execution logs, and cache instances are caller-owned values passed explicitly.
 - **Strict Determinism:** Identical inputs yield identical decisions and trace logs. No calls to `time`, `datetime`, or `random` exist under `src/adaptengine/`.
 - **High Test Coverage:** Statement coverage is continuously enforced at $\ge 84\%$ (currently **89.94%**).

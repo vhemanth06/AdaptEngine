@@ -33,6 +33,11 @@ python -m experiments.runners.e1_safety_outcomes [--smoke] [--procs N] [--out PA
 make exp-run                                   # E3, E2, E1, E4, E5, E6 in order
 ```
 
+Tests in `experiments/tests/` are grouped by kind: `unit/` (simulator, scenarios, audit, metrics,
+diagnostic arms, real-data fits), `integration/` (closed-loop episodes, every runner end to end in
+smoke mode, determinism across worker counts) and `tooling/` (report pipeline, pre-registration
+guard, results schema). `make exp-test` runs all three.
+
 - A full run refuses to start unless its pre-registration says `Status: Registered` with the
   current code hash (SHA-256 over `src/**/*.py`). `--smoke` is always allowed.
 - `--procs` defaults to CPU count − 1. Results do not depend on it.

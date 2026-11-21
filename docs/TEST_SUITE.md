@@ -64,7 +64,7 @@ The test suite maps directly to the repository's 23-ID authoritative traceabilit
 
 ---
 
-### Suite 1: Milestone M2 Adaptive Diagnostic (`tests/test_diagnostic.py`)
+### Suite 1: Milestone M2 Adaptive Diagnostic (`tests/unit/diagnostic/test_diagnostic.py`)
 *Added in Week 3 · 10 Tests · Module Coverage: 90%*
 
 Validates the adaptive testing algorithm, Expected Information Gain (EIG) item selection, caps, stopping conditions, and DAG ancestor pruning.
@@ -84,7 +84,7 @@ Validates the adaptive testing algorithm, Expected Information Gain (EIG) item s
 
 ---
 
-### Suite 2: Mastery Model Adapter & pyBKT Parity (`tests/test_adapter.py`)
+### Suite 2: Mastery Model Adapter & pyBKT Parity (`tests/unit/learner/test_adapter.py`)
 *Added in Week 3 · 5 Tests · Module Coverage: 94%*
 
 Validates the `MasteryModel` protocol, discrete difficulty mapping, and mathematical parity against the analytical BKT oracle.
@@ -99,7 +99,7 @@ Validates the `MasteryModel` protocol, discrete difficulty mapping, and mathemat
 
 ---
 
-### Suite 3: Defect Reproduction & Regression Suite (`tests/test_defects_repro.py`)
+### Suite 3: Defect Reproduction & Regression Suite (`tests/regression/test_defects_repro.py`)
 *Added in Week 3 · 14 Tests*
 
 Written during Phase 0 to reproduce every defect D-A through D-H observed during mentor review, ensuring permanent regression protection.
@@ -123,7 +123,7 @@ Written during Phase 0 to reproduce every defect D-A through D-H observed during
 
 ---
 
-### Suite 4: Architecture & Layering Rules (`tests/test_architecture.py`)
+### Suite 4: Architecture & Layering Rules (`tests/tooling/test_architecture.py`)
 *Rewritten in Week 3 · 3 Tests*
 
 Performs static AST analysis across the entire codebase to enforce layering and determinism rules.
@@ -136,7 +136,7 @@ Performs static AST analysis across the entire codebase to enforce layering and 
 
 ---
 
-### Suite 5: Learner State & Atomic Session (`tests/test_state_session.py`)
+### Suite 5: Learner State & Atomic Session (`tests/integration/test_state_session.py`)
 *Extended in Week 3 · 6 Tests · Module Coverage: 84%*
 
 Validates learner state immutability, evidence semantics, attempt idempotency, and crash-safe atomic snapshots.
@@ -152,7 +152,7 @@ Validates learner state immutability, evidence semantics, attempt idempotency, a
 
 ---
 
-### Suite 6: Schema, Configuration & Validation (`tests/test_schema.py`)
+### Suite 6: Schema, Configuration & Validation (`tests/unit/core/test_schema.py`)
 *Extended in Week 3 · 14 Tests · Module Coverage: 93%*
 
 Validates core schema dataclasses, input boundaries, and fixture integrity (Milestone M1 / TC1.2).
@@ -170,7 +170,7 @@ Validates core schema dataclasses, input boundaries, and fixture integrity (Mile
 
 ---
 
-### Suite 7: Curriculum Loader & Review Gate (`tests/test_loader_review_gate.py`)
+### Suite 7: Curriculum Loader & Review Gate (`tests/unit/curriculum/test_loader_review_gate.py`)
 *Extended in Week 3 · 8 Tests · Module Coverage: 87%*
 
 Validates content integrity, SHA-256 verification, and review gate enforcement.
@@ -188,7 +188,7 @@ Validates content integrity, SHA-256 verification, and review gate enforcement.
 
 ---
 
-### Suite 8: Analytical BKT Math & Reference Constants (`tests/test_mastery.py`)
+### Suite 8: Analytical BKT Math & Reference Constants (`tests/unit/learner/test_mastery.py`)
 *Created in Week 1–2, Hardened in Week 3 · 9 Tests · Module Coverage: 92%*
 
 Validates the mathematical equations of Bayesian Knowledge Tracing and Shannon entropy.
@@ -207,7 +207,7 @@ Validates the mathematical equations of Bayesian Knowledge Tracing and Shannon e
 
 ---
 
-### Suite 9: Prerequisite Graph & DAG Algorithms (`tests/test_graph.py`)
+### Suite 9: Prerequisite Graph & DAG Algorithms (`tests/unit/curriculum/test_graph.py`)
 *Created in Week 1–2 · 4 Tests · Module Coverage: 90%*
 
 Validates the NetworkX prerequisite graph implementation (Milestone M1 / TC1.1).
@@ -221,7 +221,7 @@ Validates the NetworkX prerequisite graph implementation (Milestone M1 / TC1.1).
 
 ---
 
-### Suite 10: CLI & Orchestration Facade (`tests/test_cli.py` & `tests/test_api.py`)
+### Suite 10: CLI & Orchestration Facade (`tests/integration/test_cli.py` & `tests/integration/test_engine_api.py`)
 *Extended in Week 3 · 4 Tests · CLI Coverage: 65%, API Coverage: 81%*
 
 Validates CLI command line handling and the `Engine` orchestration boundary.
@@ -235,7 +235,7 @@ Validates CLI command line handling and the `Engine` orchestration boundary.
 
 ---
 
-### Suite 11: Milestone M3 Planner & M4 Difficulty Policy (`tests/test_planner.py`)
+### Suite 11: Milestone M3 Planner & M4 Difficulty Policy (`tests/unit/planner/test_planner.py`)
 *Added in Week 4 · 26 Tests · Planner Coverage: 84%–100% across submodules*
 
 Validates next-exercise difficulty selection, workload projection, greedy day-packing, analytical feasibility bounds, the exact branch-and-bound bin-packing oracle, and the `adaptengine plan` CLI.
@@ -264,7 +264,7 @@ Validates next-exercise difficulty selection, workload projection, greedy day-pa
 
 ---
 
-### Suite 12: Spaced Review & Forgetting Model (`tests/test_review.py`)
+### Suite 12: Spaced Review & Forgetting Model (`tests/unit/review/test_review.py`)
 *Added in Week 5 · 4 Tests · Module Coverage: 97%*
 
 Validates the half-life exponential forgetting model $r(t) = 2^{-\Delta t / h}$, review due checks, and curriculum-topology-weighted review urgency scoring.
@@ -278,7 +278,7 @@ Validates the half-life exponential forgetting model $r(t) = 2^{-\Delta t / h}$,
 
 ---
 
-### Suite 13: Milestone M5/M6/M7 Week 5 Acceptance Suite (`tests/test_w5.py`)
+### Suite 13: Milestone M5/M6/M7 Week 5 Acceptance Suite (`tests/integration/test_plan_replan_scenarios.py`)
 *Added in Week 5 · 9 Tests · Complete M5/M6/M7 verification*
 
 Validates spaced review under shared budget, automatic remediation, pure replanning from execution logs, trace contracts, and CLI replan.
@@ -367,7 +367,7 @@ Validates spaced review under shared budget, automatic remediation, pure replann
 
 ---
 
-### Suite 20: Frontier Replanning Equivalence (`tests/test_replan_frontier.py`)
+### Suite 20: Frontier Replanning Equivalence (`tests/unit/replanner/test_replan_frontier.py`)
 *Added in Week 6 · 4 Tests (TC8.2) · WorkloadCache memoization and bitwise plan equality*
 
 | # | Test Function | Origin | Target Invariant | Scenario & Details |
@@ -379,7 +379,7 @@ Validates spaced review under shared budget, automatic remediation, pure replann
 
 ---
 
-### Suite 21: Usability Quickstart (`tests/test_quickstart.py`)
+### Suite 21: Usability Quickstart (`tests/tooling/test_quickstart.py`)
 *Added in Week 6 · 1 Test · End-to-end API quickstart verification*
 
 | # | Test Function | Origin | Target Invariant | Scenario & Details |
@@ -388,7 +388,7 @@ Validates spaced review under shared budget, automatic remediation, pure replann
 
 ---
 
-### Suite 22: Regression Proof & Defects (`tests/test_defects_repro.py`)
+### Suite 22: Regression Proof & Defects (`tests/regression/test_defects_repro.py`)
 *Added in Week 3, Hardened in W6 · 12 Tests · Strict regression proof and known defect accounting*
 
 | # | Test Function | Origin | Target Invariant | Scenario & Details |
@@ -408,7 +408,7 @@ Validates spaced review under shared budget, automatic remediation, pure replann
 
 ---
 
-### Suite 19 (W7): Closed loop, repeats, best effort, expected projection, budgets (`tests/test_w7_planner.py`)
+### Suite 19 (W7): Closed loop, repeats, best effort, expected projection, budgets (`tests/unit/planner/test_planner_projection.py`)
 - T2.3 repeats keep the plan feasible after failing C1 (W6 ablation → `CONTENT_INSUFFICIENT`); least-recently-seen order.
 - T2.5 expected projection never projects fewer items (budgets 5/10/15/30).
 - T2.2 a wrong answer changes the rest of the day's slice within the day's remaining budget; `next_activities` equals `replan`'s first day.
@@ -416,9 +416,9 @@ Validates spaced review under shared budget, automatic remediation, pure replann
 - T5.1 allowed budgets come from `EngineConfig`.
 
 ### Suite 20 (W7): Demo content and fitting pipeline
-- `tests/test_content.py` (T8.1): content file covers every 8-node activity; 8 negative cases.
+- `tests/unit/curriculum/test_content.py` (T8.1): content file covers every 8-node activity; 8 negative cases.
 - `tests/test_fit_bkt.py` (T7.2): fitting pipeline on a tiny synthetic CSV; degenerate-fit check fires (skipped without pyBKT).
-- `frontend/api/tests/test_api.py` (T8.2): one TestClient test per route plus an end-to-end session equal to direct `Engine` calls (skipped without FastAPI).
+- `frontend/api/tests/` (T8.2; split by feature into `test_curricula.py`, `test_sessions.py`, `test_parity.py`, `test_health_preset.py`, shared fixtures in `conftest.py`): one TestClient test per route plus an end-to-end session equal to direct `Engine` calls (skipped without FastAPI).
 
 ### W7 additions to existing suites
 - `test_eval_checks.py`: executed-state audit flags wrong answers that the plan audit misses (T1.1).

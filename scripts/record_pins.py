@@ -15,7 +15,7 @@ they are no longer computed or compared (rename plan R5). The JSON files are lef
     python scripts/record_pins.py default    -> tests/fixtures/pins/default.json  (DEFAULT_CONFIG)
 
 population_prior.json was recorded before any Plan 0 change; it must never be re-recorded
-(tests/test_baseline_pins.py checks population_prior_config() against it).
+(tests/regression/test_baseline_pins.py checks population_prior_config() against it).
 """
 
 from __future__ import annotations

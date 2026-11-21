@@ -16,7 +16,7 @@ from adaptengine.learner.profiles import ClassBKT, build_model, load_profile
 from adaptengine.learner.state import ExecutionLog
 from adaptengine.planner import serialize_plan
 
-repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 ASSIST = "config/fitted_assist09.json"
 CT = "config/fitted_ct.json"
 CUR4 = os.path.join(repo_root, "data/curriculum/curriculum_4node.json")

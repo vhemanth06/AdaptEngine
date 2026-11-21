@@ -547,7 +547,7 @@ Helper executing shell commands via `subprocess.run`, capturing returncode and o
 Executes complete Week 4 verification pipeline:
 1. Environment and code identity recording (`code_sha.txt`, `config_hash.txt`, `environment.txt`).
 2. Ruff linting and formatting validation.
-3. Architecture and layering test suite (`tests/test_architecture.py`).
+3. Architecture and layering test suite (`tests/tooling/test_architecture.py`).
 4. Pytest test suite with statement coverage threshold ($\ge 84.0\%$).
 5. Verification of all W4 scenarios:
    - TC4.2 Difficulty policy nearest-to-target selection and D10 tie-breaking.
@@ -613,7 +613,7 @@ Executes complete Week 4 verification pipeline:
 Executes complete Week 5 verification pipeline:
 1. Environment and code identity recording (`code_sha.txt`, `config_hash.txt`, `environment.txt`).
 2. Ruff linting and formatting validation.
-3. Architecture and layering test suite (`tests/test_architecture.py`).
+3. Architecture and layering test suite (`tests/tooling/test_architecture.py`).
 4. Pytest test suite with statement coverage threshold ($\ge 84.0\%$).
 5. Verification of all W5 scenarios:
    - TC5.1 Mastered concept omitted from new learning; trace cites evidence and $p$.

@@ -32,7 +32,7 @@ All architectural, pedagogical, and algorithmic decisions in this repository are
 Every generated component underwent mandatory human checks prior to acceptance:
 1. **Mathematical Soundness:** Manually derived posterior values for Bayes update $p' = \frac{p(1 - s)}{p(1 - s) + (1 - p)g}$ and post-learning transition $p'' = p' + (1 - p')T$, verifying reference constants ($p=0.5, d=0.5 \implies 0.8462$ prior to transition, $0.8538$ after $T=0.05$).
 2. **Deterministic Purity Check:** Verified that no module inside `src/adaptengine/` imports `time`, `datetime`, `random`, or accesses wall-clock system time. All timestamps and days are discrete, absolute integers.
-3. **Architectural Layering:** Enforced unidirectional layering via AST inspection in `tests/test_architecture.py` (Core $\to$ Curriculum $\to$ Learner $\to$ Diagnostic $\to$ Review/Planner $\to$ Replanner $\to$ Session $\to$ API $\to$ CLI).
+3. **Architectural Layering:** Enforced unidirectional layering via AST inspection in `tests/tooling/test_architecture.py` (Core $\to$ Curriculum $\to$ Learner $\to$ Diagnostic $\to$ Review/Planner $\to$ Replanner $\to$ Session $\to$ API $\to$ CLI).
 4. **Atomic Commit Fault-Injection:** Simulated filesystem and power failure by monkeypatching `os.replace` and `os.fsync` across all 5 event recording operations, confirming zero partial file creation and byte-identical state retention.
 5. **Quality Gates:** Required $100\%$ pass on `ruff check .`, `ruff format --check .`, and statement coverage $\ge 84\%$ (achieved $89\%$ across 140+ unit/integration tests).
 

@@ -7,7 +7,7 @@ the UI does. Run from the repo root:
 
 It prints a JSON record: the chosen candidate, its numbers, and every candidate rejected before it
 with the first failing criterion. Its values are then written into frontend/api/demo.py by hand.
-tests in frontend/api/tests/test_api.py::test_demo_preset re-run `evaluate` on the stored values.
+tests in frontend/api/tests/test_health_preset.py::test_demo_preset re-run `evaluate` on the stored values.
 """
 
 import json

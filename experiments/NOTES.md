@@ -469,3 +469,15 @@ were regenerated (`npm run gen:types`).
 `scripts/run_w6.py` and `scripts/verify_clean_checkout.sh` (both ran the old harness; deleted at the
 owner's choice). `v2-*` targets renamed `exp-test`, `exp-smoke`, `exp-run`, `exp-report`,
 `exp-figures`.
+
+## Test files moved into unit/integration/tooling (2026-11-21)
+
+`experiments/tests/` is now `unit/` (simulator, scenarios, audit, metrics, diagnostics, realdata),
+`integration/` (episode, runners_smoke, determinism) and `tooling/` (report, prereg_guard,
+results_schema). No test or harness logic changed: the only edits are two imports of
+`test_runners_smoke` (now `experiments.tests.integration.test_runners_smoke`) and the depth of the
+`REPORT` path in `tooling/test_report.py`. 57 tests collected before and after, with identical IDs;
+`make exp-test` 57 passed. Code hash unchanged (`9a40c4d8…`). Harness hash
+`752a73171c093a402b96ce540b132106b381fb7836ee1c6b956d55cefd65f5be` →
+`68b8ee80ecac0694c328cd5f339011ad76cc9c7dc468fffee69882b73423b68c` (it includes relative file
+paths). Results JSONs are not touched and keep the hash they were produced with.

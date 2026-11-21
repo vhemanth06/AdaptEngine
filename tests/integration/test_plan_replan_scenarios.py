@@ -1,3 +1,6 @@
+"""Milestone scenarios TC5.1-TC7.1: planning, replan events and traceability, plus CLI replan and
+working ahead. Formerly tests/test_w5.py."""
+
 import pytest
 import json
 from adaptengine.api import Engine

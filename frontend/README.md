@@ -119,13 +119,14 @@ make demo-test     # API TestClient tests + build + Playwright
 make demo-figures  # build + screenshots of every screen in both themes -> docs/figures/ui_*.png
 ```
 
-- `api/tests/test_api.py`:
-  - one test per route;
-  - the end-to-end session checks that the API plan equals a direct `Engine` call, including
+- `api/tests/` (shared fixtures in `conftest.py`, helpers in `helpers.py`):
+  - `test_curricula.py`: the curriculum list and detail routes;
+  - `test_sessions.py`: the session lifecycle (create, plan, events, trace, confirmation flags,
+    finished days and next day);
+  - `test_parity.py`: the API plan and diagnostic equal a direct `Engine` call, including
     `8node_x10` × bisection × CP-SAT;
-  - checks that the Plan FE fields (health, diagnostic info, confirmation flags, the trace
-    confirmation record, the simulate switches) come from the engine unchanged;
-  - `test_demo_preset` re-checks every step the walkthrough claims.
+  - `test_health_preset.py`: `/api/health` and `test_demo_preset`, which re-checks every step the
+    walkthrough claims.
 
   It skips when `fastapi` is not installed; the CP-SAT cases skip without OR-Tools.
 - `web/e2e/demo.spec.ts`: the walkthrough above.

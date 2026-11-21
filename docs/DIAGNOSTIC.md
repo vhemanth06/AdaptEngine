@@ -92,7 +92,7 @@ The diagnostic returns a `DiagnosticResult` object:
 
 ## 5. Verification Test Suite
 
-The diagnostic implementation is verified by `tests/test_diagnostic.py`:
+The diagnostic implementation is verified by `tests/unit/diagnostic/test_diagnostic.py`:
 - `test_adversarial_learner_bounded_by_n_max`: Confirms adversarial (always-wrong) learner terminates at or below $N_{\max} = 8$.
 - `test_alternating_learner_bounded_by_n_max`: Confirms alternating responses never breach $N_{\max}$.
 - `test_entropy_stopping_rule`: Confirms consistent learner halts early when $H \le 0.50$.

@@ -1,4 +1,7 @@
-"""Plan 4 (F3-T7): every planner in the closed loop, with F1 and F2 options, and from the CLI."""
+"""Plan 4 (F3-T7): every planner in the closed loop, with F1 and F2 options, and from the CLI.
+
+Formerly tests/test_cpsat_closed_loop.py.
+"""
 
 import contextlib
 import dataclasses
@@ -9,9 +12,7 @@ import sys
 
 import pytest
 
-repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-if repo_root not in sys.path:
-    sys.path.insert(0, repo_root)
+repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 pytest.importorskip("ortools")
 

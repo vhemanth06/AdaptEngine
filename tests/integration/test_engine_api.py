@@ -1,3 +1,6 @@
+"""Tests of the public Engine API (adaptengine.api); the web API is tested in frontend/api/tests.
+Formerly tests/test_api.py."""
+
 import pytest
 from adaptengine.api import Engine
 from adaptengine.core.schema import Event, EventType

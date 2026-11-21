@@ -128,6 +128,6 @@ A named human review unblocks the files (done for `8node_x10` on 2026-11-20, D93
   --reviewer <your-name> --ai-assisted --source "ai-drafted, human-reviewed"
 ```
 
-No test needs editing: `tests/test_loader_review_gate.py` reads the pending set from the manifest
-(a reviewed file joins the CI scan), and `tests/test_curriculum_x10.py` expects the files to load
+No test needs editing: `tests/unit/curriculum/test_loader_review_gate.py` reads the pending set from the manifest
+(a reviewed file joins the CI scan), and `tests/unit/curriculum/test_curriculum_x10.py` expects the files to load
 once the entry names a reviewer.

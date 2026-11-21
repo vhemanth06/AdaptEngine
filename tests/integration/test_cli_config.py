@@ -2,7 +2,7 @@
 
 tests/fixtures/cli_default_runs.json holds the stdout and written snapshot files of a fixed set of
 CLI runs, recorded before Plan 2.5 changed cli.py. Re-record only on a deliberate CLI change:
-python -c "from tests.test_cli_config import record_default_runs; record_default_runs()"
+python -c "from tests.integration.test_cli_config import record_default_runs; record_default_runs()"
 """
 
 import contextlib
@@ -23,7 +23,7 @@ from adaptengine.core.schema import Event, EventType, PlanContext
 from adaptengine.planner import serialize_plan
 from adaptengine.session import load_snapshot
 
-repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 FIXTURE = os.path.join(repo_root, "tests", "fixtures", "cli_default_runs.json")
 C4 = ["--curriculum", "data/curriculum/curriculum_4node.json"]
 A4 = ["--activities", "data/curriculum/activities_4node.json"]

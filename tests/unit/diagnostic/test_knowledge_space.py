@@ -3,7 +3,6 @@
 import json
 import math
 import os
-import sys
 import tempfile
 import time
 
@@ -21,9 +20,7 @@ from adaptengine.diagnostic.knowledge_space import (
     select_scope,
 )
 
-repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-if repo_root not in sys.path:
-    sys.path.insert(0, repo_root)
+repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 
 
 def _engine(name):

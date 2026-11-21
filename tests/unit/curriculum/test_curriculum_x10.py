@@ -12,7 +12,7 @@ from adaptengine.core.errors import UnreviewedContentError
 from adaptengine.curriculum.loader import load_activities, load_curriculum
 from adaptengine.learner.adapter import get_difficulty_class
 
-repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 CUR = os.path.join(repo_root, "data/curriculum/curriculum_8node_x10.json")
 ACT = os.path.join(repo_root, "data/curriculum/activities_8node_x10.json")
 NEW_DIFFICULTIES = (0.1, 0.3, 0.45, 0.55, 0.7, 0.9)

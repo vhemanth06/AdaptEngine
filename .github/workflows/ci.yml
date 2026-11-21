@@ -54,7 +54,7 @@ jobs:
         pip install -e .
     - name: Run pyBKT parity tests
       run: |
-        REQUIRE_PYBKT=1 python -m pytest -q tests/test_feedback_fixes.py -k test_pybkt_adapter_genuine_parity
+        REQUIRE_PYBKT=1 python -m pytest -q tests/regression/test_feedback_fixes.py -k test_pybkt_adapter_genuine_parity
 
 
   # Optional demo frontend job (W7 WP8): failures here do not block the core matrix.

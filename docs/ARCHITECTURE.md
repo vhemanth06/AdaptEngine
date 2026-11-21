@@ -24,7 +24,7 @@ The following modules are deferred per the W3 review scope:
 
 ## 1. Dependency Direction and Layering Rules
 
-The architecture enforces strict unidirectional dependency flow verified by automated AST tests (`tests/test_architecture.py`):
+The architecture enforces strict unidirectional dependency flow verified by automated AST tests (`tests/tooling/test_architecture.py`):
 
 ```
 core  <--  curriculum  <--  learner  <--  diagnostic / planner / review  <--  replanner  <--  session / api  <--  cli

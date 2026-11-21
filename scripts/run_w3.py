@@ -229,7 +229,9 @@ def main():
     # 5. Layering Rules Check
     # -------------------------------------------------------------
     print("\n[Step 4] Checking Dependency Layering Rules...")
-    code_layer, _ = run_cmd([sys.executable, "-m", "pytest", "tests/test_architecture.py", "-q"])
+    code_layer, _ = run_cmd(
+        [sys.executable, "-m", "pytest", "tests/tooling/test_architecture.py", "-q"]
+    )
     layer_passed = code_layer == 0
     status_str = "PASS" if layer_passed else "FAIL"
     print(f" -> Layering & Dependency Direction: {status_str}")

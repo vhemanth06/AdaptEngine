@@ -9,9 +9,9 @@ import os
 import pytest
 
 from experiments.report import extract, render_figures, render_tables
-from experiments.tests.test_runners_smoke import RUNNERS, run_smoke
+from experiments.tests.integration.test_runners_smoke import RUNNERS, run_smoke
 
-REPORT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "report"))
+REPORT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "report"))
 
 
 @pytest.fixture(scope="module")

@@ -9,7 +9,7 @@ import pytest
 from adaptengine.curriculum.content import load_content
 from adaptengine.curriculum.loader import load_activities, load_curriculum
 
-repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 if os.path.join(repo_root, "scripts") not in sys.path:
     sys.path.insert(0, os.path.join(repo_root, "scripts"))
 
